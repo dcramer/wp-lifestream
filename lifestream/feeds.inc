@@ -427,4 +427,5 @@ class LifeStream_YouTubeFeed
         );
     }
 }
+register_lifestream_feed('LifeStream_YouTubeFeed');
 ?>
