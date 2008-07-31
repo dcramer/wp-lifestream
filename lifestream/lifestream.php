@@ -257,8 +257,6 @@ class LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_Feed');
 
-function lifestream($results=50) { return LifeStream(); }
-
 function LifeStream($results=50)
 {
     global $lifestream_path, $wpdb;
