@@ -275,6 +275,8 @@ function LifeStream()
 function LifeStream_Options()
 {
     global $lifestream_feeds, $wpdb;
+    
+    ksort($lifestream_feeds);
 
     load_plugin_textdomain('lifestream', 'wp-content/plugins/lifestream/locales');
     
