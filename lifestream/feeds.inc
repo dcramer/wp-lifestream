@@ -293,6 +293,7 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
     const ID            = 'facebook';
     const NAME          = 'Facebook';
     const URL           = 'http://www.facebook.com/';
+    const DESCRIPTION   = 'To obtain your Facebook feed URL you will need to go your profile and click "See All" under your mini-feed. Once there, click "Status Stories" on the right hand side. On the right hand side of the next page you will the "My Status" RSS feed link.';
 
     function yield($row)
     {
