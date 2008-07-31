@@ -84,11 +84,12 @@ if (count($results))
             </table>
             <?php if ($url = get_class_const($class_name, 'URL')) { ?>
             <p>Find more information about <?php echo htmlspecialchars(get_class_const($class_name, 'NAME')); ?> by visiting <a href="<?php echo htmlspecialchars($url); ?>"><?php echo htmlspecialchars($url); ?></a>.</p>
-                <p class="submit">
-                    <input type="submit" name="save" value="<?php echo __('Add Feed', 'lifestream');?>" />
-                </p>
-            </form>
             <?php } ?>
+            <p class="submit">
+                <input type="submit" name="save" value="<?php echo __('Add Feed', 'lifestream');?>" />
+            </p>
+    
+        </form>
     <?php
 }
 ?>
