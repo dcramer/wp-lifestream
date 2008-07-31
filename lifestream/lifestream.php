@@ -330,7 +330,7 @@ function LifeStream_Options()
                         $class_name = $lifestream_feeds[$_POST['feed_type']];
                         if (!$class_name) break;
                         $values = array();
-                        $options = call_user_func(array($class_name, 'Options'));
+                        $options = call_user_func(array($class_name, 'get_options'));
                         foreach ($options as $option=>$option_meta)
                         {
                             if ($option_meta[1] && !$_POST[$option])
