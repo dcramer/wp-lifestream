@@ -38,7 +38,7 @@ if (count($results))
 </noscript>
 <div class="requires-javascript" id="poststuff">
     <p>Add a new feed by first selecting the type of feed: 
-    <select name="feed_type" id="id_feed_type" onkeyup="showFeedOptions(this.options[this.selectedIndex].value);" onchange="showFeedOptions(this.options[this.selectedIndex].value);"><?php
+    <select id="id_feed_type" onkeyup="showFeedOptions(this.options[this.selectedIndex].value);" onchange="showFeedOptions(this.options[this.selectedIndex].value);"><?php
     foreach ($lifestream_feeds as $identifier=>$class_name)
     {
         ?><option value="<?php echo $identifier; ?>"<?php if ($_POST['feed_type'] == $identifier) echo ' selected="selected"'; ?>><?php echo htmlspecialchars(get_class_const($class_name, 'NAME')); ?></option><?php
@@ -91,18 +91,18 @@ if (count($results))
     
         </form>
     <?php
-}
-?>
-<script type="text/javascript">
-    var _current_feed = null;
-    function showFeedOptions(feed) {
-        if (_current_feed) _current_feed.style.display = 'none';
-        var el = document.getElementById('feed_options_' + feed);
-        if (!el) return;
-        _current_feed = el;
-        _current_feed.style.display = '';
     }
-    var el = document.getElementById('id_feed_type');
-    showFeedOptions(el.options[el.selectedIndex].value);
-</script>
+    ?>
+    <script type="text/javascript">
+        var _current_feed = null;
+        function showFeedOptions(feed) {
+            if (_current_feed) _current_feed.style.display = 'none';
+            var el = document.getElementById('feed_options_' + feed);
+            if (!el) return;
+            _current_feed = el;
+            _current_feed.style.display = '';
+        }
+        var el = document.getElementById('id_feed_type');
+        showFeedOptions(el.options[el.selectedIndex].value);
+    </script>
 </div>

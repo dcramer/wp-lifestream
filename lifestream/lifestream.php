@@ -178,7 +178,7 @@ class LifeStream_Feed
         }
         else
         {
-            $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."feeds` (`feed`, `options`, `timestamp`) VALUES ('%s', '%s', '%s')", $wpdb->escape(self::ID), $wpdb->escape(serialize($this->options)), time()));
+            $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."feeds` (`feed`, `options`, `timestamp`) VALUES ('%s', '%s', '%s')", $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($this->options)), time()));
             $feed->id = (string)$wpdb->insert_id;
         }
     }
@@ -202,7 +202,7 @@ class LifeStream_Feed
         $items = $this->fetch();
         foreach ($items as $item)
         {
-            $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."data` (`feed`, `feed_id`, `link`, `text`, `timestamp`) VALUES ('%s', '%s', '%s', '%s', '%s')", $wpdb->escape(self::ID), $wpdb->escape($this->id), $wpdb->escape($item['link']), $wpdb->escape($item['text']), $wpdb->escape($item['date'])));
+            $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."data` (`feed`, `feed_id`, `link`, `text`, `timestamp`) VALUES ('%s', '%s', '%s', '%s', '%s')", $wpdb->escape($this->get_constant('ID')), $wpdb->escape($this->id), $wpdb->escape($item['link']), $wpdb->escape($item['text']), $wpdb->escape($item['date'])));
         }
         return count($items);
         
