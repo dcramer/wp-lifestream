@@ -112,7 +112,9 @@ function LifeStream_InstallDatabase()
       PRIMARY KEY  (`id`)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;");
 }
-register_activation_hook( __FILE__, 'LifeStream_Activate');
+if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
+    LifeStream_Activate();
+}
 
 class LifeStream_Feed
 {
