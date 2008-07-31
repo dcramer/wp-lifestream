@@ -333,6 +333,8 @@ function LifeStream_Options()
                     if ($_POST['save'])
                     {
                         $class_name = $lifestream_feeds[$_POST['feed_type']];
+                        var_dump($class_name);
+                        die;
                         if (!$class_name) break;
                         $values = array();
                         $options = call_user_func(array($class_name, 'get_options'));
