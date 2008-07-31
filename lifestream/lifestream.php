@@ -21,8 +21,6 @@ $lifestream_path = trailingslashit(get_settings('siteurl')) . 'wp-content/plugin
 
 define('MAGPIE_INPUT_ENCODING', 'UTF-8');
 
-include_once(ABSPATH . WPINC . '/rss.php');
-
 function get_class_const($class, $const)
 {
     return constant(sprintf('%s::%s', $class, $const));
@@ -257,9 +255,11 @@ class LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_Feed');
 
-function LifeStream($results=50)
+function LifeStream($number_of_results=50)
 {
     global $lifestream_path, $wpdb;
+    
+    if (!((int)$number_of_results > 0)) $number_of_results = 50;
     
     setlocale(LC_TIME, get_locale());
     
@@ -267,7 +267,7 @@ function LifeStream($results=50)
     $hour_format = get_option('lifestream_hour_format');
     $day_format = get_option('lifestream_day_format');
 
-    $results = $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."data` WHERE `timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND `visible` = 1 ORDER BY `timestamp` DESC LIMIT 0, '%s'", $wpdb->escape($results)));
+    $results = $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."data` WHERE `timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND `visible` = 1 ORDER BY `timestamp` DESC LIMIT 0, %d", $number_of_results));
     
     include('pages/lifestream.inc');
 }
