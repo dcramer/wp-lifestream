@@ -179,7 +179,7 @@ class LifeStream_Feed
         else
         {
             $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."feeds` (`feed`, `options`, `timestamp`) VALUES ('%s', '%s', '%s')", $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($this->options)), time()));
-            $feed->id = (string)$wpdb->insert_id;
+            $this->id = (string)$wpdb->insert_id;
         }
     }
     
