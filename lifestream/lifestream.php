@@ -439,7 +439,15 @@ function widget_lifestream($args)
         <?php echo $after_widget; ?>
 <?php
 }
-if (function_exists('register_sidebar_widget')) register_sidebar_widget('LifeStream', 'widget_lifestream');
+if (function_exists('wp_register_sidebar_widget'))
+{
+    wp_register_sidebar_widget('lifestream', 'LifeStream', 'widget_lifestream', array('classname' => 'widget_lifestream', 'description' => 'Share your LifeStream on your blog.'));
+}
+elseif (function_exists('register_sidebar_widget'))
+{
+    register_sidebar_widget('LifeStream', 'widget_lifestream');
+}
+
 
 add_action('admin_menu', 'LifeStream_OptionsMenu');
 add_action('LifeStream_Hourly', 'LifeStream_Update');
