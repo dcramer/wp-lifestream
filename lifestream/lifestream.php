@@ -65,7 +65,7 @@ function LifeStream_Activate()
     $results = $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
     if (!$results[0]->count)
     {
-        $rss_url = trailingslashit(get_settings('siteurl')) . '/wp-rss.php';
+        $rss_url = trailingslashit(get_settings('siteurl')) . 'wp-rss.php';
         $options = array('url' => $rss_url);
 
         $feed = new LifeStream_BlogFeed($options);
