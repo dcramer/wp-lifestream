@@ -439,7 +439,7 @@ function widget_lifestream($args)
         <?php echo $after_widget; ?>
 <?php
 }
-register_sidebar_widget('LifeStream', 'widget_lifestream');
+if (function_exists('register_sidebar_widget')) register_sidebar_widget('LifeStream', 'widget_lifestream');
 
 add_action('admin_menu', 'LifeStream_OptionsMenu');
 add_action('LifeStream_Hourly', 'LifeStream_Update');
