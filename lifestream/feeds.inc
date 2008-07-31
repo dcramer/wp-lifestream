@@ -386,7 +386,45 @@ class LifeStream_DiggFeed extends LifeStream_Feed
             'link'      =>  $row->get_link(),
             'text'      =>  '<a href="'.$row->get_link().'">'.$row->get_title().'</a>',
         );
-    }    
+    }
 }
 register_lifestream_feed('LifeStream_DiggFeed');
+
+class LifeStream_YouTubeFeed
+{
+    const NAMESPACE     = 'http://search.yahoo.com/mrss/';
+    const ID            = 'youtube';
+    const NAME          = 'YouTube';
+    const URL           = 'http://www.youtube.com/';
+        
+    public static function get_options()
+    {        
+        return array(
+            'username' => array('Username', true, '', ''),
+        );
+    }
+    
+    public function __toString()
+    {
+        return $this->options['username'];
+    }
+    
+    function get_feed_url()
+    {
+        return 'http://www.youtube.com/ut_rss?type=username&arg='.$this->options['username'];
+    }
+
+    function yield($row)
+    {
+        if (!$row->get_title()) return;
+        // $row->get_item_tags(NAMESPACE, 'thumbnail')
+        // <media:thumbnail url="http://s1.ytimg.com/vi/tOJoE0HS_yo/default.jpg" width="120" height="90" />
+        
+        return array(
+            'date'      =>  strtotime($row->get_date()),
+            'link'      =>  $row->get_link(),
+            'text'      =>  '<a href="'.$row->get_link().'">'.$row->get_title().'</a>',
+        );
+    }
+}
 ?>
