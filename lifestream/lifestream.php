@@ -2,7 +2,7 @@
 /*
 Plugin Name: LifeStream
 Plugin URI: http://www.davidcramer.net/my-projects/lifestream
-Description: Its shiny
+Description: Displays feeds in a lifestream.
 Author: David Cramer
 Version: 0.1
 Author URI: http://www.davidcramer.net
@@ -117,9 +117,6 @@ function LifeStream_InstallDatabase()
       `timestamp` int(11) NOT NULL,
       PRIMARY KEY  (`id`)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;");
-}
-if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
-    LifeStream_Activate();
 }
 
 class LifeStream_Feed
@@ -432,6 +429,10 @@ add_action('admin_menu', 'LifeStream_OptionsMenu');
 add_action('LifeStream_Hourly', 'LifeStream_Update');
 add_action('wp_head', 'LifeStream_Header');
 
-if (!wp_get_schedule('LifeStream_Hourly')) wp_schedule_event(time(), 'hourly', 'LifeStream_Hourly');
-
 include('feeds.inc');
+
+if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
+    LifeStream_Activate();
+}
+
+if (!wp_get_schedule('LifeStream_Hourly')) wp_schedule_event(time(), 'hourly', 'LifeStream_Hourly');
