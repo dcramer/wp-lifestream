@@ -63,7 +63,7 @@ function LifeStream_Activate()
     // Add a feed for this blog
     
     $results = $wpdb->get_results("SELECT COUNT(*) FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
-    if (!$results[0])
+    if (!$results[0][0])
     {
         $rss_url = trailingslashit(get_settings('siteurl')) . '/wp-rss.php';
         $options = array('url' => $rss_url);
