@@ -59,13 +59,19 @@ function LifeStream_Install()
 
 function LifeStream_Activate()
 {
+    global $wpdb;
     // Add a feed for this blog
-    $rss_url = trailingslashit(get_settings('siteurl')) . '/wp-rss.php';
-    $options = array('url' => $rss_url);
+    
+    $results = $wpdb->get_results("SELECT COUNT(*) FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
+    if (!$results[0])
+    {
+        $rss_url = trailingslashit(get_settings('siteurl')) . '/wp-rss.php';
+        $options = array('url' => $rss_url);
 
-    $feed = new LifeStream_BlogFeed($options);
-    $feed->save();
-    $feed->refresh();
+        $feed = new LifeStream_BlogFeed($options);
+        $feed->save();
+        $feed->refresh();
+    }
     
     LifeStream_Install();
     LifeStream_InstallDatabase();
