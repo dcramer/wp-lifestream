@@ -257,7 +257,9 @@ class LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_Feed');
 
-function LifeStream()
+function lifestream($results=50) { return LifeStream(); }
+
+function LifeStream($results=50)
 {
     global $lifestream_path, $wpdb;
     
@@ -267,7 +269,7 @@ function LifeStream()
     $hour_format = get_option('lifestream_hour_format');
     $day_format = get_option('lifestream_day_format');
 
-    $results = $wpdb->get_results("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."data` WHERE `timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND `visible` = 1 ORDER BY `timestamp` DESC LIMIT 0, 50");
+    $results = $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."data` WHERE `timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND `visible` = 1 ORDER BY `timestamp` DESC LIMIT 0, '%s'", $wpdb->escape($results));
     
     include('pages/lifestream.inc');
 }
@@ -426,6 +428,20 @@ function LifeStream_Header() {
     
     echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$lifestream_path.'/lifestream.css"/>';
 }
+
+function widget_lifestream($args)
+{
+    extract($args);
+?>
+        <?php echo $before_widget; ?>
+            <?php echo $before_title
+                . 'LifeStream'
+                . $after_title; ?>
+            <?php lifestream(10); ?>
+        <?php echo $after_widget; ?>
+<?php
+}
+register_sidebar_widget('LifeStream', 'widget_lifestream');
 
 add_action('admin_menu', 'LifeStream_OptionsMenu');
 add_action('LifeStream_Hourly', 'LifeStream_Update');
