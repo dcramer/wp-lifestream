@@ -26,7 +26,7 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
     {
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  $row->get_title(),
         );
     }
@@ -74,7 +74,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  $message,
         );
     }
@@ -101,7 +101,7 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
 
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  $message,
         );
     }
@@ -162,7 +162,7 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
         return array(
             // TODO: can we just use get_date()?
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  $message,
         );
     }
@@ -196,7 +196,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     {
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  '<a href="'.$row->get_link().'" class="lastfm-link">'.$row->get_title().'</a>',
         );
     }
@@ -229,7 +229,7 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  $message,
         );
     }
@@ -242,7 +242,8 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     const NAME          = 'Flickr';
     const URL           = 'http://www.flickr.com/';
     const DESCRIPTION   = 'You can find your User ID by using <a href="http://idgettr.com/">idGettr</a>.';
-        
+    const NAMESPACE     = 'http://search.yahoo.com/mrss/';
+    
     public static function get_options()
     {        
         return array(
@@ -252,7 +253,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     
     public function __toString()
     {
-        return 'User ID: '.$this->options['user_id'];
+        return $this->get_feed_url();
     }
 
     function get_feed_url()
@@ -262,10 +263,12 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
 
     function yield($row)
     {
+        $thumbnail = $event_name =& $row->get_item_tags(self::NAMESPACE, 'thumbnail');
+        $thumbnail = $thumbnail[0]['attribs'][''];
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
-            'text'      =>  '<a href="'.$row->get_link().'" class="flickr-link">'.$row->get_title().'</a>',
+            'link'      =>  html_entity_decode($row->get_link()),
+            'text'      =>  sprintf('<a href="%s">%s</a>', $row->get_link(), $row->get_title()),
         );
     }
 }
@@ -281,7 +284,7 @@ class LifeStream_PhotoBucketFeed extends LifeStream_Feed
     {
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  '<a href="'.htmlspecialchars($row->get_link()).'" class="photobucket-link">'.$row->get_title().'</a>',
         );
     }
@@ -299,7 +302,7 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
     {
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  '<a href="'.htmlspecialchars($row->get_link()).'" class="facebook-link">'.$row->get_title().'</a>',
         );
     }
@@ -348,7 +351,7 @@ class LifeStream_PownceFeed extends LifeStream_Feed
         }
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  $message,
         );
     }
@@ -383,7 +386,7 @@ class LifeStream_DiggFeed extends LifeStream_Feed
         if (!$row->get_title()) return;
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  '<a href="'.$row->get_link().'">'.$row->get_title().'</a>',
         );
     }
@@ -422,7 +425,7 @@ class LifeStream_YouTubeFeed
         
         return array(
             'date'      =>  strtotime($row->get_date()),
-            'link'      =>  $row->get_link(),
+            'link'      =>  html_entity_decode($row->get_link()),
             'text'      =>  '<a href="'.$row->get_link().'">'.$row->get_title().'</a>',
         );
     }
