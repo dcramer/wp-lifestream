@@ -1,7 +1,8 @@
 /* generic css */
 .lifestream a { background: none; padding: 0; }
 .lifestream_date { text-align: left; margin-bottom:5px; }
-.lifestream_icon a { padding: 0 !important; background-image: none !important; }
+.lifestream_icon a,
+.lifestream_text a { padding: 0 !important; background-image: none !important; }
 .lifestream_icon { width: 16px; }
 .lifestream_text { padding: 0 0.5em; }
 .lifestream img { border: 0; vertical-align: middle; }
@@ -9,7 +10,7 @@
 /* table specific css */
 table.lifestream { border: 0; border-spacing: collapse; width: 100%; }
 table.lifestream .lifestream_hour { text-align: center; padding: 0 0.5em; color: #777; margin: 0 0.5em; }
-.lifestream_hour { text-decoration: none; border: 0; }
+.lifestream abbr { text-decoration: none; border: 0; }
 
 /* list specific css */
 ul.lifestream { list-style-type: none; margin: 10px 0; padding: 0; }
