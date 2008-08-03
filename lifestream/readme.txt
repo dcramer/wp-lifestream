@@ -11,6 +11,7 @@ Lifestream displays your social feeds and photos much like you would see it on m
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
 Requirements:
+
 * PHP 5.x
 * WordPress 2.5+
 
@@ -22,29 +23,30 @@ Activate the plugin under the "Plugins" menu.
 
 Visit "Settings" -> "LifeStream" to configure the basic options, and add feeds.
 
-Please see the "Usage" section for more information.
-
-== Usage ==
-
-There are severals methods in which you can use LifeStream.
+There are severals methods in which you can use LifeStream in a WordPress page.
 
 The easiest way is to use the normal context handler (works in pages and posts):
 
-`&lt;lifestream/&gt;`
+`<lifestream />`
 
 Another method requires a [custom WordPress page](http://codex.wordpress.org/Pages#Page_Templates), or the use of a template, and is a simple function call:
 
-`&lt;?php lifestream(); ?&gt;`
+`<?php lifestream(); ?>`
 
 The second method requires you install the [wp-exec](http://wordpress.org/extend/plugins/wp-exec/) plugin:
 
-`&lt;exec type="function" name="LifeStream" /&gt;`
+`<exec type="function" name="LifeStream" />`
 
 You may also specify several parameters in the lifestream method (useful for sidebar display):
 
 * `(int) number_of_items`: defaults to '50'
 * `(array) feed_ids`: defaults to all feeds
-* `(string) date_interval` (defaults to '1 month')
+* `(string) date_interval`: defaults to '1 month'
+* `(string) output`: defaults to table; options are table and list
+
+For example:
+
+`<lifestream number_of_items="10" output="list"/>`
 
 == Requirements ==
 
