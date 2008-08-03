@@ -285,7 +285,7 @@ class LifeStream_PhotoBucketFeed extends LifeStream_Feed
         return array(
             'date'      =>  strtotime($row->get_date()),
             'link'      =>  html_entity_decode($row->get_link()),
-            'text'      =>  '<a href="'.htmlspecialchars($row->get_link()).'" class="photobucket-link">'.$row->get_title().'</a>',
+            'text'      =>  '<a href="'.$row->get_link().'" class="photobucket-link">'.$row->get_title().'</a>',
         );
     }
 }
@@ -303,7 +303,7 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
         return array(
             'date'      =>  strtotime($row->get_date()),
             'link'      =>  html_entity_decode($row->get_link()),
-            'text'      =>  '<a href="'.htmlspecialchars($row->get_link()).'" class="facebook-link">'.$row->get_title().'</a>',
+            'text'      =>  '<a href="'.$row->get_link().'" class="facebook-link">'.$row->get_title().'</a>',
         );
     }
 }
