@@ -59,7 +59,7 @@ function lifestream_embed_handler($matches)
         if ($matches[$i]) $args[$matches[$i]] = $matches[$i+1];
     }
     ob_start();
-    lifestream($args['number_of_items'], $args['feed_ids'], $args['date_interval'], $args['output']);
+    lifestream($args['number_of_items'], explode(',', $args['feed_ids']), $args['date_interval'], $args['output']);
     return ob_get_clean();
 }
 
