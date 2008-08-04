@@ -393,7 +393,7 @@ class LifeStream_DiggFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_DiggFeed');
 
-class LifeStream_YouTubeFeed
+class LifeStream_YouTubeFeed extends LifeStream_Feed
 {
     const NAMESPACE     = 'http://search.yahoo.com/mrss/';
     const ID            = 'youtube';
@@ -431,4 +431,88 @@ class LifeStream_YouTubeFeed
     }
 }
 register_lifestream_feed('LifeStream_YouTubeFeed');
+
+class LifeStream_RedditFeed extends LifeStream_Feed
+{
+    const ID            = 'reddit';
+    const NAME          = 'Reddit';
+    const URL           = 'http://www.reddit.com/';
+        
+    public static function get_options()
+    {        
+        return array(
+            'username' => array('Username', true, '', ''),
+        );
+    }
+    
+    public function __toString()
+    {
+        return $this->options['username'];
+    }
+    
+    function get_feed_url()
+    {
+        return 'http://www.reddit.com/user/'.$this->options['username'].'/.rss';
+    }
+
+    function yield($row)
+    {
+        if (!$row->get_title()) return;
+        // $row->get_item_tags(NAMESPACE, 'thumbnail')
+        // <media:thumbnail url="http://s1.ytimg.com/vi/tOJoE0HS_yo/default.jpg" width="120" height="90" />
+        
+        $title = $row->get_title();
+        
+        $on_part = sprintf('%s on', $this->options['username']);
+        if (substr($title, 0, strlen($on_part)) == $on_part)
+            $title = substr($title, strlen($on_part));
+        
+        return array(
+            'date'      =>  strtotime($row->get_date()),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'text'      =>  '<a href="'.$row->get_link().'">'.$title.'</a>',
+        );
+    }
+}
+register_lifestream_feed('LifeStream_RedditFeed');
+
+class LifeStream_GoogleReaderFeed extends LifeStream_Feed
+{
+    const ID            = 'googlereader';
+    const NAME          = 'Google Reader';
+    const URL           = 'http://www.google.com/reader/';
+    const DESCRIPTION   = 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". On this page your feed URL will be available in any browser which shows you RSS feeds. It should look something like this: http://www.google.com/reader/public/atom/user/14317428968164573500/state/com.google/broadcast';
+        
+    function yield($row)
+    {
+        if (!$row->get_title()) return;
+        
+        return array(
+            'date'      =>  strtotime($row->get_date()),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'text'      =>  '<a href="'.$row->get_link().'">'.$row->get_title().'</a>',
+        );
+    }
+}
+register_lifestream_feed('LifeStream_GoogleReaderFeed');
+
+class LifeStream_YelpFeed extends LifeStream_Feed
+{
+    const ID            = 'yelp';
+    const NAME          = 'Yelp';
+    const URL           = 'http://www.yelp.com/';
+    const DESCRIPTION   = 'You can obtain your Yelp RSS feed url from your profile page. It should look something like this: http://www.yelp.com/syndicate/user/ctwwsl5_DSCzwPxtjzdl2A/rss.xml';
+        
+    function yield($row)
+    {
+        if (!$row->get_title()) return;
+        
+        return array(
+            'date'      =>  strtotime($row->get_date()),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'text'      =>  '<a href="'.$row->get_link().'">'.$row->get_title().'</a>',
+        );
+    }
+}
+register_lifestream_feed('LifeStream_YelpFeed');
 ?>
