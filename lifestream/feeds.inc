@@ -491,4 +491,14 @@ class LifeStream_YelpFeed extends LifeStream_Feed
     }
 }
 register_lifestream_feed('LifeStream_YelpFeed');
+
+class LifeStream_MySpaceFeed extends LifeStream_Feed
+{
+    const ID            = 'myspace';
+    const NAME          = 'MySpace';
+    const LABEL_ACTION  = 'Published';
+    const LABEL_ITEM    = 'new blog post';
+    const LABEL_ITEMS   = 'new blog post';
+}
+register_lifestream_feed('LifeStream_MySpaceFeed');
 ?>
