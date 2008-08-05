@@ -7,9 +7,9 @@ if (count($results))
     ?>
     <table class="lifestream">
     <?php
-    foreach ($results as $result)
+    foreach ($events as $result)
     {
-        $timestamp = $result->timestamp+$offset;
+        $timestamp = $result->date+$offset;
         if ($today == date('m d Y', $timestamp)) $this_day = 'Today';
         else if ($yesterday == date('m d Y', $timestamp)) $this_day = 'Yesterday';
         else $this_day = ucfirst(htmlentities(date($day_format, $timestamp)));
@@ -27,13 +27,13 @@ if (count($results))
         ?>
         <tr class="lifestream_feedid_<?php echo $result->feed; ?>">
             <td class="lifestream_icon">
-                <a href="<?php echo htmlspecialchars($item->link); ?>" title="<?php echo $result->feed; ?>"><img src="<?php echo $lifestream_path . '/images/'. $result->feed . '.png'; ?>" alt="<?php echo $result->feed; ?>" /></a>
+                <a href="<?php echo htmlspecialchars($item->link); ?>" title="<?php echo $result->feed->get_constant('ID'); ?>"><img src="<?php echo $lifestream_path . '/images/'. $result->feed->get_constant('ID') . '.png'; ?>" alt="<?php echo $result->feed; ?>" /></a>
             </td>
             <td class="lifestream_hour">
                 <abbr class="dtstart" title="<?php echo date("c", $timestamp); ?>"><?php echo date($hour_format, $timestamp); ?></abbr>
             </td>
             <td class="lifestream_text">
-                <?php echo $result->text; ?>
+                <?php echo $result->render(); ?>
             </td>
         </tr>
         <?php

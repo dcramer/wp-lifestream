@@ -31,6 +31,12 @@
                 <?php } ?>
             </tr>
         <?php } ?>
+        <?php if ($instance->get_constant('CAN_GROUP')) { ?>
+            <tr>
+                <th>&nbsp;</th>
+                <td><label><input type="checkbox" name="grouped" value="1"<?php if (isset($_POST['grouped']) ? $_POST['grouped'] : $instance->options['grouped']) echo ' checked="checked"'; ?>/> Group events from the same day together.<br/><small>(This will not affect any event's already listed.)</label></td>
+            </tr>
+        <?php } ?>
         </tbody>
     </table>
     <?php if ($about['url']) { ?>
@@ -55,7 +61,7 @@
         <?php foreach ($instance->get_events(50) as $result) { ?>
             <tr valign="top">
                 <td class="num"><?php echo $result->id; ?></td>
-                <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->url); ?>"><?php echo $result->text; ?></a></strong></td>
+                <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->link); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo $result->link; ?></a></strong></td>
                 <td><?php echo date($date_format, $result->timestamp); ?></td>
                 <td><a href="?page=<?php echo $basename; ?>&amp;action=events&amp;op=delete&amp;id=<?php echo $result->id; ?>">Delete</a></td>
             </tr>

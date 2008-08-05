@@ -7,9 +7,9 @@ if (count($results))
     ?>
     <ul class="lifestream">
     <?php
-    foreach ($results as $result)
+    foreach ($events as $result)
     {
-        $timestamp = $result->timestamp+$offset;
+        $timestamp = $result->date+$offset;
         if ($today == date('m d Y', $timestamp)) $this_day = 'Today';
         else if ($yesterday == date('m d Y', $timestamp)) $this_day = 'Yesterday';
         else $this_day = ucfirst(htmlentities(date($day_format, $timestamp)));
@@ -27,8 +27,8 @@ if (count($results))
             $day = $this_day;
         }
         ?>
-        <li class="lifestream_feedid_<?php echo $result->feed; ?>" style="background-image: url('<?php echo $lifestream_path . '/images/'. $result->feed; ?>.png');">
-            <span class="lifestream_text"><?php echo $result->text; ?></span>
+        <li class="lifestream_feedid_<?php echo $result->feed->get_constant('ID'); ?>" style="background-image: url('<?php echo $lifestream_path . '/images/'. $result->feed->get_constant('ID'); ?>.png');">
+            <span class="lifestream_text"><?php echo $result->render(); ?></span>
             <abbr class="lifestream_hour" title="<?php echo date("c", $timestamp); ?>"><?php echo date($hour_format, $timestamp); ?>.</abbr>
         </li>
         <?php
