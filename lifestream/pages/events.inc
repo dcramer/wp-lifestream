@@ -21,7 +21,7 @@ if (count($results))
                     <td><?php echo htmlspecialchars(get_class_constant($lifestream_feeds[$result->feed], 'NAME')); ?></td>
                     <td class="num"><a href="?page=<?php echo $basename; ?>&amp;action=feeds&amp;op=edit&amp;id=<?php echo $result->feed_id; ?>"><?php echo $result->feed_id; ?></a></td>
                     <td class="num"><?php echo $result->id; ?></td>
-                    <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->url); ?>"><?php echo $result->text; ?></a></strong></td>
+                    <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->link); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo $result->link; ?></a></strong></td>
                     <td><?php echo date($date_format, $result->timestamp); ?></td>
                     <td><a href="?page=<?php echo $basename; ?>&amp;action=events&amp;op=delete&amp;id=<?php echo $result->id; ?>">Delete</a></td>
                 </tr>

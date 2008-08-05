@@ -14,7 +14,8 @@
     <?php
     foreach ($lifestream_feeds as $identifier=>$class_name)
     {
-        $options = call_user_func(array($class_name, 'get_options'));
+        $feed = new $class_name();
+        $options = $feed->get_options();
         ?>
         <form action="?page=<?php echo $basename; ?>&amp;action=feeds" method="post" id="feed_options_<?php echo $identifier; ?>" style="display:none;">
             <h3><?php echo __(get_class_constant($class_name, 'NAME'), 'lifestream');?> Feed Settings</h3>
@@ -45,6 +46,12 @@
                             <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?>:</label></th>
                             <td><input name="<?php echo $option;?>" type="text" value="<?php echo htmlspecialchars($current_value); ?>"></td>
                         <?php } ?>
+                    </tr>
+                <?php } ?>
+                <?php if ($feed->get_constant('CAN_GROUP')) { ?>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><label><input type="checkbox" name="grouped" value="1"<?php if ($_POST['grouped']) echo ' checked="checked"'; ?>/> Group events from the same day together.</label></td>
                     </tr>
                 <?php } ?>
                 </tbody>
