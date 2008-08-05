@@ -12,6 +12,8 @@ table.lifestream { border: 0; border-spacing: collapse; width: 100%; }
 table.lifestream .lifestream_hour { text-align: center; color: #777; padding: 3px 0.5em; }
 .lifestream abbr { text-decoration: none; border: 0; }
 table.lifestream .lifestream_icon { padding: 5px 0; }
+table.lifestream .lifestream_hour { width: 50px; }
+table.lifestream td { vertical-align: top; padding: 3px 0; }
 
 /* list specific css */
 ul.lifestream { list-style-type: none; margin: 10px 0; padding: 0; }
@@ -23,17 +25,3 @@ ul.lifestream .lifestream_feedid_flickr .lifestream_hour { display: none; }
 
 .lifestream_text ul { background: #eee; margin: 5px 0; padding: 0 0 0 20px; list-style-type: square; }
 .lifestream_text li { margin: 0; padding: 2px; }
-
-/* feed specific css */
-table.lifestream .lifestream_feedid_blog .lifestream_hour abbr { background: #F5F5F5; color: #455; }
-table.lifestream .lifestream_feedid_delicious .lifestream_hour abbr { background: #ECEDEE; color: #555; }
-table.lifestream .lifestream_feedid_facebook .lifestream_hour abbr { background: #B3C4DF; color: #555; }
-table.lifestream .lifestream_feedid_flickr .lifestream_hour abbr { background: #fde; color: #645; }
-table.lifestream .lifestream_feedid_lastfm .lifestream_hour abbr { background: #fee;	color: #655; }
-table.lifestream .lifestream_feedid_pownce .lifestream_hour abbr { background: #C1FFC1; color: #555; }
-table.lifestream .lifestream_feedid_twitter .lifestream_hour abbr { background: #CAE1FF; color: #565; }
-table.lifestream .lifestream_feedid_jaiku .lifestream_hour abbr { background: #E5F5F6; color: #565; } 
-table.lifestream .lifestream_feedid_plurk .lifestream_hour abbr { background: #FFBF9C; color: #565; }
-table.lifestream .lifestream_hour { width: 50px; }
-table.lifestream .lifestream_hour abbr { width: 50px; display: block; }
-table.lifestream td { vertical-align: top; padding: 3px 0; }
