@@ -25,14 +25,15 @@ ul.lifestream .lifestream_feedid_flickr .lifestream_hour { display: none; }
 .lifestream_text li { margin: 0; padding: 2px; }
 
 /* feed specific css */
-table.lifestream .lifestream_feedid_blog .lifestream_hour { background: #F5F5F5; color: #455; }
-table.lifestream .lifestream_feedid_delicious .lifestream_hour { background: #ECEDEE; color: #555; }
-table.lifestream .lifestream_feedid_facebook .lifestream_hour { background: #B3C4DF; color: #555; }
-table.lifestream .lifestream_feedid_flickr .lifestream_hour { background: #fde; color: #645; }
-table.lifestream .lifestream_feedid_lastfm .lifestream_hour { background: #fee;	color: #655; }
-table.lifestream .lifestream_feedid_pownce .lifestream_hour { background: #C1FFC1; color: #555; }
-table.lifestream .lifestream_feedid_twitter .lifestream_hour { background: #CAE1FF; color: #565; }
-table.lifestream .lifestream_feedid_jaiku .lifestream_hour { background: #E5F5F6; color: #565; } 
-table.lifestream .lifestream_feedid_plurk .lifestream_hour { background: #FFBF9C; color: #565; }
+table.lifestream .lifestream_feedid_blog .lifestream_hour abbr { background: #F5F5F5; color: #455; }
+table.lifestream .lifestream_feedid_delicious .lifestream_hour abbr { background: #ECEDEE; color: #555; }
+table.lifestream .lifestream_feedid_facebook .lifestream_hour abbr { background: #B3C4DF; color: #555; }
+table.lifestream .lifestream_feedid_flickr .lifestream_hour abbr { background: #fde; color: #645; }
+table.lifestream .lifestream_feedid_lastfm .lifestream_hour abbr { background: #fee;	color: #655; }
+table.lifestream .lifestream_feedid_pownce .lifestream_hour abbr { background: #C1FFC1; color: #555; }
+table.lifestream .lifestream_feedid_twitter .lifestream_hour abbr { background: #CAE1FF; color: #565; }
+table.lifestream .lifestream_feedid_jaiku .lifestream_hour abbr { background: #E5F5F6; color: #565; } 
+table.lifestream .lifestream_feedid_plurk .lifestream_hour abbr { background: #FFBF9C; color: #565; }
 table.lifestream .lifestream_hour { width: 50px; }
+table.lifestream .lifestream_hour abbr { width: 50px; display: block; }
 table.lifestream td { vertical-align: top; padding: 3px 0; }
