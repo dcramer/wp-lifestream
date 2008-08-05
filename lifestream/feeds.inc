@@ -496,6 +496,7 @@ class LifeStream_MySpaceFeed extends LifeStream_Feed
 {
     const ID            = 'myspace';
     const NAME          = 'MySpace';
+    const DESCRIPTION   = 'To retrieve your MySpace blog URL, visit your profile and click "View all entries" under your blog. From there, you will see an "rss" link on the top right of the page.';
     const LABEL_ACTION  = 'Published';
     const LABEL_ITEM    = 'new blog post';
     const LABEL_ITEMS   = 'new blog post';
