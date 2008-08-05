@@ -68,7 +68,7 @@ function lifestream_embed_callback($content)
 function lifestream_embed_handler($matches)
 {
     // max_number
-    var_dump($matches);
+    // var_dump($matches);
     $args = array();
     for ($i=1; $i<=count($matches); $i+=2)
     {
@@ -116,7 +116,7 @@ function lifestream_activate()
     }
     else
     {
-        lifestream_udpate();
+        lifestream_update();
     }
 }
 
