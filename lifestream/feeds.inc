@@ -43,7 +43,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         return array(
             'username' => array('Username', true, '', ''),
             'link_urls' => array('Convert URLs to Links', false, true, true),
-            'link_users' => array('Covert Usersnames to Links', false, true, true),
+            'link_users' => array('Convert Usersnames to Links', false, true, true),
         );
     }
 
