@@ -45,7 +45,7 @@ if (count($results))
 else
 {
     ?>
-    <p class="lifestream">There are no events to show at this time.</p>
+    <p class="lifestream"><?php _e('There are no events to show at this time.', 'lifestream'); ?></p>
     <?php
 }
 ?>

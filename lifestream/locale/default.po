@@ -1,0 +1,435 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: lifestream\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-08-06 04:34-0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: feeds.inc.php:16
+#: feeds.inc.php:44
+#: feeds.inc.php:89
+#: feeds.inc.php:131
+#: feeds.inc.php:178
+#: feeds.inc.php:303
+#: feeds.inc.php:353
+#: feeds.inc.php:381
+#: feeds.inc.php:408
+msgid "Username:"
+msgstr ""
+
+#: feeds.inc.php:33
+#, php-format
+msgid "Posted a tweet on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:34
+#, php-format
+msgid "Posted %d tweets on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:45
+#: feeds.inc.php:304
+msgid "Convert URLs to Links"
+msgstr ""
+
+#: feeds.inc.php:46
+msgid "Convert Usersnames to Links"
+msgstr ""
+
+#: feeds.inc.php:77
+#, php-format
+msgid "Posted a Jaiku on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:78
+#, php-format
+msgid "Posted %d Jaikus on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:120
+#, php-format
+msgid "Bookmarked a link on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:121
+#, php-format
+msgid "Bookmarked %d links on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:132
+msgid "Limit items to tag:"
+msgstr ""
+
+#: feeds.inc.php:133
+msgid "Show Tags"
+msgstr ""
+
+#: feeds.inc.php:134
+msgid "Display Descriptions"
+msgstr ""
+
+#: feeds.inc.php:167
+#, php-format
+msgid "Scrobbled a song on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:168
+#, php-format
+msgid "Scrobbled %d songs on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:193
+msgid "Published a blog post."
+msgstr ""
+
+#: feeds.inc.php:194
+#, php-format
+msgid "Published %d blog posts."
+msgstr ""
+
+#: feeds.inc.php:199
+msgid "Feed URL:"
+msgstr ""
+
+#: feeds.inc.php:200
+msgid "Show Author"
+msgstr ""
+
+#: feeds.inc.php:223
+#, php-format
+msgid "You can find your User ID by using <a href=\"%s\">idGettr</a>."
+msgstr ""
+
+#: feeds.inc.php:225
+#: feeds.inc.php:264
+#, php-format
+msgid "Posted a photo on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:226
+#: feeds.inc.php:265
+#, php-format
+msgid "Posted %d photos on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:231
+msgid "User ID:"
+msgstr ""
+
+#: feeds.inc.php:274
+msgid "To obtain your Facebook feed URL you will need to go your profile and click \"See All\" under your mini-feed. Once there, click \"Status Stories\" on the right hand side. On the right hand side of the next page you will the \"My Status\" RSS feed link."
+msgstr ""
+
+#: feeds.inc.php:276
+#, php-format
+msgid "Updated status on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:277
+#, php-format
+msgid "Updated status %d times on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:292
+#, php-format
+msgid "Posted a note on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:293
+#, php-format
+msgid "Posted %d notes on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:342
+#, php-format
+msgid "Dugg a link on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:343
+#, php-format
+msgid "Dugg %d links on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:370
+#, php-format
+msgid "Posted a video on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:371
+#, php-format
+msgid "Posted %d videos on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:397
+#, php-format
+msgid "Found an interesting link on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:398
+#, php-format
+msgid "Found %d interesting links on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:439
+#, php-format
+msgid "Your Google Reader feed URL is available by going to \"Share items\" under \"Your stuff\". From there follow the link \"See your shared items page in a new window.\". On this page your feed URL will be available in any browser which shows you RSS feeds. It should look something like this: %s"
+msgstr ""
+
+#: feeds.inc.php:440
+#, php-format
+msgid "Shared a link on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:441
+#, php-format
+msgid "Shared %d links on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:450
+#, php-format
+msgid "You can obtain your Yelp RSS feed url from your profile page. It should look something like this: %s"
+msgstr ""
+
+#: feeds.inc.php:451
+#, php-format
+msgid "Reviewed a business on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:452
+#, php-format
+msgid "Reviewed %d businesses on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:475
+msgid "To retrieve your MySpace blog URL, visit your profile and click \"View all entries\" under your blog. From there, you will see an \"rss\" link on the top right of the page."
+msgstr ""
+
+#: feeds.inc.php:476
+#, php-format
+msgid "Published a blog post on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: feeds.inc.php:477
+#, php-format
+msgid "Published %d blog posts on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: lifestream.php:212
+#, php-format
+msgid "Posted an item on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: lifestream.php:214
+#, php-format
+msgid "Posted %d items on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: lifestream.php:459
+msgid "Show Events"
+msgstr ""
+
+#: lifestream.php:459
+msgid "Hide Events"
+msgstr ""
+
+#: lifestream.php:574
+msgid "The selected event was hidden."
+msgstr ""
+
+#: lifestream.php:578
+msgid "The selected event was not found."
+msgstr ""
+
+#: lifestream.php:592
+msgid "The selected feed's events has been refreshed."
+msgstr ""
+
+#: lifestream.php:596
+#: lifestream.php:609
+#: lifestream.php:648
+msgid "The selected feed was not found."
+msgstr ""
+
+#: lifestream.php:605
+msgid "The selected feed and all events has been removed."
+msgstr ""
+
+#: lifestream.php:681
+#, php-format
+msgid "Selected feed was added to your LifeStream with %d event(s)."
+msgstr ""
+
+#: lifestream.php:701
+msgid "Please correct the following errors:"
+msgstr ""
+
+#: pages/add-feed.inc.php:1
+msgid "Add a Feed"
+msgstr ""
+
+#: pages/add-feed.inc.php:4
+msgid "You will need JavaScript enabled in order to add a feed."
+msgstr ""
+
+#: pages/add-feed.inc.php:7
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr ""
+
+#: pages/add-feed.inc.php:21
+#: pages/edit-feed.inc.php:4
+#, php-format
+msgid "%s Feed Settings"
+msgstr ""
+
+#: pages/add-feed.inc.php:54
+msgid "Show labels for events in this feed. This will not affect grouped events."
+msgstr ""
+
+#: pages/add-feed.inc.php:63
+#: pages/edit-feed.inc.php:45
+msgid "Group events from the same day together."
+msgstr ""
+
+#: pages/add-feed.inc.php:70
+#: pages/edit-feed.inc.php:53
+#, php-format
+msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: pages/add-feed.inc.php:73
+msgid "Add Feed"
+msgstr ""
+
+#: pages/edit-feed.inc.php:1
+msgid "Edit Feed"
+msgstr ""
+
+#: pages/edit-feed.inc.php:1
+#, php-format
+msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
+msgstr ""
+
+#: pages/edit-feed.inc.php:37
+msgid "Show labels for events in this feed. This will not effect grouped events."
+msgstr ""
+
+#: pages/edit-feed.inc.php:46
+msgid "(This will not affect any event's already listed.)"
+msgstr ""
+
+#: pages/edit-feed.inc.php:56
+msgid "Save Feed"
+msgstr ""
+
+#: pages/edit-feed.inc.php:60
+msgid "Recent Events"
+msgstr ""
+
+#: pages/edit-feed.inc.php:64
+#: pages/events.inc.php:12
+#: pages/feeds.inc.php:11
+msgid "ID"
+msgstr ""
+
+#: pages/edit-feed.inc.php:65
+#: pages/events.inc.php:13
+msgid "Event"
+msgstr ""
+
+#: pages/edit-feed.inc.php:66
+#: pages/events.inc.php:14
+msgid "Date"
+msgstr ""
+
+#: pages/edit-feed.inc.php:76
+#: pages/events.inc.php:26
+#: pages/feeds.inc.php:26
+msgid "Delete"
+msgstr ""
+
+#: pages/events.inc.php:1
+msgid "LifeStream Events"
+msgstr ""
+
+#: pages/events.inc.php:1
+#: pages/settings.inc.php:1
+#, php-format
+msgid "(<a href=\"%s\">Go to Feed Management</a>)"
+msgstr ""
+
+#: pages/events.inc.php:6
+msgid "Feeds automatically refresh every hour looking for new events."
+msgstr ""
+
+#: pages/events.inc.php:10
+#: pages/feeds.inc.php:10
+msgid "Feed Type"
+msgstr ""
+
+#: pages/events.inc.php:11
+msgid "Feed"
+msgstr ""
+
+#: pages/feeds.inc.php:1
+msgid "LifeStream Feeds"
+msgstr ""
+
+#: pages/feeds.inc.php:1
+#, php-format
+msgid "(<a href=\"%s\">Go to General Configuration</a>)"
+msgstr ""
+
+#: pages/feeds.inc.php:6
+msgid "Feeds automatically refresh every hour, but if you wish to manually refresh a feed's events you can do so here."
+msgstr ""
+
+#: pages/feeds.inc.php:12
+msgid "Description"
+msgstr ""
+
+#: pages/feeds.inc.php:13
+msgid "Events"
+msgstr ""
+
+#: pages/feeds.inc.php:27
+msgid "Refresh"
+msgstr ""
+
+#: pages/settings.inc.php:1
+msgid "LifeStream Configuration"
+msgstr ""
+
+#: pages/settings.inc.php:2
+#, php-format
+msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
+msgstr ""
+
+#: pages/settings.inc.php:11
+msgid "Day Format:"
+msgstr ""
+
+#: pages/settings.inc.php:14
+#: pages/settings.inc.php:21
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method for more information."
+msgstr ""
+
+#: pages/settings.inc.php:18
+msgid "Hour Format:"
+msgstr ""
+
+#: pages/settings.inc.php:25
+msgid "Current Time:"
+msgstr ""
+
+#: pages/settings.inc.php:37
+msgid "Save Changes"
+msgstr ""
+
