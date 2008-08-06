@@ -441,6 +441,10 @@ class LifeStream_Feed
     function render($row)
     {
         // $row->date, $row->link, $row->data['field']
+        if (!$this->options['show_label'])
+        {
+            return $this->render_item($row, $row->data[0]);
+        }
         return sprintf(__($this->get_constant('LABEL_SINGLE')), $this->get_public_url(), $this->get_public_name()) . ':<br />' . $this->render_item($row, $row->data[0]);
     }
     
