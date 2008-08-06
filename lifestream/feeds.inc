@@ -263,7 +263,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return sprintf('<a href="%s" title="%s"><img src="%s" width="%d" height="%d"/></a>', $item['url'], $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
+        return sprintf('<a href="%s" title="%s"><img src="%s" width="%d" height="%d"/></a>', $item['link'], $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
