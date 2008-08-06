@@ -4,7 +4,6 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
     const ID            = 'plurk';
     const NAME          = 'Plurk';
     const URL           = 'http://www.plurk.com/';
-    const SHOW_TYPE     = true;
 
     function __toString()
     {
@@ -31,10 +30,8 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     const ID            = 'twitter';
     const NAME          = 'Twitter';
     const URL           = 'http://www.twitter.com/';
-    const LABEL_ACTION  = 'Posted';
-    const LABEL_ITEM    = 'tweet';
-    const LABEL_ITEMS   = 'tweets';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Posted a tweet on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Posted %d tweets on <a href="%s">%s</a>';
     
     function __toString()
     {
@@ -77,10 +74,8 @@ class LifeStream_JaikuFeed extends LifeStream_Feed
     const ID            = 'jaiku';
     const NAME          = 'Jaiku';
     const URL           = 'http://www.jaiku.com/';
-    const LABEL_ACTION  = 'Posted';
-    const LABEL_ITEM    = 'Jaiku';
-    const LABEL_ITEMS   = 'Jaikus';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Posted a Jaiku on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Posted %d Jaikus on <a href="%s">%s</a>';
     const NAMESPACE     = 'http://jaiku.com/ns';
     
     function __toString()
@@ -122,10 +117,8 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
     const ID            = 'delicious';
     const NAME          = 'Del.icio.us';
     const URL           = 'http://www.del.icio.us/';
-    const LABEL_ACTION  = 'Bookmarked';
-    const LABEL_ITEM    = 'new link';
-    const LABEL_ITEMS   = 'new links';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Bookmarked a link on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Bookmarked %d links on <a href="%s">%s</a>';
 
     function __toString()
     {
@@ -171,10 +164,8 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     const ID            = 'lastfm';
     const NAME          = 'Last.fm';
     const URL           = 'http://www.last.fm/';
-    const LABEL_ACTION  = 'Scrobbled';
-    const LABEL_ITEM    = 'song';
-    const LABEL_ITEMS   = 'songs';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Scrobbled a song on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Scrobbled %d songs on <a href="%s">%s</a>';
     
     function __toString()
     {
@@ -199,9 +190,8 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 {
     const ID            = 'blog';
     const NAME          = 'Blog';
-    const LABEL_ACTION  = 'Published';
-    const LABEL_ITEM    = 'new blog post';
-    const LABEL_ITEMS   = 'new blog post';
+    const LABEL_SINGLE  = 'Published a blog post';
+    const LABEL_PLURAL  = 'Published %d blog posts';
 
     function get_options()
     {        
@@ -232,10 +222,8 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     const URL           = 'http://www.flickr.com/';
     const DESCRIPTION   = 'You can find your User ID by using <a href="http://idgettr.com/">idGettr</a>.';
     const NAMESPACE     = 'http://search.yahoo.com/mrss/';
-    const LABEL_ACTION  = 'Posted';
-    const LABEL_ITEM    = 'new photo';
-    const LABEL_ITEMS   = 'new photos';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Posted a photo on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Posted %d photos on <a href="%s">%s</a>';
     
     function get_options()
     {        
@@ -273,10 +261,8 @@ class LifeStream_PhotoBucketFeed extends LifeStream_Feed
     const ID            = 'photobucket';
     const NAME          = 'Photobucket';
     const URL           = 'http://www.photobucket.com/';
-    const LABEL_ACTION  = 'Posted';
-    const LABEL_ITEM    = 'new photo';
-    const LABEL_ITEMS   = 'new photos';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Posted a photo on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Posted %d photos on <a href="%s">%s</a>';
 }
 register_lifestream_feed('LifeStream_PhotoBucketFeed');
 
@@ -286,7 +272,9 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
     const NAME          = 'Facebook';
     const URL           = 'http://www.facebook.com/';
     const DESCRIPTION   = 'To obtain your Facebook feed URL you will need to go your profile and click "See All" under your mini-feed. Once there, click "Status Stories" on the right hand side. On the right hand side of the next page you will the "My Status" RSS feed link.';
-    const CAN_GROUP       = false;
+    const CAN_GROUP     = false;
+    const LABEL_SINGLE  = 'Updated status on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Updated status %d times on <a href="%s">%s</a>';
     
     function render($row)
     {
@@ -301,10 +289,8 @@ class LifeStream_PownceFeed extends LifeStream_Feed
     const ID            = 'pownce';
     const NAME          = 'Pownce';
     const URL           = 'http://www.pownce.com/';
-    const LABEL_ACTION  = 'Posted';
-    const LABEL_ITEM    = 'new note';
-    const LABEL_ITEMS   = 'new notes';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Posted a note on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Posted %d notes on <a href="%s">%s</a>';
     
     function __toString()
     {
@@ -353,10 +339,8 @@ class LifeStream_DiggFeed extends LifeStream_Feed
     const ID            = 'digg';
     const NAME          = 'Digg';
     const URL           = 'http://www.digg.com/';
-    const LABEL_ACTION  = 'Found';
-    const LABEL_ITEM    = 'interesting link';
-    const LABEL_ITEMS   = 'interesting links';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Dugg a link on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Dugg %d links on <a href="%s">%s</a>';
     
     function __toString()
     {
@@ -383,10 +367,8 @@ class LifeStream_YouTubeFeed extends LifeStream_Feed
     const ID            = 'youtube';
     const NAME          = 'YouTube';
     const URL           = 'http://www.youtube.com/';
-    const LABEL_ACTION  = 'Posted';
-    const LABEL_ITEM    = 'new video';
-    const LABEL_ITEMS   = 'new videos';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Posted a video on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Posted %d videos on <a href="%s">%s</a>';
     
     function __toString()
     {
@@ -412,10 +394,8 @@ class LifeStream_RedditFeed extends LifeStream_Feed
     const ID            = 'reddit';
     const NAME          = 'Reddit';
     const URL           = 'http://www.reddit.com/';
-    const LABEL_ACTION  = 'Found';
-    const LABEL_ITEM    = 'interesting link';
-    const LABEL_ITEMS   = 'interesting links';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Found a interesting link on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Found %d interesting links on <a href="%s">%s</a>';
     
     function __toString()
     {
@@ -457,10 +437,8 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
     const NAME          = 'Google Reader';
     const URL           = 'http://www.google.com/reader/';
     const DESCRIPTION   = 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". On this page your feed URL will be available in any browser which shows you RSS feeds. It should look something like this: http://www.google.com/reader/public/atom/user/14317428968164573500/state/com.google/broadcast';
-    const LABEL_ACTION  = 'Shared';
-    const LABEL_ITEM    = 'link';
-    const LABEL_ITEMS   = 'links';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Shared a link on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Shared %d links on <a href="%s">%s</a>';
 }
 register_lifestream_feed('LifeStream_GoogleReaderFeed');
 
@@ -470,10 +448,8 @@ class LifeStream_YelpFeed extends LifeStream_Feed
     const NAME          = 'Yelp';
     const URL           = 'http://www.yelp.com/';
     const DESCRIPTION   = 'You can obtain your Yelp RSS feed url from your profile page. It should look something like this: http://www.yelp.com/syndicate/user/ctwwsl5_DSCzwPxtjzdl2A/rss.xml';
-    const LABEL_ACTION  = 'Reviewed';
-    const LABEL_ITEM    = 'business';
-    const LABEL_ITEMS   = 'businesses';
-    const SHOW_TYPE     = true;
+    const LABEL_SINGLE  = 'Reviewed a business on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Reviewed %d businesses on <a href="%s">%s</a>';
     
     function yield($row)
     {
@@ -497,9 +473,8 @@ class LifeStream_MySpaceFeed extends LifeStream_Feed
     const ID            = 'myspace';
     const NAME          = 'MySpace';
     const DESCRIPTION   = 'To retrieve your MySpace blog URL, visit your profile and click "View all entries" under your blog. From there, you will see an "rss" link on the top right of the page.';
-    const LABEL_ACTION  = 'Published';
-    const LABEL_ITEM    = 'new blog post';
-    const LABEL_ITEMS   = 'new blog post';
+    const LABEL_SINGLE  = 'Published a blog post on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Published %d blog posts on <a href="%s">%s</a>';
 }
 register_lifestream_feed('LifeStream_MySpaceFeed');
 ?>

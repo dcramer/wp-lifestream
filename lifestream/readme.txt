@@ -10,7 +10,7 @@ Lifestream displays your social feeds and photos much like you would see it on m
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
-Lifestream v0.2 extensions are NOT compatible with v0.1. You also will need to reactivate the plugin when updating from v0.1, as the database has changed.
+Lifestrea v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
 
 Requirements:
 
@@ -66,6 +66,6 @@ For example:
 
 == Credits ==
 
-Created and mainted by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net).
+Created and mainted by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net)).
 
 Core concept inspired by [RSS Stream](http://rick.jinlabs.com/code/rss-stream).

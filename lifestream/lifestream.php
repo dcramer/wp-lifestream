@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.davidcramer.net/my-projects/lifestream
 Description: Displays feeds in a lifestream.
 Author: David Cramer
-Version: 0.2
+Version: 0.3
 Author URI: http://www.davidcramer.net
 */
 
@@ -207,12 +207,11 @@ class LifeStream_Feed
     const DESCRIPTION   = '';
     // Can this feed be grouped?
     const CAN_GROUP     = true;
-    // Show the feed type in each event
-    const SHOW_TYPE     = false;
     // Labels used in rendering each event
-    const LABEL_ACTION  = 'Posted';
-    const LABEL_ITEM    = 'new item';
-    const LABEL_ITEMS   = 'new items';
+    // params: feed url, feed name
+    const LABEL_SINGLE  = 'Posted an item on <a href="%s">%s</a>';
+    // params: number of items, feed name, url
+    const LABEL_PLURAL  = 'Posted %d items on <a href="%s">%s</a>';
     
     public static function construct_from_query_result($row)
     {
@@ -442,13 +441,7 @@ class LifeStream_Feed
     function render($row)
     {
         // $row->date, $row->link, $row->data['field']
-        $ending_char = substr($this->get_constant('LABEL_ITEM'), 0, 1);
-        $the_a_word = in_array($ending_char, array('a', 'e', 'i', 'o', 'u', 'y')) ? 'an' : 'a';
-        if ($this->get_constant('SHOW_TYPE'))
-        {
-            return sprintf('%s %s %s on <a href="%s">%s</a>:<br />%s', $this->get_constant('LABEL_ACTION'), $the_a_word, $this->get_constant('LABEL_ITEM'), $this->get_public_url(), $this->get_public_name(), $this->render_item($row, $row->data[0]));
-        }
-        return sprintf('%s %s %s:<br />%s', $this->get_constant('LABEL_ACTION'), $the_a_word, $this->get_constant('LABEL_ITEM'), $this->render_item($row, $row->data[0]));
+        return sprintf(__($this->get_constant('LABEL_SINGLE')), $this->get_public_url(), $this->get_public_name()) . ':<br />' . $this->render_item($row, $row->data[0]);
     }
     
     function render_group($row)
@@ -458,12 +451,8 @@ class LifeStream_Feed
         {
             $output[] = $this->render_item($row, $chunk);
         }
-        $id = sprintf('lf_%s', microtime());
-        if ($this->get_constant('SHOW_TYPE'))
-        {
-            return sprintf('%s <a href="javascript:void(0)" onclick="document.getElementById(\'%s\').style.display = \'\';">%d</a> %s on <a href="%s">%s</a>.<ul id="%s" style="display:none;"><li>%s</li></ul>', $this->get_constant('LABEL_ACTION'), $id, $row->total, $this->get_constant('LABEL_ITEMS'), $this->get_public_url(), $this->get_public_name(), $id, implode('</li><li>', $output));
-        }        
-        return sprintf('%s <a href="javascript:void(0)" onclick="document.getElementById(\'%s\').style.display = \'\';">%d</a> %s.<ul id="%s" style="display:none;"><li>%s</li></ul>', $this->get_constant('LABEL_ACTION'), $id, $row->total, $this->get_constant('LABEL_ITEMS'), $id, implode('</li><li>', $output));
+        $id = sprintf('lf_%s', round(microtime(true)*1000));
+        return sprintf(__($this->get_constant('LABEL_PLURAL'), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . '. <small class="lifestream_more">(<a href="javascript:void(0);" onclick="lifestream_toggle(this, \'' . $id . '\')">Show Events</a>)</small><br /><ul id="' . $id . '" style="display:none;"><li>' . implode('</li><li>', $output) . '</li></ul>';
     }
     
     function get_url()
@@ -482,7 +471,11 @@ class LifeStream_Feed
         return $text;
     }
 }
-register_lifestream_feed('LifeStream_Feed');
+class LifeStream_GenericFeed extends LifeStream_Feed {
+    const LABEL_SINGLE  = 'Posted an item';
+    const LABEL_PLURAL  = 'Posted %d items';
+}
+register_lifestream_feed('LifeStream_GenericFeed');
 
 function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null, $output=null)
 {
@@ -640,6 +633,7 @@ function lifestream_options()
                             {
                                 $values['grouped'] = $_POST['grouped'];
                             }
+                            $values['show_label'] = $_POST['show_label'];
                             if (!count($errors))
                             {
                                 $instance->options = $values;
@@ -675,6 +669,7 @@ function lifestream_options()
                         {
                             $values['grouped'] = $_POST['grouped'];
                         }
+                        $values['show_label'] = $_POST['show_label'];
                         if (!count($errors))
                         {
                             $feed->options = $values;
@@ -712,6 +707,7 @@ function lifestream_options()
     <style type="text/css">
     table.options th { text-align: left; }
     table.options th { vertical-align: top; line-height: 30px; }
+    table.options td .helptext { color: #999; margin-top: 3px; }
     </style>
     <div class="wrap">
         <?php
@@ -761,6 +757,7 @@ function lifestream_header() {
     global $lifestream_path;
     
     echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$lifestream_path.'/lifestream.css"/>';
+    echo '<script type="text/javascript" src="'.$lifestream_path.'/lifestream.js"></script>';
 }
 
 function widget_lifestream($args)
