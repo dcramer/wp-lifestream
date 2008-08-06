@@ -1,5 +1,5 @@
 <h2><?php _e('LifeStream Configuration', 'lifestream');?> <small><?php printf(__('(<a href="%s">Go to Feed Management</a>)', 'lifestream'), '?page=' . $basename . '&amp;action=feeds'); ?></small></h2>
-<p><?php printf(__('The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href="%s">Feed Management page</a>.', 'lifestream'), , '?page=' . $basename . '&amp;action=feeds'); ?></p>
+<p><?php printf(__('The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href="%s">Feed Management page</a>.', 'lifestream'), '?page=' . $basename . '&amp;action=feeds'); ?></p>
 <form method="post" action="">
     <table class="options">
         <colgroup>
