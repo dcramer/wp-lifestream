@@ -59,10 +59,10 @@ For example:
 
 * Personalizable CSS classes.
 * Detailed configuration options.
-* Detects URLs, e-mail addresses and @username replies
 * Supported services: twitter, pownce, facebook, last.fm, del.icio.us, flickr
 * Unlimited number of feeds in your Lifestream.
 * Supports grouping of events.
+* Localization ready!
 
 == Credits ==
 
