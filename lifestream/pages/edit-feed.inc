@@ -31,10 +31,20 @@
                 <?php } ?>
             </tr>
         <?php } ?>
+        <tr>
+            <th>&nbsp;</th>
+            <td>
+                <label><input type="checkbox" name="show_label" value="1"<?php if (isset($_POST['show_label']) ? $_POST['show_label'] : $instance->options['show_label']) echo ' checked="checked"'; ?>/> Show labels for events in this feed. This will not effect grouped events.</label>
+                <div class="helptext">(e.g. <?php echo sprintf($instance->get_constant('LABEL_SINGLE'), '#', $instance->get_public_name()); ?>)</div>
+            </td>
+        </tr>
         <?php if ($instance->get_constant('CAN_GROUP')) { ?>
             <tr>
                 <th>&nbsp;</th>
-                <td><label><input type="checkbox" name="grouped" value="1"<?php if (isset($_POST['grouped']) ? $_POST['grouped'] : $instance->options['grouped']) echo ' checked="checked"'; ?>/> Group events from the same day together.<br/><small>(This will not affect any event's already listed.)</label></td>
+                <td>
+                    <label><input type="checkbox" name="grouped" value="1"<?php if (isset($_POST['grouped']) ? $_POST['grouped'] : $instance->options['grouped']) echo ' checked="checked"'; ?>/> Group events from the same day together.</label>
+                    <div class="helptext">(This will not affect any event's already listed.)</div>
+                </td>
             </tr>
         <?php } ?>
         </tbody>

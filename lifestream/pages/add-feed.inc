@@ -18,8 +18,8 @@
         $options = $feed->get_options();
         ?>
         <form action="?page=<?php echo $basename; ?>&amp;action=feeds" method="post" id="feed_options_<?php echo $identifier; ?>" style="display:none;">
-            <h3><?php echo __(get_class_constant($class_name, 'NAME'), 'lifestream');?> Feed Settings</h3>
-            <?php if ($description = get_class_constant($class_name, 'DESCRIPTION')) { ?>
+            <h3><?php echo __($feed->get_constant('NAME'), 'lifestream');?> Feed Settings</h3>
+            <?php if ($description = $feed->get_constant('DESCRIPTION')) { ?>
             <p><?php echo __($description, 'lifestream');?></p>
             <?php } ?>
             <input type="hidden" name="feed_type" value="<?php echo $identifier; ?>"/>
@@ -48,10 +48,20 @@
                         <?php } ?>
                     </tr>
                 <?php } ?>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td>
+                        <label><input type="checkbox" name="show_label" value="1"<?php if (empty($_POST) || $_POST['show_label']) echo ' checked="checked"'; ?>/> Show labels for events in this feed. This will not affect grouped events.</label>
+                        <div class="helptext">(e.g. <?php echo sprintf($feed->get_constant('LABEL_SINGLE'), '#', $feed->get_public_name()); ?>)</div>
+                    </td>
+                </tr>
+                
                 <?php if ($feed->get_constant('CAN_GROUP')) { ?>
                     <tr>
                         <th>&nbsp;</th>
-                        <td><label><input type="checkbox" name="grouped" value="1"<?php if ($_POST['grouped']) echo ' checked="checked"'; ?>/> Group events from the same day together.</label></td>
+                        <td>
+                            <label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if (empty($_POST) || $_POST['grouped']) echo ' checked="checked"'; ?>/> Group events from the same day together.</label>
+                        </td>
                     </tr>
                 <?php } ?>
                 </tbody>
