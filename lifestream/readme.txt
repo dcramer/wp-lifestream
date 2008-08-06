@@ -10,7 +10,7 @@ Lifestream displays your social feeds and photos much like you would see it on m
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
-Lifestrea v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
+Lifestream v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
 
 Requirements:
 
