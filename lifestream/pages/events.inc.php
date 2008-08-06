@@ -1,17 +1,17 @@
-<h2><?php echo __('LifeStream Events', 'lifestream'); ?> <small>(<a href="?page=<?php echo $basename ?>&amp;action=feeds">Go to Feed Management</a>)</small></h2><?php
+<h2><?php _e('LifeStream Events', 'lifestream'); ?> <small><?php printf(__('(<a href="%s">Go to Feed Management</a>)', 'lifestream'), '?page=' . $basename . '&amp;action=feeds'); ?></small></h2><?php
 
 if (count($results))
 {
     ?>
-    <p>Feeds automatically refresh every hour looking for new events.</p>
+    <p><?php _e('Feeds automatically refresh every hour looking for new events.', 'lifestream'); ?></p>
     <table class="widefat">
         <thead>
             <tr>
-                <th scope="col" style="width: 80px;"><?php echo __('Feed Type', 'lifestream'); ?></th>
-                <th scope="col" class="num"><?php echo __('Feed', 'lifestream'); ?></th>
-                <th scope="col" class="num"><?php echo __('ID', 'lifestream'); ?></th>
-                <th scope="col"><?php echo __('Event', 'lifestream'); ?></th>
-                <th scope="col" style="width: 150px;"><?php echo __('Date', 'lifestream'); ?></th>
+                <th scope="col" style="width: 80px;"><?php _e('Feed Type', 'lifestream'); ?></th>
+                <th scope="col" class="num"><?php _e('Feed', 'lifestream'); ?></th>
+                <th scope="col" class="num"><?php _e('ID', 'lifestream'); ?></th>
+                <th scope="col"><?php _e('Event', 'lifestream'); ?></th>
+                <th scope="col" style="width: 150px;"><?php _e('Date', 'lifestream'); ?></th>
                 <th scope="col" style="width: 40px;">&nbsp;</th>
             </tr>
         </thead>
@@ -23,7 +23,7 @@ if (count($results))
                     <td class="num"><?php echo $result->id; ?></td>
                     <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->link); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo $result->link; ?></a></strong></td>
                     <td><?php echo date($date_format, $result->timestamp); ?></td>
-                    <td><a href="?page=<?php echo $basename; ?>&amp;action=events&amp;op=delete&amp;id=<?php echo $result->id; ?>">Delete</a></td>
+                    <td><a href="?page=<?php echo $basename; ?>&amp;action=events&amp;op=delete&amp;id=<?php echo $result->id; ?>"><?php _e('Delete', 'lifestream'); ?></a></td>
                 </tr>
             <?php } ?>
         </tbody>

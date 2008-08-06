@@ -209,9 +209,9 @@ class LifeStream_Feed
     const CAN_GROUP     = true;
     // Labels used in rendering each event
     // params: feed url, feed name
-    const LABEL_SINGLE  = 'Posted an item on <a href="%s">%s</a>';
+    const LABEL_SINGLE  = 'Posted an item on <a href="%s">%s</a>.';
     // params: number of items, feed name, url
-    const LABEL_PLURAL  = 'Posted %d items on <a href="%s">%s</a>';
+    const LABEL_PLURAL  = 'Posted %d items on <a href="%s">%s</a>.';
     
     public static function construct_from_query_result($row)
     {
@@ -445,7 +445,7 @@ class LifeStream_Feed
         {
             return $this->render_item($row, $row->data[0]);
         }
-        return sprintf(__($this->get_constant('LABEL_SINGLE')), $this->get_public_url(), $this->get_public_name()) . ':<br />' . $this->render_item($row, $row->data[0]);
+        return sprintf(__($this->get_constant('LABEL_SINGLE'), 'lifestream'), $this->get_public_url(), $this->get_public_name()) . '<br />' . $this->render_item($row, $row->data[0]);
     }
     
     function render_group($row)
@@ -455,8 +455,8 @@ class LifeStream_Feed
         {
             $output[] = $this->render_item($row, $chunk);
         }
-        $id = sprintf('lf_%s', round(microtime(true)*1000));
-        return sprintf(__($this->get_constant('LABEL_PLURAL'), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . '. <small class="lifestream_more">(<a href="javascript:void(0);" onclick="lifestream_toggle(this, \'' . $id . '\')">Show Events</a>)</small><br /><ul id="' . $id . '" style="display:none;"><li>' . implode('</li><li>', $output) . '</li></ul>';
+        $id = sprintf('lf_%s', round(microtime(true)*rand(10000,1000000)));
+        return sprintf(__($this->get_constant('LABEL_PLURAL'), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="javascript:void(0);" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Events', 'lifestream') . '\', \''. __('Hide Events', 'lifestream') .'\')">' . __('Show Events', 'lifestream') . '</a>)</small><br /><ul id="' . $id . '" style="display:none;"><li>' . implode('</li><li>', $output) . '</li></ul>';
     }
     
     function get_url()
@@ -525,7 +525,7 @@ function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null
         $events[] = new LifeStream_Event($result);
     }
     
-    include(sprintf('pages/lifestream-%s.inc', $output));
+    include(sprintf('pages/lifestream-%s.inc.php', $output));
 }
 
 function lifestream_options()
@@ -533,8 +533,6 @@ function lifestream_options()
     global $lifestream_feeds, $wpdb;
     
     ksort($lifestream_feeds);
-
-    #load_plugin_textdomain('lifestream', 'wp-content/plugins/lifestream/locales');
     
     setlocale(LC_TIME, get_locale());
     
@@ -573,11 +571,11 @@ function lifestream_options()
                             }
                             $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = '%d', `updated` = 1 WHERE `id` = '%d'", $wpdb->escape(serialize($events)), count($events), $group->id));
                         }
-                        $message = 'The selected event was hidden.';
+                        $message = __('The selected event was hidden.', 'lifestream');
                     }
                     else
                     {
-                        $errors[] = 'The selected event was not found.';
+                        $errors[] = __('The selected event was not found.', 'lifestream');
                     }
                 break;
             }
@@ -591,11 +589,11 @@ function lifestream_options()
                     {
                         $instance = LifeStream_Feed::construct_from_query_result($result[0]);
                         $instance->refresh();
-                        $message = 'The selected feed\'s events has been refreshed.';
+                        $message = __('The selected feed\'s events has been refreshed.', 'lifestream');
                     }
                     else
                     {
-                        $errors[] = 'The selected feed was not found.';
+                        $errors[] = __('The selected feed was not found.', 'lifestream');
                     }
                 break;
                 case 'delete':
@@ -604,11 +602,11 @@ function lifestream_options()
                     {
                         $instance = LifeStream_Feed::construct_from_query_result($result[0]);
                         $instance->delete();
-                        $message = 'The selected feed and all events has been removed.';                                        
+                        $message = __('The selected feed and all events has been removed.', 'lifestream');
                     }
                     else
                     {
-                        $errors[] = 'The selected feed was not found.';
+                        $errors[] = __('The selected feed was not found.', 'lifestream');
                     }
                 break;
                 case 'edit':
@@ -647,7 +645,7 @@ function lifestream_options()
                     }
                     else
                     {
-                        $errors[] = 'The selected feed was not found.';
+                        $errors[] = __('The selected feed was not found.', 'lifestream');
                     }
                 break;
                 default:
@@ -680,7 +678,7 @@ function lifestream_options()
                             $feed->save();
                             $events = $feed->refresh();
                             unset($_POST);
-                            $message = 'Selected feed was added to your LifeStream with '.$events.' event(s).';
+                            $message = sprintf(__('Selected feed was added to your LifeStream with %d event(s).', 'lifestream'), $events);
                         }
                     }
                 break;
@@ -706,7 +704,7 @@ function lifestream_options()
         <?php } ?>
     </ul></div>
     <?php } elseif ($message) { ?>
-    <div id="message" class="updated fade"><p><strong><?php _e($message, 'lifestream') ?></strong></p></div>
+    <div id="message" class="updated fade"><p><strong><?php $message; ?></strong></p></div>
     <?php } ?>
     <style type="text/css">
     table.options th { text-align: left; }
@@ -721,12 +719,12 @@ function lifestream_options()
                 switch ($_GET['op'])
                 {
                     case 'edit':
-                        include('pages/edit-feed.inc');
+                        include('pages/edit-feed.inc.php');
                     break;
                     default:
                         $results =& $wpdb->get_results("SELECT t1.*, (SELECT COUNT(1) FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = t1.`id`) as `events` FROM `".LIFESTREAM_TABLE_PREFIX."feeds` as t1 ORDER BY `id`");
                     
-                        include('pages/feeds.inc');
+                        include('pages/feeds.inc.php');
                     break;
                 }
             break;
@@ -738,10 +736,10 @@ function lifestream_options()
                 
                 $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event` as t1 JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $page*50));
 
-                include('pages/events.inc');
+                include('pages/events.inc.php');
             break;
             default:
-                include('pages/settings.inc');
+                include('pages/settings.inc.php');
             break;
         }
         ?>
@@ -777,7 +775,7 @@ function widget_lifestream($args)
 <?php
 }
 
-include('feeds.inc');
+include('feeds.inc.php');
 
 /**
  * Attempts to update all feeds
@@ -793,6 +791,10 @@ function lifestream_update()
     }
 }
 
+function lifestream_init()
+{
+    load_plugin_textdomain('lifestream', 'wp-content/plugins/lifestream/locales');
+}
 
 if (function_exists('wp_register_sidebar_widget'))
 {
@@ -808,6 +810,7 @@ add_action('admin_menu', 'lifestream_options_menu');
 add_action('LifeStream_Hourly', 'lifestream_update');
 add_action('wp_head', 'lifestream_header');
 add_filter('the_content', 'lifestream_embed_callback');
+add_action('init', 'lifestream_init');
 
 if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
     lifestream_activate();

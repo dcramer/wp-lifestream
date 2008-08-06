@@ -1,10 +1,10 @@
-<h2><?php echo __('Add a Feed', 'lifestream');?></h2>
+<h2><?php _e('Add a Feed', 'lifestream');?></h2>
 <noscript>
     <style type="text/css">.requires-javascript { display: none; }</style>
-    <p>You will need JavaScript enabled in order to add a feed.</p>
+    <p><?php _e('You will need JavaScript enabled in order to add a feed.', 'lifestream'); ?></p>
 </noscript>
 <div class="requires-javascript" id="poststuff">
-    <p>Add a new feed by first selecting the type of feed: 
+    <p><?php _e('Add a new feed by first selecting the type of feed:', 'lifestream'); ?> 
     <select id="id_feed_type" onkeyup="showFeedOptions(this.options[this.selectedIndex].value);" onchange="showFeedOptions(this.options[this.selectedIndex].value);"><?php
     foreach ($lifestream_feeds as $identifier=>$class_name)
     {
@@ -18,9 +18,9 @@
         $options = $feed->get_options();
         ?>
         <form action="?page=<?php echo $basename; ?>&amp;action=feeds" method="post" id="feed_options_<?php echo $identifier; ?>" style="display:none;">
-            <h3><?php echo __($feed->get_constant('NAME'), 'lifestream');?> Feed Settings</h3>
+            <h3><?php printf(__('%s Feed Settings', 'lifestream'), $feed->get_constant('NAME')) ;?></h3>
             <?php if ($description = $feed->get_constant('DESCRIPTION')) { ?>
-            <p><?php echo __($description, 'lifestream');?></p>
+            <p><?php echo $description; ?></p>
             <?php } ?>
             <input type="hidden" name="feed_type" value="<?php echo $identifier; ?>"/>
             <table class="options">
@@ -33,17 +33,17 @@
                     <?php $current_value = (isset($_POST[$option]) ? $_POST[$option] : $option_meta[2]); ?>
                     <tr>
                         <?php if (is_array($option_meta[3])) { ?>
-                            <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?>:</label></th>
+                            <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></th>
                             <td><select name="<?php echo $option;?>">
                             <?php foreach ($option_meta[3] as $choice=>$label) { ?>
-                                <option value="<?php echo $choice;?>"<?php if ($current_value == $choice) echo ' selected="selected"'; ?>><?php echo htmlspecialchars($label);?></option>
+                                <option value="<?php echo $choice;?>"<?php if ($current_value == $choice) echo ' selected="selected"'; ?>><?php echo htmlspecialchars(__($label, 'lifestream'));?></option>
                             <?php } ?>
                             </select></td>
                         <?php } elseif (is_bool($option_meta[3])) { ?>
                             <th>&nbsp;</th>
                             <td><label<?php if ($option_meta[1]) echo ' class="required"'; ?>><input type="checkbox" value="1"<?php if ($current_value == 1) echo ' checked="checked"'; ?> name="<?php echo $option;?>" /> <?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></td>
                         <?php } else { ?>
-                            <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?>:</label></th>
+                            <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></th>
                             <td><input name="<?php echo $option;?>" type="text" value="<?php echo htmlspecialchars($current_value); ?>"></td>
                         <?php } ?>
                     </tr>
@@ -51,8 +51,8 @@
                 <tr>
                     <th>&nbsp;</th>
                     <td>
-                        <label><input type="checkbox" name="show_label" value="1"<?php if (empty($_POST) || $_POST['show_label']) echo ' checked="checked"'; ?>/> Show labels for events in this feed. This will not affect grouped events.</label>
-                        <div class="helptext">(e.g. <?php echo sprintf($feed->get_constant('LABEL_SINGLE'), '#', $feed->get_public_name()); ?>)</div>
+                        <label><input type="checkbox" name="show_label" value="1"<?php if (empty($_POST) || $_POST['show_label']) echo ' checked="checked"'; ?>/> <?php _e('Show labels for events in this feed. This will not affect grouped events.', 'lifestream'); ?></label>
+                        <div class="helptext">(e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', $feed->get_public_name()); ?>)</div>
                     </td>
                 </tr>
                 
@@ -60,17 +60,17 @@
                     <tr>
                         <th>&nbsp;</th>
                         <td>
-                            <label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if (empty($_POST) || $_POST['grouped']) echo ' checked="checked"'; ?>/> Group events from the same day together.</label>
+                            <label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if (empty($_POST) || $_POST['grouped']) echo ' checked="checked"'; ?>/> <?php _e('Group events from the same day together.', 'lifestream'); ?></label>
                         </td>
                     </tr>
                 <?php } ?>
                 </tbody>
             </table>
-            <?php if ($url = get_class_constant($class_name, 'URL')) { ?>
-            <p>Find more information about <?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?> by visiting <a href="<?php echo htmlspecialchars($url); ?>"><?php echo htmlspecialchars($url); ?></a>.</p>
+            <?php if ($url = $feed->get_constant('NAME')) { ?>
+            <p><?php printf(__('Find more information about %s by visiting <a href="%s">%s</a>.', 'lifestream'), htmlspecialchars($feed->get_constant('NAME')), htmlspecialchars($url), htmlspecialchars($url)); ?></p>
             <?php } ?>
             <p class="submit">
-                <input type="submit" name="save" value="<?php echo __('Add Feed', 'lifestream');?>" />
+                <input type="submit" name="save" value="<?php _e('Add Feed', 'lifestream');?>" />
             </p>
     
         </form>
