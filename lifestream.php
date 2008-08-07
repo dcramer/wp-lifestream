@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.davidcramer.net/my-projects/lifestream
 Description: Displays feeds in a lifestream.
 Author: David Cramer
-Version: 0.3
+Version: 0.31
 Author URI: http://www.davidcramer.net
 */
 
@@ -318,6 +318,7 @@ class LifeStream_Feed
 
         $inserted = array();
         $items = $this->fetch();
+        if (!$items) return false;
         foreach ($items as $item)
         {
             $link = array_key_pop($item, 'link');
