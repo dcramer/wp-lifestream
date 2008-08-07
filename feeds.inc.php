@@ -61,7 +61,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     function yield($row)
     {
         return array(
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_description()),
         );
@@ -103,7 +103,7 @@ class LifeStream_JaikuFeed extends LifeStream_Feed
         $title = $matches[1];
         
         return array(
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($title),
         );
@@ -149,7 +149,7 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
 
         return array(
             // TODO: can we just use get_date()?
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
             'description'   =>  html_entity_decode($row->get_description()),
@@ -206,7 +206,7 @@ class LifeStream_BlogFeed extends LifeStream_Feed
         $author =& $row->get_item_tags(SIMPLEPIE_NAMESPACE_DC_11, 'creator');
 
         return array(
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
             'author'    =>  $author[0]['data'],
@@ -242,7 +242,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
         $thumbnail = $event_name =& $row->get_item_tags(self::NAMESPACE, 'thumbnail');
         $thumbnail = $thumbnail[0]['attribs'][''];
         return array(
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $thumbnail,
@@ -313,7 +313,7 @@ class LifeStream_PownceFeed extends LifeStream_Feed
     function yield($row)
     {
         $data = array(
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'description'   =>  html_entity_decode($row->get_description()),
         );
@@ -423,7 +423,7 @@ class LifeStream_RedditFeed extends LifeStream_Feed
             $title = substr($title, strlen($chunk));
         
         return array(
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($title),
         );
@@ -460,7 +460,7 @@ class LifeStream_YelpFeed extends LifeStream_Feed
             $title = substr($title, 0, strlen($title)-strlen($on_part));
         
         return array(
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($title),
         );

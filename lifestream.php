@@ -427,7 +427,7 @@ class LifeStream_Feed
         // the rest of the data will be serialized into a `data` field
         // and is pulled out and used on the render($row) method
         return array(
-            'date'      =>  strtotime($row->get_date()),
+            'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
         );
