@@ -472,9 +472,37 @@ class LifeStream_MySpaceFeed extends LifeStream_Feed
 {
     const ID            = 'myspace';
     const NAME          = 'MySpace';
+    const URL           = 'http://www.myspace.com/';
     const DESCRIPTION   = 'To retrieve your MySpace blog URL, visit your profile and click "View all entries" under your blog. From there, you will see an "rss" link on the top right of the page.';
     const LABEL_SINGLE  = 'Published a blog post on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Published %d blog posts on <a href="%s">%s</a>.';
 }
 register_lifestream_feed('LifeStream_MySpaceFeed');
+
+class LifeStream_SkitchFeed extends LifeStream_Feed
+{
+    const ID            = 'skitch';
+    const NAME          = 'Skitch';
+    const URL           = 'http://www.skitch.com/';
+    const LABEL_SINGLE  = 'Shared an image on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Shared %d images on <ah ref="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_url()
+    {
+        return 'http://skitch.com/feeds/'.$this->options['username'].'/atom.xml'
+    }
+}
+register_lifestream_feed('LifeStream_SkitchFeed');
 ?>
