@@ -501,7 +501,7 @@ class LifeStream_SkitchFeed extends LifeStream_Feed
     
     function get_url()
     {
-        return 'http://skitch.com/feeds/'.$this->options['username'].'/atom.xml'
+        return 'http://skitch.com/feeds/'.$this->options['username'].'/atom.xml';
     }
 }
 register_lifestream_feed('LifeStream_SkitchFeed');
