@@ -705,7 +705,7 @@ function lifestream_options()
         <?php } ?>
     </ul></div>
     <?php } elseif ($message) { ?>
-    <div id="message" class="updated fade"><p><strong><?php $message; ?></strong></p></div>
+    <div id="message" class="updated fade"><p><strong><?php echo $message; ?></strong></p></div>
     <?php } ?>
     <style type="text/css">
     table.options th { text-align: left; }
