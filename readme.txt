@@ -17,6 +17,26 @@ Requirements:
 * PHP 5.x
 * WordPress 2.5+
 
+Included Plugins:
+
+* Facebook
+* Digg
+* Blog
+* Twitter
+* Reddit
+* De.licio.us
+* Jaiku
+* Last.fm
+* Flickr
+* Photobucket
+* Pownce
+* YouTube
+* Google Reader
+* Yelp
+* MySpace Blog
+* Skitch
+* Identi.ca
+
 == Installation ==
 
 Upload the plugin (unzipped) into `/wp-content/plugins/`. You should end up with `/wp-content/plugins/lifestream/lifestream.php`.
