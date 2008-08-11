@@ -46,16 +46,30 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
             'link_users' => array('Convert Usersnames to Links', false, true, true),
         );
     }
+    
+    function _get_user_link($match)
+    {
+        return $this->get_user_link($match[1]);
+    }
+    
+    function get_user_link($user)
+    {
+        return '<a href="http://www.twitter.com/'.$user.'" class="user">@'.$user.'</a>';
+    }
 
     function parse_users($text)
     {
-           $text = preg_replace('/([\.|\,|\:|\¡|\¿|\>|\{|\(]?)@{1}(\w*)([\.|\,|\:|\!|\?|\>|\}|\)]?)\s/i', "$1<a href=\"http://twitter.com/$2\" class=\"twitter-user\">@$2</a>$3 ", $text);
-           return $text;
+        return preg_replace_callback('/(?:^@([a-z0-9_-]+):[^\b]@([a-z0-9_-]+))\b/i', array($this, '_get_user_link'), $text);
     }
 
     function get_url()
     {
         return 'http://twitter.com/statuses/user_timeline/'.$this->options['username'].'.rss';
+    }
+    
+    function render_item($row, $item)
+    {
+        return $this->parse_users($this->parse_urls($item['title']));
     }
     
     function yield($row)
@@ -69,7 +83,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_TwitterFeed');
 
-class LifeStream_JaikuFeed extends LifeStream_Feed
+class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
 {
     const ID            = 'jaiku';
     const NAME          = 'Jaiku';
@@ -77,18 +91,6 @@ class LifeStream_JaikuFeed extends LifeStream_Feed
     const LABEL_SINGLE  = 'Posted a Jaiku on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d Jaikus on <a href="%s">%s</a>.';
     const NAMESPACE     = 'http://jaiku.com/ns';
-    
-    function __toString()
-    {
-        return $this->options['username'];
-    }
-
-    function get_options()
-    {        
-        return array(
-            'username' => array('Username:', true, '', ''),
-        );
-    }
     
     function get_url()
     {
@@ -276,14 +278,14 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
     const LABEL_SINGLE  = 'Updated status on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Updated status %d times on <a href="%s">%s</a>.';
     
-    function render($row)
+    function render_item($row, $item)
     {
-        return sprintf('<a href="%s">%s</a>', $row->link, $row->data[0]['title']);
+        return $item['title'];
     }
 }
 register_lifestream_feed('LifeStream_FacebookFeed');
 
-class LifeStream_PownceFeed extends LifeStream_Feed
+class LifeStream_PownceFeed extends LifeStream_TwitterFeed
 {
     const NAMESPACE     = 'http://pownce.com/Atom';
     const ID            = 'pownce';
@@ -292,22 +294,19 @@ class LifeStream_PownceFeed extends LifeStream_Feed
     const LABEL_SINGLE  = 'Posted a note on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d notes on <a href="%s">%s</a>.';
     
-    function __toString()
-    {
-        return $this->options['username'];
-    }
-    
-    function get_options()
-    {        
-        return array(
-            'username' => array('Username:', true, '', ''),
-            'link_urls' => array('Convert URLs to Links', false, true, true),
-        );
-    }
-    
     function get_url()
     {
         return 'http://www.pownce.com/feeds/public/'.$this->options['username'].'/';
+    }
+    
+    function get_user_link($user)
+    {
+        return '<a href="http://www.pownce.com/'.$user.'" class="user">@'.$user.'</a>';
+    }
+    
+    function render_item($row, $item)
+    {
+        return $this->parse_users($this->parse_urls($item['description']));
     }
 
     function yield($row)
@@ -468,7 +467,7 @@ class LifeStream_YelpFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_YelpFeed');
 
-class LifeStream_MySpaceFeed extends LifeStream_Feed
+class LifeStream_MySpaceFeed extends LifeStream_BlogFeed
 {
     const ID            = 'myspace';
     const NAME          = 'MySpace';
@@ -505,4 +504,25 @@ class LifeStream_SkitchFeed extends LifeStream_Feed
     }
 }
 register_lifestream_feed('LifeStream_SkitchFeed');
+
+class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
+{
+    const ID            = 'identica';
+    const NAME          = 'Identi.ca';
+    const URL           = 'http://www.identi.ca/';
+    const LABEL_SINGLE  = 'Posted a dent on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Posted %d dents on <a href="%s">%s</a>.';
+
+    function get_user_link($user)
+    {
+        return '<a href="http://www.identi.ca/'.$user.'" class="user">@'.$user.'</a>';
+    }
+
+    function get_url()
+    {
+        return 'http://identi.ca/'.$this->options['username'].'/rss';
+    }
+}
+register_lifestream_feed('LifeStream_IdenticaFeed');
+
 ?>
