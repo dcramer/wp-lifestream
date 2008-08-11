@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.davidcramer.net/my-projects/lifestream
 Description: Displays feeds in a lifestream.
 Author: David Cramer
-Version: 0.31
+Version: 0.32
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,10 +14,7 @@ require('simplepie.inc');
 
 $lifestream_path = trailingslashit(get_settings('siteurl')) . 'wp-content/plugins/lifestream';
 
-// TODO: confirm htmlspecialchars isnt needed
 // TODO: group events e.g. flickr photos
-// TODO: convert dates to timestamps and not text
-// TODO: fix parse_urls
 
 if (!function_exists('array_key_pop'))
 {
@@ -467,12 +464,12 @@ class LifeStream_Feed
     
     function parse_urls($text)
     {
-        // match protocol://address/path/file.extension?some=variable&another=asf%
-        $text = preg_replace("/\s([a-zA-Z]+:\/\/[a-z][a-z0-9\_\.\-]*[a-z]{2,6}[a-zA-Z0-9\/\*\-\?\&\%]*)([\s|\.|\,])/i"," <a href=\"$1\">$1</a>$2", $text);
-        // match www.something.domain/path/file.extension?some=variable&another=asf%
-        $text = preg_replace("/\s(www\.[a-z][a-z0-9\_\.\-]*[a-z]{2,6}[a-zA-Z0-9\/\*\-\?\&\%]*)([\s|\.|\,])/i"," <a href=\"http://$1\">$1</a>$2", $text);      
-        // match name@address
-        $text = preg_replace("/\s([a-zA-Z][a-zA-Z0-9\_\.\-]*[a-zA-Z]*\@[a-zA-Z][a-zA-Z0-9\_\.\-]*[a-zA-Z]{2,6})([\s|\.|\,])/i"," <a href=\"mailto://$1\">$1</a>$2", $text);    
+        # match http(s):// urls
+        $text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $text);
+        # match www urls
+        $text = preg_replace('@((?<!http://)www\.([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', '<a href="http://$1">$1</a>', $text);
+        # match email@address
+        $text = preg_replace('/\b([A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4})\b/i', '<a href="mailto:$1">$1</a>', $text);
         return $text;
     }
 }
