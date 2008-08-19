@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.davidcramer.net/my-projects/lifestream
 Description: Displays feeds in a lifestream.
 Author: David Cramer
-Version: 0.33
+Version: 0.34
 Author URI: http://www.davidcramer.net
 */
 
@@ -172,6 +172,7 @@ class LifeStream_Event
          $this->date = $row->timestamp;
          $this->data = unserialize($row->data);
          $this->id = $row->id;
+         $this->timestamp = $row->timestamp;
          $this->total = $row->total;
          $this->visible = $row->visible;
          $this->link = ($this->data['link'] ? $this->data['link'] : $row->link);
