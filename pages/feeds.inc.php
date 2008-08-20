@@ -1,4 +1,4 @@
-<h2><?php _e('LifeStream Feeds', 'lifestream'); ?> <small><?php printf(__('(<a href="%s">Go to General Configuration</a>)', 'lifestream'), '?page=' . $basename); ?></small></h2><?php
+<h2><?php _e('LifeStream Feeds', 'lifestream'); ?></h2><?php
 
 if (count($results))
 {
