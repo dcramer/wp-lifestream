@@ -55,11 +55,11 @@ function lifestream_file_get_contents($url)
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
         $file_contents = curl_exec($ch);
         curl_close($ch);
-        return $file_contents
+        return $file_contents;
     }
     else
     {
-        return file_get_contents($url)
+        return file_get_contents($url);
     }
 }
 
