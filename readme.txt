@@ -85,6 +85,7 @@ For example:
 * Unlimited number of feeds in your Lifestream.
 * Supports grouping of events.
 * Localization ready!
+* Daily digest available to summarize your activities.
 
 == Credits ==
 
