@@ -1,6 +1,4 @@
 <?php
-define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
-
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 
 require('simplepie.inc');
@@ -894,6 +892,10 @@ function lifestream_do_digest()
 
 function lifestream_init()
 {
+    global $wpdb;
+
+    define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
+
     // wp cron is too limited, make our own
     $time = get_option('lifestream__last_update');
     if (!$time || ($time + (get_option('lifestream_update_interval') * 60) < time()))
