@@ -101,7 +101,7 @@ function lifestream_activate()
     lifestream_install_database();
 
     // Get rid of old cron job
-    wp_unschedule_event('LifeStream_Hourly');
+    wp_clear_scheduled_hook('LifeStream_Hourly');
 
     $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
     if (!$results[0]->count)
