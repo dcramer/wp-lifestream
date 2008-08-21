@@ -178,13 +178,58 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     {        
         return array(
             'username' => array('Username:', true, '', ''),
+            'loved' => array('Only show loved tracks.', false, true, true),
         );
     }
 
     function get_url()
     {
-        return 'http://ws.audioscrobbler.com/1.0/user/'.$this->options['username'].'/recenttracks.rss';
+        if ($this->options['loved'])
+        {
+            $feed_name = 'recentlovedtracks';
+        }
+        else
+        {
+            $feed_name = 'recenttracks';
+        }
+        
+        return 'http://ws.audioscrobbler.com/1.0/user/'.$this->options['username'].'/'.$feed_name.'.xml';
     }
+    
+    function yield($track)
+    {
+        return array(
+            'date'      =>  strtotime($track->date),
+            'link'      =>  html_entity_decode($track->url),
+            'name'     =>  html_entity_decode($track->name),
+            'artist'    =>  html_entity_decode($track->artist),
+        );
+    }
+    
+    function fetch()
+    {
+        // Look it's our first non-feed parser!
+        $response = file_get_contents($this->get_url());
+
+        if ($response)
+        {
+            $xml = new SimpleXMLElement($response);
+            
+            $feed = $xml->track;
+            $items = array();
+            foreach ($feed as $track)
+            {
+                $items[] = $this->yield($track);
+            }
+            return $items;
+        }
+    }
+    
+    function render_item($row, $item)
+    {
+        return sprintf('<a href="%s">%s - %s</a>', $item['link'], $item['artist'], $item['name']);
+    }
+    
 }
 register_lifestream_feed('LifeStream_LastFMFeed');
 
