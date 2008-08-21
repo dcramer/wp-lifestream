@@ -286,19 +286,24 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
 
     function yield($row)
     {
-        $thumbnail = $event_name =& $row->get_item_tags(self::NAMESPACE, 'thumbnail');
+        $thumbnail = $row->get_item_tags(self::NAMESPACE, 'thumbnail');
         $thumbnail = $thumbnail[0]['attribs'][''];
+        $image = $row->get_item_tags(self::NAMESPACE, 'content');
+        $image = $image[0]['attribs'][''];
         return array(
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $thumbnail,
+            'image' => $image,
         );
     }
     
     function render_item($row, $item, $group=null)
     {
-        return sprintf('<a href="%s" title="%s" rel="lightbox'.($group ? $group : '').'"><img src="%s" width="%d" height="%d"/></a>', $item['link'], $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
+        if ($item['image']) $lightbox = ' rel="lightbox'.($group ? '['.$group.']' : '');
+        else $lightbox = '';
+        return sprintf('<a href="%s" onclick="window.location.href=\'%s\';return false;" title="%s"'.$lightbox.'"><img src="%s" width="%d" height="%d"/></a>', $item['image']['url'], htmlspecialchars($item['link']), $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
     }
     
     function render_group($row)
