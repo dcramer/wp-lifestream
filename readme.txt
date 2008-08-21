@@ -12,6 +12,8 @@ Lifestream displays your social feeds and photos much like you would see it on m
 
 Lifestream v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
 
+For more information please visit the homepage: http://www.davidcramer.net/my-projects/lifestream
+
 Requirements:
 
 * PHP 5.x
