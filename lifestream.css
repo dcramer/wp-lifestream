@@ -15,6 +15,7 @@ table.lifestream .lifestream_icon { padding: 5px 0; }
 table.lifestream .lifestream_hour { width: 50px; }
 table.lifestream td { vertical-align: top; padding: 3px 0; }
 
+.lifestream_feedid_flickr div a { margin: 0 2px 2px 0; }
 .lifestream ul { list-style-type: none; margin: 0; padding: 0; }
 
 /* list specific css */
