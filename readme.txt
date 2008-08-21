@@ -10,9 +10,12 @@ Lifestream displays your social feeds and photos much like you would see it on m
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
-Lifestream v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
-
 For more information please visit the homepage: http://www.davidcramer.net/my-projects/lifestream
+
+Update Notes:
+
+* Lifestream v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
+* When updating to 0.38 you will need to remove your Last.fm feed and re-add it as the data structure has been completely changed. (First non-rss lifestream feed!)
 
 Requirements:
 
@@ -28,7 +31,7 @@ Included Plugins:
 * Reddit
 * De.licio.us
 * Jaiku
-* Last.fm
+* Last.fm (Improved support in 0.38!)
 * Flickr
 * Photobucket
 * Pownce

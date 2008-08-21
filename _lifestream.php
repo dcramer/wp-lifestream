@@ -420,7 +420,6 @@ class LifeStream_Feed
             }
             return $items;
         }
-        return;
     }
 
     function yield($row)
@@ -684,19 +683,11 @@ function lifestream_options()
                         {
                             $feed->options = $values;
                             $result = $feed->save();
-                            if ($result === false)
-                            {
-                                $errors[] = sprintf(__('Database Error: %s'), $wpdb->print_error());
-                            }
-                            else
+                            if ($result !== false)
                             {
                                 unset($_POST);
                                 $events = $feed->refresh();
-                                if ($events === false)
-                                {
-                                    $errors[] = sprintf(__('Database Error: %s'), $wpdb->print_error());
-                                }
-                                else
+                                if ($events !== false)
                                 {
                                     $message = sprintf(__('Selected feed was added to your LifeStream with %d event(s).', 'lifestream'), $events);                                                                    
                                 }
@@ -756,12 +747,10 @@ function lifestream_options()
                     break;
                     default:
                         $results =& $wpdb->get_results("SELECT t1.*, (SELECT COUNT(1) FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = t1.`id`) as `events` FROM `".LIFESTREAM_TABLE_PREFIX."feeds` as t1 ORDER BY `id`");
-                        if ($results === false)
+                        if ($results !== false)
                         {
-                            $errors[] = sprintf(__('Database Error: %s'), $wpdb->print_error());
+                            include('pages/feeds.inc.php');
                         }
-                    
-                        include('pages/feeds.inc.php');
                     break;
                 }
             break;
