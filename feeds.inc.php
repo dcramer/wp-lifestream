@@ -296,20 +296,20 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
         );
     }
     
-    function render_item($row, $item)
+    function render_item($row, $item, $group=null)
     {
-        return sprintf('<a href="%s" title="%s" rel="lightbox"><img src="%s" width="%d" height="%d"/></a>', $item['link'], $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
+        return sprintf('<a href="%s" title="%s" rel="lightbox'.($group ? $group : '').'"><img src="%s" width="%d" height="%d"/></a>', $item['link'], $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
     }
     
     function render_group($row)
     {
+        $id = sprintf('lf_%s', round(microtime(true)*rand(10000,1000000)));
         $output = array();
         foreach ($row->data as $chunk)
         {
-            $output[] = $this->render_item($row, $chunk);
+            $output[] = $this->render_item($row, $chunk, $id);
         }
-        $id = sprintf('lf_%s', round(microtime(true)*rand(10000,1000000)));
-        return sprintf(__($this->get_constant('LABEL_PLURAL'), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;" rel="lightbox-'. $id .'">' . __('Show Details', 'lifestream') . '</a>)</small><br /><div id="' . $id . '" style="display:none;">' . implode(' ', $output) . '</div>';
+        return sprintf(__($this->get_constant('LABEL_PLURAL'), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br /><div id="' . $id . '" style="display:none;">' . implode(' ', $output) . '</div>';
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
