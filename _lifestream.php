@@ -81,9 +81,15 @@ function lifestream_install()
     //     add_option("RSS_Stream_timelapse", '10');
     
     // read in the sql database
-    if (get_option('lifestream_day_format') == '') update_option('lifestream_day_format', 'F jS');
-    if (get_option('lifestream_hour_format') == '') update_option('lifestream_hour_format', 'g:ia');   
-    if (get_option('lifestream_timezone') == '') update_option('lifestream_timezone', date('O')/100);
+    if (!get_option('lifestream_day_format')) update_option('lifestream_day_format', 'F jS');
+    if (!get_option('lifestream_hour_format')) update_option('lifestream_hour_format', 'g:ia');   
+    if (!get_option('lifestream_timezone')) update_option('lifestream_timezone', date('O')/100);
+    if (!get_option('lifestream_digest_title')) update_option('lifestream_digest_title', 'Daily Digest for %s');
+    if (!get_option('lifestream_digest_body')) update_option('lifestream_digest_body', '%1$s');
+    if (!get_option('lifestream_digest_category')) update_option('lifestream_digest_category', '1');
+    if (!get_option('lifestream_digest_author')) update_option('lifestream_digest_author', '1');
+    if (!get_option('lifestream_update_interval')) update_option('lifestream_update_interval', '15');
+    if (!get_option('lifestream__in_digest')) update_option('lifestream__in_digest', '0');
 }
 
 function lifestream_activate()
@@ -93,7 +99,10 @@ function lifestream_activate()
     
     lifestream_install();
     lifestream_install_database();
-    
+
+    // Get rid of old cron job
+    wp_unschedule_event('LifeStream_Hourly');
+
     $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
     if (!$results[0]->count)
     {
@@ -578,6 +587,10 @@ function lifestream_options()
         case 'feeds':
             switch ($_GET['op'])
             {
+                case 'refreshall':
+                    $events = lifestream_update();
+                    $message = __('All of your feeds have been refreshed.', 'lifestream');
+                    break;
                 case 'refresh':
                     $result =& $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds` WHERE `id` = '%d' LIMIT 0, 1", $_GET['id']));
                     if (count($result) == 1)
@@ -696,7 +709,7 @@ function lifestream_options()
         default:
             if ($_POST['save'])
             {
-                $options = array('lifestream_timezone', 'lifestream_day_format', 'lifestream_hour_format');
+                $options = array('lifestream_timezone', 'lifestream_day_format', 'lifestream_hour_format', 'lifestream_update_interval', 'lifestream_daily_digest', 'lifestream_digest_title', 'lifestream_digest_body', 'lifestream_digest_author', 'lifestream_digest_category');
                 foreach ($options as $value)
                 {
                     update_option($value, $_POST[$value]);
@@ -708,15 +721,18 @@ function lifestream_options()
     ob_start();
     ?>
     <style type="text/css">
-    .tabs { list-style-type: none; height: 36px; line-height: 36px; padding: 0 10px; margin: 10px 0 0; border-bottom: 1px solid #aaa; }
+    .tabs { list-style-type: none; height: 36px; line-height: 36px; padding: 0 10px; margin: 10px 0 10px 0; border-bottom: 1px solid #aaa; }
     .tabs li { display: inline; float: left; padding: 0; margin: 0; }
     .tabs li a { display: block; padding: 8px 10px; height: 20px; line-height: 20px; bottom: -1px; position: relative; margin-right: 5px; }
     .tabs li.active a { border: 1px solid #aaa; height: 18px; line-height: 18px; border-bottom: 1px solid #fff; }
+    table.options th { text-align: left; }
+    table.options th { vertical-align: top; line-height: 30px; }
+    table.options td .helptext { color: #999; margin-top: 3px; }
     </style>
     <ul class="tabs">
-        <li<?php if (!$_GET['action']) echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>"><?php _e('Settings'); ?></a></li>
-        <li<?php if ($_GET['action'] == 'feeds') echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>&amp;action=feeds"><?php _e('Feeds'); ?></a></li>
-        <li<?php if ($_GET['action'] == 'events') echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>&amp;action=events"><?php _e('Events'); ?></a></li>
+        <li<?php if (!$_GET['action']) echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>"><?php _e('Settings', 'lifestream'); ?></a></li>
+        <li<?php if ($_GET['action'] == 'feeds') echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>&amp;action=feeds"><?php _e('Feeds', 'lifestream'); ?></a></li>
+        <li<?php if ($_GET['action'] == 'events') echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>&amp;action=events"><?php _e('Events', 'lifestream'); ?></a></li>
     </ul>
     <?php
     if (count($errors)) { ?>
@@ -728,11 +744,6 @@ function lifestream_options()
     <?php } elseif ($message) { ?>
     <div id="message" class="updated fade"><p><strong><?php echo $message; ?></strong></p></div>
     <?php } ?>
-    <style type="text/css">
-    table.options th { text-align: left; }
-    table.options th { vertical-align: top; line-height: 30px; }
-    table.options td .helptext { color: #999; margin-top: 3px; }
-    </style>
     <div class="wrap">
         <?php
         switch ($_GET['action'])
@@ -775,8 +786,8 @@ function lifestream_options()
 }
 
 function lifestream_options_menu() {
-   if (function_exists('add_options_page'))
-   {
+    if (function_exists('add_options_page') && current_user_can('manage_options'))
+    {
         add_options_page('LifeStream Options', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
     }
 }
@@ -809,16 +820,94 @@ include('feeds.inc.php');
 function lifestream_update()
 {
     global $wpdb;
+    update_option('lifestream__last_update', time());
+    $events = 0;
     $results =& $wpdb->get_results("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
     foreach ($results as $result)
     {
         $instance = LifeStream_Feed::construct_from_query_result($result);
-        $instance->refresh();
+        $events += $instance->refresh();
     }
+    return $events;
+}
+
+// digest code based on Twitter Tools by Alex King
+function lifestream_do_digest()
+{
+    global $wpdb, $lifestream_path;
+    
+    $offset = get_option('lifestream_timezone');
+    $hour_format = get_option('lifestream_hour_format');
+    $day_format = get_option('lifestream_day_format');
+    
+    // thread locking
+    if (get_option('lifestream__in_digest') == '1') return;
+    update_option('lifestream__in_digest', '1');
+
+    $now = time();
+    $yesterday = strtotime('-1 day', $now);
+    $last_post = get_option('lifestream__last_digest');
+    
+    if ($last_post && date('Y-m-d 00:00:00', $last_post) != date('Y-m-d 00:00:00', $yesterday))
+    {
+        $days = ceil((strtotime(date('Y-m-d 00:00:00', $yesterday)) - $last_post) / (3600 * 24));
+    }
+    else
+    {
+        $days = 1;
+    }
+    for ($i = 0; $i < $days; $i++)
+    {
+        $n = $days - $i;
+        $digest_day = strtotime('-'.$n.' days', $now);
+        $sql = sprintf("SELECT t1.*, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` as `t1` INNER JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > '%s' AND t1.`timestamp` < '%s' ORDER BY t1.`timestamp` ASC", strtotime(date('Y-m-d 00:00:00', $digest_day)), strtotime(date('Y-m-d 23:59:59', $digest_day)));
+        
+        $results =& $wpdb->get_results($sql);
+        $events = array();
+        foreach ($results as &$result)
+        {
+            $events[] = new LifeStream_Event($result);
+        }
+        
+        var_dump($events);
+
+        if (count($events))
+        {
+            ob_start();
+            include('pages/lifestream-table.inc.php');
+            $content = sprintf(get_option('lifestream_digest_body'), ob_get_clean(), date(get_option('lifestream_day_format'), $digest_day), count($events));
+
+            $data = array(
+                'post_content' => $wpdb->escape($content),
+                'post_title' => $wpdb->escape(sprintf(get_option('lifestream_digest_title'), date('Y-m-d', $digest_day))),
+                'post_date' => date('Y-m-d 23:59:59', $digest_day),
+                'post_category' => array(get_option('lifestream_digest_category')),
+                'post_status' => 'publish',
+                'post_author' => $wpdb->escape(get_option('lifestream_digest_author')),
+            );
+            $post_id = wp_insert_post($data);
+        }
+    }
+    update_option('lifestream__last_digest', $now);
+    update_option('lifestream__in_digest', '0');
 }
 
 function lifestream_init()
 {
+    // wp cron is too limited, make our own
+    $time = get_option('lifestream__last_update');
+    if (!$time || ($time + (get_option('lifestream_update_interval') * 60) < time()))
+    {
+        add_action('shutdown', 'lifestream_update');
+    }
+    if (get_option('lifestream_daily_digest') == '1')
+    {
+        $time = get_option('lifestream__last_digest');
+        if ($time < strtotime(date('Y-m-d 00:00:00', time())))
+        {
+            add_action('shutdown', 'lifestream_do_digest');
+        }
+    }
     load_plugin_textdomain('lifestream', 'wp-content/plugins/lifestream/locales');
 }
 
@@ -839,11 +928,3 @@ add_filter('the_content', 'lifestream_embed_callback');
 add_action('init', 'lifestream_init');
 
 register_activation_hook(LIFESTREAM_PLUGIN_FILE, 'lifestream_activate');
-
-
-if (isset($_GET['activate']) && $_GET['activate'] == 'true')
-{
-    lifestream_activate();
-}
-
-if (!wp_get_schedule('LifeStream_Hourly')) wp_schedule_event(time(), 'hourly', 'LifeStream_Hourly');

@@ -1,6 +1,6 @@
 <?php
-$day = false;
-if (count($results))
+$day = '';
+if (count($events))
 {
     $today = date('m d Y');
     $yesterday = date('m d Y', time()-86400);
