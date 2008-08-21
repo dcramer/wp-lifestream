@@ -1,6 +1,8 @@
 <?php
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 
+define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
+
 require('simplepie.inc');
 
 $lifestream_path = trailingslashit(get_settings('siteurl')) . 'wp-content/plugins/lifestream';
@@ -892,15 +894,6 @@ function lifestream_do_digest()
 
 function lifestream_init()
 {
-    global $wpdb;
-
-    define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
-
-    if (isset($_GET['activate']) && $_GET['activate'] == 'true')
-    {
-        lifestream_activate();
-    }
-
     // wp cron is too limited, make our own
     $time = get_option('lifestream__last_update');
     if (!$time || ($time + (get_option('lifestream_update_interval') * 60) < time()))
@@ -927,6 +920,10 @@ elseif (function_exists('register_sidebar_widget'))
     register_sidebar_widget('LifeStream', 'widget_lifestream');
 }
 
+if (isset($_GET['activate']) && $_GET['activate'] == 'true')
+{
+    lifestream_activate();
+}
 
 add_action('admin_menu', 'lifestream_options_menu');
 add_action('LifeStream_Hourly', 'lifestream_update');
