@@ -209,7 +209,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     function fetch()
     {
         // Look it's our first non-feed parser!
-        $response = file_get_contents($this->get_url());
+        $response = lifestream_file_get_contents($this->get_url());
 
         if ($response)
         {
