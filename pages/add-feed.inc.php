@@ -66,7 +66,7 @@
                 <?php } ?>
                 </tbody>
             </table>
-            <?php if ($url = $feed->get_constant('NAME')) { ?>
+            <?php if ($url = $feed->get_constant('URL')) { ?>
             <p><?php printf(__('Find more information about %s by visiting <a href="%s">%s</a>.', 'lifestream'), htmlspecialchars($feed->get_constant('NAME')), htmlspecialchars($url), htmlspecialchars($url)); ?></p>
             <?php } ?>
             <p class="submit">
