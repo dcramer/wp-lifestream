@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-06 04:34-0600\n"
+"POT-Creation-Date: 2008-08-20 21:46-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -13,261 +13,62 @@ msgstr ""
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: feeds.inc.php:16
-#: feeds.inc.php:44
-#: feeds.inc.php:89
-#: feeds.inc.php:131
-#: feeds.inc.php:178
-#: feeds.inc.php:303
-#: feeds.inc.php:353
-#: feeds.inc.php:381
-#: feeds.inc.php:408
-msgid "Username:"
-msgstr ""
-
-#: feeds.inc.php:33
-#, php-format
-msgid "Posted a tweet on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:34
-#, php-format
-msgid "Posted %d tweets on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:45
-#: feeds.inc.php:304
-msgid "Convert URLs to Links"
-msgstr ""
-
-#: feeds.inc.php:46
-msgid "Convert Usersnames to Links"
-msgstr ""
-
-#: feeds.inc.php:77
-#, php-format
-msgid "Posted a Jaiku on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:78
-#, php-format
-msgid "Posted %d Jaikus on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:120
-#, php-format
-msgid "Bookmarked a link on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:121
-#, php-format
-msgid "Bookmarked %d links on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:132
-msgid "Limit items to tag:"
-msgstr ""
-
-#: feeds.inc.php:133
-msgid "Show Tags"
-msgstr ""
-
-#: feeds.inc.php:134
-msgid "Display Descriptions"
-msgstr ""
-
-#: feeds.inc.php:167
-#, php-format
-msgid "Scrobbled a song on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:168
-#, php-format
-msgid "Scrobbled %d songs on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:193
-msgid "Published a blog post."
-msgstr ""
-
-#: feeds.inc.php:194
-#, php-format
-msgid "Published %d blog posts."
-msgstr ""
-
-#: feeds.inc.php:199
-msgid "Feed URL:"
-msgstr ""
-
-#: feeds.inc.php:200
-msgid "Show Author"
-msgstr ""
-
-#: feeds.inc.php:223
-#, php-format
-msgid "You can find your User ID by using <a href=\"%s\">idGettr</a>."
-msgstr ""
-
-#: feeds.inc.php:225
-#: feeds.inc.php:264
-#, php-format
-msgid "Posted a photo on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:226
-#: feeds.inc.php:265
-#, php-format
-msgid "Posted %d photos on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:231
-msgid "User ID:"
-msgstr ""
-
-#: feeds.inc.php:274
-msgid "To obtain your Facebook feed URL you will need to go your profile and click \"See All\" under your mini-feed. Once there, click \"Status Stories\" on the right hand side. On the right hand side of the next page you will the \"My Status\" RSS feed link."
-msgstr ""
-
-#: feeds.inc.php:276
-#, php-format
-msgid "Updated status on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:277
-#, php-format
-msgid "Updated status %d times on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:292
-#, php-format
-msgid "Posted a note on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:293
-#, php-format
-msgid "Posted %d notes on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:342
-#, php-format
-msgid "Dugg a link on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:343
-#, php-format
-msgid "Dugg %d links on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:370
-#, php-format
-msgid "Posted a video on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:371
-#, php-format
-msgid "Posted %d videos on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:397
-#, php-format
-msgid "Found an interesting link on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:398
-#, php-format
-msgid "Found %d interesting links on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:439
-#, php-format
-msgid "Your Google Reader feed URL is available by going to \"Share items\" under \"Your stuff\". From there follow the link \"See your shared items page in a new window.\". On this page your feed URL will be available in any browser which shows you RSS feeds. It should look something like this: %s"
-msgstr ""
-
-#: feeds.inc.php:440
-#, php-format
-msgid "Shared a link on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:441
-#, php-format
-msgid "Shared %d links on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:450
-#, php-format
-msgid "You can obtain your Yelp RSS feed url from your profile page. It should look something like this: %s"
-msgstr ""
-
-#: feeds.inc.php:451
-#, php-format
-msgid "Reviewed a business on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:452
-#, php-format
-msgid "Reviewed %d businesses on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:475
-msgid "To retrieve your MySpace blog URL, visit your profile and click \"View all entries\" under your blog. From there, you will see an \"rss\" link on the top right of the page."
-msgstr ""
-
-#: feeds.inc.php:476
-#, php-format
-msgid "Published a blog post on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: feeds.inc.php:477
-#, php-format
-msgid "Published %d blog posts on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: lifestream.php:212
-#, php-format
-msgid "Posted an item on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: lifestream.php:214
-#, php-format
-msgid "Posted %d items on <a href=\"%s\">%s</a>."
-msgstr ""
-
-#: lifestream.php:459
+#: _lifestream.php:461
 msgid "Show Details"
 msgstr ""
 
-#: lifestream.php:459
+#: _lifestream.php:461
 msgid "Hide Details"
 msgstr ""
 
-#: lifestream.php:574
+#: _lifestream.php:578
 msgid "The selected event was hidden."
 msgstr ""
 
-#: lifestream.php:578
+#: _lifestream.php:582
 msgid "The selected event was not found."
 msgstr ""
 
-#: lifestream.php:592
+#: _lifestream.php:596
 msgid "The selected feed's events has been refreshed."
 msgstr ""
 
-#: lifestream.php:596
-#: lifestream.php:609
-#: lifestream.php:648
+#: _lifestream.php:600
+#: _lifestream.php:613
+#: _lifestream.php:652
 msgid "The selected feed was not found."
 msgstr ""
 
-#: lifestream.php:605
+#: _lifestream.php:609
 msgid "The selected feed and all events has been removed."
 msgstr ""
 
-#: lifestream.php:681
+#: _lifestream.php:685
+#: _lifestream.php:693
+#: _lifestream.php:757
+#, php-format
+msgid "Database Error: %s"
+msgstr ""
+
+#: _lifestream.php:697
 #, php-format
 msgid "Selected feed was added to your LifeStream with %d event(s)."
 msgstr ""
 
-#: lifestream.php:701
+#: _lifestream.php:729
+msgid "Settings"
+msgstr ""
+
+#: _lifestream.php:730
+msgid "Feeds"
+msgstr ""
+
+#: _lifestream.php:731
+#: pages/feeds.inc.php:13
+msgid "Events"
+msgstr ""
+
+#: _lifestream.php:735
 msgid "Please correct the following errors:"
 msgstr ""
 
@@ -359,12 +160,6 @@ msgstr ""
 msgid "LifeStream Events"
 msgstr ""
 
-#: pages/events.inc.php:1
-#: pages/settings.inc.php:1
-#, php-format
-msgid "(<a href=\"%s\">Go to Feed Management</a>)"
-msgstr ""
-
 #: pages/events.inc.php:6
 msgid "Feeds automatically refresh every hour looking for new events."
 msgstr ""
@@ -382,11 +177,6 @@ msgstr ""
 msgid "LifeStream Feeds"
 msgstr ""
 
-#: pages/feeds.inc.php:1
-#, php-format
-msgid "(<a href=\"%s\">Go to General Configuration</a>)"
-msgstr ""
-
 #: pages/feeds.inc.php:6
 msgid "Feeds automatically refresh every hour, but if you wish to manually refresh a feed's events you can do so here."
 msgstr ""
@@ -395,41 +185,88 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: pages/feeds.inc.php:13
-msgid "Events"
-msgstr ""
-
 #: pages/feeds.inc.php:27
 msgid "Refresh"
 msgstr ""
 
-#: pages/settings.inc.php:1
+#: pages/lifestream-list.inc.php:45
+#: pages/lifestream-table.inc.php:48
+msgid "There are no events to show at this time."
+msgstr ""
+
+#: pages/settings.inc.php:7
 msgid "LifeStream Configuration"
 msgstr ""
 
-#: pages/settings.inc.php:2
+#: pages/settings.inc.php:8
 #, php-format
 msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
 msgstr ""
 
-#: pages/settings.inc.php:11
+#: pages/settings.inc.php:17
 msgid "Day Format:"
 msgstr ""
 
-#: pages/settings.inc.php:14
-#: pages/settings.inc.php:21
+#: pages/settings.inc.php:20
+#: pages/settings.inc.php:27
 msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method for more information."
 msgstr ""
 
-#: pages/settings.inc.php:18
+#: pages/settings.inc.php:24
 msgid "Hour Format:"
 msgstr ""
 
-#: pages/settings.inc.php:25
+#: pages/settings.inc.php:31
 msgid "Current Time:"
 msgstr ""
 
-#: pages/settings.inc.php:37
+#: pages/settings.inc.php:41
+msgid "Update Interval:"
+msgstr ""
+
+#: pages/settings.inc.php:44
+msgid "The number of minutes between updates to your feeds. Value is in minutes."
+msgstr ""
+
+#: pages/settings.inc.php:50
+msgid "Daily Digest"
+msgstr ""
+
+#: pages/settings.inc.php:51
+msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on up to that point on that day."
+msgstr ""
+
+#: pages/settings.inc.php:59
+msgid "Post a daily summary of my lifestream."
+msgstr ""
+
+#: pages/settings.inc.php:63
+msgid "Summary Post Title:"
+msgstr ""
+
+#: pages/settings.inc.php:66
+#, php-format
+msgid "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
+msgstr ""
+
+#: pages/settings.inc.php:70
+msgid "Summary Post Body:"
+msgstr ""
+
+#: pages/settings.inc.php:73
+#, php-format
+msgid "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
+msgstr ""
+
+#: pages/settings.inc.php:77
+msgid "Summary Author:"
+msgstr ""
+
+#: pages/settings.inc.php:95
+msgid "Summary Category:"
+msgstr ""
+
+#: pages/settings.inc.php:110
 msgid "Save Changes"
 msgstr ""
 
