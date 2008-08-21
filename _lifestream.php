@@ -44,6 +44,25 @@ function register_lifestream_feed($class_name)
     $lifestream_feeds[get_class_constant($class_name, 'ID')] = $class_name;
 }
 
+function lifestream_file_get_contents($url)
+{
+    if (function_exists('curl_init'))
+    {
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $file_contents = curl_exec($ch);
+        curl_close($ch);
+        return $file_contents
+    }
+    else
+    {
+        return file_get_contents($url)
+    }
+}
+
 /*
  * This is a wrapper function which initiates the callback for the custom tag embedding.
  */
