@@ -896,6 +896,11 @@ function lifestream_init()
 
     define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
+    if (isset($_GET['activate']) && $_GET['activate'] == 'true')
+    {
+        lifestream_activate();
+    }
+
     // wp cron is too limited, make our own
     $time = get_option('lifestream__last_update');
     if (!$time || ($time + (get_option('lifestream_update_interval') * 60) < time()))
@@ -928,5 +933,3 @@ add_action('LifeStream_Hourly', 'lifestream_update');
 add_action('wp_head', 'lifestream_header');
 add_filter('the_content', 'lifestream_embed_callback');
 add_action('init', 'lifestream_init');
-
-register_activation_hook(LIFESTREAM_PLUGIN_FILE, 'lifestream_activate');
