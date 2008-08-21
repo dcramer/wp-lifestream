@@ -31,8 +31,8 @@ Included Plugins:
 * Reddit
 * De.licio.us
 * Jaiku
-* Last.fm (Improved support in 0.38!)
-* Flickr
+* Last.fm (Revamped plugin in 0.38)
+* Flickr (Improved display in 0.39)
 * Photobucket
 * Pownce
 * YouTube
