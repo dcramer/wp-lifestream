@@ -21,13 +21,22 @@
                     <?php foreach ($option_meta[3] as $choice=>$label) { ?>
                         <option value="<?php echo $choice;?>"<?php if ($current_value == $choice) echo ' selected="selected"'; ?>><?php echo htmlspecialchars(__($label, 'lifestream'));?></option>
                     <?php } ?>
-                    </select></td>
+                    </select>
+                    <?php if ($option_meta[4]) { ?>
+                    <div class="helptext"><?php echo __($option_meta[4], 'lifestream'); ?></div>
+                    <?php } ?></td>
                 <?php } elseif (is_bool($option_meta[3])) { ?>
                     <th>&nbsp;</th>
-                    <td><label<?php if ($option_meta[1]) echo ' class="required"'; ?>><input type="checkbox" value="1"<?php if ($current_value == 1) echo ' checked="checked"'; ?> name="<?php echo $option;?>" /> <?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></td>
+                    <td><label<?php if ($option_meta[1]) echo ' class="required"'; ?>><input type="checkbox" value="1"<?php if ($current_value == 1) echo ' checked="checked"'; ?> name="<?php echo $option;?>" /> <?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label>
+                    <?php if ($option_meta[4]) { ?>
+                    <div class="helptext"><?php echo __($option_meta[4], 'lifestream'); ?></div>
+                    <?php } ?></td>
                 <?php } else { ?>
                     <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></th>
-                    <td><input name="<?php echo $option;?>" type="text" value="<?php echo htmlspecialchars($current_value); ?>"></td>
+                    <td><input name="<?php echo $option;?>" type="text" value="<?php echo htmlspecialchars($current_value); ?>">
+                    <?php if ($option_meta[4]) { ?>
+                    <div class="helptext"><?php echo __($option_meta[4], 'lifestream'); ?></div>
+                    <?php } ?></td>
                 <?php } ?>
             </tr>
         <?php } ?>
