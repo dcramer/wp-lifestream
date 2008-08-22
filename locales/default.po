@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-21 19:13-0600\n"
+"POT-Creation-Date: 2008-08-21 19:22-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -12,11 +12,6 @@ msgstr ""
 "X-Poedit-KeywordsList: _e;__\n"
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#: _lifestream.php:301
-#: feeds.inc.php:246
-msgid "Feed URL:"
-msgstr ""
 
 #: _lifestream.php:479
 #: feeds.inc.php:333
@@ -76,53 +71,6 @@ msgstr ""
 msgid "Please correct the following errors:"
 msgstr ""
 
-#: feeds.inc.php:16
-#: feeds.inc.php:44
-#: feeds.inc.php:133
-#: feeds.inc.php:180
-#: feeds.inc.php:429
-#: feeds.inc.php:457
-#: feeds.inc.php:484
-#: feeds.inc.php:574
-msgid "Username:"
-msgstr ""
-
-#: feeds.inc.php:45
-msgid "Convert URLs to links."
-msgstr ""
-
-#: feeds.inc.php:46
-msgid "Convert Usersnames to links."
-msgstr ""
-
-#: feeds.inc.php:134
-msgid "Limit items to tag:"
-msgstr ""
-
-#: feeds.inc.php:135
-msgid "Show tags with links."
-msgstr ""
-
-#: feeds.inc.php:136
-msgid "Display descriptions of links."
-msgstr ""
-
-#: feeds.inc.php:181
-msgid "Only show loved tracks."
-msgstr ""
-
-#: feeds.inc.php:247
-msgid "Show the author of the post."
-msgstr ""
-
-#: feeds.inc.php:278
-msgid "User ID:"
-msgstr ""
-
-#: feeds.inc.php:279
-msgid "Enable Lightbox support on Flickr images."
-msgstr ""
-
 #: pages/add-feed.inc.php:1
 msgid "Add a Feed"
 msgstr ""
@@ -141,22 +89,22 @@ msgstr ""
 msgid "%s Feed Settings"
 msgstr ""
 
-#: pages/add-feed.inc.php:54
+#: pages/add-feed.inc.php:61
 msgid "Show labels for events in this feed. This will not affect grouped events."
 msgstr ""
 
-#: pages/add-feed.inc.php:63
-#: pages/edit-feed.inc.php:45
+#: pages/add-feed.inc.php:70
+#: pages/edit-feed.inc.php:54
 msgid "Group events from the same day together."
 msgstr ""
 
-#: pages/add-feed.inc.php:70
-#: pages/edit-feed.inc.php:53
+#: pages/add-feed.inc.php:77
+#: pages/edit-feed.inc.php:62
 #, php-format
 msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
 msgstr ""
 
-#: pages/add-feed.inc.php:73
+#: pages/add-feed.inc.php:80
 msgid "Add Feed"
 msgstr ""
 
@@ -169,39 +117,39 @@ msgstr ""
 msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
 msgstr ""
 
-#: pages/edit-feed.inc.php:37
+#: pages/edit-feed.inc.php:46
 msgid "Show labels for events in this feed. This will not effect grouped events."
 msgstr ""
 
-#: pages/edit-feed.inc.php:46
-msgid "(This will not affect any event's already listed.)"
+#: pages/edit-feed.inc.php:55
+msgid "This will not affect any event's already listed."
 msgstr ""
 
-#: pages/edit-feed.inc.php:56
+#: pages/edit-feed.inc.php:65
 msgid "Save Feed"
 msgstr ""
 
-#: pages/edit-feed.inc.php:60
+#: pages/edit-feed.inc.php:69
 msgid "Recent Events"
 msgstr ""
 
-#: pages/edit-feed.inc.php:64
+#: pages/edit-feed.inc.php:73
 #: pages/events.inc.php:12
 #: pages/feeds.inc.php:11
 msgid "ID"
 msgstr ""
 
-#: pages/edit-feed.inc.php:65
+#: pages/edit-feed.inc.php:74
 #: pages/events.inc.php:13
 msgid "Event"
 msgstr ""
 
-#: pages/edit-feed.inc.php:66
+#: pages/edit-feed.inc.php:75
 #: pages/events.inc.php:14
 msgid "Date"
 msgstr ""
 
-#: pages/edit-feed.inc.php:76
+#: pages/edit-feed.inc.php:85
 #: pages/events.inc.php:26
 #: pages/feeds.inc.php:26
 msgid "Delete"
