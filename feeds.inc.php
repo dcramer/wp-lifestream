@@ -276,6 +276,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     {        
         return array(
             'user_id' => array('User ID:', true, '', ''),
+            'enable_lightbox' => array('Enable lightbox support on Flickr images.', false, true, false),
         );
     }
 
@@ -301,9 +302,24 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     
     function render_item($row, $item, $group=null)
     {
-        if ($item['image']) $lightbox = ' rel="lightbox'.($group ? '['.$group.']' : '');
-        else $lightbox = '';
-        return sprintf('<a href="%s" onclick="window.location.href=\'%s\';return false;" title="%s"'.$lightbox.'"><img src="%s" width="%d" height="%d"/></a>', $item['image']['url'], htmlspecialchars($item['link']), $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
+        if ($this->options['enable_lightbox'])
+        {
+            if ($item['image'])
+            {
+                $link = $item['image']['url'];
+                $lightbox = ' rel="lightbox'.($group ? '-'.$group : '');
+            }
+            else
+            {
+                $link = htmlspecialchars($item['link']);
+                $lightbox = '';
+            }
+        }
+        else
+        {
+            $link = htmlspecialchars($item['link']);
+        }
+        return sprintf('<a href="%s" title="%s"'.$lightbox.'"><img src="%s" width="%d" height="%d"/></a>', $link, $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
     }
     
     function render_group($row)
