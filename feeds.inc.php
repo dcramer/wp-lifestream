@@ -276,7 +276,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     {        
         return array(
             'user_id' => array('User ID:', true, '', ''),
-            'enable_lightbox' => array('Enable Lightbox support on Flickr images.', false, true, false, 'Requires the <a href="http://www.viper007bond.com/wordpress-plugins/jquery-lightbox-for-native-galleries/">jQuery Lightbox plugin</a>.'),
+            'enable_lightbox' => array('Enable Lightbox support on Flickr images.', false, true, false, 'Requires the <a href="http://wordpress.org/extend/plugins/jquery-lightbox-for-native-galleries/">jQuery Lightbox plugin</a>.'),
         );
     }
 
