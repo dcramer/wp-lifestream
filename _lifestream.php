@@ -298,7 +298,7 @@ class LifeStream_Feed
     {        
         return array(
             // key => array(label, required, default value, choices)
-            'url' => array('Feed URL', true, '', ''),
+            'url' => array(__('Feed URL:', 'lifestream'), true, '', ''),
         );
     }
     
