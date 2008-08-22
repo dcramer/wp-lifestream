@@ -44,7 +44,7 @@
             <th>&nbsp;</th>
             <td>
                 <label><input type="checkbox" name="show_label" value="1"<?php if (isset($_POST['show_label']) ? $_POST['show_label'] : $instance->options['show_label']) echo ' checked="checked"'; ?>/> <?php _e('Show labels for events in this feed. This will not effect grouped events.', 'lifestream'); ?></label>
-                <div class="helptext">(e.g. <?php printf($instance->get_constant('LABEL_SINGLE'), '#', $instance->get_public_name()); ?>)</div>
+                <div class="helptext">e.g. <?php printf($instance->get_constant('LABEL_SINGLE'), '#', $instance->get_public_name()); ?></div>
             </td>
         </tr>
         <?php if ($instance->get_constant('CAN_GROUP')) { ?>
@@ -52,7 +52,7 @@
                 <th>&nbsp;</th>
                 <td>
                     <label><input type="checkbox" name="grouped" value="1"<?php if (isset($_POST['grouped']) ? $_POST['grouped'] : $instance->options['grouped']) echo ' checked="checked"'; ?>/> <?php _e('Group events from the same day together.', 'lifestream'); ?></label>
-                    <div class="helptext"><?php _e('(This will not affect any event\'s already listed.)', 'lifestream'); ?></div>
+                    <div class="helptext"><?php _e('This will not affect any event\'s already listed.', 'lifestream'); ?></div>
                 </td>
             </tr>
         <?php } ?>
