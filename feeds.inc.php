@@ -276,7 +276,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     {        
         return array(
             'user_id' => array('User ID:', true, '', ''),
-            'enable_lightbox' => array('Enable Lightbox support on Flickr images.', false, true, false, 'Requires the <a href="http://wordpress.org/extend/plugins/lightbox-2-wordpress-plugin/">Lightbox 2 plugin</a>.'),
+            'enable_lightbox' => array('Enable Lightbox support on Flickr images.', false, true, false, 'Requires the <a href="http://www.viper007bond.com/wordpress-plugins/jquery-lightbox-for-native-galleries/">Lightbox 2 plugin</a>.'),
         );
     }
 
@@ -307,7 +307,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
             if ($item['image'])
             {
                 $link = $item['image']['url'];
-                $lightbox = ' rel="lightbox'.($group ? '['.$group.']' : '');
+                $lightbox = ' rel="lightbox'.($group ? '-'.$group : '');
             }
             else
             {
