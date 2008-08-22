@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-20 21:46-0600\n"
+"POT-Creation-Date: 2008-08-21 19:13-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -13,63 +13,114 @@ msgstr ""
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: _lifestream.php:461
+#: _lifestream.php:301
+#: feeds.inc.php:246
+msgid "Feed URL:"
+msgstr ""
+
+#: _lifestream.php:479
+#: feeds.inc.php:333
 msgid "Show Details"
 msgstr ""
 
-#: _lifestream.php:461
+#: _lifestream.php:479
+#: feeds.inc.php:333
 msgid "Hide Details"
 msgstr ""
 
-#: _lifestream.php:578
+#: _lifestream.php:596
 msgid "The selected event was hidden."
 msgstr ""
 
-#: _lifestream.php:582
+#: _lifestream.php:600
 msgid "The selected event was not found."
 msgstr ""
 
-#: _lifestream.php:596
+#: _lifestream.php:610
+msgid "All of your feeds have been refreshed."
+msgstr ""
+
+#: _lifestream.php:618
 msgid "The selected feed's events has been refreshed."
 msgstr ""
 
-#: _lifestream.php:600
-#: _lifestream.php:613
-#: _lifestream.php:652
+#: _lifestream.php:622
+#: _lifestream.php:635
+#: _lifestream.php:674
 msgid "The selected feed was not found."
 msgstr ""
 
-#: _lifestream.php:609
+#: _lifestream.php:631
 msgid "The selected feed and all events has been removed."
 msgstr ""
 
-#: _lifestream.php:685
-#: _lifestream.php:693
-#: _lifestream.php:757
-#, php-format
-msgid "Database Error: %s"
-msgstr ""
-
-#: _lifestream.php:697
+#: _lifestream.php:711
 #, php-format
 msgid "Selected feed was added to your LifeStream with %d event(s)."
 msgstr ""
 
-#: _lifestream.php:729
+#: _lifestream.php:743
 msgid "Settings"
 msgstr ""
 
-#: _lifestream.php:730
+#: _lifestream.php:744
 msgid "Feeds"
 msgstr ""
 
-#: _lifestream.php:731
+#: _lifestream.php:745
 #: pages/feeds.inc.php:13
 msgid "Events"
 msgstr ""
 
-#: _lifestream.php:735
+#: _lifestream.php:749
 msgid "Please correct the following errors:"
+msgstr ""
+
+#: feeds.inc.php:16
+#: feeds.inc.php:44
+#: feeds.inc.php:133
+#: feeds.inc.php:180
+#: feeds.inc.php:429
+#: feeds.inc.php:457
+#: feeds.inc.php:484
+#: feeds.inc.php:574
+msgid "Username:"
+msgstr ""
+
+#: feeds.inc.php:45
+msgid "Convert URLs to links."
+msgstr ""
+
+#: feeds.inc.php:46
+msgid "Convert Usersnames to links."
+msgstr ""
+
+#: feeds.inc.php:134
+msgid "Limit items to tag:"
+msgstr ""
+
+#: feeds.inc.php:135
+msgid "Show tags with links."
+msgstr ""
+
+#: feeds.inc.php:136
+msgid "Display descriptions of links."
+msgstr ""
+
+#: feeds.inc.php:181
+msgid "Only show loved tracks."
+msgstr ""
+
+#: feeds.inc.php:247
+msgid "Show the author of the post."
+msgstr ""
+
+#: feeds.inc.php:278
+msgid "User ID:"
+msgstr ""
+
+#: feeds.inc.php:279
+msgid "Enable Lightbox support on Flickr images."
 msgstr ""
 
 #: pages/add-feed.inc.php:1
@@ -175,6 +226,10 @@ msgstr ""
 
 #: pages/feeds.inc.php:1
 msgid "LifeStream Feeds"
+msgstr ""
+
+#: pages/feeds.inc.php:1
+msgid "Refresh All Feeds"
 msgstr ""
 
 #: pages/feeds.inc.php:6
