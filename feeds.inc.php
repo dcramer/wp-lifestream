@@ -13,7 +13,7 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
     function get_options()
     {
         return array(
-            'username' => array(__('Username:', 'lifestream'), true, '', ''),
+            'username' => array('Username:', true, '', ''),
         );
     }
 
@@ -41,9 +41,9 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     function get_options()
     {        
         return array(
-            'username' => array(__('Username:', 'lifestream'), true, '', ''),
-            'link_urls' => array(__('Convert URLs to links.', 'lifestream'), false, true, true),
-            'link_users' => array(__('Convert Usersnames to links.', 'lifestream'), false, true, true),
+            'username' => array('Username:', true, '', ''),
+            'link_urls' => array('Convert URLs to links.', false, true, true),
+            'link_users' => array('Convert Usersnames to links.', false, true, true),
         );
     }
     
@@ -130,10 +130,10 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
     function get_options()
     {        
         return array(
-            'username' => array(__('Username:', 'lifestream'), true, '', ''),
-            'filter_tag' => array(__('Limit items to tag:', 'lifestream'), false, '', ''),
-            'show_tags' => array(__('Show tags with links.', 'lifestream'), false, false, true),
-            'display_description' => array(__('Display descriptions of links.', 'lifestream'), false, false, true),
+            'username' => array('Username:', true, '', ''),
+            'filter_tag' => array('Limit items to tag:', false, '', ''),
+            'show_tags' => array('Show tags with links.', false, false, true),
+            'display_description' => array('Display descriptions of links.', false, false, true),
         );
     }
 
@@ -177,8 +177,8 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     function get_options()
     {        
         return array(
-            'username' => array(__('Username:', 'lifestream'), true, '', ''),
-            'loved' => array(__('Only show loved tracks.', 'lifestream'), false, true, true),
+            'username' => array('Username:', true, '', ''),
+            'loved' => array('Only show loved tracks.', false, true, true),
         );
     }
 
@@ -243,8 +243,8 @@ class LifeStream_BlogFeed extends LifeStream_Feed
     function get_options()
     {        
         return array(
-            'url' => array(__('Feed URL:', 'lifestream'), true, '', ''),
-            'show_author' => array(__('Show the author of the post.', 'lifestream'), false, false, true),
+            'url' => array('Feed URL:', true, '', ''),
+            'show_author' => array('Show the author of the post.', false, false, true),
         );
     }
 
@@ -275,8 +275,8 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     function get_options()
     {        
         return array(
-            'user_id' => array(__('User ID:', 'lifestream'), true, '', ''),
-            'enable_lightbox' => array(__('Enable Lightbox support on Flickr images.', 'lifestream'), false, true, false),
+            'user_id' => array('User ID:', true, '', ''),
+            'enable_lightbox' => array('Enable Lightbox support on Flickr images.', false, true, false, 'Requires the <a href="http://wordpress.org/extend/plugins/lightbox-2-wordpress-plugin/">Lightbox 2 plugin</a>.'),
         );
     }
 
@@ -307,7 +307,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
             if ($item['image'])
             {
                 $link = $item['image']['url'];
-                $lightbox = ' rel="lightbox'.($group ? '-'.$group : '');
+                $lightbox = ' rel="lightbox'.($group ? '['.$group.']' : '');
             }
             else
             {
@@ -426,7 +426,7 @@ class LifeStream_DiggFeed extends LifeStream_Feed
     function get_options()
     {        
         return array(
-            'username' => array(__('Username:', 'lifestream'), true, '', ''),
+            'username' => array('Username:', true, '', ''),
         );
     }
     
@@ -454,7 +454,7 @@ class LifeStream_YouTubeFeed extends LifeStream_Feed
     function get_options()
     {
         return array(
-            'username' => array(__('Username:', 'lifestream'), true, '', ''),
+            'username' => array('Username:', true, '', ''),
         );
     }
     
@@ -481,7 +481,7 @@ class LifeStream_RedditFeed extends LifeStream_Feed
     function get_options()
     {        
         return array(
-            'username' => array(__('Username:', 'lifestream'), true, '', ''),
+            'username' => array('Username:', true, '', ''),
         );
     }
     
@@ -571,7 +571,7 @@ class LifeStream_SkitchFeed extends LifeStream_Feed
     function get_options()
     {        
         return array(
-            'username' => array(__('Username:', 'lifestream'), true, '', ''),
+            'username' => array('Username:', true, '', ''),
         );
     }
     
