@@ -3,7 +3,10 @@ define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
-require('simplepie.inc');
+if (!class_exists('SimplePie'))
+{
+    require_once('simplepie.inc');
+}
 
 $lifestream_path = trailingslashit(get_settings('siteurl')) . 'wp-content/plugins/lifestream';
 
