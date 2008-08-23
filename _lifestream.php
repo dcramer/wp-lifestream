@@ -517,8 +517,9 @@ function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null
 
     if (!((int)$number_of_results > 0)) return;
 
-    if (!preg_match('/[\d]+ (month|day|year)/', $date_interval)) return;
-    
+    if (!preg_match('/[\d]+ (month|day|year)s?/', $date_interval)) return;
+    $date_interval = rtrim($date_interval, 's');
+
     if (!is_array($feed_ids)) return;
     
     if (!in_array($output, array('table', 'list'))) return;
@@ -879,8 +880,6 @@ function lifestream_do_digest()
         {
             $events[] = new LifeStream_Event($result);
         }
-        
-        var_dump($events);
 
         if (count($events))
         {
