@@ -859,6 +859,7 @@ function lifestream_do_digest()
     $now = time();
     $yesterday = strtotime('-1 day', $now);
     $last_post = get_option('lifestream__last_digest');
+    $last_post = strtotime('-1 day', $now);
     
     if ($last_post && date('Y-m-d 00:00:00', $last_post) != date('Y-m-d 00:00:00', $yesterday))
     {
@@ -868,10 +869,16 @@ function lifestream_do_digest()
     {
         $days = 1;
     }
+    
     for ($i = 0; $i < $days; $i++)
     {
-        $n = $days - $i;
-        $digest_day = strtotime('-'.$n.' days', $now);
+        // make sure the post doesn't exist
+        $digest_day = strtotime('-'.$days - $i.' days', $now);
+        $digest_day = strtotime(date('Y-m-d 23:59:59', $digest_day));
+
+        $results = $wpdb->get_results("SELECT `post_id` FROM `{$wpdb->prefix}postmeta` WHERE `meta_key = '_lifestream_digest_date' AND `meta_value` = '{$digest_day}' LIMIT 1");
+        if ($results) continue;
+
         $sql = sprintf("SELECT t1.*, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` as `t1` INNER JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > '%s' AND t1.`timestamp` < '%s' ORDER BY t1.`timestamp` ASC", strtotime(date('Y-m-d 00:00:00', $digest_day)), strtotime(date('Y-m-d 23:59:59', $digest_day)));
         
         $results =& $wpdb->get_results($sql);
@@ -896,6 +903,7 @@ function lifestream_do_digest()
                 'post_author' => $wpdb->escape(get_option('lifestream_digest_author')),
             );
             $post_id = wp_insert_post($data);
+            add_post_meta($post_id, '_lifestream_digest_date', $digest_day, true);
         }
     }
     update_option('lifestream__last_digest', $now);
