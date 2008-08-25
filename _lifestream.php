@@ -1,5 +1,5 @@
 <?php
-define(LIFESTREAM_VERSION, 0.5);
+define(LIFESTREAM_VERSION, 0.52);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
@@ -187,8 +187,11 @@ function lifestream_install_database()
         $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
         $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
         $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` );");
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `timestamp` );");
-    }    
+    }
+    if ($version < 0.52)
+    {
+        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `link` );");
+    }
     update_option('lifestream__version', LIFESTREAM_VERSION);
 }
 
