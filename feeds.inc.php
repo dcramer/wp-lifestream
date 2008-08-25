@@ -54,7 +54,17 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     
     function get_user_link($user)
     {
-        return '<a href="http://www.twitter.com/'.$user.'" class="user">@'.$user.'</a>';
+        return '<a href="'.$this->get_user_url($user).'" class="user">@'.$user.'</a>';
+    }
+    
+    function get_user_url($user)
+    {
+        return 'http://www.twitter.com/'.$user;
+    }
+    
+    function get_public_url()
+    {
+        return $this->get_user_url($this->options['username']);
     }
 
     function parse_users($text)
@@ -143,6 +153,11 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
         if (!empty($this->options['filter_tag'])) $url .= '/'.$this->options['filter_tag'];
         return $url;
     }
+    
+    function get_public_url()
+    {
+        return 'http://del.icio.us'.$this->options['username'];
+    }
 
     function yield($row)
     {
@@ -180,6 +195,11 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
             'username' => array('Username:', true, '', ''),
             'loved' => array('Only show loved tracks.', false, true, true),
         );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.last.fm/user/'.$this->options['username'];
     }
 
     function get_url()
@@ -279,6 +299,11 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
             'enable_lightbox' => array('Enable Lightbox support on Flickr images.', false, true, false, 'Requires the <a href="http://wordpress.org/extend/plugins/jquery-lightbox-for-native-galleries/">jQuery Lightbox plugin</a>.'),
         );
     }
+    
+    function get_public_url()
+    {
+        return 'http://www.flickr.com/photos/'.$this->options['username'].'/';
+    }
 
     function get_url()
     {
@@ -332,7 +357,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
         {
             $output[] = $this->render_item($row, $chunk, $id);
         }
-        return sprintf(__($this->get_constant('LABEL_PLURAL'), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br /><div id="' . $id . '" style="display:none;">' . implode(' ', $output) . '</div>';
+        return sprintf(__($this->get_label_plural($row->key), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br /><div id="' . $id . '" style="display:none;">' . implode(' ', $output) . '</div>';
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
@@ -378,9 +403,9 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
         return 'http://www.pownce.com/feeds/public/'.$this->options['username'].'/';
     }
     
-    function get_user_link($user)
+    function get_user_url($user)
     {
-        return '<a href="http://www.pownce.com/'.$user.'" class="user">@'.$user.'</a>';
+        return 'http://www.pownce.com/'.$user;
     }
     
     function render_item($row, $item)
@@ -432,6 +457,11 @@ class LifeStream_DiggFeed extends LifeStream_Feed
         );
     }
     
+    function get_public_url()
+    {
+        return 'http://www.digg.com/users/'.$this->options['username'];
+    }
+    
     function get_url()
     {
         return 'http://www.digg.com/users/'.$this->options['username'].'/history.rss';
@@ -460,6 +490,11 @@ class LifeStream_YouTubeFeed extends LifeStream_Feed
         );
     }
     
+    function get_public_url()
+    {
+        return 'http://www.youtube.com/user/'.$this->options['username'];
+    }
+    
     function get_url()
     {
         return 'http://www.youtube.com/ut_rss?type=username&arg='.$this->options['username'];
@@ -485,6 +520,11 @@ class LifeStream_RedditFeed extends LifeStream_Feed
         return array(
             'username' => array('Username:', true, '', ''),
         );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.reddit.com/user/'.$this->options['username'].'/';
     }
     
     function get_url()
@@ -577,9 +617,14 @@ class LifeStream_SkitchFeed extends LifeStream_Feed
         );
     }
     
+    function get_public_url()
+    {
+        return 'http://www.skitch.com/'.$this->options['username'].'/';
+    }
+    
     function get_url()
     {
-        return 'http://skitch.com/feeds/'.$this->options['username'].'/atom.xml';
+        return 'http://www.skitch.com/feeds/'.$this->options['username'].'/atom.xml';
     }
 }
 register_lifestream_feed('LifeStream_SkitchFeed');
@@ -592,9 +637,9 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
     const LABEL_SINGLE  = 'Posted a dent on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d dents on <a href="%s">%s</a>.';
 
-    function get_user_link($user)
+    function get_user_url($user)
     {
-        return '<a href="http://www.identi.ca/'.$user.'" class="user">@'.$user.'</a>';
+        return 'http://www.identi.ca/'.$user;
     }
 
     function get_url()
@@ -684,6 +729,11 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
     function get_songs_url()
     {
         return 'http://feeds.pandora.com/feeds/people/'.$this->options['username'].'/favorites.xml';
+    }
+
+    function get_public_url()
+    {
+        return 'http://www.pandora.com/people/'.$this->options['username'];
     }
 
     function get_url()

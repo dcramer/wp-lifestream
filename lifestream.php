@@ -9,7 +9,7 @@ Author URI: http://www.davidcramer.net
 */
 
 // since so many people miss the installation requirements
-if (phpversion() >= 5 )
+if (phpversion() >= 5)
 {
     include('_lifestream.php');
 }
