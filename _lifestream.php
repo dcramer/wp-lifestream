@@ -386,7 +386,7 @@ class LifeStream_Feed
                     if (count($group) == 1)
                     {
                         $group =& $group[0];
-                        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = '%d', `updated` = 1 WHERE `id` = '%d'", $wpdb->escape(serialize($events)), count($events), $group->id));
+                        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = '%d', `updated` = 1, `timestamp` = '%d' WHERE `id` = '%d'", $wpdb->escape(serialize($events)), count($events), $item['date'], $group->id));
                     }
                     else
                     {
