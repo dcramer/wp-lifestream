@@ -405,7 +405,7 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
     
     function get_user_url($user)
     {
-        return 'http://www.pownce.com/'.$user;
+        return 'http://www.pownce.com/'.$user.'/';
     }
     
     function render_item($row, $item)
