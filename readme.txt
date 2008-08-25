@@ -48,7 +48,7 @@ Upload the plugin (unzipped) into `/wp-content/plugins/`. You should end up with
 
 Activate the plugin under the "Plugins" menu.
 
-Visit "Settings" -> "LifeStream" to configure the basic options, and add feeds.
+Visit "LifeStream" -> "Settings" to configure the basic options, and add feeds.
 
 There are severals methods in which you can use LifeStream in a WordPress page.
 
