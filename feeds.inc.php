@@ -43,7 +43,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         return array(
             'username' => array('Username:', true, '', ''),
             'link_urls' => array('Convert URLs to links.', false, true, true),
-            'link_users' => array('Convert Usersnames to links.', false, true, true),
+            'link_users' => array('Convert @username to links.', false, true, true),
         );
     }
     
@@ -59,7 +59,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 
     function parse_users($text)
     {
-        return preg_replace_callback('/(?:^@([a-z0-9_-]+):[^\b]@([a-z0-9_-]+))\b/i', array($this, '_get_user_link'), $text);
+        return preg_replace_callback('/[^\w]*@([a-z0-9_-]+)\b/i', array($this, '_get_user_link'), $text);
     }
 
     function get_url()
@@ -405,7 +405,7 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
                 $data['event']['location'] = html_entity_decode($event_location[0]['data']);
 
             if ($event_date =& $row->get_item_tags('pownce', 'event_date'))
-                $data['event']['date'] = html_entity_decode($event_date[0]['data']);
+                $data['event']['date'] = strototime($event_date[0]['data']);
         }
         return $data;
     }
