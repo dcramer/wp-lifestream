@@ -938,7 +938,7 @@ elseif (function_exists('register_sidebar_widget'))
     register_sidebar_widget('LifeStream', 'widget_lifestream');
 }
 
-if (isset($_GET['activate']) && $_GET['activate'] == 'true')
+if ((isset($_GET['activate']) && $_GET['activate'] == 'true') || (isset($_GET['activate-multi']) && $_GET['activate-multi'] == 'true'))
 {
     lifestream_activate();
 }
