@@ -307,6 +307,8 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
             if ($item['image'])
             {
                 $link = $item['image']['url'];
+                // change it to be large size images
+                $link = str_replace('_m', '', $link);
                 $lightbox = ' rel="lightbox'.($group ? '-'.$group : '');
             }
             else
