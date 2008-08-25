@@ -668,6 +668,7 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
         {
             $label = 'Added %d stations on <a href="%s">%s</a>.';
         }
+        return $label;
     }
     
     function get_stations_url()
