@@ -60,7 +60,7 @@ Another method requires a [custom WordPress page](http://codex.wordpress.org/Pag
 
 `<?php lifestream(); ?>`
 
-The second method requires you install the [wp-exec](http://wordpress.org/extend/plugins/wp-exec/) plugin:
+The third method requires you install the [wp-exec](http://wordpress.org/extend/plugins/wp-exec/) plugin:
 
 `<exec type="function" name="LifeStream" />`
 
