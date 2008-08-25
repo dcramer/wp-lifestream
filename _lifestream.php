@@ -374,16 +374,17 @@ class LifeStream_Feed
             $link = array_key_pop($item, 'link');
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
+            if (!$date) $date = time();
             
-            $affected =& $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`) VALUES (%d, '%s', '%s', %d, %d, '%s')", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($item['key'])));
+            $affected =& $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`) VALUES (%d, '%s', '%s', %d, %d, '%s')", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key)));
             if ($affected)
             {
+                $fdate = date('m d Y', $date);
                 if (!in_array($key, $inserted)) $inserted[$key] = array();
-                $item['date'] = $date;
-                $item['link'] = $link;
-                $item['key'] = $key;
-                $inserted[$key][] = $item;
                 $total += 1;
+                if (in_array($fdate, $inserted[$key])) continue;
+
+                $inserted[$key][$fdate] = $date;
             }
         }
         if (count($inserted))
@@ -393,18 +394,14 @@ class LifeStream_Feed
             if ($this->options['grouped'] && $this->get_constant('CAN_GROUP'))
             {
                 // Grouping them by key
-                foreach ($inserted as $key=>$items)
+                foreach ($inserted as $key=>$dates)
                 {
                     // Grouping them by date
-                    $grouped = array();
-                    foreach ($items as $item)
+                    foreach ($dates as $date_key=>$date)
                     {
-                        $date = date('m d Y', $item['date']);
-                        if (in_array($date, $grouped)) continue;
-
                         // Get all of the current events for this date
                         // (including the one we affected just now)
-                        $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = '%s'", $this->id, $item['date'], $wpdb->escape($item['key'])));
+                        $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = '%s'", $this->id, $date, $wpdb->escape($key)));
                         $events = array();
                         foreach ($results as &$result)
                         {
@@ -414,18 +411,16 @@ class LifeStream_Feed
                         }
 
                         // First let's see if the group already exists in the database
-                        $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` WHERE `feed_id` = %d AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = '%s' LIMIT 0, 1", $this->id, $item['date'], $wpdb->escape($item['key'])));
+                        $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` WHERE `feed_id` = %d AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = '%s' LIMIT 0, 1", $this->id, $date, $wpdb->escape($key)));
                         if (count($group) == 1)
                         {
                             $group =& $group[0];
-                            $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = %d, `updated` = 1, `timestamp` = %d WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $item['date'], $group->id));
+                            $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = %d, `updated` = 1, `timestamp` = %d WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $date, $group->id));
                         }
                         else
                         {
-                            $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`) VALUES(%d, '%s', '%s', %d, %d, %d, '%s')", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($events)), count($events), $item['date'], $this->get_constant('VERSION'), $item['key']));
+                            $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`) VALUES(%d, '%s', '%s', %d, %d, %d, '%s')", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($events)), count($events), $date, $this->get_constant('VERSION'), $key));
                         }
-                    
-                        $grouped[] = $date;
                     }
                 }
             }
@@ -665,14 +660,21 @@ function lifestream_options()
                         {
                             $group =& $group[0];
                             $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d))", $result->feed_id, $result->timestamp));
-                            $events = array();
-                            foreach ($results as &$result)
+                            if (count($results))
                             {
-                                $result->data = unserialize($result->data);
-                                $result->data['link'] = $result->link;
-                                $events[] = $result->data;
+                                $events = array();
+                                foreach ($results as &$result)
+                                {
+                                    $result->data = unserialize($result->data);
+                                    $result->data['link'] = $result->link;
+                                    $events[] = $result->data;
+                                }
+                                $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = %d, `updated` = 1 WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $group->id));
                             }
-                            $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = %d, `updated` = 1 WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $group->id));
+                            else
+                            {
+                                $wpdb->query(sprintf("DELETE FROM `".LIFESTREAM_TABLE_PREFIX."event_group` WHERE `id` = %d", $group->id));
+                            }
                         }
                         $message = __('The selected event was hidden.', 'lifestream');
                     }
