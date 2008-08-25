@@ -64,7 +64,7 @@ The third method requires you install the [wp-exec](http://wordpress.org/extend/
 
 `<exec type="function" name="LifeStream" />`
 
-You may also specify several parameters in the lifestream method (useful for sidebar display):
+You may also specify several parameters in the `lifestream` method (useful for sidebar display):
 
 * `(int) number_of_items`: defaults to '50'
 * `(array) feed_ids`: defaults to all feeds
@@ -74,6 +74,21 @@ You may also specify several parameters in the lifestream method (useful for sid
 For example:
 
 `<lifestream number_of_items="10" output="list"/>`
+
+For more advanced uses, you may directly use `lifestream_get_events()` which will return an array of `Event` instances.
+
+Example:
+
+`<ul>
+<?php
+$events = lifestream_get_events();
+
+foreach ($events as $event)
+{
+	echo '<li>'.$event->render().'</li>';
+}
+?>
+</ul>`
 
 == Requirements ==
 
