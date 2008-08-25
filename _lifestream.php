@@ -506,14 +506,46 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
 }
 register_lifestream_feed('LifeStream_GenericFeed');
 
+/**
+ * Outputs the recent lifestream events.
+ * @param {Int} $number_of_results The maximum number of results.
+ * @param {Array} $feed_ids An array of feed IDs to include.
+ * @param {String} $date_interval The cutoff date for events, using MySQL's date interval expressions.
+ * @param {String} $output The lifestream output template name.
+ */
 function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null, $output=null)
 {
-    global $lifestream_path, $wpdb;
+    global $lifestream_path;
+    
+    if ($output == null) $output = 'table';
+
+    if (!in_array($output, array('table', 'list'))) return;
+    
+    // TODO: offset
+    //$offset = get_option('lifestream_timezone');
+    $hour_format = get_option('lifestream_hour_format');
+    $day_format = get_option('lifestream_day_format');
+    
+    $args = func_get_args();
+    $events = call_user_func_array('lifestream_get_events', $args);
+    
+    include(sprintf('pages/lifestream-%s.inc.php', $output));
+}
+
+/**
+ * Gets recent events from the lifestream.
+ * @param {Int} $number_of_results The maximum number of results.
+ * @param {Array} $feed_ids An array of feed IDs to include.
+ * @param {String} $date_interval The cutoff date for events, using MySQL's date interval expressions.
+ * @return {Array} Events
+ */
+function lifestream_get_events($number_of_results=null, $feed_ids=null, $date_interval=null)
+{
+    global $wpdb;
     
     if ($number_of_results == null) $number_of_results = get_option('lifestream_number_of_items');
     if ($feed_ids == null) $feed_ids = array();
     if ($date_interval == null) $date_interval = get_option('lifestream_date_interval');
-    if ($output == null) $output = 'table';
 
     # If any arguments are invalid we bail out
 
@@ -523,15 +555,9 @@ function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null
     $date_interval = rtrim($date_interval, 's');
 
     if (!is_array($feed_ids)) return;
-    
-    if (!in_array($output, array('table', 'list'))) return;
-    
+        
     setlocale(LC_TIME, get_locale());
-    
-    $offset = get_option('lifestream_timezone');
-    $hour_format = get_option('lifestream_hour_format');
-    $day_format = get_option('lifestream_day_format');
-    
+        
     $where = array('t1.`visible` = 1');
     if (count($feed_ids))
     {
@@ -550,8 +576,7 @@ function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null
     {
         $events[] = new LifeStream_Event($result);
     }
-    
-    include(sprintf('pages/lifestream-%s.inc.php', $output));
+    return $events;
 }
 
 function lifestream_options()
@@ -846,7 +871,6 @@ function lifestream_do_digest()
 {
     global $wpdb, $lifestream_path;
     
-    $offset = get_option('lifestream_timezone');
     $hour_format = get_option('lifestream_hour_format');
     $day_format = get_option('lifestream_day_format');
     
