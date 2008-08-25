@@ -106,6 +106,8 @@ function lifestream_install()
     if (!get_option('lifestream_day_format')) update_option('lifestream_day_format', 'F jS');
     if (!get_option('lifestream_hour_format')) update_option('lifestream_hour_format', 'g:ia');   
     if (!get_option('lifestream_timezone')) update_option('lifestream_timezone', date('O')/100);
+    if (!get_option('lifestream_number_of_items')) update_option('lifestream_number_of_items', 50);
+    if (!get_option('lifestream_date_interval')) update_option('lifestream_date_interval', '1 month');
     if (!get_option('lifestream_digest_title')) update_option('lifestream_digest_title', 'Daily Digest for %s');
     if (!get_option('lifestream_digest_body')) update_option('lifestream_digest_body', '%1$s');
     if (!get_option('lifestream_digest_category')) update_option('lifestream_digest_category', '1');
@@ -508,16 +510,16 @@ function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null
 {
     global $lifestream_path, $wpdb;
     
-    if ($number_of_results == null) $number_of_results = 50;
+    if ($number_of_results == null) $number_of_results = get_option('lifestream_number_of_items');
     if ($feed_ids == null) $feed_ids = array();
-    if ($date_interval == null) $date_interval = '1 month';
+    if ($date_interval == null) $date_interval = get_option('lifestream_date_interval');
     if ($output == null) $output = 'table';
 
     # If any arguments are invalid we bail out
 
     if (!((int)$number_of_results > 0)) return;
 
-    if (!preg_match('/[\d]+ (month|day|year)s?/', $date_interval)) return;
+    if (!preg_match('/[\d]+ (month|day|year|hour|second|microsecond|week|quarter)s?/', $date_interval)) return;
     $date_interval = rtrim($date_interval, 's');
 
     if (!is_array($feed_ids)) return;
@@ -723,7 +725,7 @@ function lifestream_options()
         default:
             if ($_POST['save'])
             {
-                $options = array('lifestream_timezone', 'lifestream_day_format', 'lifestream_hour_format', 'lifestream_update_interval', 'lifestream_daily_digest', 'lifestream_digest_title', 'lifestream_digest_body', 'lifestream_digest_author', 'lifestream_digest_category');
+                $options = array('lifestream_timezone', 'lifestream_day_format', 'lifestream_hour_format', 'lifestream_update_interval', 'lifestream_daily_digest', 'lifestream_digest_title', 'lifestream_digest_body', 'lifestream_digest_author', 'lifestream_digest_category', 'lifestream_number_of_items', 'lifestream_date_interval');
                 foreach ($options as $value)
                 {
                     update_option($value, $_POST[$value]);

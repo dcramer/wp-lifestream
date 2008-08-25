@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.davidcramer.net/my-projects/lifestream
 Description: Displays feeds in a lifestream. (Requires PHP5)
 Author: David Cramer
-Version: 0.40
+Version: 0.41
 Author URI: http://www.davidcramer.net
 */
 
