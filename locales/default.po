@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-21 19:22-0600\n"
+"POT-Creation-Date: 2008-08-25 13:26-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -13,61 +13,61 @@ msgstr ""
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: _lifestream.php:479
-#: feeds.inc.php:333
+#: _lifestream.php:484
+#: feeds.inc.php:335
 msgid "Show Details"
 msgstr ""
 
-#: _lifestream.php:479
-#: feeds.inc.php:333
+#: _lifestream.php:484
+#: feeds.inc.php:335
 msgid "Hide Details"
 msgstr ""
 
-#: _lifestream.php:596
+#: _lifestream.php:602
 msgid "The selected event was hidden."
 msgstr ""
 
-#: _lifestream.php:600
+#: _lifestream.php:606
 msgid "The selected event was not found."
 msgstr ""
 
-#: _lifestream.php:610
+#: _lifestream.php:616
 msgid "All of your feeds have been refreshed."
 msgstr ""
 
-#: _lifestream.php:618
+#: _lifestream.php:624
 msgid "The selected feed's events has been refreshed."
 msgstr ""
 
-#: _lifestream.php:622
-#: _lifestream.php:635
-#: _lifestream.php:674
+#: _lifestream.php:628
+#: _lifestream.php:641
+#: _lifestream.php:680
 msgid "The selected feed was not found."
 msgstr ""
 
-#: _lifestream.php:631
+#: _lifestream.php:637
 msgid "The selected feed and all events has been removed."
 msgstr ""
 
-#: _lifestream.php:711
+#: _lifestream.php:717
 #, php-format
 msgid "Selected feed was added to your LifeStream with %d event(s)."
 msgstr ""
 
-#: _lifestream.php:743
+#: _lifestream.php:749
 msgid "Settings"
 msgstr ""
 
-#: _lifestream.php:744
+#: _lifestream.php:750
 msgid "Feeds"
 msgstr ""
 
-#: _lifestream.php:745
+#: _lifestream.php:751
 #: pages/feeds.inc.php:13
 msgid "Events"
 msgstr ""
 
-#: _lifestream.php:749
+#: _lifestream.php:755
 msgid "Please correct the following errors:"
 msgstr ""
 
@@ -89,22 +89,22 @@ msgstr ""
 msgid "%s Feed Settings"
 msgstr ""
 
-#: pages/add-feed.inc.php:61
+#: pages/add-feed.inc.php:63
 msgid "Show labels for events in this feed. This will not affect grouped events."
 msgstr ""
 
-#: pages/add-feed.inc.php:70
+#: pages/add-feed.inc.php:72
 #: pages/edit-feed.inc.php:54
 msgid "Group events from the same day together."
 msgstr ""
 
-#: pages/add-feed.inc.php:77
+#: pages/add-feed.inc.php:79
 #: pages/edit-feed.inc.php:62
 #, php-format
 msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
 msgstr ""
 
-#: pages/add-feed.inc.php:80
+#: pages/add-feed.inc.php:82
 msgid "Add Feed"
 msgstr ""
 
@@ -231,45 +231,61 @@ msgstr ""
 msgid "The number of minutes between updates to your feeds. Value is in minutes."
 msgstr ""
 
-#: pages/settings.inc.php:50
-msgid "Daily Digest"
+#: pages/settings.inc.php:48
+msgid "Number of Items:"
 msgstr ""
 
 #: pages/settings.inc.php:51
+msgid "The number of items to display in the default lifestream feed call."
+msgstr ""
+
+#: pages/settings.inc.php:55
+msgid "Date Cutoff:"
+msgstr ""
+
+#: pages/settings.inc.php:58
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr ""
+
+#: pages/settings.inc.php:64
+msgid "Daily Digest"
+msgstr ""
+
+#: pages/settings.inc.php:65
 msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on up to that point on that day."
 msgstr ""
 
-#: pages/settings.inc.php:59
+#: pages/settings.inc.php:73
 msgid "Post a daily summary of my lifestream."
 msgstr ""
 
-#: pages/settings.inc.php:63
+#: pages/settings.inc.php:77
 msgid "Summary Post Title:"
 msgstr ""
 
-#: pages/settings.inc.php:66
+#: pages/settings.inc.php:80
 #, php-format
 msgid "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
 msgstr ""
 
-#: pages/settings.inc.php:70
+#: pages/settings.inc.php:84
 msgid "Summary Post Body:"
 msgstr ""
 
-#: pages/settings.inc.php:73
+#: pages/settings.inc.php:87
 #, php-format
 msgid "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
 msgstr ""
 
-#: pages/settings.inc.php:77
+#: pages/settings.inc.php:91
 msgid "Summary Author:"
 msgstr ""
 
-#: pages/settings.inc.php:95
+#: pages/settings.inc.php:109
 msgid "Summary Category:"
 msgstr ""
 
-#: pages/settings.inc.php:110
+#: pages/settings.inc.php:124
 msgid "Save Changes"
 msgstr ""
 
