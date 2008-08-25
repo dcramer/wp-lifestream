@@ -41,6 +41,7 @@ Included Plugins:
 * MySpace Blog
 * Skitch
 * Identi.ca
+* Pandora
 
 == Installation ==
 
