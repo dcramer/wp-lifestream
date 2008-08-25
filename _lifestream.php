@@ -10,8 +10,6 @@ if (!class_exists('SimplePie'))
 
 $lifestream_path = trailingslashit(get_settings('siteurl')) . 'wp-content/plugins/lifestream';
 
-// TODO: group events e.g. flickr photos
-
 if (!function_exists('array_key_pop'))
 {
     function array_key_pop($array, $key)
@@ -217,6 +215,11 @@ class LifeStream_Event
          $this->feed = new $lifestream_feeds[$row->feed](unserialize($row->options), $row->feed_id);
      }
      
+     function get_date()
+     {
+         return $this->date + LIFESTREAM_DATE_OFFSET*60*60;
+     }
+     
      function render()
      {
         /**
@@ -362,6 +365,8 @@ class LifeStream_Feed
     function refresh()
     {
         global $wpdb;
+        
+        date_default_timezone_set('UTC');
 
         if (!$this->id) return false;
 
@@ -599,9 +604,7 @@ function lifestream_get_events($number_of_results=null, $feed_ids=null, $date_in
     $date_interval = rtrim($date_interval, 's');
 
     if (!is_array($feed_ids)) return;
-        
-    setlocale(LC_TIME, get_locale());
-        
+    
     $where = array('t1.`visible` = 1');
     if (count($feed_ids))
     {
@@ -630,8 +633,6 @@ function lifestream_options()
     $wpdb->show_errors();
     
     ksort($lifestream_feeds);
-    
-    setlocale(LC_TIME, get_locale());
     
     lifestream_install();
     
@@ -868,7 +869,8 @@ function lifestream_options()
     ob_end_flush();
 }
 
-function lifestream_options_menu() {
+function lifestream_options_menu()
+{
     if (function_exists('add_menu_page'))
     {
         add_menu_page('LifeStream', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
@@ -877,9 +879,11 @@ function lifestream_options_menu() {
         add_submenu_page(basename(LIFESTREAM_PLUGIN_FILE), __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 8, 'lifestream-events.php', 'lifestream_options');
         
         //add_options_page('LifeStream Options', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
-    }}
+    }
+}
 
-function lifestream_header() {
+function lifestream_header()
+{
     global $lifestream_path;
     
     echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$lifestream_path.'/lifestream.css"/>';
@@ -1021,3 +1025,6 @@ add_action('LifeStream_Hourly', 'lifestream_update');
 add_action('wp_head', 'lifestream_header');
 add_filter('the_content', 'lifestream_embed_callback');
 add_action('init', 'lifestream_init');
+
+$offset = get_option('lifestream_timezone');
+define(LIFESTREAM_DATE_OFFSET, $offset);

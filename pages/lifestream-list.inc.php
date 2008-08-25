@@ -9,7 +9,7 @@ if (count($events))
     <?php
     foreach ($events as $result)
     {
-        $timestamp = $result->date+$offset;
+        $timestamp = $result->get_date();
         if ($today == date('m d Y', $timestamp)) $this_day = 'Today';
         else if ($yesterday == date('m d Y', $timestamp)) $this_day = 'Yesterday';
         else $this_day = ucfirst(htmlentities(date($day_format, $timestamp)));
