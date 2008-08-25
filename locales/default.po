@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-25 15:13-0600\n"
+"POT-Creation-Date: 2008-08-25 16:55-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -13,74 +13,74 @@ msgstr ""
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: _lifestream.php:484
+#: _lifestream.php:533
 #: feeds.inc.php:335
 msgid "Show Details"
 msgstr ""
 
-#: _lifestream.php:484
+#: _lifestream.php:533
 #: feeds.inc.php:335
 msgid "Hide Details"
 msgstr ""
 
-#: _lifestream.php:628
+#: _lifestream.php:677
 msgid "The selected event was hidden."
 msgstr ""
 
-#: _lifestream.php:632
+#: _lifestream.php:681
 msgid "The selected event was not found."
 msgstr ""
 
-#: _lifestream.php:642
+#: _lifestream.php:691
 msgid "All of your feeds have been refreshed."
 msgstr ""
 
-#: _lifestream.php:650
+#: _lifestream.php:699
 msgid "The selected feed's events has been refreshed."
 msgstr ""
 
-#: _lifestream.php:654
-#: _lifestream.php:667
-#: _lifestream.php:706
+#: _lifestream.php:703
+#: _lifestream.php:716
+#: _lifestream.php:755
 msgid "The selected feed was not found."
 msgstr ""
 
-#: _lifestream.php:663
+#: _lifestream.php:712
 msgid "The selected feed and all events has been removed."
 msgstr ""
 
-#: _lifestream.php:743
+#: _lifestream.php:792
 #, php-format
 msgid "Selected feed was added to your LifeStream with %d event(s)."
 msgstr ""
 
-#: _lifestream.php:772
+#: _lifestream.php:822
 msgid "Please correct the following errors:"
 msgstr ""
 
-#: _lifestream.php:823
+#: _lifestream.php:873
 msgid "LifeStream Settings"
 msgstr ""
 
-#: _lifestream.php:823
+#: _lifestream.php:873
 msgid "Settings"
 msgstr ""
 
-#: _lifestream.php:824
+#: _lifestream.php:874
 #: pages/feeds.inc.php:1
 msgid "LifeStream Feeds"
 msgstr ""
 
-#: _lifestream.php:824
+#: _lifestream.php:874
 msgid "Feeds"
 msgstr ""
 
-#: _lifestream.php:825
+#: _lifestream.php:875
 #: pages/events.inc.php:1
 msgid "LifeStream Events"
 msgstr ""
 
-#: _lifestream.php:825
+#: _lifestream.php:875
 #: pages/feeds.inc.php:12
 msgid "Events"
 msgstr ""
