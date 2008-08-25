@@ -1024,7 +1024,6 @@ if ((isset($_GET['activate']) && $_GET['activate'] == 'true') || (isset($_GET['a
 }
 
 add_action('admin_menu', 'lifestream_options_menu');
-add_action('LifeStream_Hourly', 'lifestream_update');
 add_action('wp_head', 'lifestream_header');
 add_filter('the_content', 'lifestream_embed_callback');
 add_action('init', 'lifestream_init');
