@@ -5,7 +5,7 @@ $authors = get_users_of_blog();
 
 ?>
 <h2><?php _e('LifeStream Configuration', 'lifestream');?></h2>
-<p><?php printf(__('The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href="%s">Feed Management page</a>.', 'lifestream'), '?page=' . $basename . '&amp;action=feeds'); ?></p>
+<p><?php printf(__('The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href="%s">Feed Management page</a>.', 'lifestream'), '?page=lifestream-feeds.php'); ?></p>
 <form method="post" action="">
     <table class="options">
         <colgroup>
@@ -62,7 +62,7 @@ $authors = get_users_of_blog();
     </table>
     <br />
     <h2><?php _e('Daily Digest'); ?></h2>
-    <p><?php _e('LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on up to that point on that day.', 'lifestream'); ?></p>
+    <p><?php _e('LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day.', 'lifestream'); ?></p>
     <table class="options">
         <colgroup>
             <col style="width: 150px;"/>

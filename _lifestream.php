@@ -571,9 +571,10 @@ function lifestream_options()
     
     $errors = array();
     $message = null;
-    switch ($_GET['action'])
+   
+    switch ($_GET['page'])
     {
-        case 'events':
+        case 'lifestream-events.php':
             switch ($_GET['op'])
             {
                 case 'delete':
@@ -608,7 +609,7 @@ function lifestream_options()
                 break;
             }
         break;
-        case 'feeds':
+        case 'lifestream-feeds.php':
             switch ($_GET['op'])
             {
                 case 'refreshall':
@@ -737,19 +738,10 @@ function lifestream_options()
     ob_start();
     ?>
     <style type="text/css">
-    .tabs { list-style-type: none; height: 36px; line-height: 36px; padding: 0 10px; margin: 10px 0 10px 0; border-bottom: 1px solid #aaa; }
-    .tabs li { display: inline; float: left; padding: 0; margin: 0; }
-    .tabs li a { display: block; padding: 8px 10px; height: 20px; line-height: 20px; bottom: -1px; position: relative; margin-right: 5px; }
-    .tabs li.active a { border: 1px solid #aaa; height: 18px; line-height: 18px; border-bottom: 1px solid #fff; }
     table.options th { text-align: left; }
     table.options th { vertical-align: top; line-height: 30px; }
     table.options td .helptext { color: #999; margin-top: 3px; }
     </style>
-    <ul class="tabs">
-        <li<?php if (!$_GET['action']) echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>"><?php _e('Settings', 'lifestream'); ?></a></li>
-        <li<?php if ($_GET['action'] == 'feeds') echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>&amp;action=feeds"><?php _e('Feeds', 'lifestream'); ?></a></li>
-        <li<?php if ($_GET['action'] == 'events') echo ' class="active"'; ?>><a href="?page=<?php echo $basename; ?>&amp;action=events"><?php _e('Events', 'lifestream'); ?></a></li>
-    </ul>
     <?php
     if (count($errors)) { ?>
     <div id="message" class="error"><p><strong><?php _e('Please correct the following errors:', 'lifestream') ?></strong></p><ul>
@@ -762,9 +754,9 @@ function lifestream_options()
     <?php } ?>
     <div class="wrap">
         <?php
-        switch ($_GET['action'])
+        switch ($_GET['page'])
         {
-            case 'feeds':
+            case 'lifestream-feeds.php':
                 switch ($_GET['op'])
                 {
                     case 'edit':
@@ -779,7 +771,7 @@ function lifestream_options()
                     break;
                 }
             break;
-            case 'events':
+            case 'lifestream-events.php':
                 $page = $_GET['p'];
                 if (!($page > 0)) $page = 1;
 
@@ -800,11 +792,15 @@ function lifestream_options()
 }
 
 function lifestream_options_menu() {
-    if (function_exists('add_options_page') && current_user_can('manage_options'))
+    if (function_exists('add_menu_page'))
     {
-        add_options_page('LifeStream Options', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
-    }
-}
+        add_menu_page('LifeStream', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
+        add_submenu_page(basename(LIFESTREAM_PLUGIN_FILE), __('LifeStream Settings', 'lifestream'), __('Settings', 'lifestream'), 8, 'lifestream.php', 'lifestream_options');
+        add_submenu_page(basename(LIFESTREAM_PLUGIN_FILE), __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 8, 'lifestream-feeds.php', 'lifestream_options');
+        add_submenu_page(basename(LIFESTREAM_PLUGIN_FILE), __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 8, 'lifestream-events.php', 'lifestream_options');
+        
+        //add_options_page('LifeStream Options', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
+    }}
 
 function lifestream_header() {
     global $lifestream_path;

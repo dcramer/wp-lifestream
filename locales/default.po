@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-25 13:26-0600\n"
+"POT-Creation-Date: 2008-08-25 14:07-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -23,52 +23,66 @@ msgstr ""
 msgid "Hide Details"
 msgstr ""
 
-#: _lifestream.php:602
+#: _lifestream.php:603
 msgid "The selected event was hidden."
 msgstr ""
 
-#: _lifestream.php:606
+#: _lifestream.php:607
 msgid "The selected event was not found."
 msgstr ""
 
-#: _lifestream.php:616
+#: _lifestream.php:617
 msgid "All of your feeds have been refreshed."
 msgstr ""
 
-#: _lifestream.php:624
+#: _lifestream.php:625
 msgid "The selected feed's events has been refreshed."
 msgstr ""
 
-#: _lifestream.php:628
-#: _lifestream.php:641
-#: _lifestream.php:680
+#: _lifestream.php:629
+#: _lifestream.php:642
+#: _lifestream.php:681
 msgid "The selected feed was not found."
 msgstr ""
 
-#: _lifestream.php:637
+#: _lifestream.php:638
 msgid "The selected feed and all events has been removed."
 msgstr ""
 
-#: _lifestream.php:717
+#: _lifestream.php:718
 #, php-format
 msgid "Selected feed was added to your LifeStream with %d event(s)."
 msgstr ""
 
-#: _lifestream.php:749
+#: _lifestream.php:747
+msgid "Please correct the following errors:"
+msgstr ""
+
+#: _lifestream.php:798
+msgid "LifeStream Settings"
+msgstr ""
+
+#: _lifestream.php:798
 msgid "Settings"
 msgstr ""
 
-#: _lifestream.php:750
+#: _lifestream.php:799
+#: pages/feeds.inc.php:1
+msgid "LifeStream Feeds"
+msgstr ""
+
+#: _lifestream.php:799
 msgid "Feeds"
 msgstr ""
 
-#: _lifestream.php:751
-#: pages/feeds.inc.php:13
-msgid "Events"
+#: _lifestream.php:800
+#: pages/events.inc.php:1
+msgid "LifeStream Events"
 msgstr ""
 
-#: _lifestream.php:755
-msgid "Please correct the following errors:"
+#: _lifestream.php:800
+#: pages/feeds.inc.php:12
+msgid "Events"
 msgstr ""
 
 #: pages/add-feed.inc.php:1
@@ -134,61 +148,45 @@ msgid "Recent Events"
 msgstr ""
 
 #: pages/edit-feed.inc.php:73
-#: pages/events.inc.php:12
-#: pages/feeds.inc.php:11
+#: pages/events.inc.php:11
+#: pages/feeds.inc.php:10
 msgid "ID"
 msgstr ""
 
 #: pages/edit-feed.inc.php:74
-#: pages/events.inc.php:13
+#: pages/events.inc.php:12
 msgid "Event"
 msgstr ""
 
 #: pages/edit-feed.inc.php:75
-#: pages/events.inc.php:14
+#: pages/events.inc.php:13
 msgid "Date"
 msgstr ""
 
 #: pages/edit-feed.inc.php:85
-#: pages/events.inc.php:26
-#: pages/feeds.inc.php:26
+#: pages/events.inc.php:25
+#: pages/feeds.inc.php:25
 msgid "Delete"
 msgstr ""
 
-#: pages/events.inc.php:1
-msgid "LifeStream Events"
-msgstr ""
-
-#: pages/events.inc.php:6
-msgid "Feeds automatically refresh every hour looking for new events."
-msgstr ""
-
-#: pages/events.inc.php:10
-#: pages/feeds.inc.php:10
+#: pages/events.inc.php:9
+#: pages/feeds.inc.php:9
 msgid "Feed Type"
 msgstr ""
 
-#: pages/events.inc.php:11
+#: pages/events.inc.php:10
 msgid "Feed"
-msgstr ""
-
-#: pages/feeds.inc.php:1
-msgid "LifeStream Feeds"
 msgstr ""
 
 #: pages/feeds.inc.php:1
 msgid "Refresh All Feeds"
 msgstr ""
 
-#: pages/feeds.inc.php:6
-msgid "Feeds automatically refresh every hour, but if you wish to manually refresh a feed's events you can do so here."
-msgstr ""
-
-#: pages/feeds.inc.php:12
+#: pages/feeds.inc.php:11
 msgid "Description"
 msgstr ""
 
-#: pages/feeds.inc.php:27
+#: pages/feeds.inc.php:26
 msgid "Refresh"
 msgstr ""
 
@@ -252,7 +250,7 @@ msgid "Daily Digest"
 msgstr ""
 
 #: pages/settings.inc.php:65
-msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on up to that point on that day."
+msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
 msgstr ""
 
 #: pages/settings.inc.php:73
