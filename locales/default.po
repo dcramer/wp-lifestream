@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-25 14:07-0600\n"
+"POT-Creation-Date: 2008-08-25 15:13-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -23,64 +23,64 @@ msgstr ""
 msgid "Hide Details"
 msgstr ""
 
-#: _lifestream.php:603
+#: _lifestream.php:628
 msgid "The selected event was hidden."
 msgstr ""
 
-#: _lifestream.php:607
+#: _lifestream.php:632
 msgid "The selected event was not found."
 msgstr ""
 
-#: _lifestream.php:617
+#: _lifestream.php:642
 msgid "All of your feeds have been refreshed."
 msgstr ""
 
-#: _lifestream.php:625
+#: _lifestream.php:650
 msgid "The selected feed's events has been refreshed."
 msgstr ""
 
-#: _lifestream.php:629
-#: _lifestream.php:642
-#: _lifestream.php:681
+#: _lifestream.php:654
+#: _lifestream.php:667
+#: _lifestream.php:706
 msgid "The selected feed was not found."
 msgstr ""
 
-#: _lifestream.php:638
+#: _lifestream.php:663
 msgid "The selected feed and all events has been removed."
 msgstr ""
 
-#: _lifestream.php:718
+#: _lifestream.php:743
 #, php-format
 msgid "Selected feed was added to your LifeStream with %d event(s)."
 msgstr ""
 
-#: _lifestream.php:747
+#: _lifestream.php:772
 msgid "Please correct the following errors:"
 msgstr ""
 
-#: _lifestream.php:798
+#: _lifestream.php:823
 msgid "LifeStream Settings"
 msgstr ""
 
-#: _lifestream.php:798
+#: _lifestream.php:823
 msgid "Settings"
 msgstr ""
 
-#: _lifestream.php:799
+#: _lifestream.php:824
 #: pages/feeds.inc.php:1
 msgid "LifeStream Feeds"
 msgstr ""
 
-#: _lifestream.php:799
+#: _lifestream.php:824
 msgid "Feeds"
 msgstr ""
 
-#: _lifestream.php:800
+#: _lifestream.php:825
 #: pages/events.inc.php:1
 msgid "LifeStream Events"
 msgstr ""
 
-#: _lifestream.php:800
+#: _lifestream.php:825
 #: pages/feeds.inc.php:12
 msgid "Events"
 msgstr ""
