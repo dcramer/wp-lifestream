@@ -816,6 +816,7 @@ function lifestream_options()
     table.options th { vertical-align: top; line-height: 30px; }
     table.options td .helptext { color: #999; margin-top: 3px; }
     </style>
+    <br />
     <?php
     if (count($errors)) { ?>
     <div id="message" class="error"><p><strong><?php _e('Please correct the following errors:', 'lifestream') ?></strong></p><ul>
