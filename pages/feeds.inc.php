@@ -20,7 +20,7 @@ if (count($results))
                 <tr valign="top">
                     <td><?php echo htmlspecialchars($instance->get_constant('NAME')); ?></td>
                     <td class="num"><?php echo $result->id; ?></td>
-                    <td><strong><a class="row-title" href="?page=lifestream-feeds.phpop=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars((string)$instance); ?></a></strong></td>
+                    <td><strong><a class="row-title" href="?page=lifestream-feeds.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars((string)$instance); ?></a></strong></td>
                     <td class="num"><?php echo $result->events; ?></td>
                     <td><a href="?page=lifestream-feeds.php&amp;op=delete&amp;id=<?php echo $result->id; ?>"><?php _e('Delete', 'lifestream'); ?></a></td>
                     <td><a href="?page=lifestream-feeds.php&amp;op=refresh&amp;id=<?php echo $result->id; ?>"><?php _e('Refresh', 'lifestream'); ?></a></td>
