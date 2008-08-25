@@ -613,4 +613,96 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 }
 register_lifestream_feed('LifeStream_IdenticaFeed');
 
+
+class LifeStream_PandoraFeed extends LifeStream_Feed
+{
+    const ID            = 'pandora';
+    const NAME          = 'Pandora';
+    const URL           = 'http://www.pandora.com/';
+    const NAMESPACE     = 'http://musicbrainz.org/mm/mm-2.1#';
+    const DESCRIPTION   = 'Your username is available from your profile page. For example, if your profile page has a url of http://www.pandora.com/people/foobar32 then your username is foobar32.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+    
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+            'show_stations' => array('Include stations in this feed.', false, true, true),
+            'show_bookmarked_artists' => array('Include bookmarked artists in this feed.', false, true, true),
+            'show_bookmarked_songs' => array('Include bookmarked songs in this feed.', false, true, true),
+        );
+    }
+    
+    function get_label_single($key)
+    {
+        if ($key == 'bookmarksong')
+        {
+            $label = 'Bookmarked a song on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'bookmarkartist')
+        {
+            $label = 'Bookmarked an artist on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'station')
+        {
+            $label = 'Added a station on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural($key)
+    {
+        if ($key == 'bookmarksong')
+        {
+            $label = 'Bookmarked %d songs on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'bookmarkartist')
+        {
+            $label = 'Bookmarked %d artists on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'station')
+        {
+            $label = 'Added %d stations on <a href="%s">%s</a>.';
+        }
+    }
+    
+    function get_stations_url()
+    {
+        return 'http://feeds.pandora.com/feeds/people/'.$this->options['username'].'/stations.xml';
+    }
+    
+    function get_artists_url()
+    {
+            return 'http://feeds.pandora.com/feeds/people/'.$this->options['username'].'/favoriteartists.xml';
+    }
+    
+    function get_songs_url()
+    {
+        return 'http://feeds.pandora.com/feeds/people/'.$this->options['username'].'/favorites.xml';
+    }
+
+    function get_url()
+    {
+        $urls = array();
+        if ($this->options['show_stations'])
+        {
+            $urls[] = array($this->get_stations_url(), 'station');
+        }
+        if ($this->options['show_bookmarked_artists'])
+        {
+            $urls[] = array($this->get_artists_url(), 'bookmarkartist');
+        }
+        if ($this->options['show_bookmarked_songs'])
+        {
+            $urls[] = array($this->get_songs_url(), 'bookmarksong');
+        }
+        return $urls;
+    }
+}
+register_lifestream_feed('LifeStream_PandoraFeed');
+
 ?>
