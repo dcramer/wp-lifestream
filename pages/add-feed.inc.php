@@ -17,7 +17,7 @@
         $feed = new $class_name();
         $options = $feed->get_options();
         ?>
-        <form action="?page=<?php echo $basename; ?>&amp;action=feeds" method="post" id="feed_options_<?php echo $identifier; ?>" style="display:none;">
+        <form action="?page=lifestream-feeds.php" method="post" id="feed_options_<?php echo $identifier; ?>" style="display:none;">
             <h3><?php printf(__('%s Feed Settings', 'lifestream'), $feed->get_constant('NAME')) ;?></h3>
             <?php if ($description = $feed->get_constant('DESCRIPTION')) { ?>
             <p><?php echo $description; ?></p>

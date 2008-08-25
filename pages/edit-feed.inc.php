@@ -1,6 +1,6 @@
-<h2><?php _e('Edit Feed', 'lifestream'); ?> <small><?php printf(__('(<a href="%s">Back to LifeStream Feeds</a>)', 'lifestream'), '?page=' . $basename . '&amp;action=feeds'); ?></small></h2>
+<h2><?php _e('Edit Feed', 'lifestream'); ?> <small><?php printf(__('(<a href="%s">Back to LifeStream Feeds</a>)', 'lifestream'), '?page=lifestream-feeds.php'); ?></small></h2>
 
-<form action="?page=<?php echo $basename; ?>&amp;action=feeds&amp;op=edit&amp;id=<?php echo $instance->id; ?>" method="post">
+<form action="?page=lifestream-feeds.php&amp;op=edit&amp;id=<?php echo $instance->id; ?>" method="post">
     <h3><?php printf(__('%s Feed Settings', 'lifestream'), $instance->get_constant('NAME')); ?></h3>
     <?php if ($description = $instance->get_constant('DESCRIPTION')) { ?>
     <p><?php echo $description; ?></p>
@@ -82,7 +82,7 @@
                 <td class="num"><?php echo $result->id; ?></td>
                 <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->link); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo $result->link; ?></a></strong></td>
                 <td><?php echo date($date_format, $result->timestamp); ?></td>
-                <td><a href="?page=<?php echo $basename; ?>&amp;action=events&amp;op=delete&amp;id=<?php echo $result->id; ?>"><?php _e('Delete', 'lifestream'); ?></a></td>
+                <td><a href="?page=lifestream-events.php&amp;op=delete&amp;id=<?php echo $result->id; ?>"><?php _e('Delete', 'lifestream'); ?></a></td>
             </tr>
         <?php } ?>
     </tbody>
