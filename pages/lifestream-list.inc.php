@@ -18,8 +18,7 @@ if (count($events))
         list($label, $items) = $result->feed->get_render_output($result);
         ?>
         <li class="lifestream_feedid_<?php echo $result->feed->get_constant('ID'); ?>" style="background-image: url('<?php echo $lifestream_path . '/images/'. $result->feed->get_constant('ID'); ?>.png');">
-            <span class="lifestream_text"><?php if ($result->feed->options['show_label']) { echo $label; } ?><p><?php echo $items[0]; ?></p></span>
-            
+            <div class="lifestream_text"><?php if ($result->feed->options['show_label']) { echo $label; } ?><p><?php echo $items[0]; ?></p></div>
         </li>
         <?php
     } ?>
