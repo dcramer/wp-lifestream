@@ -14,8 +14,9 @@ For more information please visit the homepage: http://www.davidcramer.net/my-pr
 
 Update Notes:
 
-* Lifestream v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
+* LifeStream v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
 * When updating to 0.38 you will need to remove your Last.fm feed and re-add it as the data structure has been completely changed. (First non-rss lifestream feed!)
+* LifeStream v0.6 extensions have newly added support for multi-user which introduces two new LABEL constants that you must add to your custom code.
 
 Requirements:
 
