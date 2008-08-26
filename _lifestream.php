@@ -475,7 +475,7 @@ class LifeStream_Feed
             }
             else
             {
-                $url = $url_data[0];
+                $url = $url_data;
                 $key = '';
             }
             $feed = new SimplePie();
