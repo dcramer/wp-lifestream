@@ -1,5 +1,5 @@
 <?php
-define(LIFESTREAM_VERSION, 0.61);
+define(LIFESTREAM_VERSION, 0.63);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
@@ -124,6 +124,8 @@ function lifestream_install($allow_database_install=true)
 {
     $version = get_option('lifestream__version');
 
+    if (!$version) $version = 0;
+
     if ($version == LIFESTREAM_VERSION) return;
 
     // default options and their values
@@ -160,8 +162,6 @@ function lifestream_install_database($version)
     global $wpdb, $userdata;
     
     get_currentuserinfo();
-    
-    if (!isset($version)) $version = get_option('lifestream__version');
     
     $wpdb->query("CREATE TABLE IF NOT EXISTS `".LIFESTREAM_TABLE_PREFIX."event` (
       `id` int(11) NOT NULL auto_increment,
@@ -1200,7 +1200,8 @@ function lifestream_do_digest()
 
 function lifestream_init()
 {
-    if ((isset($_GET['activate']) && $_GET['activate'] == 'true') || (isset($_GET['activate-multi']) && $_GET['activate-multi'] == 'true'))
+    if ((isset($_GET['activate']) && $_GET['activate'] == 'true')
+        || (isset($_GET['activate-multi']) && $_GET['activate-multi'] == 'true'))
     {
         lifestream_activate();
     }
