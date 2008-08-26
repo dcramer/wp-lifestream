@@ -32,6 +32,8 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     const URL           = 'http://www.twitter.com/';
     const LABEL_SINGLE  = 'Posted a tweet on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d tweets on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a tweet on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d tweets on <a href="%s">%s</a>.';
     
     function __toString()
     {
@@ -100,6 +102,8 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
     const URL           = 'http://www.jaiku.com/';
     const LABEL_SINGLE  = 'Posted a Jaiku on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d Jaikus on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a Jaiku on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d Jaikus on <a href="%s">%s</a>.';
     const NAMESPACE     = 'http://jaiku.com/ns';
     
     function get_url()
@@ -131,6 +135,8 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
     const URL           = 'http://www.delicious.us/';
     const LABEL_SINGLE  = 'Bookmarked a link on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Bookmarked %d links on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> bookmarked a link on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> bookmarked %d links on <a href="%s">%s</a>.';
 
     function __toString()
     {
@@ -183,6 +189,8 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     const URL           = 'http://www.last.fm/';
     const LABEL_SINGLE  = 'Scrobbled a song on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Scrobbled %d songs on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> scrobbled a song on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> scrobbled %d songs on <a href="%s">%s</a>.';
     
     function __toString()
     {
@@ -259,12 +267,13 @@ class LifeStream_BlogFeed extends LifeStream_Feed
     const NAME          = 'Blog';
     const LABEL_SINGLE  = 'Published a blog post.';
     const LABEL_PLURAL  = 'Published %d blog posts.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> published a blog post.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> published %d blog posts.';
 
     function get_options()
     {        
         return array(
             'url' => array('Feed URL:', true, '', ''),
-            'show_author' => array('Show the author of the post.', false, false, true),
         );
     }
 
@@ -291,6 +300,8 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     const NAMESPACE     = 'http://search.yahoo.com/mrss/';
     const LABEL_SINGLE  = 'Posted a photo on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d photos on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a photo on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d photos on <a href="%s">%s</a>.';
     
     function get_options()
     {        
@@ -349,15 +360,9 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
         return sprintf('<a href="%s" title="%s"'.$lightbox.'"><img src="%s" width="%d" height="%d"/></a>', $link, $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
     }
     
-    function render_group($row)
+    function render_group_items($id, $output)
     {
-        $id = sprintf('lf_%s', round(microtime(true)*rand(10000,1000000)));
-        $output = array();
-        foreach ($row->data as $chunk)
-        {
-            $output[] = $this->render_item($row, $chunk, $id);
-        }
-        return sprintf(__($this->get_label_plural($row->key), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br /><div id="' . $id . '" style="display:none;">' . implode(' ', $output) . '</div>';
+        return '<div id="' . $id . '" style="display:none;">' . implode(' ', $output) . '</div>';
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
@@ -369,6 +374,8 @@ class LifeStream_PhotoBucketFeed extends LifeStream_Feed
     const URL           = 'http://www.photobucket.com/';
     const LABEL_SINGLE  = 'Posted a photo on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d photos on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a photo on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d photos on <a href="%s">%s</a>.';
 }
 register_lifestream_feed('LifeStream_PhotoBucketFeed');
 
@@ -379,8 +386,11 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
     const URL           = 'http://www.facebook.com/';
     const DESCRIPTION   = 'To obtain your Facebook feed URL you will need to go your profile and click "See All" under your mini-feed. Once there, click "Status Stories" on the right hand side. On the right hand side of the next page you will the "My Status" RSS feed link.';
     const CAN_GROUP     = false;
+    // Plurals aren't used since can_group is false, but might as well.
     const LABEL_SINGLE  = 'Updated status on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Updated status %d times on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> updated their status on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> updated their status %d times on <a href="%s">%s</a>.';
     
     function render_item($row, $item)
     {
@@ -391,12 +401,15 @@ register_lifestream_feed('LifeStream_FacebookFeed');
 
 class LifeStream_PownceFeed extends LifeStream_TwitterFeed
 {
+    // TODO: change labels based on type (event, file, url, note)
     const NAMESPACE     = 'http://pownce.com/Atom';
     const ID            = 'pownce';
     const NAME          = 'Pownce';
     const URL           = 'http://www.pownce.com/';
     const LABEL_SINGLE  = 'Posted a note on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d notes on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a note on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d notes on <a href="%s">%s</a>.';
     
     function get_url()
     {
@@ -444,6 +457,8 @@ class LifeStream_DiggFeed extends LifeStream_Feed
     const URL           = 'http://www.digg.com/';
     const LABEL_SINGLE  = 'Dugg a link on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Dugg %d links on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> dugg a link on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> dugg %d links on <a href="%s">%s</a>.';
     
     function __toString()
     {
@@ -477,6 +492,8 @@ class LifeStream_YouTubeFeed extends LifeStream_Feed
     const URL           = 'http://www.youtube.com/';
     const LABEL_SINGLE  = 'Posted a video on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d videos on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a video on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d videos on <a href="%s">%s</a>.';
     
     function __toString()
     {
@@ -509,6 +526,8 @@ class LifeStream_RedditFeed extends LifeStream_Feed
     const URL           = 'http://www.reddit.com/';
     const LABEL_SINGLE  = 'Found an interesting link on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Found %d interesting links on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> found an interesting link on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> found %d interesting links on <a href="%s">%s</a>.';
     
     function __toString()
     {
@@ -557,6 +576,8 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
     const DESCRIPTION   = 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". On this page your feed URL will be available in any browser which shows you RSS feeds. It should look something like this: http://www.google.com/reader/public/atom/user/14317428968164573500/state/com.google/broadcast';
     const LABEL_SINGLE  = 'Shared a link on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Shared %d links on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> shared a link on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> shared %d links on <a href="%s">%s</a>.';
 }
 register_lifestream_feed('LifeStream_GoogleReaderFeed');
 
@@ -568,6 +589,8 @@ class LifeStream_YelpFeed extends LifeStream_Feed
     const DESCRIPTION   = 'You can obtain your Yelp RSS feed url from your profile page. It should look something like this: http://www.yelp.com/syndicate/user/ctwwsl5_DSCzwPxtjzdl2A/rss.xml';
     const LABEL_SINGLE  = 'Reviewed a business on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Reviewed %d businesses on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> reviewed a business on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> reviewed %d businesses on <a href="%s">%s</a>.';
     
     function yield($row)
     {
@@ -594,6 +617,9 @@ class LifeStream_MySpaceFeed extends LifeStream_BlogFeed
     const DESCRIPTION   = 'To retrieve your MySpace blog URL, visit your profile and click "View all entries" under your blog. From there, you will see an "rss" link on the top right of the page.';
     const LABEL_SINGLE  = 'Published a blog post on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Published %d blog posts on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> published a blog post on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> published %d blog posts on <a href="%s">%s</a>.';
+    
 }
 register_lifestream_feed('LifeStream_MySpaceFeed');
 
@@ -604,6 +630,8 @@ class LifeStream_SkitchFeed extends LifeStream_Feed
     const URL           = 'http://www.skitch.com/';
     const LABEL_SINGLE  = 'Shared an image on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Shared %d images on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> shared an image on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> shared %d images on <a href="%s">%s</a>.';
     
     function __toString()
     {
@@ -636,6 +664,8 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
     const URL           = 'http://www.identi.ca/';
     const LABEL_SINGLE  = 'Posted a dent on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Posted %d dents on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a dent on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d dents on <a href="%s">%s</a>.';
 
     function get_user_url($user)
     {
@@ -712,6 +742,40 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
         elseif ($key == 'station')
         {
             $label = 'Added %d stations on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'bookmarksong')
+        {
+            $label = '<a href="%s">%s</a> bookmarked a song on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'bookmarkartist')
+        {
+            $label = '<a href="%s">%s</a> bookmarked an artist on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'station')
+        {
+            $label = '<a href="%s">%s</a> added a station on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key)
+    {
+        if ($key == 'bookmarksong')
+        {
+            $label = '<a href="%s">%s</a> bookmarked %d songs on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'bookmarkartist')
+        {
+            $label = '<a href="%s">%s</a> bookmarked %d artists on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'station')
+        {
+            $label = '<a href="%s">%s</a> added %d stations on <a href="%s">%s</a>.';
         }
         return $label;
     }

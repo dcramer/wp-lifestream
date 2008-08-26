@@ -1,5 +1,5 @@
 <?php
-define(LIFESTREAM_VERSION, 0.53);
+define(LIFESTREAM_VERSION, 0.6);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
@@ -90,34 +90,14 @@ function lifestream_embed_handler($matches)
 }
 
 /**
- * Adds/updates the options on plug-in activation.
+ * Initializes the plug-in upon first activation.
  */
-function lifestream_install($allow_database_install=true)
-{
-    if (!get_option('lifestream_day_format')) update_option('lifestream_day_format', 'F jS');
-    if (!get_option('lifestream_hour_format')) update_option('lifestream_hour_format', 'g:ia');   
-    if (!get_option('lifestream_timezone')) update_option('lifestream_timezone', date('O')/100);
-    if (!get_option('lifestream_number_of_items')) update_option('lifestream_number_of_items', 50);
-    if (!get_option('lifestream_date_interval')) update_option('lifestream_date_interval', '1 month');
-    if (!get_option('lifestream_digest_title')) update_option('lifestream_digest_title', 'Daily Digest for %s');
-    if (!get_option('lifestream_digest_body')) update_option('lifestream_digest_body', '%1$s');
-    if (!get_option('lifestream_digest_category')) update_option('lifestream_digest_category', '1');
-    if (!get_option('lifestream_digest_author')) update_option('lifestream_digest_author', '1');
-    if (!get_option('lifestream_update_interval')) update_option('lifestream_update_interval', '15');
-    if (!get_option('lifestream__in_digest')) update_option('lifestream__in_digest', '0');
-    
-    if ($allow_database_install && get_option('lifestream__version') != LIFESTREAM_VERSION) lifestream_install_database();
-}
-
 function lifestream_activate()
 {
     global $wpdb;
     // Add a feed for this blog
     
     lifestream_install();
-
-    // Get rid of old cron job
-    wp_clear_scheduled_hook('LifeStream_Hourly');
 
     $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
     if (!$results[0]->count)
@@ -136,13 +116,50 @@ function lifestream_activate()
 }
 
 /**
+ * Adds/updates the options on plug-in activation.
+ */
+function lifestream_install($allow_database_install=true)
+{
+    $version = get_option('lifestream__version');
+
+    if ($version == LIFESTREAM_VERSION) return;
+
+    // default options and their values
+    $options = array(
+        'lifestream_day_format'     => 'F jS',
+        'lifestream_hour_format'    => 'g:ia',
+        'lifestream_timezone'       => (string)(date('O')/100),
+        'lifestream_number_of_items'=> '50',
+        'lifestream_date_interval'  => '1 month',
+        'lifestream_digest_title'   => 'Daily Digest for %s',
+        'lifestream_digest_body'    => '%1$s',
+        'lifestream_digest_category'=> '1',
+        'lifestream_digest_author'  => '1',
+        'lifestream_update_interval'=> '15',
+        'lifestream__in_digest'     => '0',
+        'lifestream_show_owners' => '0',
+    );
+    
+    foreach ($options as $key=>$value)
+    {
+        if (!get_option($key)) update_option($key, $value);
+    }
+
+    if ($allow_database_install) lifestream_install_database($version);
+    
+    update_option('lifestream__version', LIFESTREAM_VERSION);
+}
+
+/**
  * Initializes the database if it's not already present.
  */
-function lifestream_install_database()
+function lifestream_install_database($version)
 {
-    global $wpdb;
+    global $wpdb, $userdata;
     
-    $version = get_option('lifestream__version');
+    get_currentuserinfo();
+    
+    if (!isset($version)) $version = get_option('lifestream__version');
     
     $wpdb->query("CREATE TABLE IF NOT EXISTS `".LIFESTREAM_TABLE_PREFIX."event` (
       `id` int(11) NOT NULL auto_increment,
@@ -153,8 +170,10 @@ function lifestream_install_database()
       `timestamp` int(11) NOT NULL,
       `version` int(11) default 0 NOT NULL,
       `key` char(16) NOT NULL,
+      `owner` varchar(128) NOT NULL,
+      `owner_id` int(11) NOT NULL,
       PRIMARY KEY (`id`),
-      UNIQUE `feed_id` (`feed_id`, `key`, `link`)
+      UNIQUE `feed_id` (`feed_id`, `key`, `owner_id`, `link`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 
     $wpdb->query("CREATE TABLE IF NOT EXISTS `".LIFESTREAM_TABLE_PREFIX."event_group` (
@@ -169,8 +188,10 @@ function lifestream_install_database()
       `timestamp` int(11) NOT NULL,
       `version` int(11) default 0 NOT NULL,
       `key` char(16) NOT NULL,
+      `owner` varchar(128) NOT NULL,
+      `owner_id` int(11) NOT NULL,
       PRIMARY KEY (`id`),
-      INDEX `feed_id` (`feed_id`, `key`, `timestamp`)
+      INDEX `feed_id` (`feed_id`, `key`, `owner_id`, `timestamp`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     
     $wpdb->query("CREATE TABLE IF NOT EXISTS `".LIFESTREAM_TABLE_PREFIX."feeds` (
@@ -178,23 +199,34 @@ function lifestream_install_database()
       `feed` varchar(32) NOT NULL,
       `options` text default NULL,
       `timestamp` int(11) NOT NULL,
+      `owner` varchar(128) NOT NULL,
+      `owner_id` int(11) NOT NULL,
+      INDEX `owner_id` (`owner_id`),
       PRIMARY KEY (`id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     
     if ($version < 0.5)
     {
+        // Old wp-cron built-in stuff
+        wp_clear_scheduled_hook('LifeStream_Hourly');
+
         // Upgrade them to version 0.5
         $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
         $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` );");
     }
-    if ($version < 0.52)
+    if ($version < 0.6)
     {
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `link` );");
+        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."feeds` ADD `owner` VARCHAR(128) NOT NULL AFTER `timestamp`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `owner_id` , `link` );");
+        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` , `owner_id`);");
+        $wpdb->query("ALTER TABLE `".LIFESTREAM_TABLE_PREFIX."feeds` ADD INDEX `owner_id` (`owner_id`);");
+        $wpdb->query("UPDATE `".LIFESTREAM_TABLE_PREFIX."feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID);
+        $wpdb->query("UPDATE `".LIFESTREAM_TABLE_PREFIX."event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID);
+        $wpdb->query("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID);
     }
-    update_option('lifestream__version', LIFESTREAM_VERSION);
 }
-
 
 class LifeStream_Event
 {
@@ -213,6 +245,8 @@ class LifeStream_Event
          $this->total = $row->total;
          $this->key = $row->key;
          $this->version = $row->version;
+         $this->owner = $row->owner;
+         $this->owner_id = $row->owner_id;
          $this->visible = $row->visible;
          $this->link = ($this->data['link'] ? $this->data['link'] : $row->link);
          $this->feed = new $lifestream_feeds[$row->feed](unserialize($row->options), $row->feed_id);
@@ -252,8 +286,12 @@ class LifeStream_Feed
     // Labels used in rendering each event
     // params: feed url, feed name
     const LABEL_SINGLE  = 'Posted an item on <a href="%s">%s</a>.';
-    // params: number of items, feed name, url
+    // params: number of items, feed url, feed name
     const LABEL_PLURAL  = 'Posted %d items on <a href="%s">%s</a>.';
+    // params: author url, author name, feed url, feed name
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted an item on <a href="%s">%s</a>.';
+    // params: author url, author name, number of items, feed url, feed name
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d items on <a href="%s">%s</a>.';
     // The version is so you can manage data in the database for old versions.
     const VERSION       = 0;
     
@@ -271,7 +309,7 @@ class LifeStream_Feed
         if (!empty($row->options)) $options = unserialize($row->options);
         else $options = null;
 
-        $instance = new $class($options, $row->id);
+        $instance = new $class($options, $row->id, $row);
         if ($row->feed != $instance->get_constant('ID')) throw new Exception('This shouldnt be happening...');
         # $instance->options = unserialize($row['options']);
         return $instance;
@@ -279,10 +317,16 @@ class LifeStream_Feed
     
     // End of Static Methods
 
-    function __construct($options=array(), $id=null)
+    function __construct($options=array(), $id=null, $row=null)
     {
         $this->options = $options;
         $this->id = $id;
+        if ($row)
+        {
+            $this->owner = $row->owner;
+            $this->owner_id = $row->owner_id;
+            $this->_owner_id = $row->owner_id;
+        }
     }
     
     function __toInt()
@@ -315,6 +359,16 @@ class LifeStream_Feed
         return $this->get_constant('LABEL_PLURAL');
     }
     
+    function get_label_single_user($key)
+    {
+        return $this->get_constant('LABEL_SINGLE_USER');
+    }
+    
+    function get_label_plural_user($key)
+    {
+        return $this->get_constant('LABEL_PLURAL_USER');
+    }
+    
     /**
      * Returns a constant attached to this class.
      * @param {string} $constant
@@ -344,11 +398,16 @@ class LifeStream_Feed
         // If it has an ID it means it already exists.
         if ($this->id)
         {
-            $result = $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."feeds` set `options` = '%s' WHERE `id` = %d", $wpdb->escape(serialize($this->options)), $this->id));
+            $result = $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."feeds` set `options` = '%s', `owner` = '%s', `owner_id` = %d WHERE `id` = %d", $wpdb->escape(serialize($this->options)), $wpdb->escape($this->owner), $this->owner_id, $this->id));
+            if ($this->_owner_id && $this->_owner_id != $this->owner_id)
+            {
+                $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event` SET `owner` = '%s', `owner_id` = %d WHERE `feed_id` = %d", $wpdb->escape($this->owner), $this->owner_id, $this->id));
+                $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `owner` = '%s', `owner_id` = %d WHERE `feed_id` = %d", $wpdb->escape($this->owner), $this->owner_id, $this->id));
+            }
         }
         else
         {
-            $result = $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."feeds` (`feed`, `options`, `timestamp`) VALUES ('%s', '%s', %d)", $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($this->options)), time()));
+            $result = $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."feeds` (`feed`, `options`, `timestamp`, `owner`, `owner_id`) VALUES ('%s', '%s', %d, '%s', %d)", $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($this->options)), time(), $wpdb->escape($this->owner), $this->owner_id));
             $this->id = $wpdb->insert_id;
         }
         return $result;
@@ -384,15 +443,12 @@ class LifeStream_Feed
             $key = array_key_pop($item, 'key');
             if (!$date) $date = time();
             
-            $affected =& $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`) VALUES (%d, '%s', '%s', %d, %d, '%s')", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key)));
+            $affected =& $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
             if ($affected)
             {
-                $fdate = date('m d Y', $date);
-                if (!in_array($key, $inserted)) $inserted[$key] = array();
+                if (!array_key_exists($key, $inserted)) $inserted[$key] = array();
                 $total += 1;
-                if (in_array($fdate, $inserted[$key])) continue;
-
-                $inserted[$key][$fdate] = $date;
+                $inserted[$key][date('m d Y', $date)] = $date;
             }
         }
         if (count($inserted))
@@ -427,7 +483,7 @@ class LifeStream_Feed
                         }
                         else
                         {
-                            $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`) VALUES(%d, '%s', '%s', %d, %d, %d, '%s')", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($events)), count($events), $date, $this->get_constant('VERSION'), $key));
+                            $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', '%s', %d, %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($events)), count($events), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
                         }
                     }
                 }
@@ -438,7 +494,7 @@ class LifeStream_Feed
                 {
                     $date = array_key_pop($item, 'date');
 
-                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `timestamp`, `total`, `version`, `key`) VALUES(%d, '%s', '%s', %d, 1)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $item['key']));
+                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', '%s', %d, 1, '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($item['key']), $wpdb->escape($this->owner), $this->owner_id));
                 }
             }
         }
@@ -515,12 +571,21 @@ class LifeStream_Feed
         return sprintf('<a href="%s">%s</a>', $item['link'], $item['title']);
     }
     
+    function render_group_items($id, $output)
+    {
+        return '<ul id="' . $id . '" style="display:none;"><li>' . implode('</li><li>', $output) . '</li></ul>';
+    }
+    
     function render($row)
     {
         // $row->date, $row->link, $row->data['field']
         if (!$this->options['show_label'])
         {
             return $this->render_item($row, $row->data[0]);
+        }
+        if (get_option('lifestream_show_owners'))
+        {
+            return sprintf(__($this->get_label_single_user($row->key), 'lifestream'), '#', $row->owner, $this->get_public_url(), $this->get_public_name()) . '<br />' . $this->render_item($row, $row->data[0]);
         }
         return sprintf(__($this->get_label_single($row->key), 'lifestream'), $this->get_public_url(), $this->get_public_name()) . '<br />' . $this->render_item($row, $row->data[0]);
     }
@@ -533,7 +598,11 @@ class LifeStream_Feed
             $output[] = $this->render_item($row, $chunk);
         }
         $id = sprintf('lf_%s', round(microtime(true)*rand(10000,1000000)));
-        return sprintf(__($this->get_label_plural($row->key), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br /><ul id="' . $id . '" style="display:none;"><li>' . implode('</li><li>', $output) . '</li></ul>';
+        if (get_option('lifestream_show_owners'))
+        {
+            return sprintf(__($this->get_label_plural_user($row->key), 'lifestream'), '#', $row->owner, $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br />'.$this->render_group_items($id, $output);
+        }
+        return sprintf(__($this->get_label_plural($row->key), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br />'.$this->render_group_items($id, $output);
     }
     
     function get_url()
@@ -565,7 +634,7 @@ register_lifestream_feed('LifeStream_GenericFeed');
  * @param {String} $date_interval The cutoff date for events, using MySQL's date interval expressions.
  * @param {String} $output The lifestream output template name.
  */
-function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null, $output=null)
+function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null, $output=null, $user_ids=null)
 {
     global $lifestream_path;
     
@@ -591,12 +660,13 @@ function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null
  * @param {String} $date_interval The cutoff date for events, using MySQL's date interval expressions.
  * @return {Array} Events
  */
-function lifestream_get_events($number_of_results=null, $feed_ids=null, $date_interval=null)
+function lifestream_get_events($number_of_results=null, $feed_ids=null, $date_interval=null, $user_ids=null)
 {
     global $wpdb;
     
     if ($number_of_results == null) $number_of_results = get_option('lifestream_number_of_items');
     if ($feed_ids == null) $feed_ids = array();
+    if ($user_ids == null) $user_ids = array();
     if ($date_interval == null) $date_interval = get_option('lifestream_date_interval');
 
     # If any arguments are invalid we bail out
@@ -607,6 +677,7 @@ function lifestream_get_events($number_of_results=null, $feed_ids=null, $date_in
     $date_interval = rtrim($date_interval, 's');
 
     if (!is_array($feed_ids)) return;
+    if (!is_array($user_ids)) return;
     
     $where = array('t1.`visible` = 1');
     if (count($feed_ids))
@@ -616,6 +687,14 @@ function lifestream_get_events($number_of_results=null, $feed_ids=null, $date_in
             $feed_ids[$key] = $wpdb->escape($value);
         }
         $where[] = 't1.`feed_id` IN ('.implode(', ', $feed_ids).')';
+    }
+    if (count($user_ids))
+    {
+        foreach ($user_ids as $key=>$value)
+        {
+            $user_ids[$key] = $wpdb->escape($value);
+        }
+        $where[] = 't1.`owner_id` IN ('.implode(', ', $user_ids).')';
     }
 
     $sql = sprintf("SELECT t1.*, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` as `t1` INNER JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s)) AND (%s) ORDER BY t1.`timestamp` DESC LIMIT 0, %d", $date_interval, implode(') AND (', $where), $number_of_results);
@@ -631,13 +710,15 @@ function lifestream_get_events($number_of_results=null, $feed_ids=null, $date_in
 
 function lifestream_options()
 {
-    global $lifestream_feeds, $wpdb;
+    global $lifestream_feeds, $wpdb, $userdata;
 
     $wpdb->show_errors();
     
     ksort($lifestream_feeds);
     
     lifestream_install();
+    
+    get_currentuserinfo();
     
     $date_format = sprintf('%s @ %s', get_option('lifestream_day_format'), get_option('lifestream_hour_format'));
     $basename = basename(LIFESTREAM_PLUGIN_FILE);
@@ -651,8 +732,16 @@ function lifestream_options()
             switch ($_GET['op'])
             {
                 case 'delete':
-                    $result =& $wpdb->get_results(sprintf("SELECT `id`, `feed_id`, `timestamp` FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `id` = %d", $_GET['id']));
-                    if (count($result) == 1)
+                    $result =& $wpdb->get_results(sprintf("SELECT `id`, `feed_id`, `timestamp`, `owner_id` FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `id` = %d", $_GET['id']));
+                    if (!$result)
+                    {
+                        $errors[] = __('The selected feed was not found.', 'lifestream');
+                    }
+                    elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
+                    {
+                        $errors[] = __('You do not have permission to do that.', 'lifestream');
+                    }
+                    else
                     {
                         $result =& $result[0];
                         $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event` SET `visible` = 0 WHERE `id` = %d", $result->id));
@@ -682,49 +771,71 @@ function lifestream_options()
                         }
                         $message = __('The selected event was hidden.', 'lifestream');
                     }
-                    else
-                    {
-                        $errors[] = __('The selected event was not found.', 'lifestream');
-                    }
                 break;
             }
         break;
-        case 'lifestream-feeds.php':
+        case 'lifestream-settings.php':
+            if ($_POST['save'])
+            {
+                $options = array('lifestream_timezone', 'lifestream_day_format', 'lifestream_hour_format', 'lifestream_update_interval', 'lifestream_daily_digest', 'lifestream_digest_title', 'lifestream_digest_body', 'lifestream_digest_author', 'lifestream_digest_category', 'lifestream_number_of_items', 'lifestream_date_interval', 'lifestream_show_owners');
+                foreach ($options as $value)
+                {
+                    update_option($value, $_POST[$value]);
+                }
+            }
+        break;
+        default:
             switch ($_GET['op'])
             {
                 case 'refreshall':
-                    $events = lifestream_update();
+                    $events = lifestream_update($userdata->ID);
                     $message = __('All of your feeds have been refreshed.', 'lifestream');
                     break;
                 case 'refresh':
                     $result =& $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
-                    if (count($result) == 1)
+                    if (!$result)
+                    {
+                        $errors[] = __('The selected feed was not found.', 'lifestream');
+                    }
+                    elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
+                    {
+                        $errors[] = __('You do not have permission to do that.', 'lifestream');
+                    }
+                    else
                     {
                         $instance = LifeStream_Feed::construct_from_query_result($result[0]);
                         $instance->refresh();
                         $message = __('The selected feed\'s events has been refreshed.', 'lifestream');
                     }
-                    else
-                    {
-                        $errors[] = __('The selected feed was not found.', 'lifestream');
-                    }
                 break;
                 case 'delete':
                     $result =& $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
-                    if (count($result) == 1)
+                    if (!$result)
+                    {
+                        $errors[] = __('The selected feed was not found.', 'lifestream');
+                    }
+                    elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
+                    {
+                        $errors[] = __('You do not have permission to do that.', 'lifestream');
+                    }
+                    else
                     {
                         $instance = LifeStream_Feed::construct_from_query_result($result[0]);
                         $instance->delete();
                         $message = __('The selected feed and all events has been removed.', 'lifestream');
                     }
-                    else
-                    {
-                        $errors[] = __('The selected feed was not found.', 'lifestream');
-                    }
                 break;
                 case 'edit':
                     $result =& $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
-                    if (count($result) == 1)
+                    if (!$result)
+                    {
+                        $errors[] = __('The selected feed was not found.', 'lifestream');
+                    }
+                    elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
+                    {
+                        $errors[] = __('You do not have permission to do that.', 'lifestream');
+                    }
+                    else
                     {
                         $instance = LifeStream_Feed::construct_from_query_result($result[0]);
 
@@ -748,6 +859,13 @@ function lifestream_options()
                             {
                                 $values['grouped'] = $_POST['grouped'];
                             }
+                            if ($_POST['owner'] != $instance->owner_id && current_user_can('manage_options'))
+                            {
+                                $instance->owner_id = $_POST['owner'];
+                                $usero = new WP_User($author->user_id);
+                                $owner = $usero->data;
+                                $instance->owner = $owner->user_nicename;
+                            }
                             $values['show_label'] = $_POST['show_label'];
                             if (!count($errors))
                             {
@@ -755,10 +873,6 @@ function lifestream_options()
                                 $instance->save();
                             }
                         }
-                    }
-                    else
-                    {
-                        $errors[] = __('The selected feed was not found.', 'lifestream');
                     }
                 break;
                 default:
@@ -784,6 +898,18 @@ function lifestream_options()
                         {
                             $values['grouped'] = $_POST['grouped'];
                         }
+                        if (current_user_can('manage_options'))
+                        {
+                            $feed->owner_id = $_POST['owner'];
+                            $usero = new WP_User($feed->owner_id);
+                            $owner = $usero->data;
+                            $feed->owner = $owner->user_nicename;
+                        }
+                        else
+                        {
+                            $feed->owner_id = $userdata->ID;
+                            $feed->owner = $userdata->user_nicename;
+                        }
                         $values['show_label'] = $_POST['show_label'];
                         if (!count($errors))
                         {
@@ -801,16 +927,6 @@ function lifestream_options()
                         }
                     }
                 break;
-            }
-        break;
-        default:
-            if ($_POST['save'])
-            {
-                $options = array('lifestream_timezone', 'lifestream_day_format', 'lifestream_hour_format', 'lifestream_update_interval', 'lifestream_daily_digest', 'lifestream_digest_title', 'lifestream_digest_body', 'lifestream_digest_author', 'lifestream_digest_category', 'lifestream_number_of_items', 'lifestream_date_interval');
-                foreach ($options as $value)
-                {
-                    update_option($value, $_POST[$value]);
-                }
             }
         break;
     }
@@ -837,20 +953,8 @@ function lifestream_options()
         <?php
         switch ($_GET['page'])
         {
-            case 'lifestream-feeds.php':
-                switch ($_GET['op'])
-                {
-                    case 'edit':
-                        include('pages/edit-feed.inc.php');
-                    break;
-                    default:
-                        $results =& $wpdb->get_results("SELECT t1.*, (SELECT COUNT(1) FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = t1.`id`) as `events` FROM `".LIFESTREAM_TABLE_PREFIX."feeds` as t1 ORDER BY `id`");
-                        if ($results !== false)
-                        {
-                            include('pages/feeds.inc.php');
-                        }
-                    break;
-                }
+            case 'lifestream-settings.php':
+                include('pages/settings.inc.php');
             break;
             case 'lifestream-events.php':
                 $page = $_GET['p'];
@@ -858,12 +962,37 @@ function lifestream_options()
 
                 $page -= 1;
                 
-                $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event` as t1 JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $page*50));
-
+                if (!current_user_can('manage_options'))
+                {
+                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event` as t1 JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE `owner_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $userdata->ID, $page*50));
+                }
+                else
+                {
+                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event` as t1 JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $page*50));
+                }
                 include('pages/events.inc.php');
             break;
             default:
-                include('pages/settings.inc.php');
+                switch ($_GET['op'])
+                {
+                    case 'edit':
+                        include('pages/edit-feed.inc.php');
+                    break;
+                    default:
+                        if (!current_user_can('manage_options'))
+                        {
+                            $results =& $wpdb->get_results(sprintf("SELECT t1.*, (SELECT COUNT(1) FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = t1.`id`) as `events` FROM `".LIFESTREAM_TABLE_PREFIX."feeds` as t1 WHERE t1.`owner_id` = %d ORDER BY `id`", $userdata->ID));
+                        }
+                        else
+                        {
+                            $results =& $wpdb->get_results("SELECT t1.*, (SELECT COUNT(1) FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = t1.`id`) as `events` FROM `".LIFESTREAM_TABLE_PREFIX."feeds` as t1 ORDER BY `id`");
+                        }
+                        if ($results !== false)
+                        {
+                            include('pages/feeds.inc.php');
+                        }
+                    break;
+                }
             break;
         }
         ?>
@@ -876,10 +1005,11 @@ function lifestream_options_menu()
 {
     if (function_exists('add_menu_page'))
     {
-        add_menu_page('LifeStream', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
-        add_submenu_page(basename(LIFESTREAM_PLUGIN_FILE), __('LifeStream Settings', 'lifestream'), __('Settings', 'lifestream'), 8, 'lifestream.php', 'lifestream_options');
-        add_submenu_page(basename(LIFESTREAM_PLUGIN_FILE), __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 8, 'lifestream-feeds.php', 'lifestream_options');
-        add_submenu_page(basename(LIFESTREAM_PLUGIN_FILE), __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 8, 'lifestream-events.php', 'lifestream_options');
+        $basename = basename(LIFESTREAM_PLUGIN_FILE);
+        add_menu_page('LifeStream', 'LifeStream', 'edit_posts', $basename, 'lifestream_options');
+        add_submenu_page($basename, __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 'edit_posts', $basename, 'lifestream_options');
+        add_submenu_page($basename, __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 'edit_posts', 'lifestream-events.php', 'lifestream_options');
+        add_submenu_page($basename, __('LifeStream Settings', 'lifestream'), __('Settings', 'lifestream'), 'manage_options', 'lifestream-settings.php', 'lifestream_options');
         
         //add_options_page('LifeStream Options', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
     }

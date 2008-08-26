@@ -1,3 +1,7 @@
+<?php
+$authors = get_users_of_blog();
+
+?>
 <h2><?php _e('Add a Feed', 'lifestream');?></h2>
 <noscript>
     <style type="text/css">.requires-javascript { display: none; }</style>
@@ -17,7 +21,7 @@
         $feed = new $class_name();
         $options = $feed->get_options();
         ?>
-        <form action="?page=lifestream-feeds.php" method="post" id="feed_options_<?php echo $identifier; ?>" style="display:none;">
+        <form action="?page=lifestream.php" method="post" id="feed_options_<?php echo $identifier; ?>" style="display:none;">
             <h3><?php printf(__('%s Feed Settings', 'lifestream'), $feed->get_constant('NAME')) ;?></h3>
             <?php if ($description = $feed->get_constant('DESCRIPTION')) { ?>
             <p><?php echo $description; ?></p>
@@ -50,7 +54,7 @@
                             <?php } ?></td>
                         <?php } else { ?>
                             <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></th>
-                            <td><input name="<?php echo $option;?>" type="text" value="<?php echo htmlspecialchars($current_value); ?>">
+                            <td><input name="<?php echo $option;?>" type="text" size="40" value="<?php echo htmlspecialchars($current_value); ?>">
                             <?php if ($option_meta[4]) { ?>
                             <div class="helptext"><?php echo __($option_meta[4], 'lifestream'); ?></div>
                             <?php } ?></td>
@@ -73,6 +77,26 @@
                         </td>
                     </tr>
                 <?php } ?>
+                
+                <tr>
+                    <th><label for="id_owner">Owner:</label></th>
+                    <td>
+                        <?php if (current_user_can('manage_options')) { ?>
+                        <select name="owner" id="id_owner">
+                            <?php
+                            foreach ($authors as $author)
+                            {
+                                $usero = new WP_User($author->user_id);
+                                $author = $usero->data;
+                                echo '<option value="'.$author->ID.'"'.($userdata->ID == $author->ID ? ' selected="selected"' : '').'>'.$author->user_nicename.'</option>';
+                            }
+                            ?>
+                        </select>
+                        <?php } else { ?>
+                        <?php echo $userdata->user_nicename; ?>
+                        <?php } ?>
+                    </td>
+                </tr>
                 </tbody>
             </table>
             <?php if ($url = $feed->get_constant('URL')) { ?>
@@ -81,7 +105,6 @@
             <p class="submit">
                 <input type="submit" name="save" value="<?php _e('Add Feed', 'lifestream');?>" />
             </p>
-    
         </form>
     <?php
     }
