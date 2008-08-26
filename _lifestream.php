@@ -495,7 +495,7 @@ class LifeStream_Feed
                 {
                     $date = array_key_pop($item, 'date');
 
-                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', '%s', %d, 1, '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($item['key']), $wpdb->escape($this->owner), $this->owner_id));
+                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($item['key']), $wpdb->escape($this->owner), $this->owner_id));
                 }
             }
         }
