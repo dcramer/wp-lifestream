@@ -1099,7 +1099,7 @@ function widget_lifestream($args)
             <?php echo $before_title
                 . 'LifeStream'
                 . $after_title; ?>
-            <?php lifestream(10); ?>
+            <?php lifestream_sidebar_widget(10); ?>
         <?php echo $after_widget; ?>
 <?php
 }
