@@ -369,7 +369,7 @@ class LifeStream_Feed
     {
         global $wpdb;
         
-        //date_default_timezone_set('UTC');
+        date_default_timezone_set('UTC');
 
         if (!$this->id) return false;
 
@@ -992,6 +992,9 @@ function lifestream_do_digest()
 
 function lifestream_init()
 {
+    $offset = get_option('lifestream_timezone');
+    define(LIFESTREAM_DATE_OFFSET, $offset);
+    
     // wp cron is too limited, make our own
     $time = get_option('lifestream__last_update');
     if (!$time || ($time + (get_option('lifestream_update_interval') * 60) < time()))
@@ -1027,6 +1030,3 @@ add_action('admin_menu', 'lifestream_options_menu');
 add_action('wp_head', 'lifestream_header');
 add_filter('the_content', 'lifestream_embed_callback');
 add_action('init', 'lifestream_init');
-
-$offset = get_option('lifestream_timezone');
-define(LIFESTREAM_DATE_OFFSET, $offset);
