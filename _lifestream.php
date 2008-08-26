@@ -694,7 +694,7 @@ function lifestream_sidebar_widget($_=array())
     global $lifestream_path;
     
     $defaults = array(
-        'number_of_results'   => 10,
+        'number_of_results' => 10,
         'event_total_max'   => 1,
     );
     
@@ -1091,16 +1091,26 @@ function lifestream_header()
     echo '<script type="text/javascript" src="'.$lifestream_path.'/lifestream.js"></script>';
 }
 
+function widget_lifestream_config()
+{
+    ?>
+    <p><label for="lifestream_title">Title: <input class="widefat" id="lifestream_title" name="lifestream_title" value="" type="text"></label></p>
+    <p>
+        <label for="lifestream_show_grouped"><input class="checkbox" id="lifestream_show_grouped" name="lifestream_show_grouped" type="checkbox"> Show events ungrouped.</label>
+    </p>
+    <?php
+}
+
 function widget_lifestream($args)
 {
     extract($args);
 ?>
-        <?php echo $before_widget; ?>
-            <?php echo $before_title
-                . 'LifeStream'
-                . $after_title; ?>
-            <?php lifestream_sidebar_widget(10); ?>
-        <?php echo $after_widget; ?>
+    <?php echo $before_widget; ?>
+        <?php echo $before_title
+            . 'LifeStream'
+            . $after_title; ?>
+        <?php lifestream_sidebar_widget(array('number_of_items'=>10)); ?>
+    <?php echo $after_widget; ?>
 <?php
 }
 
@@ -1190,6 +1200,11 @@ function lifestream_do_digest()
 
 function lifestream_init()
 {
+    if ((isset($_GET['activate']) && $_GET['activate'] == 'true') || (isset($_GET['activate-multi']) && $_GET['activate-multi'] == 'true'))
+    {
+        lifestream_activate();
+    }
+
     $offset = get_option('lifestream_timezone');
     define(LIFESTREAM_DATE_OFFSET, $offset);
     
@@ -1208,20 +1223,16 @@ function lifestream_init()
         }
     }
     load_plugin_textdomain('lifestream', 'wp-content/plugins/lifestream/locales');
-}
-
-if (function_exists('wp_register_sidebar_widget'))
-{
-    wp_register_sidebar_widget('lifestream', 'LifeStream', 'widget_lifestream', array('classname' => 'widget_lifestream', 'description' => 'Share your LifeStream on your blog.'));
-}
-elseif (function_exists('register_sidebar_widget'))
-{
-    register_sidebar_widget('LifeStream', 'widget_lifestream');
-}
-
-if ((isset($_GET['activate']) && $_GET['activate'] == 'true') || (isset($_GET['activate-multi']) && $_GET['activate-multi'] == 'true'))
-{
-    lifestream_activate();
+    
+    if (function_exists('register_sidebar_widget'))
+    {
+        //         if ( !$id ) {
+        //             wp_register_sidebar_widget( 'rss-1', $name, 'wp_widget_rss', $widget_ops, array( 'number' => -1 ) );
+        //             wp_register_widget_control( 'rss-1', $name, 'wp_widget_rss_control', $control_ops, array( 'number' => -1 ) );
+        // }
+        // wp_register_widget_control('lifestream-1', 'LifeStream', 'widget_lifestream', array('id_base'=>'lifestream')) {
+        //         register_sidebar_widget('LifeStream', 'widget_lifestream');
+    }
 }
 
 add_action('admin_menu', 'lifestream_options_menu');
