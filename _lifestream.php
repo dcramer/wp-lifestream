@@ -222,9 +222,9 @@ function lifestream_install_database($version)
         $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `owner_id` , `link` );");
         $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` , `owner_id`);");
         $wpdb->query("ALTER TABLE `".LIFESTREAM_TABLE_PREFIX."feeds` ADD INDEX `owner_id` (`owner_id`);");
-        $wpdb->query("UPDATE `".LIFESTREAM_TABLE_PREFIX."feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID);
-        $wpdb->query("UPDATE `".LIFESTREAM_TABLE_PREFIX."event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID);
-        $wpdb->query("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID);
+        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
     }
 }
 
