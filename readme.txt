@@ -43,6 +43,7 @@ Included Plugins:
 * Skitch
 * Identi.ca
 * Pandora
+* Hulu
 
 == Installation ==
 

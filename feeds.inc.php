@@ -676,15 +676,6 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
     {
         return 'http://identi.ca/'.$this->options['username'].'/rss';
     }
-    
-    function yield($row)
-    {
-        return array(
-            'date'      =>  $row->get_date('U'),
-            'link'      =>  html_entity_decode($row->get_link()),
-            'title'     =>  html_entity_decode($row->get_title()),
-        );
-    }
 }
 register_lifestream_feed('LifeStream_IdenticaFeed');
 
@@ -820,4 +811,93 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_PandoraFeed');
 
+class LifeStream_HuluFeed extends LifeStream_Feed
+{
+    const ID            = 'hulu';
+    const NAME          = 'Hulu';
+    const URL           = 'http://www.hulu.com/';
+    const LABEL_SINGLE  = 'Watched a video on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Watched %d videos on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> watched a video on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> watched %d videos on <a href="%s">%s</a>.';
+    const DESCRIPTION   = 'You can obtain your history feed by visiting <a href="http://www.hulu.com/users/history">here</a> and clicking the RSS icon.';
+}
+register_lifestream_feed('LifeStream_HuluFeed');
+
+class LifeStream_FireEagleFeed extends LifeStream_Feed
+{
+    const ID            = 'fireeagle';
+    const NAME          = 'Fire Eagle';
+    const URL           = 'http://fireeagle.yahoo.net/';
+    const LABEL_SINGLE  = 'Updated location on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Updated location %d times on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> updated their location on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> updated their location %d times on <a href="%s">%s</a>.';
+
+    protected $fe_key = 'cb91fb5dQsGd';
+    protected $fe_secret = 'uZyxnMZS2UsgAIwnf3BuzZKWhGjMqWqt';
+
+    function main()
+    {
+        ob_start();
+
+        if (@$_GET['f'] == 'start') {
+            // get a request token + secret from FE and redirect to the authorization page
+            $fe = new FireEagle($this->fe_key, $this->fe_secret);
+            $tok = $fe->getRequestToken();
+            if (!isset($tok['oauth_token'])
+                || !is_string($tok['oauth_token'])
+                || !isset($tok['oauth_token_secret'])
+                || !is_string($tok['oauth_token_secret'])) {
+             echo "ERROR! FireEagle::getRequestToken() returned an invalid response. Giving up.";
+             exit;
+            }
+            $_SESSION['auth_state'] = "start";
+            $_SESSION['request_token'] = $token = $tok['oauth_token'];
+            $_SESSION['request_secret'] = $tok['oauth_token_secret'];
+            header("Location: ".$fe->getAuthorizeURL($token));
+        }
+        else if (@$_GET['f'] == 'callback')
+        {
+            // the user has authorized us at FE, so now we can pick up our access token + secret
+            if (@$_SESSION['auth_state'] != "start")
+            {
+                echo "Out of sequence.";
+                exit;
+            }
+            if ($_GET['oauth_token'] != $_SESSION['request_token'])
+            {
+                echo "Token mismatch.";
+                exit;
+            }
+
+            $fe = new FireEagle($this->fe_key, $this->fe_secret, $_SESSION['request_token'], $_SESSION['request_secret']);
+            $tok = $fe->getAccessToken();
+            if (!isset($tok['oauth_token']) || !is_string($tok['oauth_token'])
+                || !isset($tok['oauth_token_secret'])
+                || !is_string($tok['oauth_token_secret']))
+            {
+                    error_log("Bad token from FireEagle::getAccessToken(): ".var_export($tok, TRUE));
+                    echo "ERROR! FireEagle::getAccessToken() returned an invalid response. Giving up.";
+                    exit;
+            }
+
+            $_SESSION['access_token'] = $tok['oauth_token'];
+            $_SESSION['access_secret'] = $tok['oauth_token_secret'];
+            $_SESSION['auth_state'] = "done";
+            header("Location: ".$_SERVER['SCRIPT_NAME']);
+        }
+        else if (@$_SESSION['auth_state'] == 'done')
+        {
+            // we have our access token + secret, so now we can actually *use* the api
+            $fe = new FireEagle($this->fe_key, $this->fe_secret, $_SESSION['access_token'], $_SESSION['access_secret']);
+            $location = $fe->user();
+            if ($location->user->best_guess)
+            {
+                $location->user->best_guess->name;
+            }
+        }
+    }
+}
+//register_lifestream_feed('LifeStream_FireEagleFeed');
 ?>
