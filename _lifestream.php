@@ -1,5 +1,5 @@
 <?php
-define(LIFESTREAM_VERSION, 0.6);
+define(LIFESTREAM_VERSION, 0.61);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
@@ -85,7 +85,9 @@ function lifestream_embed_handler($matches)
         if ($matches[$i]) $args[$matches[$i]] = $matches[$i+1];
     }
     ob_start();
-    lifestream($args['number_of_items'], $args['feed_ids'] ? explode(',', $args['feed_ids']) : null, $args['date_interval'], $args['output']);
+    if ($args['feed_ids']) $args['feed_ids'] = explode(',', $args['feed_ids']);
+    if ($args['user_ids']) $args['user_ids'] = explode(',', $args['user_ids']);
+    lifestream($args);
     return ob_get_clean();
 }
 
@@ -262,7 +264,6 @@ class LifeStream_Event
         /**
          * Returns an HTML-ready string.
          */
-        if ($this->total > 1) return $this->feed->render_group($this);
         return $this->feed->render($this);
      }
     
@@ -566,43 +567,65 @@ class LifeStream_Feed
         );
     }
     
-    function render_item($row, $item)
+    function render_item($event, $item)
     {
         return sprintf('<a href="%s">%s</a>', $item['link'], $item['title']);
     }
     
     function render_group_items($id, $output)
     {
-        return '<ul id="' . $id . '" style="display:none;"><li>' . implode('</li><li>', $output) . '</li></ul>';
+        return sprintf('<ul id="%s" style="display:none;"><li>%s</li></ul>', $id, implode('</li><li>', $output));
     }
     
-    function render($row)
+    function get_render_output($event)
     {
-        // $row->date, $row->link, $row->data['field']
-        if (!$this->options['show_label'])
+        $label = '';
+        $rows = array();
+
+        foreach ($event->data as $row)
         {
-            return $this->render_item($row, $row->data[0]);
+            $rows[] = $this->render_item($event, $row);
         }
-        if (get_option('lifestream_show_owners'))
+        if (count($rows) > 1)
         {
-            return sprintf(__($this->get_label_single_user($row->key), 'lifestream'), '#', $row->owner, $this->get_public_url(), $this->get_public_name()) . '<br />' . $this->render_item($row, $row->data[0]);
+            if (get_option('lifestream_show_owners'))
+            {
+                $label = sprintf(__($this->get_label_plural_user($event->key), 'lifestream'), '#', $event->owner, $event->total, $this->get_public_url(), $this->get_public_name());
+            }
+            else
+            {
+                $label = sprintf(__($this->get_label_plural($event->key), 'lifestream'), $event->total, $this->get_public_url(), $this->get_public_name());
+            }
         }
-        return sprintf(__($this->get_label_single($row->key), 'lifestream'), $this->get_public_url(), $this->get_public_name()) . '<br />' . $this->render_item($row, $row->data[0]);
+        else
+        {
+            if (get_option('lifestream_show_owners'))
+            {
+                $label = sprintf(__($this->get_label_single_user($event->key), 'lifestream'), '#', $event->owner, $this->get_public_url(), $this->get_public_name());
+            }
+            else
+            {
+                $label = sprintf(__($this->get_label_single($key), 'lifestream'), $this->get_public_url(), $this->get_public_name());
+            }
+        }
+        return array($label, $rows);
     }
     
-    function render_group($row)
+    function render($event)
     {
-        $output = array();
-        foreach ($row->data as $chunk)
+        list($label, $rows) = $this->get_render_output($event);
+        if (count($rows) > 1)
         {
-            $output[] = $this->render_item($row, $chunk);
+            return sprintf('%1$s<small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</a>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items($event->id, $rows));
         }
-        $id = sprintf('lf_%s', round(microtime(true)*rand(10000,1000000)));
-        if (get_option('lifestream_show_owners'))
+        elseif ($this->options['show_label'])
         {
-            return sprintf(__($this->get_label_plural_user($row->key), 'lifestream'), '#', $row->owner, $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br />'.$this->render_group_items($id, $output);
+            return sprintf('%s<div class="lifestream_events">%s', $label, $rows[0]);
         }
-        return sprintf(__($this->get_label_plural($row->key), 'lifestream'), $row->total, $this->get_public_url(), $this->get_public_name()) . ' <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'' . $id . '\', \'' . __('Show Details', 'lifestream') . '\', \''. __('Hide Details', 'lifestream') .'\');return false;">' . __('Show Details', 'lifestream') . '</a>)</small><br />'.$this->render_group_items($id, $output);
+        else
+        {
+            return $rows[0];
+        }
     }
     
     function get_url()
@@ -629,75 +652,120 @@ register_lifestream_feed('LifeStream_GenericFeed');
 
 /**
  * Outputs the recent lifestream events.
- * @param {Int} $number_of_results The maximum number of results.
- * @param {Array} $feed_ids An array of feed IDs to include.
- * @param {String} $date_interval The cutoff date for events, using MySQL's date interval expressions.
- * @param {String} $output The lifestream output template name.
+ * @param {Array} $args An array of keyword args.
  */
-function lifestream($number_of_results=null, $feed_ids=null, $date_interval=null, $output=null, $user_ids=null)
+function lifestream($args=array())
 {
     global $lifestream_path;
-    
-    if ($output == null) $output = 'table';
 
-    if (!in_array($output, array('table', 'list'))) return;
+    $_ = func_get_args();
+
+    if (!is_array($_[0]))
+    {
+        // old style
+        $_ = array(
+            'number_of_results' => $_[0],
+            'feed_ids'          => $_[1],
+            'date_interval'     => $_[2],
+            'user_ids'          => $_[4],
+        );
+        foreach ($_ as $key=>$value)
+        {
+            if ($value == null) unset($_[$key]);
+        }
+    }
+    else
+    {
+        $_ = $args;
+    }
     
     // TODO: offset
     //$offset = get_option('lifestream_timezone');
     $hour_format = get_option('lifestream_hour_format');
     $day_format = get_option('lifestream_day_format');
     
-    $args = func_get_args();
-    $events = call_user_func_array('lifestream_get_events', $args);
+    $events = call_user_func('lifestream_get_events', $_);
     
-    include(sprintf('pages/lifestream-%s.inc.php', $output));
+    include('pages/lifestream-table.inc.php');
+}
+
+function lifestream_sidebar_widget($_=array())
+{
+    global $lifestream_path;
+    
+    $defaults = array(
+        'number_of_results'   => 10,
+        'event_total_max'   => 1,
+    );
+    
+    $_ = array_merge($defaults, $_);
+    
+    // TODO: offset
+    //$offset = get_option('lifestream_timezone');
+    $hour_format = get_option('lifestream_hour_format');
+    $day_format = get_option('lifestream_day_format');
+    
+    $events = call_user_func('lifestream_get_events', $_);
+    
+    include('pages/lifestream-list.inc.php');
 }
 
 /**
  * Gets recent events from the lifestream.
- * @param {Int} $number_of_results The maximum number of results.
- * @param {Array} $feed_ids An array of feed IDs to include.
- * @param {String} $date_interval The cutoff date for events, using MySQL's date interval expressions.
- * @return {Array} Events
+ * @param {Array} $_ An array of keyword args.
  */
-function lifestream_get_events($number_of_results=null, $feed_ids=null, $date_interval=null, $user_ids=null)
+function lifestream_get_events($_=array())
 {
     global $wpdb;
     
-    if ($number_of_results == null) $number_of_results = get_option('lifestream_number_of_items');
-    if ($feed_ids == null) $feed_ids = array();
-    if ($user_ids == null) $user_ids = array();
-    if ($date_interval == null) $date_interval = get_option('lifestream_date_interval');
+    $defaults = array(
+        'number_of_results' => get_option('lifestream_number_of_items'),
+        'feed_ids'          => array(),
+        'user_ids'          => array(),
+        'date_interval'     => get_option('lifestream_date_interval'),
+        'event_total_min'   => -1,
+        'event_total_max'   => -1,
+    );
+    
+    $_ = array_merge($defaults, $_);
 
     # If any arguments are invalid we bail out
 
-    if (!((int)$number_of_results > 0)) return;
+    if (!((int)$_['number_of_results'] > 0)) return;
 
-    if (!preg_match('/[\d]+ (month|day|year|hour|second|microsecond|week|quarter)s?/', $date_interval)) return;
-    $date_interval = rtrim($date_interval, 's');
+    if (!preg_match('/[\d]+ (month|day|year|hour|second|microsecond|week|quarter)s?/', $_['date_interval'])) return;
+    $_['date_interval'] = rtrim($_['date_interval'], 's');
 
-    if (!is_array($feed_ids)) return;
-    if (!is_array($user_ids)) return;
+    if (!is_array($_['feed_ids'])) return;
+    if (!is_array($_['user_ids'])) return;
     
     $where = array('t1.`visible` = 1');
-    if (count($feed_ids))
+    if (count($_['feed_ids']))
     {
-        foreach ($feed_ids as $key=>$value)
+        foreach ($_['feed_ids'] as $key=>$value)
         {
-            $feed_ids[$key] = $wpdb->escape($value);
+            $_['feed_ids'][$key] = $wpdb->escape($value);
         }
-        $where[] = 't1.`feed_id` IN ('.implode(', ', $feed_ids).')';
+        $where[] = 't1.`feed_id` IN ('.implode(', ', $_['feed_ids']).')';
     }
-    if (count($user_ids))
+    if (count($_['user_ids']))
     {
-        foreach ($user_ids as $key=>$value)
+        foreach ($_['user_ids'] as $key=>$value)
         {
-            $user_ids[$key] = $wpdb->escape($value);
+            $_['user_ids'][$key] = $wpdb->escape($value);
         }
-        $where[] = 't1.`owner_id` IN ('.implode(', ', $user_ids).')';
+        $where[] = 't1.`owner_id` IN ('.implode(', ', $_['user_ids']).')';
+    }
+    if ($_['event_total_max'] > -1)
+    {
+        $where[] = sprintf('t1.`total` <= %d', $_['event_total_max']);
+    }
+    if ($_['event_total_min'] > -1)
+    {
+        $where[] = sprintf('t1.`total` >= %d', $_['event_total_min']);
     }
 
-    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` as `t1` INNER JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s)) AND (%s) ORDER BY t1.`timestamp` DESC LIMIT 0, %d", $date_interval, implode(') AND (', $where), $number_of_results);
+    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` as `t1` INNER JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s)) AND (%s) ORDER BY t1.`timestamp` DESC LIMIT 0, %d", $_['date_interval'], implode(') AND (', $where), $_['number_of_results']);
 
     $results =& $wpdb->get_results($sql);
     $events = array();

@@ -30,7 +30,7 @@ if (count($events))
                 <a href="<?php echo htmlspecialchars($item->link); ?>" title="<?php echo $result->feed->get_constant('ID'); ?>"><img src="<?php echo $lifestream_path . '/images/'. $result->feed->get_constant('ID'); ?>.png" alt="<?php echo $result->feed->get_constant('ID'); ?>" /></a>
             </td>
             <td class="lifestream_hour">
-                <abbr class="dtstart" title="<?php echo date("c", $timestamp); ?>"><?php echo date($hour_format, $timestamp); ?></abbr>
+                <abbr title="<?php echo date("c", $timestamp); ?>"><?php echo date($hour_format, $timestamp); ?></abbr>
             </td>
             <td class="lifestream_text">
                 <?php echo $result->render(); ?>

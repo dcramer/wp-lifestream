@@ -336,7 +336,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
         );
     }
     
-    function render_item($row, $item, $group=null)
+    function render_item($row, $item)
     {
         if ($this->options['enable_lightbox'])
         {
@@ -345,7 +345,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
                 $link = $item['image']['url'];
                 // change it to be large size images
                 $link = str_replace('_m', '', $link);
-                $lightbox = ' rel="lightbox'.($group ? '-'.$group : '');
+                $lightbox = ' rel="lightbox'.($row->total > 1 ? '-'.$row->id : '');
             }
             else
             {
@@ -357,7 +357,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
         {
             $link = htmlspecialchars($item['link']);
         }
-        return sprintf('<a href="%s" title="%s"'.$lightbox.'"><img src="%s" width="%d" height="%d"/></a>', $link, $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
+        return sprintf('<a href="%s" class="photo" title="%s"'.$lightbox.'"><img src="%s" width="%d" height="%d"/></a>', $link, $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
     }
     
     function render_group_items($id, $output)
