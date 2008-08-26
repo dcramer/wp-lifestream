@@ -162,7 +162,7 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
     
     function get_public_url()
     {
-        return 'http://del.icio.us'.$this->options['username'];
+        return 'http://del.icio.us/'.$this->options['username'];
     }
 
     function yield($row)
