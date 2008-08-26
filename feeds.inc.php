@@ -362,7 +362,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
     
     function render_group_items($id, $output)
     {
-        return '<div id="' . $id . '" style="display:none;">' . implode(' ', $output) . '</div>';
+        return sprintf('<div id="%s" style="display:none;">%s</div>', $id, implode(' ', $output));
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
