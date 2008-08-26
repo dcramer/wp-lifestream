@@ -603,7 +603,7 @@ class LifeStream_SkitchFeed extends LifeStream_Feed
     const NAME          = 'Skitch';
     const URL           = 'http://www.skitch.com/';
     const LABEL_SINGLE  = 'Shared an image on <a href="%s">%s</a>.';
-    const LABEL_PLURAL  = 'Shared %d images on <ah ref="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Shared %d images on <a href="%s">%s</a>.';
     
     function __toString()
     {
