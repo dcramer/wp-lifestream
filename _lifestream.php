@@ -616,7 +616,7 @@ class LifeStream_Feed
         list($label, $rows) = $this->get_render_output($event);
         if (count($rows) > 1)
         {
-            return sprintf('%1$s<small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</a>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items($event->id, $rows));
+            return sprintf('%1$s<small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</a>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows));
         }
         elseif ($this->options['show_label'])
         {
