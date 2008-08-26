@@ -1,5 +1,5 @@
 <?php
-define(LIFESTREAM_VERSION, 0.52);
+define(LIFESTREAM_VERSION, 0.53);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
