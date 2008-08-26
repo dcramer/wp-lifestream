@@ -5,7 +5,7 @@ $authors = get_users_of_blog();
 
 ?>
 <h2><?php _e('LifeStream Configuration', 'lifestream');?></h2>
-<p><?php printf(__('The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href="%s">Feed Management page</a>.', 'lifestream'), '?page=lifestream-feeds.php'); ?></p>
+<p><?php printf(__('The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href="%s">Feed Management page</a>.', 'lifestream'), '?page=lifestream.php'); ?></p>
 <form method="post" action="">
     <table class="options">
         <colgroup>
@@ -16,14 +16,14 @@ $authors = get_users_of_blog();
             <tr>
                 <th><label for="id_day_format"><?php _e('Day Format:', 'lifestream'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_day_format" id="id_day_format" value="<?php echo htmlspecialchars(get_option('lifestream_day_format')); ?>"/> (Ex: <?php echo date(get_option('lifestream_day_format')); ?>)
+                    <input type="text" class="text" name="lifestream_day_format" id="id_day_format" value="<?php echo htmlspecialchars(get_option('lifestream_day_format')); ?>"/> (e.g. <?php echo date(get_option('lifestream_day_format')); ?>)
                     <div class="helptext"><?php _e('For more information, please see PHP\'s <a href="http://www.php.net/date/">date()</a> method for more information.', 'lifestream'); ?></div></p>
                 </td>
             </tr>
             <tr>
                 <th><label for="id_hour_format"><?php _e('Hour Format:', 'lifestream'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_hour_format" id="id_hour_format" value="<?php echo htmlspecialchars(get_option('lifestream_hour_format')); ?>"/> (Ex: <?php echo date(get_option('lifestream_hour_format')); ?>)
+                    <input type="text" class="text" name="lifestream_hour_format" id="id_hour_format" value="<?php echo htmlspecialchars(get_option('lifestream_hour_format')); ?>"/> (e.g. <?php echo date(get_option('lifestream_hour_format')); ?>)
                     <div class="helptext"><?php _e('For more information, please see PHP\'s <a href="http://www.php.net/date/">date()</a> method for more information.', 'lifestream'); ?></div></p>
                 </td>
             </tr>
@@ -56,6 +56,12 @@ $authors = get_users_of_blog();
                 <td>
                     <input type="text" class="text" name="lifestream_date_interval" id="id_date_interval" value="<?php echo htmlspecialchars(get_option('lifestream_date_interval')); ?>"/> (Default: 1 month)
                     <div class="helptext"><?php _e('The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>', 'lifestream'); ?></div></p>
+                </td>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <td><label for="id_show_owners"><input type="checkbox" name="lifestream_show_owners" id="id_show_owners" value="1"<?php if (get_option('lifestream_show_owners')) echo ' checked="checked"'; ?>/> <?php _e('Show the owner of the feed in the display.', 'lifestream'); ?></label>
+                    <div class="helptext">e.g. <a href="#">admin</a> posted a new photo on <a href="http://www.flickr.com/">Flickr</a></div>
                 </td>
             </tr>
         </tbody>
