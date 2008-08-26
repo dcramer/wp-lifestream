@@ -62,9 +62,7 @@ Another method requires a [custom WordPress page](http://codex.wordpress.org/Pag
 
 `<?php lifestream(); ?>`
 
-The third method requires you install the [wp-exec](http://wordpress.org/extend/plugins/wp-exec/) plugin:
-
-`<exec type="function" name="LifeStream" />`
+* Note: arguments passed must be as an array with key/value pairs.
 
 You may also specify several parameters in the `lifestream` method (useful for sidebar display):
 
@@ -83,7 +81,7 @@ Example:
 
 `<ul>
 <?php
-$events = lifestream_get_events();
+$events = lifestream_get_events(array('number_of_items' => 50));
 
 foreach ($events as $event)
 {

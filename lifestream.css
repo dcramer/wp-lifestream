@@ -19,12 +19,16 @@ table.lifestream td { vertical-align: top; padding: 3px 0; }
 .lifestream ul { list-style-type: none; margin: 0; padding: 0; }
 
 /* list specific css */
-ul.lifestream { list-style-type: none; margin: 10px 0; padding: 0; }
-ul.lifestream ul { list-style-type: none; margin: 0 0; padding: 0 5px; }
-ul.lifestream ul li { padding-left: 24px; margin: 2px 0; background-repeat: no-repeat; background-position: 0 2px; }
+ul.lifestream { list-style-type: none; margin: 0 0; padding: 0 5px; }
+ul.lifestream li { padding-left: 24px; margin: 2px 0; background-repeat: no-repeat; background-position: 0 2px; }
 ul.lifestream .lifestream_hour { color: #aaa; font-size: smaller; }
 ul.lifestream .lifestream_text { padding-left: 0; }
 ul.lifestream .lifestream_feedid_flickr .lifestream_hour { display: none; }
 
 .lifestream_text ul { margin: 5px 0; padding: 0; list-style-type: none; font-size: small; }
 .lifestream_text li { margin: 1px 0; padding: 2px 2px 2px 7px; border-left: 5px solid #ddd; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.lifestream_text .photo img { border: 1px solid #aaa; padding: 2px; }
+.lifestream_text .photo { margin: 0 2px 2px 0; }
+.lifestream_text .photo:hover img { border: 1px solid #006699; }
+
+.lifestream_events { margin-top: 2px; }
