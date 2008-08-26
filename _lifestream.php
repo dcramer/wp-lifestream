@@ -369,7 +369,7 @@ class LifeStream_Feed
     {
         global $wpdb;
         
-        date_default_timezone_set('UTC');
+        //date_default_timezone_set('UTC');
 
         if (!$this->id) return false;
 
