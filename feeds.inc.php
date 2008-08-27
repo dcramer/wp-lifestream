@@ -926,4 +926,123 @@ class LifeStream_TwitPicFeed extends LifeStream_PhotoFeed
     }
 }
 register_lifestream_feed('LifeStream_TwitPicFeed');
+
+
+class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'vimeo';
+    const NAME          = 'Vimeo';
+    const URL           = 'http://www.vimeo.com/';
+    const DESCRIPTION   = 'Your user ID is the digits at the end of your profile URL. For example, if your profile is <strong>http://www.vimeo.com/user406516</strong> then your user ID is <strong>406516</strong>.';
+    
+    private $image_match_regexp = '/src="(http\:\/\/[a-z0-9]+\.vimeo\.com\/[^"]+)"/i';
+    
+    function __toString()
+    {
+        return $this->options['user_id'];
+    }
+    
+    function get_options()
+    {
+        return array(
+            'user_id' => array('User ID:', true, '', ''),
+            'show_videos' => array('Include videos posted in this feed.', false, true, true),
+            'show_likes' => array('Include liked videos in this feed.', false, true, true),
+        );
+    }
+    
+    function get_label_single($key)
+    {
+        if ($key == 'video')
+        {
+            $label = 'Posted a video on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'like')
+        {
+            $label = 'Liked a video on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural($key)
+    {
+        if ($key == 'video')
+        {
+            $label = 'Posted %d videos on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'like')
+        {
+            $label = 'Liked %d videos on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'video')
+        {
+            $label = '<a href="%s">%s</a> posted a video on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'like')
+        {
+            $label = '<a href="%s">%s</a> liked a video on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key)
+    {
+        if ($key == 'video')
+        {
+            $label = '<a href="%s">%s</a> posted %d videos on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'like')
+        {
+            $label = '<a href="%s">%s</a> liked %d videos on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+    
+    function get_videos_url()
+    {
+        return 'http://www.vimeo.com/user'.$this->options['user_id'].'/videos/rss';
+    }
+    
+    function get_likes_url()
+    {
+        return 'http://www.vimeo.com/user'.$this->options['user_id'].'/likes/rss';
+    }
+
+    function get_public_url()
+    {
+        return 'http://www.vimeo.com/user'.$this->options['user_id'];
+    }
+
+    function get_url()
+    {
+        $urls = array();
+        if ($this->options['show_videos'])
+        {
+            $urls[] = array($this->get_videos_url(), 'video');
+        }
+        if ($this->options['show_likes'])
+        {
+            $urls[] = array($this->get_likes_url(), 'like');
+        }
+        return $urls;
+    }
+    
+    function yield($item)
+    {
+        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        return array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $match[1],
+        );
+    }
+}
+register_lifestream_feed('LifeStream_VimeoFeed');
+
 ?>

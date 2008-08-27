@@ -1,5 +1,5 @@
 <?php
-define(LIFESTREAM_VERSION, 0.64);
+define(LIFESTREAM_VERSION, 0.65);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
@@ -500,8 +500,9 @@ class LifeStream_Feed
                 foreach ($items as $item)
                 {
                     $date = array_key_pop($item, 'date');
-
-                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', %d, '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $item['id'], $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($item['key']), $wpdb->escape($this->owner), $this->owner_id));
+                    $key = array_key_pop($item, 'key');
+                    
+                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', %d, '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $item['id'], $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
                 }
             }
         }
@@ -612,7 +613,7 @@ class LifeStream_Feed
             }
             else
             {
-                $label = sprintf(__($this->get_label_single($key), 'lifestream'), $this->get_public_url(), $this->get_public_name());
+                $label = sprintf(__($this->get_label_single($event->key), 'lifestream'), $this->get_public_url(), $this->get_public_name());
             }
         }
         return array($label, $rows);
