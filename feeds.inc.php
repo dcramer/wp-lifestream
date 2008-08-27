@@ -291,18 +291,14 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_BlogFeed');
 
-class LifeStream_FlickrFeed extends LifeStream_Feed
+class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
 {
     const ID            = 'flickr';
     const NAME          = 'Flickr';
     const URL           = 'http://www.flickr.com/';
     const DESCRIPTION   = 'You can find your User ID by using <a href="http://idgettr.com/">idGettr</a>.';
     const NAMESPACE     = 'http://search.yahoo.com/mrss/';
-    const LABEL_SINGLE  = 'Posted a photo on <a href="%s">%s</a>.';
-    const LABEL_PLURAL  = 'Posted %d photos on <a href="%s">%s</a>.';
-    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a photo on <a href="%s">%s</a>.';
-    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d photos on <a href="%s">%s</a>.';
-    
+     
     function get_options()
     {        
         return array(
@@ -357,12 +353,7 @@ class LifeStream_FlickrFeed extends LifeStream_Feed
         {
             $link = htmlspecialchars($item['link']);
         }
-        return sprintf('<a href="%s" class="photo" title="%s"'.$lightbox.'"><img src="%s" width="%d" height="%d"/></a>', $link, $item['title'], $item['thumbnail']['url'], $item['thumbnail']['width'], $item['thumbnail']['height']);
-    }
-    
-    function render_group_items($id, $output)
-    {
-        return sprintf('<div id="%s" style="display:none;">%s</div>', $id, implode(' ', $output));
+        return sprintf('<a href="%s" class="photo" title="%s"'.$lightbox.'"><img src="%s" width="50"/></a>', $link, $item['title'], $item['thumbnail']['url']);
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
@@ -900,4 +891,39 @@ class LifeStream_FireEagleFeed extends LifeStream_Feed
     }
 }
 //register_lifestream_feed('LifeStream_FireEagleFeed');
+
+class LifeStream_TwitPicFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'twitpic';
+    const NAME          = 'TwitPic';
+    const URL           = 'http://www.twitpic.com/';
+    
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.twitpic.com/photos/'.$this->options['username'];
+    }
+
+    function get_url()
+    {
+        return 'http://www.twitpic.com/photos/'.$this->options['username'].'/feed.rss';
+    }
+
+    function yield($row)
+    {
+        return array(
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
+            'thumbnail' =>  html_entity_decode($row->get_link()).'-thumb.jpg',
+        );
+    }
+}
+register_lifestream_feed('LifeStream_TwitPicFeed');
 ?>

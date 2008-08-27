@@ -651,6 +651,28 @@ class LifeStream_Feed
         return $text;
     }
 }
+/**
+ * You need to pass a thumbnail item in yield() for PhotoFeed item's
+ */
+class LifeStream_PhotoFeed extends LifeStream_Feed
+{
+    const LABEL_SINGLE  = 'Posted a photo on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Posted %d photos on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a photo on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d photos on <a href="%s">%s</a>.';
+    
+    function render_item($row, $item)
+    {
+        return sprintf('<a href="%s" class="photo" title="%s""><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
+    }
+    
+    
+    function render_group_items($id, $output)
+    {
+        return sprintf('<div id="%s" style="display:none;">%s</div>', $id, implode(' ', $output));
+    }
+}
+
 class LifeStream_GenericFeed extends LifeStream_Feed {
     const LABEL_SINGLE  = 'Posted an item';
     const LABEL_PLURAL  = 'Posted %d items';
