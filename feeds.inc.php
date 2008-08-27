@@ -303,7 +303,6 @@ class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
     {        
         return array(
             'user_id' => array('User ID:', true, '', ''),
-            'enable_lightbox' => array('Enable Lightbox support on Flickr images.', false, true, false, 'Requires the <a href="http://wordpress.org/extend/plugins/jquery-lightbox-for-native-galleries/">jQuery Lightbox plugin</a>.'),
         );
     }
     
@@ -327,33 +326,32 @@ class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
-            'thumbnail' =>  $thumbnail,
-            'image' => $image,
+            'thumbnail' =>  $thumbnail['url'],
+            'image'     =>  str_replace('_m', '', $image['url']),
         );
     }
     
     function render_item($row, $item)
     {
-        if ($this->options['enable_lightbox'])
+        // Maintain backwards compatibility.
+        $thumbnail = is_array($item['thumbnail']) ? $item['thumbnail']['url'] : $item['thumbnail'];
+        if (isset($item['image']))
         {
-            if ($item['image'])
-            {
-                $link = $item['image']['url'];
-                // change it to be large size images
-                $link = str_replace('_m', '', $link);
-                $lightbox = ' rel="lightbox'.($row->total > 1 ? '-'.$row->id : '');
-            }
-            else
-            {
-                $link = htmlspecialchars($item['link']);
-                $lightbox = '';
-            }
+            $image = is_array($item['image']) ? str_replace('_m', '', $item['image']['url']) : $item['image'];
         }
         else
         {
-            $link = htmlspecialchars($item['link']);
+            $image = null;
         }
-        return sprintf('<a href="%s" class="photo" title="%s"'.$lightbox.'"><img src="%s" width="50"/></a>', $link, $item['title'], $item['thumbnail']['url']);
+        
+        if (get_option('lifestream_use_ibox') == '1' && $item['image'])
+        {
+            // change it to be large size images
+            $ibox = ' rel="ibox&target=\''.$image.'\'"';
+        }
+        else $ibox = '';
+        
+        return sprintf('<a href="%s" class="photo" title="%s"'.$lightbox.'><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $thumbnail);
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
@@ -568,9 +566,8 @@ class LifeStream_DiggFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_DiggFeed');
 
-class LifeStream_YouTubeFeed extends LifeStream_Feed
+class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
 {
-    const NAMESPACE     = 'http://search.yahoo.com/mrss/';
     const ID            = 'youtube';
     const NAME          = 'YouTube';
     const URL           = 'http://www.youtube.com/';
@@ -578,6 +575,7 @@ class LifeStream_YouTubeFeed extends LifeStream_Feed
     const LABEL_PLURAL  = 'Posted %d videos on <a href="%s">%s</a>.';
     const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a video on <a href="%s">%s</a>.';
     const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d videos on <a href="%s">%s</a>.';
+    const DESCRIPTION   = '';
     
     function __toString()
     {
@@ -598,7 +596,19 @@ class LifeStream_YouTubeFeed extends LifeStream_Feed
     
     function get_url()
     {
-        return 'http://www.youtube.com/ut_rss?type=username&arg='.$this->options['username'];
+        return 'http://www.youtube.com/rss/user/'.$this->options['username'].'/videos.rss';
+    }
+    
+    function yield($row)
+    {
+        $thumbnail = $row->get_item_tags(self::NAMESPACE, 'thumbnail');
+        $thumbnail = $thumbnail[0]['attribs'][''];
+        return array(
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
+            'thumbnail' =>  $thumbnail,
+        );
     }
 }
 register_lifestream_feed('LifeStream_YouTubeFeed');
@@ -707,7 +717,7 @@ class LifeStream_MySpaceFeed extends LifeStream_BlogFeed
 }
 register_lifestream_feed('LifeStream_MySpaceFeed');
 
-class LifeStream_SkitchFeed extends LifeStream_Feed
+class LifeStream_SkitchFeed extends LifeStream_FlickrFeed
 {
     const ID            = 'skitch';
     const NAME          = 'Skitch';
@@ -716,6 +726,9 @@ class LifeStream_SkitchFeed extends LifeStream_Feed
     const LABEL_PLURAL  = 'Shared %d images on <a href="%s">%s</a>.';
     const LABEL_SINGLE_USER = '<a href="%s">%s</a> shared an image on <a href="%s">%s</a>.';
     const LABEL_PLURAL_USER = '<a href="%s">%s</a> shared %d images on <a href="%s">%s</a>.';
+    const DESCRIPTION   = '';
+    
+    private $image_match_regexp = '/src="(http\:\/\/img+\.skitch\.com\/[^"]+\.jpg)"/i';
     
     function __toString()
     {
@@ -737,6 +750,18 @@ class LifeStream_SkitchFeed extends LifeStream_Feed
     function get_url()
     {
         return 'http://www.skitch.com/feeds/'.$this->options['username'].'/atom.xml';
+    }
+    
+    function yield($item)
+    {
+        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        return array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $match[1],
+            'image'     =>  str_replace('.preview.', '', $match[1]),
+        );
     }
 }
 register_lifestream_feed('LifeStream_SkitchFeed');
@@ -1020,7 +1045,6 @@ class LifeStream_TwitPicFeed extends LifeStream_PhotoFeed
 }
 register_lifestream_feed('LifeStream_TwitPicFeed');
 
-
 class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
 {
     const ID            = 'vimeo';
@@ -1137,5 +1161,119 @@ class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
     }
 }
 register_lifestream_feed('LifeStream_VimeoFeed');
+
+class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'stumbleupon';
+    const NAME          = 'StumbleUpon';
+    const URL           = 'http://www.stumbleupon.com/';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+    
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+            'show_reviews' => array('Include reviews in this feed.', false, true, true),
+            'show_favorites' => array('Include favorites in this feed.', false, true, false),
+        );
+    }
+    
+    function get_label_single($key)
+    {
+        if ($key == 'review')
+        {
+            $label = 'Reviewed a website on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'favorite')
+        {
+            $label = 'Liked a website on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural($key)
+    {
+        if ($key == 'review')
+        {
+            $label = 'Reviewed %d websites on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'favorite')
+        {
+            $label = 'Liked %d websites on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'review')
+        {
+            $label = '<a href="%s">%s</a> reviewed a website on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'favorite')
+        {
+            $label = '<a href="%s">%s</a> liked a website on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key)
+    {
+        if ($key == 'review')
+        {
+            $label = '<a href="%s">%s</a> reviewed %d websites on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'favorite')
+        {
+            $label = '<a href="%s">%s</a> liked %d websites on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+    
+    function get_favorites_url()
+    {
+        return 'http://rss.stumbleupon.com/user/'.$this->options['username'].'/favorites';
+    }
+    
+    function get_reviews_url()
+    {
+        return 'http://rss.stumbleupon.com/user/'.$this->options['username'].'/reviews';
+    }
+
+    function get_public_url()
+    {
+        return 'http://'.$this->options['username'].'.stumbleupon.com';
+    }
+
+    function get_url()
+    {
+        $urls = array();
+        if ($this->options['show_reviews'])
+        {
+            $urls[] = array($this->get_reviews_url(), 'review');
+        }
+        if ($this->options['show_favorites'])
+        {
+            $urls[] = array($this->get_favorites_url(), 'favorite');
+        }
+        return $urls;
+    }
+    
+    function yield($item)
+    {
+        $enclosure = $item->get_enclosure();
+        return array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $enclosure->link,
+        );
+    }
+}
+register_lifestream_feed('LifeStream_StumbleUponFeed');
 
 ?>
