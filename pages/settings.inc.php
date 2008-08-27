@@ -64,6 +64,18 @@ $authors = get_users_of_blog();
                     <div class="helptext">e.g. <a href="#">admin</a> posted a new photo on <a href="http://www.flickr.com/">Flickr</a></div>
                 </td>
             </tr>
+            <!-- <tr>
+                <th>&nbsp;</th>
+                <td><label for="id_use_ibox"><input type="checkbox" name="lifestream_use_ibox" id="id_use_ibox" value="1"<?php if (get_option('lifestream_use_ibox')) echo ' checked="checked"'; ?>/> <?php _e('Enable iBox on plugins that support it.', 'lifestream'); ?></label>
+                    <div class="helptext">Requires the <a href="http://www.ibegin.com/labs/ibox/">iBox</a> plugin.</div>
+                </td>
+            </tr> -->
+            <tr>
+                <th>&nbsp;</th>
+                <td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if (get_option('lifestream_show_credits')) echo ' checked="checked"'; ?>/> <?php _e('Give credit to LifeStream when it\'s embedded.', 'lifestream'); ?></label>
+                    <div class="helptext">e.g. <?php echo lifestream_credits(); ?></div>
+                </td>
+            </tr>
         </tbody>
     </table>
     <br />

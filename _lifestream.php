@@ -1,5 +1,5 @@
 <?php
-define(LIFESTREAM_VERSION, 0.66);
+define(LIFESTREAM_VERSION, 0.67);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
@@ -119,11 +119,35 @@ function lifestream_activate()
     }
 }
 
+function lifestream_credits()
+{
+    return 'Powered by <a href="http://www.davidcramer.net/my-projects/lifestream">LifeStream</a> from <a href="http://www.ibegin.com/">iBegin</a>.';
+}
+
+$lifestream__options = array(
+    'lifestream_day_format'     => 'F jS',
+    'lifestream_hour_format'    => 'g:ia',
+    'lifestream_timezone'       => (string)(date('O')/100),
+    'lifestream_number_of_items'=> '50',
+    'lifestream_date_interval'  => '1 month',
+    'lifestream_digest_title'   => 'Daily Digest for %s',
+    'lifestream_digest_body'    => '%1$s',
+    'lifestream_digest_category'=> '1',
+    'lifestream_digest_author'  => '1',
+    'lifestream_update_interval'=> '15',
+    'lifestream__in_digest'     => '0',
+    'lifestream_show_owners'    => '0',
+    'lifestream_use_ibox'       => '1',
+    'lifestream_show_credits'   => '1',
+);
+
 /**
  * Adds/updates the options on plug-in activation.
  */
 function lifestream_install($allow_database_install=true)
 {
+    global $lifestream__options;
+    
     $version = get_option('lifestream__version');
 
     if (!$version) $version = 0;
@@ -131,22 +155,9 @@ function lifestream_install($allow_database_install=true)
     if ($version == LIFESTREAM_VERSION) return;
 
     // default options and their values
-    $options = array(
-        'lifestream_day_format'     => 'F jS',
-        'lifestream_hour_format'    => 'g:ia',
-        'lifestream_timezone'       => (string)(date('O')/100),
-        'lifestream_number_of_items'=> '50',
-        'lifestream_date_interval'  => '1 month',
-        'lifestream_digest_title'   => 'Daily Digest for %s',
-        'lifestream_digest_body'    => '%1$s',
-        'lifestream_digest_category'=> '1',
-        'lifestream_digest_author'  => '1',
-        'lifestream_update_interval'=> '15',
-        'lifestream__in_digest'     => '0',
-        'lifestream_show_owners' => '0',
-    );
     
-    foreach ($options as $key=>$value)
+    
+    foreach ($lifestream__options as $key=>$value)
     {
         if (!get_option($key)) update_option($key, $value);
     }
@@ -577,7 +588,9 @@ class LifeStream_Feed
     
     function render_item($event, $item)
     {
-        return sprintf('<a href="%s">%s</a>', $item['link'], $item['title']);
+        if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
+        else $ibox = '';
+        return sprintf('<a href="%s"'.$ibox.'>%s</a>', $item['link'], $item['title']);
     }
     
     function render_group_items($id, $output)
@@ -624,7 +637,7 @@ class LifeStream_Feed
         list($label, $rows) = $this->get_render_output($event);
         if (count($rows) > 1)
         {
-            return sprintf('%1$s <small class="lifestream_more">(<a href="#" onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</a>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows));
+            return sprintf('%1$s <small class="lifestream_more">(<span onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</span>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows));
         }
         elseif ($this->options['show_label'])
         {
@@ -643,8 +656,11 @@ class LifeStream_Feed
     
     function parse_urls($text)
     {
+        if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
+        else $ibox = '';
+    
         # match http(s):// urls
-        $text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $text);
+        $text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', '<a href="$1"'.$ibox.'>$1</a>', $text);
         # match www urls
         $text = preg_replace('@((?<!http://)www\.([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', '<a href="http://$1">$1</a>', $text);
         # match email@address
@@ -664,7 +680,10 @@ class LifeStream_PhotoFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return sprintf('<a href="%s" class="photo" title="%s""><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
+        if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
+        else $ibox = '';
+
+        return sprintf('<a href="%s" '.$ibox.'class="photo" title="%s""><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
     }
     
     
@@ -717,6 +736,11 @@ function lifestream($args=array())
     $events = call_user_func('lifestream_get_events', $_);
     
     include('pages/lifestream-table.inc.php');
+
+    if (get_option('lifestream_show_credits') == '1')
+    {
+        echo '<p>'.lifestream_credits().'</p>';
+    }
 }
 
 function lifestream_sidebar_widget($_=array())
@@ -808,7 +832,7 @@ function lifestream_get_events($_=array())
 
 function lifestream_options()
 {
-    global $lifestream_feeds, $wpdb, $userdata;
+    global $lifestream_feeds, $lifestream__options, $wpdb, $userdata;
 
     $wpdb->show_errors();
     
@@ -875,8 +899,7 @@ function lifestream_options()
         case 'lifestream-settings.php':
             if ($_POST['save'])
             {
-                $options = array('lifestream_timezone', 'lifestream_day_format', 'lifestream_hour_format', 'lifestream_update_interval', 'lifestream_daily_digest', 'lifestream_digest_title', 'lifestream_digest_body', 'lifestream_digest_author', 'lifestream_digest_category', 'lifestream_number_of_items', 'lifestream_date_interval', 'lifestream_show_owners');
-                foreach ($options as $value)
+                foreach (array_keys($lifestream__options) as $value)
                 {
                     update_option($value, $_POST[$value]);
                 }
@@ -1032,6 +1055,7 @@ function lifestream_options()
     ob_start();
     ?>
     <style type="text/css">
+    table.options th, table.options td { padding: 3px 0; }
     table.options th { text-align: left; }
     table.options th { vertical-align: top; line-height: 30px; }
     table.options td .helptext { color: #999; margin-top: 3px; }

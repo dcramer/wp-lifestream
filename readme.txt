@@ -46,6 +46,7 @@ Included Plugins:
 * Hulu
 * TwitPic
 * Vimeo
+* StumbleUpon
 
 == Installation ==
 
