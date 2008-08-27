@@ -108,6 +108,8 @@ function lifestream_activate()
         $options = array('url' => $rss_url);
 
         $feed = new LifeStream_BlogFeed($options);
+        $feed->owner = 'admin';
+        $feed->owner_id = 1;
         $feed->save();
         $feed->refresh();
     }
