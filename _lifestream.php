@@ -739,7 +739,7 @@ function lifestream($args=array())
 
     if (get_option('lifestream_show_credits') == '1')
     {
-        echo '<p>'.lifestream_credits().'</p>';
+        echo '<p><small>'.lifestream_credits().'</small></p>';
     }
 }
 
