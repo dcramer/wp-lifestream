@@ -437,18 +437,23 @@ class LifeStream_Feed
         $total = 0;
         $items = $this->fetch();
         if (!$items) return false;
-        foreach ($items as $item)
+        foreach ($items as $item_key=>$item)
         {
             $link = array_key_pop($item, 'link');
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
             
             $affected =& $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
+            $item['id'] = $wpdb->insert_id;
             if ($affected)
             {
                 if (!array_key_exists($key, $inserted)) $inserted[$key] = array();
                 $total += 1;
                 $inserted[$key][date('m d Y', $date)] = $date;
+            }
+            else
+            {
+                unset($items[$item_key]);
             }
         }
         if (count($inserted))
@@ -490,11 +495,11 @@ class LifeStream_Feed
             }
             else
             {
-                foreach ($inserted as &$item)
+                foreach ($items as $item)
                 {
                     $date = array_key_pop($item, 'date');
 
-                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($item['key']), $wpdb->escape($this->owner), $this->owner_id));
+                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', %d, '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $item['id'], $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($item['key']), $wpdb->escape($this->owner), $this->owner_id));
                 }
             }
         }
