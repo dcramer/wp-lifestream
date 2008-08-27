@@ -1190,7 +1190,7 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
         }
         elseif ($key == 'favorite')
         {
-            $label = 'Liked a website on <a href="%s">%s</a>.';
+            $label = 'Favorited a website on <a href="%s">%s</a>.';
         }
         return $label;
     }
@@ -1203,7 +1203,7 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
         }
         elseif ($key == 'favorite')
         {
-            $label = 'Liked %d websites on <a href="%s">%s</a>.';
+            $label = 'Favorited %d websites on <a href="%s">%s</a>.';
         }
         return $label;
     }
@@ -1216,7 +1216,7 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
         }
         elseif ($key == 'favorite')
         {
-            $label = '<a href="%s">%s</a> liked a website on <a href="%s">%s</a>.';
+            $label = '<a href="%s">%s</a> favorited a website on <a href="%s">%s</a>.';
         }
         return $label;
     }
@@ -1229,7 +1229,7 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
         }
         elseif ($key == 'favorite')
         {
-            $label = '<a href="%s">%s</a> liked %d websites on <a href="%s">%s</a>.';
+            $label = '<a href="%s">%s</a> favorited %d websites on <a href="%s">%s</a>.';
         }
         return $label;
     }
