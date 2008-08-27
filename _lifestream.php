@@ -1,5 +1,5 @@
 <?php
-define(LIFESTREAM_VERSION, 0.65);
+define(LIFESTREAM_VERSION, 0.66);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
@@ -554,7 +554,7 @@ class LifeStream_Feed
                 foreach ($response as $row)
                 {
                     $result =& $this->yield($row, $url);
-                    $result['key'] = $key;
+                    if (!$result['key']) $result['key'] = $key;
                     if (!($result['date'] > 0)) $result['date'] = time();
                     if (count($result)) $items[] = $result;
                 }
