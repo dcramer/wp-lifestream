@@ -44,6 +44,8 @@ Included Plugins:
 * Identi.ca
 * Pandora
 * Hulu
+* TwitPic
+* Vimeo
 
 == Installation ==
 
