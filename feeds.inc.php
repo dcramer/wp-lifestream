@@ -449,9 +449,13 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
     
     function render_item($event, $item)
     {
-        if ($event->key == 'event' || $event->key == 'link')
+        if ($event->key == 'event')
         {
             return sprintf('<a href="%s">%s</a>', $item['link'], $item['description']);
+        }
+        elseif ($event->key == 'link')
+        {
+            return sprintf('<a href="%s">%s</a>', $item['relurl'], $item['description']);
         }
         else
         {
