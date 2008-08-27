@@ -442,7 +442,6 @@ class LifeStream_Feed
             $link = array_key_pop($item, 'link');
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
-            if (!($date > 0)) $date = time();
             
             $affected =& $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
             if ($affected)
@@ -494,7 +493,6 @@ class LifeStream_Feed
                 foreach ($inserted as &$item)
                 {
                     $date = array_key_pop($item, 'date');
-                    if (!($date > 0)) $date = time();
 
                     $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($item['key']), $wpdb->escape($this->owner), $this->owner_id));
                 }
@@ -549,6 +547,7 @@ class LifeStream_Feed
                 {
                     $result =& $this->yield($row, $url);
                     $result['key'] = $key;
+                    if (!($result['date'] > 0)) $result['date'] = time();
                     if (count($result)) $items[] = $result;
                 }
             }
