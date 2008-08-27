@@ -412,31 +412,120 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
         return 'http://www.pownce.com/'.$user.'/';
     }
     
-    function render_item($row, $item)
-    {
-        return $this->parse_users($this->parse_urls($item['description']));
-    }
-
     function yield($row)
     {
+        $category = $row->get_category();
+
+        if ($category) $key = $category->get_label();
+        else $key = 'note';
+
         $data = array(
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'description'   =>  html_entity_decode($row->get_description()),
+            'key'       =>  $key,
         );
         
-        if ($event_name =& $row->get_item_tags(self::NAMESPACE, 'event_name'))
+        if ($key == 'link')
         {
-            $data['event'] = array();
-            $data['event']['name'] = html_entity_decode($event_name[0]['data']);
-            
-            if ($event_location =& $row->get_item_tags(self::NAMESPACE, 'event_location'))
-                $data['event']['location'] = html_entity_decode($event_location[0]['data']);
+            $data['relurl'] = $row->get_link(0, 'related');
+        }
+        elseif ($key == 'event')
+        {
+            if ($event_name =& $row->get_item_tags(self::NAMESPACE, 'event_name'))
+            {
+                $data['event'] = array();
+                $data['event']['name'] = html_entity_decode($event_name[0]['data']);
 
-            if ($event_date =& $row->get_item_tags('pownce', 'event_date'))
-                $data['event']['date'] = strototime($event_date[0]['data']);
+                if ($event_location =& $row->get_item_tags(self::NAMESPACE, 'event_location'))
+                    $data['event']['location'] = html_entity_decode($event_location[0]['data']);
+
+                if ($event_date =& $row->get_item_tags('pownce', 'event_date'))
+                    $data['event']['date'] = strototime($event_date[0]['data']);
+            }
         }
         return $data;
+    }
+    
+    function render_item($event, $item)
+    {
+        if ($event->key == 'event' || $event->key == 'link')
+        {
+            return sprintf('<a href="%s">%s</a>', $item['link'], $item['description']);
+        }
+        else
+        {
+            return $this->parse_users($this->parse_urls($item['description']));
+        }
+        
+    }
+    
+    function get_label_single($key)
+    {
+        if ($key == 'event')
+        {
+            $label = 'Posted an event on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'link')
+        {
+            $label = 'Posted a link on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = 'Posted a note on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural($key)
+    {
+        if ($key == 'event')
+        {
+            $label = 'Posted %d events on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'link')
+        {
+            $label = 'Posted %d links on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = 'Posted %d notes on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'event')
+        {
+            $label = '<a href="%s">%s</a> posted an event on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'link')
+        {
+            $label = '<a href="%s">%s</a> posted a link on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = '<a href="%s">%s</a> posted a note on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key)
+    {
+        if ($key == 'event')
+        {
+            $label = '<a href="%s">%s</a> posted %d events on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'link')
+        {
+            $label = '<a href="%s">%s</a> posted %d links on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = '<a href="%s">%s</a> posted %d notes on <a href="%s">%s</a>.';
+        }
+        return $label;
     }
 }
 register_lifestream_feed('LifeStream_PownceFeed');
