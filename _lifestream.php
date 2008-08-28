@@ -1,7 +1,6 @@
 <?php
 define(LIFESTREAM_VERSION, 0.67);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
-define(LIFESTREAM_TABLE_PREFIX, $wpdb->prefix.'lifestream_');
 
 if (!class_exists('SimplePie'))
 {
@@ -101,7 +100,7 @@ function lifestream_activate()
     
     lifestream_install();
 
-    $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
+    $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds`");
     if (!$results[0]->count)
     {
         $rss_url = trailingslashit(get_settings('siteurl')) . 'wp-rss2.php';
@@ -176,7 +175,7 @@ function lifestream_install_database($version)
     
     get_currentuserinfo();
     
-    $wpdb->query("CREATE TABLE IF NOT EXISTS `".LIFESTREAM_TABLE_PREFIX."event` (
+    $wpdb->query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event` (
       `id` int(11) NOT NULL auto_increment,
       `feed_id` int(11) NOT NULL,
       `link` varchar(200) NOT NULL,
@@ -187,11 +186,11 @@ function lifestream_install_database($version)
       `key` char(16) NOT NULL,
       `owner` varchar(128) NOT NULL,
       `owner_id` int(11) NOT NULL,
-      PRIMARY KEY (`id`),
+      PRIMARY KEY  (`id`),
       UNIQUE `feed_id` (`feed_id`, `key`, `owner_id`, `link`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 
-    $wpdb->query("CREATE TABLE IF NOT EXISTS `".LIFESTREAM_TABLE_PREFIX."event_group` (
+    $wpdb->query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event_group` (
       `id` int(11) NOT NULL auto_increment,
       `feed_id` int(11) NOT NULL,
       `event_id` int(11) NULL,
@@ -205,11 +204,11 @@ function lifestream_install_database($version)
       `key` char(16) NOT NULL,
       `owner` varchar(128) NOT NULL,
       `owner_id` int(11) NOT NULL,
-      PRIMARY KEY (`id`),
+      PRIMARY KEY  (`id`),
       INDEX `feed_id` (`feed_id`, `key`, `owner_id`, `timestamp`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     
-    $wpdb->query("CREATE TABLE IF NOT EXISTS `".LIFESTREAM_TABLE_PREFIX."feeds` (
+    $wpdb->query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_feeds` (
       `id` int(11) NOT NULL auto_increment,
       `feed` varchar(32) NOT NULL,
       `options` text default NULL,
@@ -217,7 +216,7 @@ function lifestream_install_database($version)
       `owner` varchar(128) NOT NULL,
       `owner_id` int(11) NOT NULL,
       INDEX `owner_id` (`owner_id`),
-      PRIMARY KEY (`id`)
+      PRIMARY KEY  (`id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     
     if ($version < 0.5)
@@ -226,20 +225,20 @@ function lifestream_install_database($version)
         wp_clear_scheduled_hook('LifeStream_Hourly');
 
         // Upgrade them to version 0.5
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
+        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
+        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
     }
     if ($version < 0.6)
     {
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."feeds` ADD `owner` VARCHAR(128) NOT NULL AFTER `timestamp`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `owner_id` , `link` );");
-        $wpdb->query("ALTER IGNORE TABLE `".LIFESTREAM_TABLE_PREFIX."event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` , `owner_id`);");
-        $wpdb->query("ALTER TABLE `".LIFESTREAM_TABLE_PREFIX."feeds` ADD INDEX `owner_id` (`owner_id`);");
-        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
-        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
-        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `owner` VARCHAR(128) NOT NULL AFTER `timestamp`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `owner_id` , `link` );");
+        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` , `owner_id`);");
+        $wpdb->query("ALTER TABLE `".$wpdb->prefix."lifestream_feeds` ADD INDEX `owner_id` (`owner_id`);");
+        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
     }
 }
 
@@ -412,16 +411,16 @@ class LifeStream_Feed
         // If it has an ID it means it already exists.
         if ($this->id)
         {
-            $result = $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."feeds` set `options` = '%s', `owner` = '%s', `owner_id` = %d WHERE `id` = %d", $wpdb->escape(serialize($this->options)), $wpdb->escape($this->owner), $this->owner_id, $this->id));
+            $result = $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_feeds` set `options` = '%s', `owner` = '%s', `owner_id` = %d WHERE `id` = %d", $wpdb->escape(serialize($this->options)), $wpdb->escape($this->owner), $this->owner_id, $this->id));
             if ($this->_owner_id && $this->_owner_id != $this->owner_id)
             {
-                $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event` SET `owner` = '%s', `owner_id` = %d WHERE `feed_id` = %d", $wpdb->escape($this->owner), $this->owner_id, $this->id));
-                $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `owner` = '%s', `owner_id` = %d WHERE `feed_id` = %d", $wpdb->escape($this->owner), $this->owner_id, $this->id));
+                $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `owner` = '%s', `owner_id` = %d WHERE `feed_id` = %d", $wpdb->escape($this->owner), $this->owner_id, $this->id));
+                $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `owner` = '%s', `owner_id` = %d WHERE `feed_id` = %d", $wpdb->escape($this->owner), $this->owner_id, $this->id));
             }
         }
         else
         {
-            $result = $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."feeds` (`feed`, `options`, `timestamp`, `owner`, `owner_id`) VALUES ('%s', '%s', %d, '%s', %d)", $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($this->options)), time(), $wpdb->escape($this->owner), $this->owner_id));
+            $result = $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_feeds` (`feed`, `options`, `timestamp`, `owner`, `owner_id`) VALUES ('%s', '%s', %d, '%s', %d)", $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($this->options)), time(), $wpdb->escape($this->owner), $this->owner_id));
             $this->id = $wpdb->insert_id;
         }
         return $result;
@@ -431,9 +430,9 @@ class LifeStream_Feed
     {
         global $wpdb;
 
-        $wpdb->query(sprintf("DELETE FROM `".LIFESTREAM_TABLE_PREFIX."feeds` WHERE `id` = %d", $this->id));
-        $wpdb->query(sprintf("DELETE FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = %d", $this->id));
-        $wpdb->query(sprintf("DELETE FROM `".LIFESTREAM_TABLE_PREFIX."event_group` WHERE `feed_id` = %d", $this->id));
+        $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d", $this->id));
+        $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d", $this->id));
+        $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d", $this->id));
         
         $this->id = null;
     }
@@ -456,7 +455,7 @@ class LifeStream_Feed
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
             
-            $affected = $wpdb->query(sprintf("INSERT IGNORE INTO `".LIFESTREAM_TABLE_PREFIX."event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
+            $affected = $wpdb->query(sprintf("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
             if ($affected)
             {
                 $item['id'] = $wpdb->insert_id;
@@ -483,7 +482,7 @@ class LifeStream_Feed
                     {
                         // Get all of the current events for this date
                         // (including the one we affected just now)
-                        $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = '%s'", $this->id, $date, $wpdb->escape($key)));
+                        $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = '%s'", $this->id, $date, $wpdb->escape($key)));
                         $events = array();
                         foreach ($results as &$result)
                         {
@@ -493,15 +492,15 @@ class LifeStream_Feed
                         }
 
                         // First let's see if the group already exists in the database
-                        $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` WHERE `feed_id` = %d AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = '%s' LIMIT 0, 1", $this->id, $date, $wpdb->escape($key)));
+                        $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = '%s' LIMIT 0, 1", $this->id, $date, $wpdb->escape($key)));
                         if (count($group) == 1)
                         {
                             $group =& $group[0];
-                            $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = %d, `updated` = 1, `timestamp` = %d WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $date, $group->id));
+                            $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `data` = '%s', `total` = %d, `updated` = 1, `timestamp` = %d WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $date, $group->id));
                         }
                         else
                         {
-                            $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', '%s', %d, %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($events)), count($events), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
+                            $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', '%s', %d, %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($events)), count($events), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
                         }
                     }
                 }
@@ -513,7 +512,7 @@ class LifeStream_Feed
                     $date = array_key_pop($item, 'date');
                     $key = array_key_pop($item, 'key');
                     
-                    $wpdb->query(sprintf("INSERT INTO `".LIFESTREAM_TABLE_PREFIX."event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', %d, '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $item['id'], $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
+                    $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', %d, '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $item['id'], $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
                 }
             }
         }
@@ -528,7 +527,7 @@ class LifeStream_Feed
         
         if (!($limit > 0) || !($offset >= 0)) return false;
 
-        $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event` as t1 JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`feed_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $this->id, $offset, $limit));
+        $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`feed_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $this->id, $offset, $limit));
         $events = array();
         foreach ($results as &$result)
         {
@@ -819,7 +818,7 @@ function lifestream_get_events($_=array())
         $where[] = sprintf('t1.`total` >= %d', $_['event_total_min']);
     }
 
-    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` as `t1` INNER JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s)) AND (%s) ORDER BY t1.`timestamp` DESC LIMIT 0, %d", $_['date_interval'], implode(') AND (', $where), $_['number_of_results']);
+    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s)) AND (%s) ORDER BY t1.`timestamp` DESC LIMIT 0, %d", $_['date_interval'], implode(') AND (', $where), $_['number_of_results']);
 
     $results =& $wpdb->get_results($sql);
     $events = array();
@@ -854,7 +853,7 @@ function lifestream_options()
             switch ($_GET['op'])
             {
                 case 'delete':
-                    $result =& $wpdb->get_results(sprintf("SELECT `id`, `feed_id`, `timestamp`, `owner_id` FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `id` = %d", $_GET['id']));
+                    $result =& $wpdb->get_results(sprintf("SELECT `id`, `feed_id`, `timestamp`, `owner_id` FROM `".$wpdb->prefix."lifestream_event` WHERE `id` = %d", $_GET['id']));
                     if (!$result)
                     {
                         $errors[] = __('The selected feed was not found.', 'lifestream');
@@ -866,15 +865,15 @@ function lifestream_options()
                     else
                     {
                         $result =& $result[0];
-                        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event` SET `visible` = 0 WHERE `id` = %d", $result->id));
-                        $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `visible` = 0 WHERE `event_id` = %d", $result->id));
+                        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `visible` = 0 WHERE `id` = %d", $result->id));
+                        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `visible` = 0 WHERE `event_id` = %d", $result->id));
                         
                         // Now we have to update the batch if it exists.
-                        $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` WHERE `event_id` IS NULL AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) LIMIT 0, 1", $result->timestamp));
+                        $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` IS NULL AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) LIMIT 0, 1", $result->timestamp));
                         if (count($group) == 1)
                         {
                             $group =& $group[0];
-                            $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d))", $result->feed_id, $result->timestamp));
+                            $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d))", $result->feed_id, $result->timestamp));
                             if (count($results))
                             {
                                 $events = array();
@@ -884,11 +883,11 @@ function lifestream_options()
                                     $result->data['link'] = $result->link;
                                     $events[] = $result->data;
                                 }
-                                $wpdb->query(sprintf("UPDATE `".LIFESTREAM_TABLE_PREFIX."event_group` SET `data` = '%s', `total` = %d, `updated` = 1 WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $group->id));
+                                $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `data` = '%s', `total` = %d, `updated` = 1 WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $group->id));
                             }
                             else
                             {
-                                $wpdb->query(sprintf("DELETE FROM `".LIFESTREAM_TABLE_PREFIX."event_group` WHERE `id` = %d", $group->id));
+                                $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `id` = %d", $group->id));
                             }
                         }
                         $message = __('The selected event was hidden.', 'lifestream');
@@ -913,7 +912,7 @@ function lifestream_options()
                     $message = __('All of your feeds have been refreshed.', 'lifestream');
                     break;
                 case 'refresh':
-                    $result =& $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
+                    $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
                     if (!$result)
                     {
                         $errors[] = __('The selected feed was not found.', 'lifestream');
@@ -930,7 +929,7 @@ function lifestream_options()
                     }
                 break;
                 case 'delete':
-                    $result =& $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
+                    $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
                     if (!$result)
                     {
                         $errors[] = __('The selected feed was not found.', 'lifestream');
@@ -947,7 +946,7 @@ function lifestream_options()
                     }
                 break;
                 case 'edit':
-                    $result =& $wpdb->get_results(sprintf("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
+                    $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
                     if (!$result)
                     {
                         $errors[] = __('The selected feed was not found.', 'lifestream');
@@ -1086,11 +1085,11 @@ function lifestream_options()
                 
                 if (!current_user_can('manage_options'))
                 {
-                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event` as t1 JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE `owner_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $userdata->ID, $page*50));
+                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE `owner_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $userdata->ID, $page*50));
                 }
                 else
                 {
-                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event` as t1 JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $page*50));
+                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $page*50));
                 }
                 include('pages/events.inc.php');
             break;
@@ -1103,11 +1102,11 @@ function lifestream_options()
                     default:
                         if (!current_user_can('manage_options'))
                         {
-                            $results =& $wpdb->get_results(sprintf("SELECT t1.*, (SELECT COUNT(1) FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = t1.`id`) as `events` FROM `".LIFESTREAM_TABLE_PREFIX."feeds` as t1 WHERE t1.`owner_id` = %d ORDER BY `id`", $userdata->ID));
+                            $results =& $wpdb->get_results(sprintf("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 WHERE t1.`owner_id` = %d ORDER BY `id`", $userdata->ID));
                         }
                         else
                         {
-                            $results =& $wpdb->get_results("SELECT t1.*, (SELECT COUNT(1) FROM `".LIFESTREAM_TABLE_PREFIX."event` WHERE `feed_id` = t1.`id`) as `events` FROM `".LIFESTREAM_TABLE_PREFIX."feeds` as t1 ORDER BY `id`");
+                            $results =& $wpdb->get_results("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 ORDER BY `id`");
                         }
                         if ($results !== false)
                         {
@@ -1178,7 +1177,7 @@ function lifestream_update()
     global $wpdb;
     update_option('lifestream__last_update', time());
     $events = 0;
-    $results =& $wpdb->get_results("SELECT * FROM `".LIFESTREAM_TABLE_PREFIX."feeds`");
+    $results =& $wpdb->get_results("SELECT * FROM `".$wpdb->prefix."lifestream_feeds`");
     foreach ($results as $result)
     {
         $instance = LifeStream_Feed::construct_from_query_result($result);
@@ -1221,7 +1220,7 @@ function lifestream_do_digest()
         $results = $wpdb->get_results(sprintf("SELECT `post_id` FROM `{$wpdb->prefix}postmeta` WHERE `meta_key = '_lifestream_digest_date' AND `meta_value` = %d LIMIT 1", $digest_day));
         if ($results) continue;
 
-        $sql = sprintf("SELECT t1.*, t2.`options` FROM `".LIFESTREAM_TABLE_PREFIX."event_group` as `t1` INNER JOIN `".LIFESTREAM_TABLE_PREFIX."feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > '%s' AND t1.`timestamp` < '%s' ORDER BY t1.`timestamp` ASC", strtotime(date('Y-m-d 00:00:00', $digest_day)), strtotime(date('Y-m-d 23:59:59', $digest_day)));
+        $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > '%s' AND t1.`timestamp` < '%s' ORDER BY t1.`timestamp` ASC", strtotime(date('Y-m-d 00:00:00', $digest_day)), strtotime(date('Y-m-d 23:59:59', $digest_day)));
         
         $results =& $wpdb->get_results($sql);
         $events = array();
@@ -1254,12 +1253,13 @@ function lifestream_do_digest()
 
 function lifestream_init()
 {
-    if ((isset($_GET['activate']) && $_GET['activate'] == 'true')
-        || (isset($_GET['activate-multi']) && $_GET['activate-multi'] == 'true'))
+    global $wpdb;
+    
+    if (isset($_GET['activate']) || isset($_GET['activate-multi']))
     {
         lifestream_activate();
     }
-
+    
     $offset = get_option('lifestream_timezone');
     define(LIFESTREAM_DATE_OFFSET, $offset);
     
@@ -1294,3 +1294,5 @@ add_action('admin_menu', 'lifestream_options_menu');
 add_action('wp_head', 'lifestream_header');
 add_filter('the_content', 'lifestream_embed_callback');
 add_action('init', 'lifestream_init');
+
+?>
