@@ -777,6 +777,8 @@ function lifestream($args=array())
     
     include('pages/lifestream-table.inc.php');
 
+    echo '<!-- Powered by iBegin LifeStream '.LIFESTREAM_VERSION.' -->';
+
     if (get_option('lifestream_show_credits') == '1')
     {
         echo '<p class="lifestream_credits"><small>'.lifestream_credits().'</small></p>';
