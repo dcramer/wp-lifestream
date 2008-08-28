@@ -459,7 +459,6 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
         {
             return $this->parse_users($this->parse_urls($item['description']));
         }
-        
     }
     
     function get_label_single($key)
@@ -1275,5 +1274,97 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
     }
 }
 register_lifestream_feed('LifeStream_StumbleUponFeed');
+
+class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
+{
+    const ID            = 'tumblr';
+    const NAME          = 'Tumblr';
+    const URL           = 'http://www.tumblr.com/';
+    const LABEL_SINGLE  = 'Posted a note on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Posted %d notes on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a note on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d notes on <a href="%s">%s</a>.';
+    const NAMESPACE     = 'http://jaiku.com/ns';
+    
+    // http://media.tumblr.com/ck3ATKEVYd6ay62wLAzqtEkX_500.jpg
+    private $image_match_regexp = '/src="(http:\/\/media\.tumblr\.com\/[a-zA-Z0-9_-]+\.jpg)"/i';
+    
+    function get_url()
+    {
+        return 'http://'.$this->options['username'].'.tumblr.com/rss';
+    }
+    
+    function get_user_url($user)
+    {
+        return 'http://'.$this->options['username'].'.tumblr.com/';
+    }
+    
+    function yield($item)
+    {
+        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        $data = array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'key'       =>  'note',
+        );
+        if ($match)
+        {
+            $data['thumbnail'] = $match[1];
+            $data['image'] = $match[1];
+            $data['key'] = 'image';
+        }
+        return $data;
+    }
+    
+    function render_group_items($id, $output, $event)
+    {
+        if ($event->key == 'image')
+        {
+            return LifeStream_PhotoFeed::render_group_items($id, $output, $event);
+        }
+        else
+        {
+            return parent::render_group_items($id, $output, $event);
+        }
+    }
+    
+    function render_item($event, $item)
+    {
+        if ($event->key == 'image')
+        {
+            return LifeStream_PhotoFeed::render_item($event, $item);
+        }
+        else
+        {
+            return $this->parse_users($this->parse_urls($item['description']));
+        }
+    }
+    
+    function get_label_single($key)
+    {
+        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_SINGLE;
+        return $this->get_constant('LABEL_SINGLE');
+    }
+    
+    function get_label_plural($key)
+    {
+        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_PLURAL;
+        return $this->get_constant('LABEL_PLURAL');
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_SINGLE_USER;
+        return $this->get_constant('LABEL_SINGLE_USER');
+    }
+    
+    function get_label_plural_user($key)
+    {
+        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_PLURAL_USER;
+        return $this->get_constant('LABEL_PLURAL_USER');
+    }
+}
+register_lifestream_feed('LifeStream_TumblrFeed');
 
 ?>

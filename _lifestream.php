@@ -63,8 +63,19 @@ function lifestream_file_get_contents($url)
     }
 }
 
+
 /*
  * This is a wrapper function which initiates the callback for the custom tag embedding.
+ */
+function lifestream_page_embed_callback($content)
+{
+    return false;
+    return preg_replace_callback("|[lifestream(?:\s+([a-z_]+)=[\"']?([a-z0-9_-\s]+)[\"']?)*\s*]|i", 'lifestream_page_embed_handler', $content);
+}
+
+/*
+ * This is a wrapper function which initiates the callback for the custom tag embedding.
+ * @deprecated
  */
 function lifestream_embed_callback($content)
 {
@@ -321,7 +332,7 @@ class LifeStream_Feed
         
         if (!empty($row->options)) $options = unserialize($row->options);
         else $options = null;
-
+        
         $instance = new $class($options, $row->id, $row);
         if ($row->feed != $instance->get_constant('ID')) throw new Exception('This shouldnt be happening...');
         # $instance->options = unserialize($row['options']);
@@ -407,7 +418,7 @@ class LifeStream_Feed
     function save()
     {
         global $wpdb;
-        
+
         // If it has an ID it means it already exists.
         if ($this->id)
         {
@@ -592,7 +603,7 @@ class LifeStream_Feed
         return sprintf('<a href="%s"'.$ibox.'>%s</a>', $item['link'], $item['title']);
     }
     
-    function render_group_items($id, $output)
+    function render_group_items($id, $output, $event)
     {
         return sprintf('<ul id="%s" style="display:none;"><li>%s</li></ul>', $id, implode('</li><li>', $output));
     }
@@ -636,7 +647,7 @@ class LifeStream_Feed
         list($label, $rows) = $this->get_render_output($event);
         if (count($rows) > 1)
         {
-            return sprintf('%1$s <small class="lifestream_more">(<span onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</span>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows));
+            return sprintf('%1$s <small class="lifestream_more">(<span onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</span>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows, $event));
         }
         elseif ($this->options['show_label'])
         {
@@ -686,7 +697,7 @@ class LifeStream_PhotoFeed extends LifeStream_Feed
     }
     
     
-    function render_group_items($id, $output)
+    function render_group_items($id, $output, $event)
     {
         return sprintf('<div id="%s" style="display:none;">%s</div>', $id, implode(' ', $output));
     }
@@ -695,6 +706,48 @@ class LifeStream_PhotoFeed extends LifeStream_Feed
 class LifeStream_GenericFeed extends LifeStream_Feed {
     const LABEL_SINGLE  = 'Posted an item';
     const LABEL_PLURAL  = 'Posted %d items';
+    
+    function get_options()
+    {        
+        return array(
+            'url' => array('Feed URL:', true, '', ''),
+            'name' => array('Feed Name:', false, '', ''),
+        );
+    }
+
+    function get_public_name()
+    {
+        return $this->options['name'];
+    }
+
+    function get_public_url()
+    {
+        return $this->options['url'];
+    }
+    
+    function get_label_single($key)
+    {
+        if ($this->options['name']) return parent::LABEL_SINGLE;
+        return $this->get_constant('LABEL_SINGLE');
+    }
+    
+    function get_label_plural($key)
+    {
+        if ($this->options['name']) return parent::LABEL_PLURAL;
+        return $this->get_constant('LABEL_PLURAL');
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($this->options['name']) return parent::LABEL_SINGLE_USER;
+        return $this->get_constant('LABEL_SINGLE_USER');
+    }
+    
+    function get_label_plural_user($key)
+    {
+        if ($this->options['name']) return parent::LABEL_PLURAL_USER;
+        return $this->get_constant('LABEL_PLURAL_USER');
+    }
 }
 register_lifestream_feed('LifeStream_GenericFeed');
 
@@ -972,7 +1025,7 @@ function lifestream_options()
                                 }
                                 else
                                 {
-                                    $values[$option] = $_POST[$option];
+                                    $values[$option] = stripslashes($_POST[$option]);
                                 }
                             }
                             if ($instance->get_constant('CAN_GROUP'))
@@ -1011,7 +1064,7 @@ function lifestream_options()
                             }
                             else
                             {
-                                $values[$option] = $_POST[$option];
+                                $values[$option] = stripslashes($_POST[$option]);
                             }
                         }
                         if ($feed->get_constant('CAN_GROUP'))

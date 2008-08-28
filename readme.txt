@@ -47,6 +47,7 @@ Included Plugins:
 * TwitPic
 * Vimeo
 * StumbleUpon
+* Tumblr
 
 == Installation ==
 
