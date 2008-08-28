@@ -61,7 +61,7 @@ There are severals methods in which you can use LifeStream in a WordPress page.
 
 The easiest way is to use the normal context handler (works in pages and posts):
 
-`<lifestream />`
+`[lifestream]`
 
 Another method requires a [custom WordPress page](http://codex.wordpress.org/Pages#Page_Templates), or the use of a template, and is a simple function call:
 
@@ -78,7 +78,7 @@ You may also specify several parameters in the `lifestream` method (useful for s
 
 For example:
 
-`<lifestream number_of_items="10" output="list"/>`
+`[lifestream number_of_items="10" output="list"]`
 
 For more advanced uses, you may directly use `lifestream_get_events()` which will return an array of `Event` instances.
 
