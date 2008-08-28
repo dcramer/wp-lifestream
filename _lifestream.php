@@ -63,23 +63,12 @@ function lifestream_file_get_contents($url)
     }
 }
 
-
 /*
  * This is a wrapper function which initiates the callback for the custom tag embedding.
- */
-function lifestream_page_embed_callback($content)
-{
-    return false;
-    return preg_replace_callback("|[lifestream(?:\s+([a-z_]+)=[\"']?([a-z0-9_-\s]+)[\"']?)*\s*]|i", 'lifestream_page_embed_handler', $content);
-}
-
-/*
- * This is a wrapper function which initiates the callback for the custom tag embedding.
- * @deprecated
  */
 function lifestream_embed_callback($content)
 {
-    return preg_replace_callback("|<lifestream(?:\s+([a-z_]+)=[\"']?([a-z0-9_-\s]+)[\"']?)*\s*/>|i", 'lifestream_embed_handler', $content);
+    return preg_replace_callback("|[<\[]lifestream(?:\s+([a-z_]+)=[\"']?([a-z0-9_-\s]+)[\"']?)*\s*/?[>\]]|i", 'lifestream_embed_handler', $content);
 }
 
 /*
