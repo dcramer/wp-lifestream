@@ -18,7 +18,7 @@ $authors = get_users_of_blog();
         </colgroup>
         <tbody>
         <?php foreach ($options as $option=>$option_meta) { ?>
-            <?php $current_value = (isset($_POST[$option]) ? $_POST[$option] : $instance->options[$option]); ?>
+            <?php $current_value = (isset($_POST[$option]) ? stripslashes($_POST[$option]) : $instance->options[$option]); ?>
             <tr>
                 <?php if (is_array($option_meta[3])) { ?>
                     <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></th>
