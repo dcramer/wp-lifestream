@@ -8,7 +8,7 @@
 .lifestream img { border: 0; vertical-align: middle; }
 
 /* table specific css */
-table.lifestream { border: 0; border-spacing: collapse; width: 100%; }
+table.lifestream { border: 0; margin-bottom: 50px; border-spacing: collapse; width: 100%; }
 table.lifestream .lifestream_hour { text-align: center; color: #777; padding: 3px 0.5em; }
 .lifestream abbr { text-decoration: none; border: 0; }
 table.lifestream .lifestream_icon { padding: 5px 0; }
