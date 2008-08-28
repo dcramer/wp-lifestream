@@ -1,5 +1,4 @@
 <?php
-define(LIFESTREAM_VERSION, 0.67);
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 
 if (!class_exists('SimplePie'))
@@ -780,7 +779,7 @@ function lifestream($args=array())
 
     if (get_option('lifestream_show_credits') == '1')
     {
-        echo '<p><small>'.lifestream_credits().'</small></p>';
+        echo '<p class="lifestream_credits"><small>'.lifestream_credits().'</small></p>';
     }
 }
 

@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.davidcramer.net/my-projects/lifestream
 Description: Displays your social activity in a lifestream. (Requires PHP5)
 Author: David Cramer
-Version: 0.68
+Version: 0.68b
 Author URI: http://www.davidcramer.net
 */
 
