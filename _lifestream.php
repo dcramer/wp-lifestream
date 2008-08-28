@@ -1127,6 +1127,9 @@ function lifestream_options()
         <?php
         switch ($_GET['page'])
         {
+            case 'lifestream-forums.php':
+                include('pages/forums.inc.php');
+            break;
             case 'lifestream-settings.php':
                 include('pages/settings.inc.php');
             break;
@@ -1184,6 +1187,7 @@ function lifestream_options_menu()
         add_submenu_page($basename, __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 'edit_posts', $basename, 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 'edit_posts', 'lifestream-events.php', 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Settings', 'lifestream'), __('Settings', 'lifestream'), 'manage_options', 'lifestream-settings.php', 'lifestream_options');
+        add_submenu_page($basename, __('LifeStream Support Forums', 'lifestream'), __('Support Forums', 'lifestream'), 'manage_options', 'lifestream-forums.php', 'lifestream_options');
         
         //add_options_page('LifeStream Options', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
     }
