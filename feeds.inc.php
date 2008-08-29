@@ -606,7 +606,7 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
-            'thumbnail' =>  $thumbnail,
+            'thumbnail' =>  $thumbnail['url'],
         );
     }
 }
