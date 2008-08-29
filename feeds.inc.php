@@ -229,7 +229,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
         return array(
             'date'      =>  strtotime($track->date),
             'link'      =>  html_entity_decode($track->url),
-            'name'     =>  html_entity_decode($track->name),
+            'name'      =>  html_entity_decode($track->name),
             'artist'    =>  html_entity_decode($track->artist),
         );
     }
@@ -1337,7 +1337,7 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
         }
         else
         {
-            return $this->parse_users($this->parse_urls($item['description']));
+            return $this->parse_users($this->parse_urls($item['title']));
         }
     }
     
