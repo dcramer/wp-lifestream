@@ -562,10 +562,11 @@ class LifeStream_Feed
             {
                 foreach ($response as $row)
                 {
-                    $result =& $this->yield($row, $url);
-                    if (!$result['key']) $result['key'] = $key;
-                    if (!($result['date'] > 0)) $result['date'] = time();
-                    if (count($result)) $items[] = $result;
+                    $row =& $this->yield($row, $url);
+                    if (!$row) continue;
+                    if (!$row['key']) $row['key'] = $key;
+                    if (!($row['date'] > 0)) $row['date'] = time();
+                    if (count($row)) $items[] = $row;
                 }
             }
         }
@@ -577,10 +578,12 @@ class LifeStream_Feed
         // date and link are required
         // the rest of the data will be serialized into a `data` field
         // and is pulled out and used on the render($row) method
+        $title = $row->get_title();
+        if (!$title) return false;
         return array(
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
-            'title'     =>  html_entity_decode($row->get_title()),
+            'title'     =>  html_entity_decode($title),
         );
     }
     
