@@ -536,7 +536,6 @@ class LifeStream_Feed
     }
     function fetch()
     {
-        var_dump($urls);
         $urls = $this->get_url();
         if (!is_array($urls)) $urls = array($urls);
         $items = array();
