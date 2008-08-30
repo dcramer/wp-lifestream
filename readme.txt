@@ -110,6 +110,13 @@ foreach ($events as $event)
 * Localization ready!
 * Daily digest available to summarize your activities.
 
+== Localization ==
+
+Current the addon is localized in the default language of English, as well as the following languages. If you wish to submit a localization please send it to dcramer@gmail.com.
+
+* Chinese (Simplified)
+* Japanese
+
 == Credits ==
 
 Created and mainted by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net)).
