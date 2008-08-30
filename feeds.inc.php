@@ -1284,7 +1284,6 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
     const LABEL_PLURAL  = 'Posted %d notes on <a href="%s">%s</a>.';
     const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a note on <a href="%s">%s</a>.';
     const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d notes on <a href="%s">%s</a>.';
-    const NAMESPACE     = 'http://jaiku.com/ns';
     
     // http://media.tumblr.com/ck3ATKEVYd6ay62wLAzqtEkX_500.jpg
     private $image_match_regexp = '/src="(http:\/\/media\.tumblr\.com\/[a-zA-Z0-9_-]+\.jpg)"/i';

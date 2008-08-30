@@ -1,0 +1,294 @@
+# Japanese Language File for LifeStream
+# (lifestream-ja.po)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: lifestream\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-08-25 16:55-0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Naoko McCracken <info@nao-net.com>\n"
+"Language-Team: WordPress J-Series Project <http://wppluginsj.sourceforge.jp/i18n-ja_jp/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: _lifestream.php:533
+#: feeds.inc.php:335
+msgid "Show Details"
+msgstr "詳細を表示"
+
+#: _lifestream.php:533
+#: feeds.inc.php:335
+msgid "Hide Details"
+msgstr "詳細を非表示"
+
+#: _lifestream.php:677
+msgid "The selected event was hidden."
+msgstr "選択したイベントは非表示になっています。"
+
+#: _lifestream.php:681
+msgid "The selected event was not found."
+msgstr "選択したイベントが見つかりません。"
+
+#: _lifestream.php:691
+msgid "All of your feeds have been refreshed."
+msgstr "すべてのフィードを再読み込みしました。"
+
+#: _lifestream.php:699
+msgid "The selected feed's events has been refreshed."
+msgstr "選択したフィードのイベントを再読み込みしました。"
+
+#: _lifestream.php:703
+#: _lifestream.php:716
+#: _lifestream.php:755
+msgid "The selected feed was not found."
+msgstr "選択したフィードが見つかりません。"
+
+#: _lifestream.php:712
+msgid "The selected feed and all events has been removed."
+msgstr "選択したフィードとその項目をすべて削除しました。"
+
+#: _lifestream.php:792
+#, php-format
+msgid "Selected feed was added to your LifeStream with %d event(s)."
+msgstr "選択したフィードと、%d 個のイベントを追加しました。"
+
+#: _lifestream.php:822
+msgid "Please correct the following errors:"
+msgstr "以下のエラーを修正してください。"
+
+#: _lifestream.php:873
+msgid "LifeStream Settings"
+msgstr "LifeStream 設定"
+
+#: _lifestream.php:873
+msgid "Settings"
+msgstr "設定"
+
+#: _lifestream.php:874
+#: pages/feeds.inc.php:1
+msgid "LifeStream Feeds"
+msgstr "LifeStream フィード"
+
+#: _lifestream.php:874
+msgid "Feeds"
+msgstr "フィード"
+
+#: _lifestream.php:875
+#: pages/events.inc.php:1
+msgid "LifeStream Events"
+msgstr "LifeStream イベント"
+
+#: _lifestream.php:875
+#: pages/feeds.inc.php:12
+msgid "Events"
+msgstr "イベント"
+
+#: pages/add-feed.inc.php:1
+msgid "Add a Feed"
+msgstr "フィードを追加"
+
+#: pages/add-feed.inc.php:4
+msgid "You will need JavaScript enabled in order to add a feed."
+msgstr "フィードを追加するには JavaScript を有効化してください。"
+
+#: pages/add-feed.inc.php:7
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr "フィードの種類を選択して新しいフィードを追加:"
+
+#: pages/add-feed.inc.php:21
+#: pages/edit-feed.inc.php:4
+#, php-format
+msgid "%s Feed Settings"
+msgstr "%s フィード設定"
+
+#: pages/add-feed.inc.php:63
+msgid "Show labels for events in this feed. This will not affect grouped events."
+msgstr "このフィードのイベントにはラベルを表示します。グループ化されたイベントには適用されません。"
+
+#: pages/add-feed.inc.php:72
+#: pages/edit-feed.inc.php:54
+msgid "Group events from the same day together."
+msgstr "同じ日のイベントをグループ化する。"
+
+#: pages/add-feed.inc.php:79
+#: pages/edit-feed.inc.php:62
+#, php-format
+msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
+msgstr "%s についてさらに詳しくは <a href=\"%s\">%s</a> をご覧ください。"
+
+#: pages/add-feed.inc.php:82
+msgid "Add Feed"
+msgstr "フィードを追加"
+
+#: pages/edit-feed.inc.php:1
+msgid "Edit Feed"
+msgstr "フィードを編集"
+
+#: pages/edit-feed.inc.php:1
+#, php-format
+msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
+msgstr "(<a href=\"%s\">LifeStream フィードへ戻る</a>)"
+
+#: pages/edit-feed.inc.php:46
+msgid "Show labels for events in this feed. This will not effect grouped events."
+msgstr "このフィードのイベントにはラベルを表示します。グループ化されたイベントには適用されません。"
+
+#: pages/edit-feed.inc.php:55
+msgid "This will not affect any event's already listed."
+msgstr "すでに追加されたイベントには適用されません。"
+
+#: pages/edit-feed.inc.php:65
+msgid "Save Feed"
+msgstr "フィードを保存"
+
+#: pages/edit-feed.inc.php:69
+msgid "Recent Events"
+msgstr "最近のイベント"
+
+#: pages/edit-feed.inc.php:73
+#: pages/events.inc.php:11
+#: pages/feeds.inc.php:10
+msgid "ID"
+msgstr "ID"
+
+#: pages/edit-feed.inc.php:74
+#: pages/events.inc.php:12
+msgid "Event"
+msgstr "イベント"
+
+#: pages/edit-feed.inc.php:75
+#: pages/events.inc.php:13
+msgid "Date"
+msgstr "日付"
+
+#: pages/edit-feed.inc.php:85
+#: pages/events.inc.php:25
+#: pages/feeds.inc.php:25
+msgid "Delete"
+msgstr "削除"
+
+#: pages/events.inc.php:9
+#: pages/feeds.inc.php:9
+msgid "Feed Type"
+msgstr "フィードの種類"
+
+#: pages/events.inc.php:10
+msgid "Feed"
+msgstr "フィード"
+
+#: pages/feeds.inc.php:1
+msgid "Refresh All Feeds"
+msgstr "すべてのフィードを再読み込み"
+
+#: pages/feeds.inc.php:11
+msgid "Description"
+msgstr "説明"
+
+#: pages/feeds.inc.php:26
+msgid "Refresh"
+msgstr "再読み込み"
+
+#: pages/lifestream-list.inc.php:45
+#: pages/lifestream-table.inc.php:48
+msgid "There are no events to show at this time."
+msgstr "現在、表示するイベントがありません。"
+
+#: pages/settings.inc.php:7
+msgid "LifeStream Configuration"
+msgstr "LifeStream 設定"
+
+#: pages/settings.inc.php:8
+#, php-format
+msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
+msgstr "以下の設定はすべてのフィードに適用されます。各フィードの設定を変更したい場合は、<a href=\"%s\">フィード管理画面</a>から行ってください。"
+
+#: pages/settings.inc.php:17
+msgid "Day Format:"
+msgstr "日付書式:"
+
+#: pages/settings.inc.php:20
+#: pages/settings.inc.php:27
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method for more information."
+msgstr "詳しくは、PHP マニュアルの<a href=\"http://php.net/manual/ja/function.date.php\">date()</a> 関数のページをご覧ください。"
+
+#: pages/settings.inc.php:24
+msgid "Hour Format:"
+msgstr "時間書式:"
+
+#: pages/settings.inc.php:31
+msgid "Current Time:"
+msgstr "現在の時間:"
+
+#: pages/settings.inc.php:41
+msgid "Update Interval:"
+msgstr "更新頻度:"
+
+#: pages/settings.inc.php:44
+msgid "The number of minutes between updates to your feeds. Value is in minutes."
+msgstr "フィードを再読み込みする間隔（分）。"
+
+#: pages/settings.inc.php:48
+msgid "Number of Items:"
+msgstr "項目数:"
+
+#: pages/settings.inc.php:51
+msgid "The number of items to display in the default lifestream feed call."
+msgstr "ライフストリーム関数呼び出しで表示する項目のデフォルト数。"
+
+#: pages/settings.inc.php:55
+msgid "Date Cutoff:"
+msgstr "分割期間:"
+
+#: pages/settings.inc.php:58
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "ライフストリームフィード関数呼び出しを分割する期間のデフォルト値。使える単位は、<code>year</code>、<code>quarter</code>、<code>month</code>、<code>week</code>、<code>day</code>、<code>hour</code>、<code>second</code>、<code>microsecond</code> です。"
+
+#: pages/settings.inc.php:64
+msgid "Daily Digest"
+msgstr "今日のダイジェスト"
+
+#: pages/settings.inc.php:65
+msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "LifeStream で集めた1日のイベントをブログに自動投稿することができます。"
+
+#: pages/settings.inc.php:73
+msgid "Post a daily summary of my lifestream."
+msgstr "1日ごとにライフストリームの概要を投稿する。"
+
+#: pages/settings.inc.php:77
+msgid "Summary Post Title:"
+msgstr "概要投稿のタイトル:"
+
+#: pages/settings.inc.php:80
+#, php-format
+msgid "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
+msgstr "<code>%s</code> を使えば、<em>日付書式の設定</em>で指定した書式で今日の日付を挿入できます。"
+
+#: pages/settings.inc.php:84
+msgid "Summary Post Body:"
+msgstr "概要投稿の本文:"
+
+#: pages/settings.inc.php:87
+#, php-format
+msgid "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
+msgstr "イベント一覧を挿入するには <code>%1$s</code>、日付には <code>%2$s</code>、イベント総数には <code>%3$d</code> を使用できます。"
+
+#: pages/settings.inc.php:91
+msgid "Summary Author:"
+msgstr "概要投稿の作成者:"
+
+#: pages/settings.inc.php:109
+msgid "Summary Category:"
+msgstr "概要投稿のカテゴリー:"
+
+#: pages/settings.inc.php:124
+msgid "Save Changes"
+msgstr "変更を保存"
+

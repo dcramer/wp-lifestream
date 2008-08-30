@@ -454,10 +454,11 @@ class LifeStream_Feed
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
             
-            $affected = $wpdb->query(sprintf("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
+            $affected = $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d) ON DUPLICATE KEY UPDATE `link` = VALUES(`link`), `data` = VALUES(`data`), `version` = VALUES(`version`)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
             if ($affected)
             {
                 $item['id'] = $wpdb->insert_id;
+                $items[$item_key] = $item;
                 if (!array_key_exists($key, $inserted)) $inserted[$key] = array();
                 $total += 1;
                 $inserted[$key][date('m d Y', $date)] = $date;
@@ -510,7 +511,6 @@ class LifeStream_Feed
                 {
                     $date = array_key_pop($item, 'date');
                     $key = array_key_pop($item, 'key');
-                    
                     $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, '%s', %d, '%s', %d, 1, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($this->get_constant('ID')), $item['id'], $wpdb->escape(serialize(array($item))), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
                 }
             }
@@ -536,6 +536,7 @@ class LifeStream_Feed
     }
     function fetch()
     {
+        var_dump($urls);
         $urls = $this->get_url();
         if (!is_array($urls)) $urls = array($urls);
         $items = array();
@@ -816,6 +817,7 @@ function lifestream_get_events($_=array())
     
     $defaults = array(
         'number_of_results' => get_option('lifestream_number_of_items'),
+        'offset'            => 0,
         'feed_ids'          => array(),
         'user_ids'          => array(),
         'date_interval'     => get_option('lifestream_date_interval'),
@@ -828,6 +830,7 @@ function lifestream_get_events($_=array())
     # If any arguments are invalid we bail out
 
     if (!((int)$_['number_of_results'] > 0)) return;
+    if (!((int)$_['offset'] >= 0)) return;
 
     if (!preg_match('/[\d]+ (month|day|year|hour|second|microsecond|week|quarter)s?/', $_['date_interval'])) return;
     $_['date_interval'] = rtrim($_['date_interval'], 's');
@@ -861,7 +864,7 @@ function lifestream_get_events($_=array())
         $where[] = sprintf('t1.`total` >= %d', $_['event_total_min']);
     }
 
-    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s)) AND (%s) ORDER BY t1.`timestamp` DESC LIMIT 0, %d", $_['date_interval'], implode(') AND (', $where), $_['number_of_results']);
+    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s)) AND (%s) ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $_['date_interval'], implode(') AND (', $where), $_['offset'], $_['number_of_results']);
 
     $results =& $wpdb->get_results($sql);
     $events = array();
@@ -932,6 +935,10 @@ function lifestream_options()
                             {
                                 $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `id` = %d", $group->id));
                             }
+                        }
+                        else
+                        {
+                            $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` = %d LIMIT 0, 1", $result->id));
                         }
                         $message = __('The selected event was hidden.', 'lifestream');
                     }
