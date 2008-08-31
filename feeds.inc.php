@@ -111,6 +111,11 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
         return 'http://'.$this->options['username'].'.jaiku.com/feed/rss';
     }
     
+    function get_user_url($user)
+    {
+        return 'http://'.$user.'.jaiku.com';
+    }
+    
     function yield($row)
     {
         if (!str_startswith($row->get_link(), 'http://'.$this->options['username'].'.jaiku.com/presence/')) return;
