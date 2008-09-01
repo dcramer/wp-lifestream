@@ -921,6 +921,12 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
         }
         return $urls;
     }
+    
+    function yield($row)
+    {
+        if (str_endswith($row->get_title, 'QuickMix')) return false;
+        return parent::yield($row);
+    }
 }
 register_lifestream_feed('LifeStream_PandoraFeed');
 
