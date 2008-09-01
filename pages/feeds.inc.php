@@ -31,7 +31,7 @@ if (count($results))
         </tbody>
     </table>
 <?php } else { ?>
-    <p>You do not currently have ownership of any feeds.</p>
+    <p><?php _e('You do not currently have ownership of any feeds.', 'lifestream'); ?></p>
 <?php } ?>
 <br />
 <?php include('add-feed.inc.php'); ?>

@@ -29,4 +29,6 @@ if (count($results))
             <?php } ?>
         </tbody>
     </table>
+<?php } else { ?>
+    <p><?php _e('There are no events to show.', 'lifestream'); ?></p>
 <?php } ?>
