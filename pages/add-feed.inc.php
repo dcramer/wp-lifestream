@@ -79,7 +79,7 @@ $authors = get_users_of_blog();
                 <?php } ?>
                 
                 <tr>
-                    <th><label for="id_owner">Owner:</label></th>
+                    <th><label for="id_owner"><?php _e('Owner:', 'lifestream'); ?></label></th>
                     <td>
                         <?php if (current_user_can('manage_options')) { ?>
                         <select name="owner" id="id_owner">
