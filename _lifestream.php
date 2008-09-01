@@ -24,6 +24,13 @@ if (!function_exists('str_startswith'))
         return substr($string, 0, strlen($chunk)) == $chunk;
     }
 }
+if (!function_exists('str_endswith'))
+{
+    function str_endswith($string, $chunk)
+    {
+        return substr($string, strlen($chunk)*-1) == $chunk;
+    }
+}
 if (!function_exists('get_class_constant'))
 {
     function get_class_constant($class, $const)
