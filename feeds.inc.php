@@ -51,7 +51,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     
     function _get_user_link($match)
     {
-        return $this->get_user_link($match[1]);
+        return $match[1].$this->get_user_link($match[2]);
     }
     
     function get_user_link($user)
@@ -71,7 +71,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 
     function parse_users($text)
     {
-        return preg_replace_callback('/[^\w]*@([a-z0-9_-]+)\b/i', array($this, '_get_user_link'), $text);
+        return preg_replace_callback('/([^\w]*)@([a-z0-9_-]+)\b/i', array($this, '_get_user_link'), $text);
     }
 
     function get_url()
