@@ -3,7 +3,7 @@ define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 
 if (!class_exists('SimplePie'))
 {
-    require_once('simplepie.inc');
+    require_once('lib/simplepie.inc');
 }
 
 $lifestream_path = trailingslashit(get_settings('siteurl')) . 'wp-content/plugins/lifestream';
