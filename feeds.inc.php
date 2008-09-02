@@ -924,7 +924,7 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
     
     function yield($row)
     {
-        if (str_endswith($row->get_title, 'QuickMix')) return false;
+        if (str_endswith($row->get_title(), 'QuickMix')) return false;
         return parent::yield($row);
     }
 }
