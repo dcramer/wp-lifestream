@@ -461,7 +461,7 @@ class LifeStream_Feed
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
             
-            $affected = $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d) ON DUPLICATE KEY UPDATE `link` = VALUES(`link`), `data` = VALUES(`data`), `version` = VALUES(`version`)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
+            $affected = $wpdb->query(sprintf("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
             if ($affected)
             {
                 $item['id'] = $wpdb->insert_id;
