@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-01 15:33-0600\n"
+"POT-Creation-Date: 2008-09-03 19:22-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -13,88 +13,88 @@ msgstr ""
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: _lifestream.php:648
+#: _lifestream.php:649
 #: pages/lifestream-list.inc.php:21
 msgid "Show Details"
 msgstr ""
 
-#: _lifestream.php:648
+#: _lifestream.php:649
 #: pages/lifestream-list.inc.php:21
 msgid "Hide Details"
 msgstr ""
 
-#: _lifestream.php:914
-#: _lifestream.php:977
-#: _lifestream.php:994
-#: _lifestream.php:1011
+#: _lifestream.php:917
+#: _lifestream.php:983
+#: _lifestream.php:1003
+#: _lifestream.php:1021
 msgid "The selected feed was not found."
 msgstr ""
 
-#: _lifestream.php:918
-#: _lifestream.php:981
-#: _lifestream.php:998
-#: _lifestream.php:1015
+#: _lifestream.php:921
+#: _lifestream.php:987
+#: _lifestream.php:1007
+#: _lifestream.php:1025
 msgid "You do not have permission to do that."
 msgstr ""
 
-#: _lifestream.php:952
-msgid "The selected event was hidden."
+#: _lifestream.php:956
+msgid "The selected events were hidden."
 msgstr ""
 
-#: _lifestream.php:971
+#: _lifestream.php:975
 msgid "All of your feeds have been refreshed."
 msgstr ""
 
-#: _lifestream.php:987
-msgid "The selected feed's events has been refreshed."
+#: _lifestream.php:993
+msgid "The selected feeds and their events have been refreshed."
 msgstr ""
 
-#: _lifestream.php:1004
-msgid "The selected feed and all events has been removed."
+#: _lifestream.php:1013
+msgid "The selected feeds and all related events has been removed."
 msgstr ""
 
-#: _lifestream.php:1103
+#: _lifestream.php:1113
 #, php-format
 msgid "Selected feed was added to your LifeStream with %d event(s)."
 msgstr ""
 
-#: _lifestream.php:1124
+#: _lifestream.php:1134
 msgid "Please correct the following errors:"
 msgstr ""
 
-#: _lifestream.php:1193
+#: _lifestream.php:1214
 #: pages/feeds.inc.php:1
 msgid "LifeStream Feeds"
 msgstr ""
 
-#: _lifestream.php:1193
+#: _lifestream.php:1214
 msgid "Feeds"
 msgstr ""
 
-#: _lifestream.php:1194
+#: _lifestream.php:1215
 #: pages/events.inc.php:1
 msgid "LifeStream Events"
 msgstr ""
 
-#: _lifestream.php:1194
-#: pages/feeds.inc.php:12
+#: _lifestream.php:1215
+#: pages/feeds.inc.php:34
 msgid "Events"
 msgstr ""
 
-#: _lifestream.php:1195
+#: _lifestream.php:1216
 msgid "LifeStream Settings"
 msgstr ""
 
-#: _lifestream.php:1195
+#: _lifestream.php:1216
 msgid "Settings"
 msgstr ""
 
-#: _lifestream.php:1196
+#: _lifestream.php:1217
 #: pages/forums.inc.php:1
 msgid "LifeStream Support Forums"
 msgstr ""
 
-#: _lifestream.php:1196
+#: _lifestream.php:1217
 msgid "Support Forums"
 msgstr ""
 
@@ -166,43 +166,45 @@ msgid "Recent Events"
 msgstr ""
 
 #: pages/edit-feed.inc.php:99
-#: pages/events.inc.php:11
-#: pages/feeds.inc.php:10
+#: pages/events.inc.php:30
+#: pages/feeds.inc.php:31
 msgid "ID"
 msgstr ""
 
 #: pages/edit-feed.inc.php:100
-#: pages/events.inc.php:12
+#: pages/events.inc.php:33
 msgid "Event"
 msgstr ""
 
 #: pages/edit-feed.inc.php:101
-#: pages/events.inc.php:13
+#: pages/events.inc.php:34
 msgid "Date"
 msgstr ""
 
 #: pages/edit-feed.inc.php:111
-#: pages/events.inc.php:27
-#: pages/feeds.inc.php:27
+#: pages/events.inc.php:20
+#: pages/events.inc.php:58
+#: pages/feeds.inc.php:21
+#: pages/feeds.inc.php:59
 msgid "Delete"
 msgstr ""
 
 #: pages/edit-feed.inc.php:117
-#: pages/events.inc.php:33
+#: pages/events.inc.php:63
 msgid "There are no events to show."
 msgstr ""
 
-#: pages/events.inc.php:9
-#: pages/feeds.inc.php:9
+#: pages/events.inc.php:31
+#: pages/feeds.inc.php:32
 msgid "Feed Type"
 msgstr ""
 
-#: pages/events.inc.php:10
+#: pages/events.inc.php:32
 msgid "Feed"
 msgstr ""
 
-#: pages/events.inc.php:14
-#: pages/feeds.inc.php:13
+#: pages/events.inc.php:35
+#: pages/feeds.inc.php:35
 msgid "Owner"
 msgstr ""
 
@@ -210,15 +212,16 @@ msgstr ""
 msgid "Refresh All Feeds"
 msgstr ""
 
-#: pages/feeds.inc.php:11
-msgid "Description"
-msgstr ""
-
-#: pages/feeds.inc.php:28
+#: pages/feeds.inc.php:20
+#: pages/feeds.inc.php:58
 msgid "Refresh"
 msgstr ""
 
-#: pages/feeds.inc.php:34
+#: pages/feeds.inc.php:33
+msgid "Description"
+msgstr ""
+
+#: pages/feeds.inc.php:65
 msgid "You do not currently have ownership of any feeds."
 msgstr ""
 
@@ -250,7 +253,7 @@ msgstr ""
 
 #: pages/settings.inc.php:20
 #: pages/settings.inc.php:27
-msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method for more information."
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method."
 msgstr ""
 
 #: pages/settings.inc.php:24
@@ -263,6 +266,13 @@ msgstr ""
 
 #: pages/settings.inc.php:41
 msgid "Update Interval:"
+msgstr ""
+
+#: pages/settings.inc.php:43
+#: pages/settings.inc.php:50
+#: pages/settings.inc.php:57
+#, php-format
+msgid "(Default: %s)"
 msgstr ""
 
 #: pages/settings.inc.php:44
