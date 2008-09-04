@@ -17,14 +17,14 @@ $authors = get_users_of_blog();
                 <th><label for="id_day_format"><?php _e('Day Format:', 'lifestream'); ?></label></th>
                 <td>
                     <input type="text" class="text" name="lifestream_day_format" id="id_day_format" value="<?php echo htmlspecialchars(get_option('lifestream_day_format')); ?>"/> (e.g. <?php echo date(get_option('lifestream_day_format')); ?>)
-                    <div class="helptext"><?php _e('For more information, please see PHP\'s <a href="http://www.php.net/date/">date()</a> method for more information.', 'lifestream'); ?></div></p>
+                    <div class="helptext"><?php _e('For more information, please see PHP\'s <a href="http://www.php.net/date/">date()</a> method.', 'lifestream'); ?></div></p>
                 </td>
             </tr>
             <tr>
                 <th><label for="id_hour_format"><?php _e('Hour Format:', 'lifestream'); ?></label></th>
                 <td>
                     <input type="text" class="text" name="lifestream_hour_format" id="id_hour_format" value="<?php echo htmlspecialchars(get_option('lifestream_hour_format')); ?>"/> (e.g. <?php echo date(get_option('lifestream_hour_format')); ?>)
-                    <div class="helptext"><?php _e('For more information, please see PHP\'s <a href="http://www.php.net/date/">date()</a> method for more information.', 'lifestream'); ?></div></p>
+                    <div class="helptext"><?php _e('For more information, please see PHP\'s <a href="http://www.php.net/date/">date()</a> method.', 'lifestream'); ?></div></p>
                 </td>
             </tr>
             <tr>
@@ -40,21 +40,21 @@ $authors = get_users_of_blog();
             <tr>
                 <th><label for="id_update_interval"><?php _e('Update Interval:', 'lifestream'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_update_interval" id="id_update_interval" value="<?php echo htmlspecialchars(get_option('lifestream_update_interval')); ?>"/> (Default: 15)
+                    <input type="text" class="text" name="lifestream_update_interval" id="id_update_interval" value="<?php echo htmlspecialchars(get_option('lifestream_update_interval')); ?>"/> <?php printf(__('(Default: %s)', 'lifestream'), 15); ?>
                     <div class="helptext"><?php _e('The number of minutes between updates to your feeds. Value is in minutes.', 'lifestream'); ?></div></p>
                 </td>
             </tr>
             <tr>
                 <th><label for="id_number_of_items"><?php _e('Number of Items:', 'lifestream'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_number_of_items" id="id_number_of_items" value="<?php echo htmlspecialchars(get_option('lifestream_number_of_items')); ?>"/> (Default: 50)
+                    <input type="text" class="text" name="lifestream_number_of_items" id="id_number_of_items" value="<?php echo htmlspecialchars(get_option('lifestream_number_of_items')); ?>"/> <?php printf(__('(Default: %s)', 'lifestream'), 50); ?>
                     <div class="helptext"><?php _e('The number of items to display in the default lifestream feed call.', 'lifestream'); ?></div></p>
                 </td>
             </tr>
             <tr>
                 <th><label for="id_date_interval"><?php _e('Date Cutoff:', 'lifestream'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_date_interval" id="id_date_interval" value="<?php echo htmlspecialchars(get_option('lifestream_date_interval')); ?>"/> (Default: 1 month)
+                    <input type="text" class="text" name="lifestream_date_interval" id="id_date_interval" value="<?php echo htmlspecialchars(get_option('lifestream_date_interval')); ?>"/> <?php printf(__('(Default: %s)', 'lifestream'), '1 month'); ?>
                     <div class="helptext"><?php _e('The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>', 'lifestream'); ?></div></p>
                 </td>
             </tr>

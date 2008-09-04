@@ -313,7 +313,7 @@ class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
     
     function get_public_url()
     {
-        return 'http://www.flickr.com/photos/'.$this->options['username'].'/';
+        return 'http://www.flickr.com/photos/'.$this->options['user_id'].'/';
     }
 
     function get_url()
