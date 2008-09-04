@@ -1,5 +1,7 @@
 <?php
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
+define(LIFESTREAM_FEEDS_PER_PAGE, 20);
+define(LIFESTREAM_EVENTS_PER_PAGE, 50);
 
 if (!class_exists('SimplePie'))
 {
@@ -154,13 +156,12 @@ function lifestream_install($allow_database_install=true)
     global $lifestream__options;
     
     $version = get_option('lifestream__version');
-
-    if (!$version) $version = 0;
-
-    if ($version == LIFESTREAM_VERSION) return;
-
-    // default options and their values
     
+    if (!$version) $version = 0;
+    
+    if ($version == LIFESTREAM_VERSION) return;
+    
+    // default options and their values
     
     foreach ($lifestream__options as $key=>$value)
     {
@@ -905,51 +906,54 @@ function lifestream_options()
     switch ($_GET['page'])
     {
         case 'lifestream-events.php':
-            switch ($_GET['op'])
+            switch (strtolower($_REQUEST['op']))
             {
                 case 'delete':
-                    $result =& $wpdb->get_results(sprintf("SELECT `id`, `feed_id`, `timestamp`, `owner_id` FROM `".$wpdb->prefix."lifestream_event` WHERE `id` = %d", $_GET['id']));
-                    if (!$result)
+                    foreach ($_REQUEST['id'] as $id)
                     {
-                        $errors[] = __('The selected feed was not found.', 'lifestream');
-                    }
-                    elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
-                    {
-                        $errors[] = __('You do not have permission to do that.', 'lifestream');
-                    }
-                    else
-                    {
-                        $result =& $result[0];
-                        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `visible` = 0 WHERE `id` = %d", $result->id));
-                        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `visible` = 0 WHERE `event_id` = %d", $result->id));
-                        
-                        // Now we have to update the batch if it exists.
-                        $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` IS NULL AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) LIMIT 0, 1", $result->timestamp));
-                        if (count($group) == 1)
+                        $result =& $wpdb->get_results(sprintf("SELECT `id`, `feed_id`, `timestamp`, `owner_id` FROM `".$wpdb->prefix."lifestream_event` WHERE `id` = %d", $id));
+                        if (!$result)
                         {
-                            $group =& $group[0];
-                            $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d))", $result->feed_id, $result->timestamp));
-                            if (count($results))
-                            {
-                                $events = array();
-                                foreach ($results as &$result)
-                                {
-                                    $result->data = unserialize($result->data);
-                                    $result->data['link'] = $result->link;
-                                    $events[] = $result->data;
-                                }
-                                $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `data` = '%s', `total` = %d, `updated` = 1 WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $group->id));
-                            }
-                            else
-                            {
-                                $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `id` = %d", $group->id));
-                            }
+                            $errors[] = __('The selected feed was not found.', 'lifestream');
+                        }
+                        elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
+                        {
+                            $errors[] = __('You do not have permission to do that.', 'lifestream');
                         }
                         else
                         {
-                            $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` = %d LIMIT 0, 1", $result->id));
+                            $result =& $result[0];
+                            $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `visible` = 0 WHERE `id` = %d", $result->id));
+                            $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `visible` = 0 WHERE `event_id` = %d", $result->id));
+                        
+                            // Now we have to update the batch if it exists.
+                            $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` IS NULL AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) LIMIT 0, 1", $result->timestamp));
+                            if (count($group) == 1)
+                            {
+                                $group =& $group[0];
+                                $results =& $wpdb->get_results(sprintf("SELECT `data`, `link` FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d))", $result->feed_id, $result->timestamp));
+                                if (count($results))
+                                {
+                                    $events = array();
+                                    foreach ($results as &$result)
+                                    {
+                                        $result->data = unserialize($result->data);
+                                        $result->data['link'] = $result->link;
+                                        $events[] = $result->data;
+                                    }
+                                    $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `data` = '%s', `total` = %d, `updated` = 1 WHERE `id` = %d", $wpdb->escape(serialize($events)), count($events), $group->id));
+                                }
+                                else
+                                {
+                                    $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `id` = %d", $group->id));
+                                }
+                            }
+                            else
+                            {
+                                $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` = %d LIMIT 0, 1", $result->id));
+                            }
                         }
-                        $message = __('The selected event was hidden.', 'lifestream');
+                        $message = __('The selected events were hidden.', 'lifestream');
                     }
                 break;
             }
@@ -964,44 +968,50 @@ function lifestream_options()
             }
         break;
         default:
-            switch ($_GET['op'])
+            switch (strtolower($_REQUEST['op']))
             {
                 case 'refreshall':
                     $events = lifestream_update($userdata->ID);
                     $message = __('All of your feeds have been refreshed.', 'lifestream');
                     break;
                 case 'refresh':
-                    $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
-                    if (!$result)
+                    foreach ($_REQUEST['id'] as $id)
                     {
-                        $errors[] = __('The selected feed was not found.', 'lifestream');
-                    }
-                    elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
-                    {
-                        $errors[] = __('You do not have permission to do that.', 'lifestream');
-                    }
-                    else
-                    {
-                        $instance = LifeStream_Feed::construct_from_query_result($result[0]);
-                        $instance->refresh();
-                        $message = __('The selected feed\'s events has been refreshed.', 'lifestream');
+                        $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $id));
+                        if (!$result)
+                        {
+                            $errors[] = __('The selected feed was not found.', 'lifestream');
+                        }
+                        elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
+                        {
+                            $errors[] = __('You do not have permission to do that.', 'lifestream');
+                        }
+                        else
+                        {
+                            $instance = LifeStream_Feed::construct_from_query_result($result[0]);
+                            $instance->refresh();
+                            $message = __('The selected feeds and their events have been refreshed.', 'lifestream');
+                        }
                     }
                 break;
                 case 'delete':
-                    $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $_GET['id']));
-                    if (!$result)
+                    foreach ($_REQUEST['id'] as $id)
                     {
-                        $errors[] = __('The selected feed was not found.', 'lifestream');
-                    }
-                    elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
-                    {
-                        $errors[] = __('You do not have permission to do that.', 'lifestream');
-                    }
-                    else
-                    {
-                        $instance = LifeStream_Feed::construct_from_query_result($result[0]);
-                        $instance->delete();
-                        $message = __('The selected feed and all events has been removed.', 'lifestream');
+                        $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $id));
+                        if (!$result)
+                        {
+                            $errors[] = __('The selected feed was not found.', 'lifestream');
+                        }
+                        elseif (!current_user_can('manage_options') && $result[0]->owner_id != $userdata->ID)
+                        {
+                            $errors[] = __('You do not have permission to do that.', 'lifestream');
+                        }
+                        else
+                        {
+                            $instance = LifeStream_Feed::construct_from_query_result($result[0]);
+                            $instance->delete();
+                            $message = __('The selected feeds and all related events has been removed.', 'lifestream');
+                        }
                     }
                 break;
                 case 'edit':
@@ -1140,18 +1150,21 @@ function lifestream_options()
                 include('pages/settings.inc.php');
             break;
             case 'lifestream-events.php':
-                $page = $_GET['p'];
-                if (!($page > 0)) $page = 1;
-
-                $page -= 1;
+                $page = $_GET['paged'] ? $_GET['paged'] : 1;
+                $start = ($page-1)*LIFESTREAM_EVENTS_PER_PAGE;
+                $end = $page*LIFESTREAM_EVENTS_PER_PAGE;
                 
                 if (!current_user_can('manage_options'))
                 {
-                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE `owner_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $userdata->ID, $page*50));
+                    $results =& $wpdb->get_results(sprintf("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_event` WHERE `owner_id` = %d", $userdata->ID));
+                    $number_of_pages = ceil($results[0]->count/LIFESTREAM_EVENTS_PER_PAGE);
+                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`owner_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $userdata->ID, $start, $end));
                 }
                 else
                 {
-                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, 50", $page*50));
+                    $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_event`");
+                    $number_of_pages = ceil($results[0]->count/LIFESTREAM_EVENTS_PER_PAGE);
+                    $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $start, $end));
                 }
                 include('pages/events.inc.php');
             break;
@@ -1162,13 +1175,20 @@ function lifestream_options()
                         include('pages/edit-feed.inc.php');
                     break;
                     default:
+                        $page = $_GET['paged'] ? $_GET['paged'] : 1;
+                        $start = ($page-1)*LIFESTREAM_FEEDS_PER_PAGE;
+                        $end = $page*LIFESTREAM_FEEDS_PER_PAGE;
                         if (!current_user_can('manage_options'))
                         {
-                            $results =& $wpdb->get_results(sprintf("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 WHERE t1.`owner_id` = %d ORDER BY `id`", $userdata->ID));
+                            $results =& $wpdb->get_results(sprintf("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds` WHERE `owner_id` = %d", $userdata->ID));
+                            $number_of_pages = ceil($results[0]->count/LIFESTREAM_FEEDS_PER_PAGE);
+                            $results =& $wpdb->get_results(sprintf("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 WHERE t1.`owner_id` = %d ORDER BY `id` LIMIT %d, %d", $userdata->ID, $start, $end));
                         }
                         else
                         {
-                            $results =& $wpdb->get_results("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 ORDER BY `id`");
+                            $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds`");
+                            $number_of_pages = ceil($results[0]->count/LIFESTREAM_FEEDS_PER_PAGE);
+                            $results =& $wpdb->get_results(sprintf("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 ORDER BY `id` LIMIT %d, %d", $start, $end));
                         }
                         if ($results !== false)
                         {
@@ -1189,6 +1209,7 @@ function lifestream_options_menu()
     if (function_exists('add_menu_page'))
     {
         $basename = basename(LIFESTREAM_PLUGIN_FILE);
+
         add_menu_page('LifeStream', 'LifeStream', 'edit_posts', $basename, 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 'edit_posts', $basename, 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 'edit_posts', 'lifestream-events.php', 'lifestream_options');
@@ -1277,10 +1298,10 @@ function lifestream_do_digest()
     for ($i=0; $i<$days; $i++)
     {
         // make sure the post doesn't exist
-        $digest_day = strtotime('-'.$days - $i.' days', $now);
+        $digest_day = strtotime('-'.($days - $i).' days', $now);
         $digest_day = strtotime(date('Y-m-d 23:59:59', $digest_day));
 
-        $results = $wpdb->get_results(sprintf("SELECT `post_id` FROM `{$wpdb->prefix}postmeta` WHERE `meta_key = '_lifestream_digest_date' AND `meta_value` = %d LIMIT 1", $digest_day));
+        $results = $wpdb->get_results(sprintf("SELECT `post_id` FROM `".$wpdb->prefix."postmeta` WHERE `meta_key = '_lifestream_digest_date' AND `meta_value` = %d LIMIT 1", $digest_day));
         if ($results) continue;
 
         $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > '%s' AND t1.`timestamp` < '%s' ORDER BY t1.`timestamp` ASC", strtotime(date('Y-m-d 00:00:00', $digest_day)), strtotime(date('Y-m-d 23:59:59', $digest_day)));
@@ -1350,6 +1371,12 @@ function lifestream_init()
         // }
         // wp_register_widget_control('lifestream-1', 'LifeStream', 'widget_lifestream', array('id_base'=>'lifestream')) {
         //         register_sidebar_widget('LifeStream', 'widget_lifestream');
+    }
+    
+    if (is_admin() && str_startswith($_GET['page'], 'lifestream'))
+    {
+        wp_enqueue_script('jquery');
+        wp_enqueue_script('admin-forms');
     }
 }
 
