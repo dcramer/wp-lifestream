@@ -1377,4 +1377,34 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
 }
 register_lifestream_feed('LifeStream_TumblrFeed');
 
+class LifeStream_AmazonFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'amazon';
+    const NAME          = 'Amazon Wishlist';
+    const URL           = 'http://www.amazon.com/';
+    const LABEL_SINGLE  = 'Added an item to their wishlist on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Added %d items to their wishlist on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> added an item to their wishlist on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> added %d items to their wishlist on <a href="%s">%s</a>.';
+
+    private $image_match_regexp = '/src="(http\:\/\/ecx\.images-amazon\.com\/[^"]+\.jpg)"/i';
+    
+    function get_public_name()
+    {
+        return 'Amazon';
+    }
+    
+    function yield($item)
+    {
+        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        return array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $match[1],
+        );
+    }
+}
+register_lifestream_feed('LifeStream_AmazonFeed');
+
 ?>

@@ -48,6 +48,7 @@ Included Plugins:
 * Vimeo
 * StumbleUpon
 * Tumblr
+* Amazon Wishlist
 
 == Installation ==
 
