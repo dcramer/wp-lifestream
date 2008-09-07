@@ -11,7 +11,7 @@ Author URI: http://www.davidcramer.net
 // since so many people miss the installation requirements
 if (phpversion() >= 5)
 {
-    define(LIFESTREAM_VERSION, 0.70);
+    define(LIFESTREAM_VERSION, 0.71);
     define(LIFESTREAM_PLUGIN_FILE, __FILE__);
 
     include('_lifestream.php');
