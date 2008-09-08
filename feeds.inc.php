@@ -44,8 +44,6 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     {        
         return array(
             'username' => array('Username:', true, '', ''),
-            'link_urls' => array('Convert URLs to links.', false, true, true),
-            'link_users' => array('Convert @username to links.', false, true, true),
         );
     }
     
@@ -54,6 +52,11 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         return $match[1].$this->get_user_link($match[2]);
     }
     
+    function _get_search_term_link($match)
+    {
+        return $match[1].'<a href="http://search.twitter.com/search?q='.$match[2].'">'.$match[2].'</a>';
+    }
+
     function get_user_link($user)
     {
         return '<a href="'.$this->get_user_url($user).'" class="user">@'.$user.'</a>';
@@ -74,6 +77,11 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         return preg_replace_callback('/([^\w]*)@([a-z0-9_-]+)\b/i', array($this, '_get_user_link'), $text);
     }
 
+    function parse_search_term($text)
+    {
+        return preg_replace_callback('/([^\w]*)(#[a-z0-9_-]+)\b/i', array($this, '_get_search_term_link'), $text);
+    }
+
     function get_url()
     {
         return 'http://twitter.com/statuses/user_timeline/'.$this->options['username'].'.rss';
@@ -81,7 +89,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return $this->parse_users($this->parse_urls($item['title']));
+        return $this->parse_search_term($this->parse_users($this->parse_urls($item['title'])));
     }
     
     function yield($row)
@@ -115,6 +123,12 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
     {
         return 'http://'.$user.'.jaiku.com';
     }
+
+    function render_item($row, $item)
+    {
+        return $this->parse_users($this->parse_urls($item['title']));
+    }
+
     
     function yield($row)
     {
@@ -783,6 +797,11 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
     function get_user_url($user)
     {
         return 'http://www.identi.ca/'.$user;
+    }
+
+    function render_item($row, $item)
+    {
+        return $this->parse_users($this->parse_urls($item['title']));
     }
 
     function get_url()
