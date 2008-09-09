@@ -909,6 +909,7 @@ function lifestream_options()
             switch (strtolower($_REQUEST['op']))
             {
                 case 'delete':
+                    if ($_REQUEST['id']) break;
                     foreach ($_REQUEST['id'] as $id)
                     {
                         $result =& $wpdb->get_results(sprintf("SELECT `id`, `feed_id`, `timestamp`, `owner_id` FROM `".$wpdb->prefix."lifestream_event` WHERE `id` = %d", $id));
@@ -927,7 +928,7 @@ function lifestream_options()
                             $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `visible` = 0 WHERE `event_id` = %d", $result->id));
                         
                             // Now we have to update the batch if it exists.
-                            $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` IS NULL AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) LIMIT 0, 1", $result->timestamp));
+                            $group =& $wpdb->get_results(sprintf("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` IS NULL AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `feed_id` = %d LIMIT 0, 1", $result->timestamp, $result->feed_id));
                             if (count($group) == 1)
                             {
                                 $group =& $group[0];
@@ -975,6 +976,7 @@ function lifestream_options()
                     $message = __('All of your feeds have been refreshed.', 'lifestream');
                     break;
                 case 'refresh':
+                    if ($_REQUEST['id']) break;
                     foreach ($_REQUEST['id'] as $id)
                     {
                         $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $id));
@@ -995,6 +997,7 @@ function lifestream_options()
                     }
                 break;
                 case 'delete':
+                    if ($_REQUEST['id']) break;
                     foreach ($_REQUEST['id'] as $id)
                     {
                         $result =& $wpdb->get_results(sprintf("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d LIMIT 0, 1", $id));
