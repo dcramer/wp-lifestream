@@ -1426,4 +1426,90 @@ class LifeStream_AmazonFeed extends LifeStream_PhotoFeed
 }
 register_lifestream_feed('LifeStream_AmazonFeed');
 
+class LifeStream_MagnoliaFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'magnolia';
+    const NAME          = 'Ma.gnolia';
+    const URL           = 'http://www.ma.gnolia.com/';
+    const LABEL_SINGLE  = 'Bookmarked a link on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Bookmarked %d links on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> bookmarked a link on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> bookmarked %d links on <a href="%s">%s</a>.';
+
+    private $image_match_regexp = '/src="(http:\/\/scst\.srv\.girafa\.com\/[^"]+)"/i';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+        
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+
+    function get_url()
+    {
+        return 'http://ma.gnolia.com/rss/full/people/'.$this->options['username'];
+    }
+    
+    function get_public_url()
+    {
+        return 'http://ma.gnolia.com/people/'.$this->options['username'];
+    }
+    
+    function yield($item)
+    {
+        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        return array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $match[1],
+        );
+    }
+}
+register_lifestream_feed('LifeStream_MagnoliaFeed');
+
+class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
+{
+    const ID            = 'zooomr';
+    const NAME          = 'Zooomr';
+    const URL           = 'http://www.zooomr.com/';
+    const DESCRIPTION   = '';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'url' => array('Feed URL:', true, '', ''),
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.zooomr.com/photos/'.$this->options['username'].'/';
+    }
+    
+    function yield($row)
+    {
+        $thumbnail = $row->get_item_tags(self::NAMESPACE, 'thumbnail');
+        $thumbnail = $thumbnail[0]['attribs'][''];
+        return array(
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
+            'thumbnail' =>  $thumbnail['url'],
+        );
+    }
+}
+register_lifestream_feed('LifeStream_ZooomrFeed');
+
 ?>
