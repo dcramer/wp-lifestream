@@ -49,6 +49,8 @@ Included Plugins:
 * StumbleUpon
 * Tumblr
 * Amazon Wishlist
+* Ma.gnolia
+* Zooomr
 
 == Installation ==
 
