@@ -119,6 +119,8 @@ Current the addon is localized in the default language of English, as well as th
 
 * Chinese (Simplified)
 * Japanese
+* Polish
+* Dutch
 
 == Credits ==
 
