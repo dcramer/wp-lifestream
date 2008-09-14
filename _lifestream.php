@@ -141,6 +141,7 @@ $lifestream__options = array(
     'lifestream_digest_body'    => '%1$s',
     'lifestream_digest_category'=> '1',
     'lifestream_digest_author'  => '1',
+    'lifestream_daily_digest'   => '0',
     'lifestream_update_interval'=> '15',
     'lifestream__in_digest'     => '0',
     'lifestream_show_owners'    => '0',
