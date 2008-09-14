@@ -1304,7 +1304,7 @@ function lifestream_do_digest()
         $digest_day = strtotime('-'.($days - $i).' days', $now);
         $digest_day = strtotime(date('Y-m-d 23:59:59', $digest_day));
 
-        $results = $wpdb->get_results(sprintf("SELECT `post_id` FROM `".$wpdb->prefix."postmeta` WHERE `meta_key = '_lifestream_digest_date' AND `meta_value` = %d LIMIT 0, 1", $digest_day));
+        $results = $wpdb->get_results(sprintf("SELECT `post_id` FROM `".$wpdb->prefix."postmeta` WHERE `meta_key` = '_lifestream_digest_date' AND `meta_value` = %d LIMIT 0, 1", $digest_day));
         if ($results) continue;
 
         $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > '%s' AND t1.`timestamp` < '%s' ORDER BY t1.`timestamp` ASC", strtotime(date('Y-m-d 00:00:00', $digest_day)), strtotime(date('Y-m-d 23:59:59', $digest_day)));
