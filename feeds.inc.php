@@ -1487,7 +1487,7 @@ class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
     
     function get_url()
     {
-        return $this->options['feed_url'];
+        return $this->options['url'];
     }
 
     function get_options()
