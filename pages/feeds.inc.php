@@ -42,7 +42,7 @@ if (count($results))
                     <th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
                     <td class="num"><?php echo $result->id; ?></td>
                     <td><?php echo htmlspecialchars($instance->get_constant('NAME')); ?></td>
-                    <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars((string)$instance); ?></a></strong></td>
+                    <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars($instance->get_feed_display()); ?></a></strong></td>
                     <td class="num"><?php echo $result->events; ?></td>
                     <td><?php echo $result->owner; ?></td>
                 </tr>
