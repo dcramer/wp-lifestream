@@ -359,6 +359,11 @@ class LifeStream_Feed
     {
         return $this->get_url();
     }
+    
+    function get_feed_display()
+    {
+        return $this->__toString();
+    }
 
     function get_public_url()
     {
