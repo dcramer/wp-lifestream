@@ -121,6 +121,7 @@ Current the addon is localized in the default language of English, as well as th
 * Japanese
 * Polish
 * Dutch
+* Italian
 
 == Credits ==
 
