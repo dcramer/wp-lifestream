@@ -51,6 +51,7 @@ Included Plugins:
 * Amazon Wishlist
 * Ma.gnolia
 * Zooomr
+* Blip.fm
 
 == Installation ==
 
@@ -122,6 +123,7 @@ Current the addon is localized in the default language of English, as well as th
 * Polish
 * Dutch
 * Italian
+* Bulgarian
 
 == Credits ==
 
