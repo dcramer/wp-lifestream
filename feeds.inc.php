@@ -1517,4 +1517,44 @@ class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
 }
 register_lifestream_feed('LifeStream_ZooomrFeed');
 
+class LifeStream_BlipFMFeed extends LifeStream_TwitterFeed
+{
+    const ID            = 'blipfm';
+    const NAME          = 'Blip.fm';
+    const URL           = 'http://blip.fm/';
+    const DESCRIPTION   = '';
+    const LABEL_SINGLE  = 'Played a song on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Played %d songs on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> played a song on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> played %d songs on <a href="%s">%s</a>.';
+    
+    function get_user_url($user)
+    {
+        return 'http://blip.fm/'.$user;
+    }
+    
+    function get_url()
+    {
+        return 'http://blip.fm/feed/'.$this->options['username'];
+    }
+    
+    function render_item($row, $item)
+    {
+        return $this->parse_users($item['text']).' &#9835; <span class="song_link"><a href="'.$item['link'].'">'.$item['song'].'</a></span>';
+    }
+    
+    function yield($row)
+    {
+        return array(
+            'date'  =>  $row->get_date('U'),
+            'link'  =>  html_entity_decode($row->get_link()),
+            'text'  =>  html_entity_decode($row->get_description()),
+            'song'  =>  html_entity_decode($row->get_title()),
+        );
+    }  
+}
+
+register_lifestream_feed('LifeStream_BlipFMFeed');
+
+
 ?>
