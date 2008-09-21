@@ -94,10 +94,15 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     
     function yield($row)
     {
+        $string = $this->options['username'] . ': ';
+        $title = html_entity_decode($row->get_description());
+        if (str_startswith($title, $string)) {
+            $title = substr($title, strlen($string));
+        }
         return array(
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
-            'title'     =>  html_entity_decode($row->get_description()),
+            'title'     =>  $title,
         );
     }
 }
