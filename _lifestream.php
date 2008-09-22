@@ -568,7 +568,6 @@ class LifeStream_Feed
             $feed = new SimplePie();
             $feed->enable_cache(false);
             $feed->set_feed_url($url);
-            $feed->enable_xml_dump(true);
             $feed->enable_order_by_date(false);
             
             $success = $feed->init();
