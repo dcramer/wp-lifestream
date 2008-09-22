@@ -1561,5 +1561,125 @@ class LifeStream_BlipFMFeed extends LifeStream_TwitterFeed
 
 register_lifestream_feed('LifeStream_BlipFMFeed');
 
+class LifeStream_BrightkiteFeed extends LifeStream_Feed
+{
+    const ID            = 'brightkite';
+    const NAME          = 'Brightkite';
+    const URL           = 'http://www.brightkite.com/';
+    const DESCRIPTION   = '';
+    const NS_BRIGHTKITE = 'http://brightkite.com/placeFeed';
+    const NS_YAHOO      = 'http://search.yahoo.com/mrss';
+    const LABEL_SINGLE  = 'Posted a message on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Posted %d messages on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a message on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d messages on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+    
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_user_url($user)
+    {
+        return 'http://www.brightkite.com/people/'.$user;
+    }
+
+    function get_url()
+    {
+        return 'http://www.brightkite.com/people/'.$this->options['username'].'/objects.rss';
+    }
+    
+    function render_group_items($id, $output, $event)
+    {
+        if ($event->key == 'image')
+        {
+            return LifeStream_PhotoFeed::render_group_items($id, $output, $event);
+        }
+        else
+        {
+            return parent::render_group_items($id, $output, $event);
+        }
+    }
+    
+    function render_item($event, $item)
+    {
+        if ($event->key == 'image')
+        {
+            return LifeStream_PhotoFeed::render_item($event, $item);
+        }
+        else
+        {
+            return $this->parse_users($this->parse_urls($item['title']));
+        }
+    }
+    
+    function get_label_single($key)
+    {
+        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_SINGLE;
+        return $this->get_constant('LABEL_SINGLE');
+    }
+    
+    function get_label_plural($key)
+    {
+        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_PLURAL;
+        return $this->get_constant('LABEL_PLURAL');
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_SINGLE_USER;
+        return $this->get_constant('LABEL_SINGLE_USER');
+    }
+    
+    function get_label_plural_user($key)
+    {
+        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_PLURAL_USER;
+        return $this->get_constant('LABEL_PLURAL_USER');
+    }
+    
+    function yield($item)
+    {
+        $type = $row->get_item_tags(self::NS_BRIGHTKITE, 'eventType');
+        $type = $type[0]['data'];
+
+        $data = array(
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'text'      =>  html_entity_decode($row->get_description()),
+            'key'       =>  $type,
+        );
+
+        $placelink = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeLink');
+        $data['placelink'] = $type[0]['data'];
+
+        $placename = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeName');
+        $data['placename'] = $type[0]['data'];
+
+        $placeaddress = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeAddress');
+        $data['placeaddress'] = $type[0]['data'];
+
+        if ($type == 'photo')
+        {
+            $thumbnail = $row->get_item_tags(self::NS_YAHOO, 'thumbnail');
+            $thumbnail = $thumbnail[0]['attribs'][''];
+            $data['thumbnail'] = $thumbnail['url'];
+            $image = $row->get_item_tags(self::NS_YAHOO, 'content');
+            $image = $image[0]['attribs'][''];
+            $data['image'] = $image['url'];
+        }
+        
+        var_dump($data);
+        die;
+        return $data;
+    }
+}
+#register_lifestream_feed('LifeStream_BrightkiteFeed');
 
 ?>
