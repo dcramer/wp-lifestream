@@ -52,6 +52,8 @@ Included Plugins:
 * Ma.gnolia
 * Zooomr
 * Blip.fm
+* Brightkite
+* Picasa (Web)
 
 == Installation ==
 

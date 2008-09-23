@@ -117,7 +117,7 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
     const LABEL_PLURAL  = 'Posted %d Jaikus on <a href="%s">%s</a>.';
     const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a Jaiku on <a href="%s">%s</a>.';
     const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d Jaikus on <a href="%s">%s</a>.';
-    const NAMESPACE     = 'http://jaiku.com/ns';
+    const NS_JAIKU      = 'http://jaiku.com/ns';
     
     function get_url()
     {
@@ -153,7 +153,6 @@ register_lifestream_feed('LifeStream_JaikuFeed');
 
 class LifeStream_DeliciousFeed extends LifeStream_Feed
 {
-    const NAMESPACE     = '';
     const ID            = 'delicious';
     const NAME          = 'Delicious';
     const URL           = 'http://www.delicious.us/';
@@ -320,8 +319,7 @@ class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
     const ID            = 'flickr';
     const NAME          = 'Flickr';
     const URL           = 'http://www.flickr.com/';
-    const DESCRIPTION   = 'You can find your User ID by using <a href="http://idgettr.com/">idGettr</a>.';
-    const NAMESPACE     = 'http://search.yahoo.com/mrss/';
+    const DESCRIPTION   = 'You can find your User ID by using <a href="http://idgettr.com/" target="_blank">idGettr</a>.';
      
     function get_options()
     {        
@@ -340,18 +338,15 @@ class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
         return 'http://api.flickr.com/services/feeds/photos_public.gne?id='.$this->options['user_id'].'&format=rss_200';
     }
 
-    function yield($row)
+    function yield($item)
     {
-        $thumbnail = $row->get_item_tags(self::NAMESPACE, 'thumbnail');
-        $thumbnail = $thumbnail[0]['attribs'][''];
-        $image = $row->get_item_tags(self::NAMESPACE, 'content');
-        $image = $image[0]['attribs'][''];
+        $enclosure = $item->get_enclosure();
         return array(
-            'date'      =>  $row->get_date('U'),
-            'link'      =>  html_entity_decode($row->get_link()),
-            'title'     =>  html_entity_decode($row->get_title()),
-            'thumbnail' =>  $thumbnail['url'],
-            'image'     =>  str_replace('_m', '', $image['url']),
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $enclosure->get_thumbnail(),
+            'image'     =>  str_replace('_m', '', $enclosure->get_medium()),
         );
     }
     
@@ -415,7 +410,7 @@ register_lifestream_feed('LifeStream_FacebookFeed');
 class LifeStream_PownceFeed extends LifeStream_TwitterFeed
 {
     // TODO: change labels based on type (event, file, url, note)
-    const NAMESPACE     = 'http://pownce.com/Atom';
+    const NS_POWNCE     = 'http://pownce.com/Atom';
     const ID            = 'pownce';
     const NAME          = 'Pownce';
     const URL           = 'http://www.pownce.com/';
@@ -454,12 +449,12 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
         }
         elseif ($key == 'event')
         {
-            if ($event_name =& $row->get_item_tags(self::NAMESPACE, 'event_name'))
+            if ($event_name =& $row->get_item_tags(self::NS_POWNCE, 'event_name'))
             {
                 $data['event'] = array();
                 $data['event']['name'] = html_entity_decode($event_name[0]['data']);
 
-                if ($event_location =& $row->get_item_tags(self::NAMESPACE, 'event_location'))
+                if ($event_location =& $row->get_item_tags(self::NS_POWNCE, 'event_location'))
                     $data['event']['location'] = html_entity_decode($event_location[0]['data']);
 
                 if ($event_date =& $row->get_item_tags('pownce', 'event_date'))
@@ -622,15 +617,15 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
         return 'http://www.youtube.com/rss/user/'.$this->options['username'].'/videos.rss';
     }
     
-    function yield($row)
+    function yield($item)
     {
-        $thumbnail = $row->get_item_tags(self::NAMESPACE, 'thumbnail');
-        $thumbnail = $thumbnail[0]['attribs'][''];
+        $enclosure = $item->get_enclosure();
         return array(
-            'date'      =>  $row->get_date('U'),
-            'link'      =>  html_entity_decode($row->get_link()),
-            'title'     =>  html_entity_decode($row->get_title()),
-            'thumbnail' =>  $thumbnail['url'],
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $enclosure->get_thumbnail(),
+            'image'     =>  $enclosure->get_medium(),
         );
     }
 }
@@ -822,7 +817,7 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
     const ID            = 'pandora';
     const NAME          = 'Pandora';
     const URL           = 'http://www.pandora.com/';
-    const NAMESPACE     = 'http://musicbrainz.org/mm/mm-2.1#';
+    const NS_PANDORA    = 'http://musicbrainz.org/mm/mm-2.1#';
     const DESCRIPTION   = 'Your username is available from your profile page. For example, if your profile page has a url of http://www.pandora.com/people/foobar32 then your username is foobar32.';
     
     function __toString()
@@ -1508,15 +1503,15 @@ class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
         return 'http://www.zooomr.com/photos/'.$this->options['username'].'/';
     }
     
-    function yield($row)
+    function yield($item)
     {
-        $thumbnail = $row->get_item_tags(self::NAMESPACE, 'thumbnail');
-        $thumbnail = $thumbnail[0]['attribs'][''];
+        $enclosure = $item->get_enclosure();
         return array(
-            'date'      =>  $row->get_date('U'),
-            'link'      =>  html_entity_decode($row->get_link()),
-            'title'     =>  html_entity_decode($row->get_title()),
-            'thumbnail' =>  $thumbnail['url'],
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $enclosure->get_thumbnail(),
+            'image'     =>  $enclosure->get_medium(),
         );
     }
 }
@@ -1569,10 +1564,6 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
     const DESCRIPTION   = '';
     const NS_BRIGHTKITE = 'http://brightkite.com/placeFeed';
     const NS_YAHOO      = 'http://search.yahoo.com/mrss';
-    const LABEL_SINGLE  = 'Posted a message on <a href="%s">%s</a>.';
-    const LABEL_PLURAL  = 'Posted %d messages on <a href="%s">%s</a>.';
-    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a message on <a href="%s">%s</a>.';
-    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d messages on <a href="%s">%s</a>.';
     
     function __toString()
     {
@@ -1586,9 +1577,9 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
         );
     }
     
-    function get_user_url($user)
+    function get_public_url()
     {
-        return 'http://www.brightkite.com/people/'.$user;
+        return 'http://www.brightkite.com/people/'.$this->options['username'];
     }
 
     function get_url()
@@ -1614,37 +1605,42 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
         {
             return LifeStream_PhotoFeed::render_item($event, $item);
         }
+        elseif ($event->key == 'checkin') return '<a href="'.$item['placelink'].'">'.$item['placename'].'</a>';
         else
         {
-            return $this->parse_users($this->parse_urls($item['title']));
+            return $this->parse_urls($item['text']);
         }
     }
     
     function get_label_single($key)
     {
         if ($key == 'image') return LifeStream_PhotoFeed::LABEL_SINGLE;
-        return $this->get_constant('LABEL_SINGLE');
+        elseif ($key == 'checkin') return 'Checked in on <a href="%s">%s</a>.';
+        return 'Posted a message on <a href="%s">%s</a>.';
     }
     
     function get_label_plural($key)
     {
         if ($key == 'image') return LifeStream_PhotoFeed::LABEL_PLURAL;
-        return $this->get_constant('LABEL_PLURAL');
+        elseif ($key == 'checkin') return 'Checked in %d times on <a href="%s">%s</a>.';
+        return 'Posted %d messages on <a href="%s">%s</a>.';
     }
     
     function get_label_single_user($key)
     {
         if ($key == 'image') return LifeStream_PhotoFeed::LABEL_SINGLE_USER;
-        return $this->get_constant('LABEL_SINGLE_USER');
+        elseif ($key == 'checkin') return '<a href="%s">%s</a> checked in on <a href="%s">%s</a>.';
+        return '<a href="%s">%s</a> posted a message on <a href="%s">%s</a>.';
     }
     
     function get_label_plural_user($key)
     {
         if ($key == 'image') return LifeStream_PhotoFeed::LABEL_PLURAL_USER;
-        return $this->get_constant('LABEL_PLURAL_USER');
+        elseif ($key == 'checkin') return '<a href="%s">%s</a> checked in %d times on <a href="%s">%s</a>.';
+        return '<a href="%s">%s</a> posted %d messages on <a href="%s">%s</a>.';
     }
     
-    function yield($item)
+    function yield($row)
     {
         $type = $row->get_item_tags(self::NS_BRIGHTKITE, 'eventType');
         $type = $type[0]['data'];
@@ -1657,29 +1653,65 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
         );
 
         $placelink = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeLink');
-        $data['placelink'] = $type[0]['data'];
+        $data['placelink'] = $placelink[0]['data'];
 
         $placename = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeName');
-        $data['placename'] = $type[0]['data'];
+        $data['placename'] = $placename[0]['data'];
 
         $placeaddress = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeAddress');
-        $data['placeaddress'] = $type[0]['data'];
+        $data['placeaddress'] = $placeaddress[0]['data'];
 
-        if ($type == 'photo')
+        if ($enclosure = $item->get_enclosure())
         {
-            $thumbnail = $row->get_item_tags(self::NS_YAHOO, 'thumbnail');
-            $thumbnail = $thumbnail[0]['attribs'][''];
-            $data['thumbnail'] = $thumbnail['url'];
-            $image = $row->get_item_tags(self::NS_YAHOO, 'content');
-            $image = $image[0]['attribs'][''];
-            $data['image'] = $image['url'];
+            $data['thumbnail'] = $enclosure->get_thumbnail();
+            $data['image'] = $enclosure->get_medium();
         }
-        
-        var_dump($data);
-        die;
         return $data;
     }
 }
-#register_lifestream_feed('LifeStream_BrightkiteFeed');
+register_lifestream_feed('LifeStream_BrightkiteFeed');
+
+class LifeStream_PicasaFeed extends LifeStream_FlickrFeed
+{
+    const ID            = 'picasa';
+    const NAME          = 'Picasa';
+    const URL           = 'http://picasaweb.google.com/';
+    const DESCRIPTION   = '';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_url()
+    {
+        return 'http://picasaweb.google.com/data/feed/base/user/'.$this->options['username'].'?alt=rss&kind=album&hl=en_US&access=public';
+    }
+    
+    function get_public_url()
+    {
+        return 'http://picasaweb.google.com/'.$this->options['username'];
+    }
+    
+    function yield($item)
+    {
+        $enclosure = $item->get_enclosure();
+        return array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $enclosure->get_thumbnail(),
+            'image'     =>  $enclosure->get_medium(),
+        );
+    }
+}
+register_lifestream_feed('LifeStream_PicasaFeed');
 
 ?>
