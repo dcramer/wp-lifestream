@@ -1563,7 +1563,6 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
     const URL           = 'http://www.brightkite.com/';
     const DESCRIPTION   = '';
     const NS_BRIGHTKITE = 'http://brightkite.com/placeFeed';
-    const NS_YAHOO      = 'http://search.yahoo.com/mrss';
     
     function __toString()
     {
