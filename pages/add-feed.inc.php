@@ -8,13 +8,16 @@ $authors = get_users_of_blog();
     <p><?php _e('You will need JavaScript enabled in order to add a feed.', 'lifestream'); ?></p>
 </noscript>
 <div class="requires-javascript" id="poststuff">
-    <p><?php _e('Add a new feed by first selecting the type of feed:', 'lifestream'); ?> 
-    <select id="id_feed_type" onkeyup="showFeedOptions(this.options[this.selectedIndex].value);" onchange="showFeedOptions(this.options[this.selectedIndex].value);"><?php
-    foreach ($lifestream_feeds as $identifier=>$class_name)
-    {
-        ?><option value="<?php echo $identifier; ?>"<?php if ($_POST['feed_type'] == $identifier) echo ' selected="selected"'; ?>><?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?></option><?php
-    }
-    ?></select></p>
+    <p><?php _e('Add a new feed by first selecting the type of feed:', 'lifestream'); ?></p>
+    <ul class="feedlist">
+        <?php
+        foreach ($lifestream_feeds as $identifier=>$class_name)
+        {
+            ?><li><a href="javascript:showFeedOptions('<?php echo $identifier; ?>');" title="<?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?>"><img src="../wp-content/plugins/lifestream/images/<?php echo $identifier; ?>.png"/></a></li><?php
+        }
+        ?>
+    </ul>
+    <div style="padding-top:10px;clear:both;">
     <?php
     foreach ($lifestream_feeds as $identifier=>$class_name)
     {
@@ -64,7 +67,7 @@ $authors = get_users_of_blog();
                 <tr>
                     <th>&nbsp;</th>
                     <td>
-                        <label><input type="checkbox" name="show_label" value="1"<?php if (empty($_POST) || $_POST['show_label']) echo ' checked="checked"'; ?>/> <?php _e('Show labels for events in this feed. This will not affect grouped events.', 'lifestream'); ?></label>
+                        <label><input type="checkbox" name="show_label" value="1"<?php if (!isset($_POST['save']) || $_POST['show_label'] == '1') echo ' checked="checked"'; ?>/> <?php _e('Show labels for events in this feed. This will not affect grouped events.', 'lifestream'); ?></label>
                         <div class="helptext">e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', $feed->get_public_name()); ?></div>
                     </td>
                 </tr>
@@ -73,7 +76,7 @@ $authors = get_users_of_blog();
                     <tr>
                         <th>&nbsp;</th>
                         <td>
-                            <label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if (empty($_POST) || $_POST['grouped']) echo ' checked="checked"'; ?>/> <?php _e('Group events from the same day together.', 'lifestream'); ?></label>
+                            <label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if ($_POST['grouped'] == '1') echo ' checked="checked"'; ?>/> <?php _e('Group events from the same day together.', 'lifestream'); ?></label>
                         </td>
                     </tr>
                 <?php } ?>
@@ -121,4 +124,5 @@ $authors = get_users_of_blog();
         var el = document.getElementById('id_feed_type');
         showFeedOptions(el.options[el.selectedIndex].value);
     </script>
+    </div>
 </div>

@@ -25,12 +25,19 @@ if (count($results))
 
     <br class="clear" />
     <table class="widefat">
+        <colgroup>
+            <col style="width:20px;"/>
+            <col style="width:40px;"/>
+            <col style="width:16px;"/>
+            <col/>
+            <col style="width:50px;"/>
+            <col style="width:90px;"/>
+        </colgroup>
         <thead>
             <tr>
                 <th scope="col" class="check-column"><input type="checkbox" /></th>
                 <th scope="col" class="num"><?php _e('ID', 'lifestream'); ?></th>
-                <th scope="col" style="width: 80px;"><?php _e('Feed Type', 'lifestream'); ?></th>
-                <th scope="col"><?php _e('Description', 'lifestream'); ?></th>
+                <th scope="col" colspan="2"><?php _e('Description', 'lifestream'); ?></th>
                 <th scope="col" class="num"><?php _e('Events', 'lifestream'); ?></th>
                 <th scope="col"><?php _e('Owner', 'lifestream'); ?></th>
             </tr>
@@ -41,7 +48,7 @@ if (count($results))
                 <tr valign="top">
                     <th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
                     <td class="num"><?php echo $result->id; ?></td>
-                    <td><?php echo htmlspecialchars($instance->get_constant('NAME')); ?></td>
+                    <td class="icon"><img src="../wp-content/plugins/lifestream/images/<?php echo $instance->get_constant('ID'); ?>.png"/></td>
                     <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars($instance->get_feed_display()); ?></a></strong></td>
                     <td class="num"><?php echo $result->events; ?></td>
                     <td><?php echo $result->owner; ?></td>

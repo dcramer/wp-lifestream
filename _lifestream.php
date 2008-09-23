@@ -569,6 +569,7 @@ class LifeStream_Feed
             $feed->enable_cache(false);
             $feed->set_feed_url($url);
             $feed->enable_order_by_date(false);
+            $feed->force_feed(true); 
             
             $success = $feed->init();
             if (!$success)
@@ -1138,6 +1139,11 @@ function lifestream_options()
     table.options th { text-align: left; }
     table.options th { vertical-align: top; line-height: 30px; }
     table.options td .helptext { color: #999; margin-top: 3px; }
+    .feedlist { margin: 0; padding: 0; }
+    .feedlist li { list-style: none; display: inline; }
+    .feedlist li a { width: 16px; height: 16px; float: left; display: block; border: 1px solid #ccc; padding: 2px; margin: 1px; }
+    .feedlist li a:hover { border-color: #999; }
+    td.icon { padding: 7px 0 9px 10px; }
     </style>
     <br />
     <?php
