@@ -960,7 +960,7 @@ function lifestream_options()
                             }
                             else
                             {
-                                $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` = %d LIMIT 0, 1", $result->id));
+                                $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` = %d", $result->id));
                             }
                         }
                         $message = __('The selected events were hidden.', 'lifestream');
