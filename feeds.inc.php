@@ -155,7 +155,7 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
 {
     const ID            = 'delicious';
     const NAME          = 'Delicious';
-    const URL           = 'http://www.delicious.us/';
+    const URL           = 'http://www.delicious.com/';
     const LABEL_SINGLE  = 'Bookmarked a link on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Bookmarked %d links on <a href="%s">%s</a>.';
     const LABEL_SINGLE_USER = '<a href="%s">%s</a> bookmarked a link on <a href="%s">%s</a>.';
