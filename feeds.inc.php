@@ -1713,4 +1713,51 @@ class LifeStream_PicasaFeed extends LifeStream_FlickrFeed
 }
 register_lifestream_feed('LifeStream_PicasaFeed');
 
+class LifeStream_KongregateFeed extends LifeStream_Feed
+{
+    const ID            = 'kongregate';
+    const NAME          = 'Kongregate';
+    const URL           = 'http://www.kongregate.com/';
+    const DESCRIPTION   = '';
+    const LABEL_SINGLE  = 'Obtained a badge on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Obtained %d badges on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> obtained a badge on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> obtained %d badges on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_url()
+    {
+        return 'http://www.kongregate.com/accounts/'.$this->options['username'].'/badges.rss';
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.kongregate.com/accounts/'.$this->options['username'];
+    }
+    
+    // function yield($item)
+    // {
+    //     $enclosure = $item->get_enclosure();
+    //     return array(
+    //         'date'      =>  $item->get_date('U'),
+    //         'link'      =>  html_entity_decode($item->get_link()),
+    //         'title'     =>  html_entity_decode($item->get_title()),
+    //         'thumbnail' =>  $enclosure->get_thumbnail(),
+    //         'image'     =>  $enclosure->get_medium(),
+    //     );
+    // }
+}
+register_lifestream_feed('LifeStream_KongregateFeed');
+
 ?>

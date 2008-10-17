@@ -54,6 +54,7 @@ Included Plugins:
 * Blip.fm
 * Brightkite
 * Picasa (Web)
+* Kongregate
 
 == Installation ==
 
@@ -126,6 +127,8 @@ Current the addon is localized in the default language of English, as well as th
 * Dutch
 * Italian
 * Bulgarian
+* French
+* German
 
 == Credits ==
 
