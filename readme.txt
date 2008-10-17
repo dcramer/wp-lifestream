@@ -22,39 +22,7 @@ Requirements:
 
 * PHP 5.x
 * WordPress 2.5+
-
-Included Plugins:
-
-* Facebook
-* Digg
-* Blog
-* Twitter
-* Reddit
-* De.licio.us
-* Jaiku
-* Last.fm (Revamped plugin in 0.38)
-* Flickr (Improved display in 0.39)
-* Photobucket
-* Pownce
-* YouTube
-* Google Reader
-* Yelp
-* MySpace Blog
-* Skitch
-* Identi.ca
-* Pandora
-* Hulu
-* TwitPic
-* Vimeo
-* StumbleUpon
-* Tumblr
-* Amazon Wishlist
-* Ma.gnolia
-* Zooomr
-* Blip.fm
-* Brightkite
-* Picasa (Web)
-* Kongregate
+* MySQL 5.x
 
 == Installation ==
 
@@ -111,15 +79,50 @@ foreach ($events as $event)
 
 * Personalizable CSS classes.
 * Detailed configuration options.
-* Supported services: twitter, pownce, facebook, last.fm, del.icio.us, flickr
+* Supports nearly every major social networking website (see)
 * Unlimited number of feeds in your Lifestream.
 * Supports grouping of events.
 * Localization ready!
 * Daily digest available to summarize your activities.
 
+== Built-in Feeds ==
+
+The plugin includes most of the major social networking feeds available. You may add your own, as well as send me ideas for new feeds at dcramer@gmail.com.
+
+* Facebook
+* Digg
+* Blog
+* Twitter
+* Reddit
+* De.licio.us
+* Jaiku
+* Last.fm (Revamped plugin in 0.38)
+* Flickr (Improved display in 0.39)
+* Photobucket
+* Pownce
+* YouTube
+* Google Reader
+* Yelp
+* MySpace Blog
+* Skitch
+* Identi.ca
+* Pandora
+* Hulu
+* TwitPic
+* Vimeo
+* StumbleUpon
+* Tumblr
+* Amazon Wishlist
+* Ma.gnolia
+* Zooomr
+* Blip.fm
+* Brightkite
+* Picasa (Web)
+* Kongregate
+
 == Localization ==
 
-Current the addon is localized in the default language of English, as well as the following languages. If you wish to submit a localization please send it to dcramer@gmail.com.
+Currently the plugin is localized in the default language of English, as well as the following languages. If you wish to submit a localization please send it to dcramer@gmail.com.
 
 * Chinese (Simplified)
 * Japanese
