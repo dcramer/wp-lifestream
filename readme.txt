@@ -61,7 +61,7 @@ Example:
 
 `<ul>
 <?php
-$events = lifestream_get_events(array('number_of_items' => 50));
+$events = lifestream_get_events(array('number_of_results' => 50));
 
 foreach ($events as $event)
 {
