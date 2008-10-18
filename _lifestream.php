@@ -1263,7 +1263,7 @@ function widget_lifestream($args)
         <?php echo $before_title
             . 'LifeStream'
             . $after_title; ?>
-        <?php lifestream_sidebar_widget(array('number_of_items'=>10)); ?>
+        <?php lifestream_sidebar_widget(array('number_of_results'=>10)); ?>
     <?php echo $after_widget; ?>
 <?php
 }
