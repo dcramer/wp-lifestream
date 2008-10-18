@@ -96,7 +96,8 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     {
         $string = $this->options['username'] . ': ';
         $title = html_entity_decode($row->get_description());
-        if (str_startswith($title, $string)) {
+        if (str_startswith($title, $string))
+        {
             $title = substr($title, strlen($string));
         }
         return array(
@@ -403,6 +404,16 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
     function render_item($row, $item)
     {
         return $item['title'];
+    }
+    
+    function yield($item)
+    {
+        return array(
+            'date'      =>  $item->get_date('U'),
+            # There's not a unique link, but we need a unique key
+            'link'      =>  $item->get_title(),
+            'title'     =>  html_entity_decode($item->get_title()),
+        );
     }
 }
 register_lifestream_feed('LifeStream_FacebookFeed');
@@ -979,16 +990,18 @@ class LifeStream_FireEagleFeed extends LifeStream_Feed
     {
         ob_start();
 
-        if (@$_GET['f'] == 'start') {
+        if (@$_GET['f'] == 'start')
+        {
             // get a request token + secret from FE and redirect to the authorization page
             $fe = new FireEagle($this->fe_key, $this->fe_secret);
             $tok = $fe->getRequestToken();
             if (!isset($tok['oauth_token'])
                 || !is_string($tok['oauth_token'])
                 || !isset($tok['oauth_token_secret'])
-                || !is_string($tok['oauth_token_secret'])) {
-             echo "ERROR! FireEagle::getRequestToken() returned an invalid response. Giving up.";
-             exit;
+                || !is_string($tok['oauth_token_secret']))
+            {
+                echo "ERROR! FireEagle::getRequestToken() returned an invalid response. Giving up.";
+                exit;
             }
             $_SESSION['auth_state'] = "start";
             $_SESSION['request_token'] = $token = $tok['oauth_token'];
@@ -1759,5 +1772,296 @@ class LifeStream_KongregateFeed extends LifeStream_Feed
     // }
 }
 register_lifestream_feed('LifeStream_KongregateFeed');
+
+class LifeStream_ViddlerFeed extends LifeStream_YouTubeFeed
+{
+    const ID            = 'viddler';
+    const NAME          = 'Viddler';
+    const URL           = 'http://www.viddler.com/';
+    const DESCRIPTION   = '';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+    
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.viddler.com/explore/'.$this->options['username'].'/';
+    }
+    
+    function get_url()
+    {
+        return 'http://www.viddler.com/explore/'.$this->options['username'].'/videos/feed/';
+    }
+    
+    function yield($item)
+    {
+        $enclosure = $item->get_enclosure();
+        return array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'title'     =>  html_entity_decode($item->get_title()),
+            'thumbnail' =>  $enclosure->get_thumbnail(),
+        );
+    }
+}
+register_lifestream_feed('LifeStream_ViddlerFeed');
+
+class LifeStream_CoCommentsFeed extends LifeStream_Feed
+{
+    const ID            = 'cocomment';
+    const NAME          = 'coComment';
+    const URL           = 'http://www.cocomment.com/';
+    const LABEL_SINGLE  = 'Posted a comment on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Posted %d comments on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a comment on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d comments on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_url()
+    {
+        return 'http://www.cocomment.com/myWebRss/'.$this->options['username'].'.rss';
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.cocomment.com/comments/'.$this->options['username'];
+    }
+
+}
+register_lifestream_feed('LifeStream_CoCommentsFeed');
+
+class LifeStream_FoodFeedFeed extends LifeStream_Feed
+{
+    const ID            = 'foodfeed';
+    const NAME          = 'FoodFeed';
+    const URL           = 'http://www.foodfeed.us/';
+    const LABEL_SINGLE  = 'Shared a meal on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Shared %d meals on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> shared a meal on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> shared %d meals on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_url()
+    {
+        return 'http://'.$this->options['username'].'.foodfeed.us/rss';
+    }
+    
+    function get_public_url()
+    {
+        return 'http://'.$this->options['username'].'.foodfeed.us/';
+    }
+
+    function render_item($row, $item)
+    {
+        return $item['title'];
+    }
+    
+    function yield($item)
+    {
+        return array(
+            'date'      =>  $item->get_date('U'),
+            # There's not a unique link, but we need a unique key
+            'link'      =>  $item->get_title(),
+            'title'     =>  html_entity_decode($item->get_title()),
+        );
+    }
+}
+register_lifestream_feed('LifeStream_FoodFeedFeed');
+
+class LifeStream_MyEpisodesFeed extends LifeStream_Feed
+{
+    const ID            = 'myepisodes';
+    const NAME          = 'MyEpisodes';
+    const URL           = 'http://www.myepisodes.com/';
+    const LABEL_SINGLE  = 'Shared an episode on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Shared %d episodes on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> shared an episode on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> shared %d episodes on <a href="%s">%s</a>.';
+    const DESCRIPTION   = 'You can obtain your MyList feed\'s URL by visiting your <a href="http://www.myepisodes.com/rsshelp.php#mylist">RSS Feeds</a> page, and copying the <strong>[Link]</strong> under <strong>MyList Feed</strong>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+            'url' => array('Feed URL:', true, '', ''),
+        );
+    }
+}
+register_lifestream_feed('LifeStream_MyEpisodesFeed');
+
+class LifeStream_MixxFeed extends LifeStream_Feed
+{
+    const ID            = 'mixx';
+    const NAME          = 'Mixx';
+    const URL           = 'http://www.mixx.com/';
+    const LABEL_SINGLE  = 'Dugg a link on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Dugg %d links on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> dugg a link on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> dugg %d links on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+    
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+            'show_comments' => array('Show Comments', false, true, false),
+            'show_favorites' => array('Show Favorites', false, true, true),
+            'show_submissions' => array('Show Submissions', false, true, true),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.mixx.com/users/'.$this->options['username'];
+    }
+    
+    function get_url()
+    {
+        return 'http://www.mixx.com/feeds/users/'.$this->options['username'];
+    }
+    
+    function yield($item)
+    {
+        $title = html_entity_decode($item->get_title());
+        if (str_startswith($title, 'Comment on: '))
+        {
+            if (!$this->options['show_comments']) return;
+            $key = 'comment';
+            $title = substr($title, 12);
+        }
+        elseif (str_startswith($title, 'Submitted: '))
+        {
+            if (!$this->options['show_submissions']) return;
+            $key = 'submit';
+            $title = substr($title, 11);
+        }
+        elseif (str_startswith($title, 'Favorite: '))
+        {
+            if (!$this->options['show_favorites']) return;
+            $key = 'favorite';
+            $title = substr($title, 10);
+        }
+        else
+        {
+            return;
+        }
+        
+        return array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  $item->get_link(),
+            'title'     =>  $title,
+            'key'       =>  $key,
+        );
+    }
+    
+    function get_label_single($key)
+    {
+        if ($key == 'favorite')
+        {
+            $label = 'Favorited a story on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'comment')
+        {
+            $label = 'Commented on a story on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'submit')
+        {
+            $label = 'Submitted a story on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural($key)
+    {
+        if ($key == 'favorite')
+        {
+            $label = 'Favorited %d stories on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'comment')
+        {
+            $label = 'Commented on %d stories on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'submit')
+        {
+            $label = 'Submitted %d stories on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'favorite')
+        {
+            $label = '<a href="%s">%s</a> favorited a story on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'comment')
+        {
+            $label = '<a href="%s">%s</a> commented on a story on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'submit')
+        {
+            $label = '<a href="%s">%s</a> submitted a story on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key)
+    {
+        if ($key == 'favorite')
+        {
+            $label = '<a href="%s">%s</a> favorited %d stories on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'comment')
+        {
+            $label = '<a href="%s">%s</a> commented on %d stories on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'submit')
+        {
+            $label = '<a href="%s">%s</a> submitted %d stories on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+}
+register_lifestream_feed('LifeStream_MixxFeed');
 
 ?>

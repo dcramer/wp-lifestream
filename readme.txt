@@ -119,6 +119,11 @@ The plugin includes most of the major social networking feeds available. You may
 * Brightkite
 * Picasa (Web)
 * Kongregate
+* Viddler
+* coComment
+* FoodFeed
+* MyEpisodes
+* Mixx
 
 == Localization ==
 
