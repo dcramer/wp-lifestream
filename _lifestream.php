@@ -808,6 +808,8 @@ function lifestream($args=array())
 {
     global $lifestream_path;
 
+    setlocale(LC_ALL, WPLANG);
+
     $_ = func_get_args();
 
     if (!is_array($_[0]))
@@ -850,6 +852,8 @@ function lifestream_sidebar_widget($_=array())
 {
     global $lifestream_path;
     
+    setlocale(LC_ALL, WPLANG);
+    
     $defaults = array(
         'number_of_results' => 10,
         'event_total_max'   => 1,
@@ -874,6 +878,8 @@ function lifestream_sidebar_widget($_=array())
 function lifestream_get_events($_=array())
 {
     global $wpdb;
+    
+    setlocale(LC_ALL, WPLANG);
     
     $defaults = array(
         'number_of_results' => get_option('lifestream_number_of_items'),
