@@ -2064,4 +2064,17 @@ class LifeStream_MixxFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_MixxFeed');
 
+class LifeStream_IMDBFeed extends LifeStream_Feed
+{
+    const ID            = 'imdb';
+    const NAME          = 'IMDB (My Movies)';
+    const URL           = 'http://www.imdb.com/';
+    const LABEL_SINGLE  = 'Added a movie on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Added %d movies on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> added a movie on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> added %d movies on <a href="%s">%s</a>.';
+    const DESCRIPTION   = 'You can obtain your IMDB feed\'s URL by visiting your <a href="http://www.imdb.com/mymovies/list">My Movies</a> page, and copying the url for the RSS feed from your address bar. You will need to check the "Public" box on the Pending page.';
+}
+register_lifestream_feed('LifeStream_IMDBFeed');
+
 ?>

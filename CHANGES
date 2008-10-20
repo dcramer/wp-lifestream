@@ -1,0 +1,166 @@
+0.77
+
+* If a feed contains media (an image) in an enclosure tag, it will now automatically be stored and rendered as such.
+* The generic feed class will now determine its label based on the content in the feed, and will group events accordingly.
+* Added IMDB (My Movies) feed.
+
+0.76
+
+* Added MyEpisodes feed.
+* Added Mixx feed.
+* Added FoodFeed feed.
+* Added coComments feed.
+* Added French localization from Pierre de La Celle.
+* Added German localization from RRobert Mekwinski.
+
+0.75
+
+* Added Brightkite feed.
+* Added Picasa (Web) feed.
+* Made the add feed interface a bit more sane with the large amount of feeds.
+* Added feed icons on feed listing and event pages.
+* Cleaned up feed library usage on most photo feeds.
+* Fixed an issue where add feed was not initialized properly.
+
+0.73
+
+* Added Polish localization from Wojciech Ignaczewski
+* Fixed an issue that would allow duplicate posts in daily digest.
+* Zooomr feed was incorrectly grabbing random flickr photos.
+
+0.72
+
+* Added Zooomr feed.
+* Added Ma.gnolia feed.
+* Added Amazon Wishlists feed.
+* An issue with deleting events messing up grouped events of the same day was fixed.
+
+0.70
+
+* Feeds and Events management pages now have pagination.
+* Feeds and Events management pages now have checkboxes for bulk actions.
+* Fixed Flickr profile URL.
+* Localization updates.
+* Fixed user links for Twitter and all inherited feeds. They were incorrectly showing name: @blah as name@blah.
+* Pandora feed will no longer show the QuickMix in feeds.
+* Jaiku user URL has been fixed.
+
+0.69
+
+* event_id was not storing properly for single events (such as Facebook) which caused an issue when you tried to hide them.
+* Added Japanese localization from Naoko McCracken
+* Added Simplified Chinese localization from Sharpmark!
+* Added offset parameter for lifestream_get_events()
+* Event groups were not being deleted if they were single events when marked as hidden
+* There is now a "Support Forums" tab in the admin
+* Updated default localization for some missing strings
+
+0.67
+
+* Improved YouTube feed with thumbnails.
+* Improved Skitch support with thumbnails.
+* Show/Hide Details changed to SPAN tags (for analytics issues).
+* Added StumbleUpon feed.
+* Added give credit option.
+* Improved css for images.
+
+0.66
+
+* Greatly improved Pownce support.
+
+0.65
+
+* Added TwitPic feed.
+* Added Vimeo feed.
+* Fixed rendering of single non-user events with keys.
+* Added LifeStream_PhotoFeed base class.
+* Some minor code cleanup.
+
+0.61
+
+* Refactored lifestream() function to use keyword arguments. (Pass an array with key/value pairs instead of a bunch of arguments).
+* Refactored render() methods to simplify code and allow easier extensibility.
+* Added a simple lifestream_sidebar_widget() function for generating a sidebar widget using the default lifestream-list template.
+
+0.60
+
+* Initial multi-user support.
+* Fixed an issue where event groups weren’t being added when more than one date needed processed.
+* More efficiency clean-up.
+
+0.52
+
+* Most feeds now display the link to your profile, rather than the feed’s website.
+* Fixed an issue which appeared in 0.50 that had removed the UNIQUE constraint on events.
+* More efficiency tweaks.
+
+0.51
+
+* The timezone option should now take affect properly on newly added events.
+
+0.50
+
+This update mostly includes backend changes to allow much greater extensibility in the feed class.
+
+* Database changes are now handled automatically when you update LifeStream.
+* Feeds can use dynamic labels.
+* Feeds can use multiple data types in a single feed.
+* Feeds can now safely update their data without losing support for old data versions.
+* Pandora feed has been added. (Great example of all of the new features)
+* Removed old debug code that was left in daily digest.
+* Feeds which now fail to specify a proper date will have their date set to the current time (instead of the start of the epoch).
+* A lot of the fetching code has been refactored to be more efficient.
+
+0.43
+
+* Added lifestream_get_events() function call, for advanced rendering inside of templates.
+* Fixed @username links on all Twitter based feeds.
+
+0.42
+
+* Moved LifeStream management into it’s own top-level tab to further improve the usability of the interface with themes.
+
+0.41
+
+* Fixed an activation issue for WPMU.
+* Changed Flickr Lightbox support to use large images.
+* Added a setting for the default number of items to show.
+* Added a setting for the default date cutoff.
+* Added meta data for daily digest for better tracking.
+* When events are added to a group the timestamp is now updated properly.
+
+0.39
+
+* Added an improved display for Flickr.
+* Added Lightbox support to Flickr.
+
+0.38
+
+* Added an improved Last.FM feed. The old Last.FM feed data will no longer work, and you must re-add the feed when you update.
+* Minor style tweaks.
+
+0.37
+
+* Fixed an issue that was causing the database tables to be installed incorrectly.
+
+0.36
+
+* Added daily digest options.
+* Added update interval option.
+* Removed use of WordPress’ built-in cron.
+* Revamped the settings interface.
+* Updated default localization.
+
+0.35
+
+* Moved locale to locales (the proper directory).
+
+0.34
+
+* Corrected an issue with the date output of events on the edit feed page.
+* Updated the name/url for Delicious.
+
+0.33
+
+* Updated all services to properly use the Parse URLs and Parse Users options.
+* Added identi.ca feed.
