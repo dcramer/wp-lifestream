@@ -375,22 +375,22 @@ class LifeStream_Feed
         return $this->get_constant('NAME');
     }
     
-    function get_label_single($key)
+    function get_label_single($key, $event)
     {
         return $this->get_constant('LABEL_SINGLE');
     }
     
-    function get_label_plural($key)
+    function get_label_plural($key, $event)
     {
         return $this->get_constant('LABEL_PLURAL');
     }
     
-    function get_label_single_user($key)
+    function get_label_single_user($key, $event)
     {
         return $this->get_constant('LABEL_SINGLE_USER');
     }
     
-    function get_label_plural_user($key)
+    function get_label_plural_user($key, $event)
     {
         return $this->get_constant('LABEL_PLURAL_USER');
     }
@@ -590,30 +590,55 @@ class LifeStream_Feed
         return $items;
     }
 
-    function yield($row)
+    function yield($item)
     {
         // date and link are required
         // the rest of the data will be serialized into a `data` field
         // and is pulled out and used on the render($row) method
-        $title = $row->get_title();
+
+        $title = $item->get_title();
         if (!$title) return false;
-        return array(
-            'date'      =>  $row->get_date('U'),
-            'link'      =>  html_entity_decode($row->get_link()),
+        $data = array(
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
             'title'     =>  html_entity_decode($title),
+            'key'       =>  '',
         );
+        
+        if ($enclosure = $item->get_enclosure())
+        {
+            if ($thumbnail = $enclosure->get_thumbnail())
+            {
+                $data['thumbnail'] = $thumbnail;
+            }
+            $data['key'] = 'photo';
+        }
+        
+        return $data;
     }
     
-    function render_item($event, $item)
+    function render_item($row, $item)
     {
-        if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
-        else $ibox = '';
-        return sprintf('<a href="%s"'.$ibox.'>%s</a>', $item['link'], $item['title']);
+        // XXX: should we change this to use $event->key ?
+        if (!empty($item['thumbnail']))
+        {
+            if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
+            else $ibox = '';
+            
+            return sprintf('<a href="%s" '.$ibox.'class="photo" title="%s""><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
+        }
+        return sprintf('<a href="%s">%s</a>', $item['link'], $item['title']);
+        
     }
     
     function render_group_items($id, $output, $event)
     {
+        if (!empty($event->data[0]['thumbnail']))
+        {
+            return sprintf('<div id="%s" style="display:none;">%s</div>', $id, implode(' ', $output));
+        }
         return sprintf('<ul id="%s" style="display:none;"><li>%s</li></ul>', $id, implode('</li><li>', $output));
+        
     }
     
     function get_render_output($event)
@@ -629,22 +654,22 @@ class LifeStream_Feed
         {
             if (get_option('lifestream_show_owners'))
             {
-                $label = sprintf(__($this->get_label_plural_user($event->key), 'lifestream'), '#', $event->owner, $event->total, $this->get_public_url(), $this->get_public_name());
+                $label = sprintf(__($this->get_label_plural_user($event->key, $event), 'lifestream'), '#', $event->owner, $event->total, $this->get_public_url(), $this->get_public_name());
             }
             else
             {
-                $label = sprintf(__($this->get_label_plural($event->key), 'lifestream'), $event->total, $this->get_public_url(), $this->get_public_name());
+                $label = sprintf(__($this->get_label_plural($event->key, $event), 'lifestream'), $event->total, $this->get_public_url(), $this->get_public_name());
             }
         }
         else
         {
             if (get_option('lifestream_show_owners'))
             {
-                $label = sprintf(__($this->get_label_single_user($event->key), 'lifestream'), '#', $event->owner, $this->get_public_url(), $this->get_public_name());
+                $label = sprintf(__($this->get_label_single_user($event->key, $event), 'lifestream'), '#', $event->owner, $this->get_public_url(), $this->get_public_name());
             }
             else
             {
-                $label = sprintf(__($this->get_label_single($event->key), 'lifestream'), $this->get_public_url(), $this->get_public_name());
+                $label = sprintf(__($this->get_label_single($event->key, $event), 'lifestream'), $this->get_public_url(), $this->get_public_name());
             }
         }
         return array($label, $rows);
@@ -695,25 +720,20 @@ class LifeStream_PhotoFeed extends LifeStream_Feed
     const LABEL_PLURAL  = 'Posted %d photos on <a href="%s">%s</a>.';
     const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a photo on <a href="%s">%s</a>.';
     const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d photos on <a href="%s">%s</a>.';
-    
-    function render_item($row, $item)
-    {
-        if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
-        else $ibox = '';
-
-        return sprintf('<a href="%s" '.$ibox.'class="photo" title="%s""><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
-    }
-    
-    
-    function render_group_items($id, $output, $event)
-    {
-        return sprintf('<div id="%s" style="display:none;">%s</div>', $id, implode(' ', $output));
-    }
 }
 
 class LifeStream_GenericFeed extends LifeStream_Feed {
-    const LABEL_SINGLE  = 'Posted an item';
-    const LABEL_PLURAL  = 'Posted %d items';
+    const TEXT_LABEL_SINGLE  = 'Posted an item';
+    const TEXT_LABEL_PLURAL  = 'Posted %d items';
+    const TEXT_LABEL_SINGLE_USER = '<a href="%s">%s</a> posted an item.';
+    const TEXT_LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d items.';
+    
+    const PHOTO_LABEL_SINGLE  = 'Posted a photo';
+    const PHOTO_LABEL_PLURAL  = 'Posted %d photos';
+    const PHOTO_LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a photo.';
+    const PHOTO_LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d photos.';
+    
+    const DESCRIPTION = 'The generic feed can handle both feeds with images (in enclosures), as well as your standard text based RSS and Atom feeds.';
     
     function get_options()
     {        
@@ -735,26 +755,47 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
     
     function get_label_single($key)
     {
+        if ($key == 'photo')
+        {
+            if ($this->options['name']) return LifeStream_PhotoFeed::LABEL_SINGLE;
+            return $this->get_constant('PHOTO_LABEL_SINGLE');
+        }
         if ($this->options['name']) return parent::LABEL_SINGLE;
-        return $this->get_constant('LABEL_SINGLE');
+        return $this->get_constant('TEXT_LABEL_SINGLE');
     }
     
     function get_label_plural($key)
     {
+        if ($key == 'photo')
+        {
+            if ($this->options['name']) return LifeStream_PhotoFeed::LABEL_PLURAL;
+            return $this->get_constant('PHOTO_LABEL_PLURAL');
+        }
         if ($this->options['name']) return parent::LABEL_PLURAL;
-        return $this->get_constant('LABEL_PLURAL');
+        return $this->get_constant('TEXT_LABEL_PLURAL');
     }
     
     function get_label_single_user($key)
     {
+        if ($key == 'photo')
+        {
+            if ($this->options['name']) return LifeStream_PhotoFeed::LABEL_SINGLE_USER;
+            return $this->get_constant('PHOTO_LABEL_SINGLE_USER');
+        }
         if ($this->options['name']) return parent::LABEL_SINGLE_USER;
-        return $this->get_constant('LABEL_SINGLE_USER');
+        return $this->get_constant('TEXT_LABEL_SINGLE_USER');
     }
     
     function get_label_plural_user($key)
     {
+        if ($key == 'photo')
+        {
+            if ($this->options['name']) return LifeStream_PhotoFeed::LABEL_PLURAL_USER;
+            return $this->get_constant('PHOTO_LABEL_PLURAL_USER');
+        }
+        
         if ($this->options['name']) return parent::LABEL_PLURAL_USER;
-        return $this->get_constant('LABEL_PLURAL_USER');
+        return $this->get_constant('TEXT_LABEL_PLURAL_USER');
     }
 }
 register_lifestream_feed('LifeStream_GenericFeed');
@@ -1160,6 +1201,9 @@ function lifestream_options()
         <?php
         switch ($_GET['page'])
         {
+            case 'lifestream-changelog.php':
+                include('pages/changelog.inc.php');
+            break;
             case 'lifestream-forums.php':
                 include('pages/forums.inc.php');
             break;
@@ -1231,9 +1275,8 @@ function lifestream_options_menu()
         add_submenu_page($basename, __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 'edit_posts', $basename, 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 'edit_posts', 'lifestream-events.php', 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Settings', 'lifestream'), __('Settings', 'lifestream'), 'manage_options', 'lifestream-settings.php', 'lifestream_options');
+        add_submenu_page($basename, __('LifeStream Change Log', 'lifestream'), __('Change Log', 'lifestream'), 'manage_options', 'lifestream-changelog.php', 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Support Forums', 'lifestream'), __('Support Forums', 'lifestream'), 'manage_options', 'lifestream-forums.php', 'lifestream_options');
-        
-        //add_options_page('LifeStream Options', 'LifeStream', 8, basename(LIFESTREAM_PLUGIN_FILE), 'lifestream_options');
     }
 }
 
