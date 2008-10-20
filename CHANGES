@@ -1,3 +1,7 @@
+0.77b
+
+* Fixed issue with identi.ca feed.
+
 0.77
 
 * If a feed contains media (an image) in an enclosure tag, it will now automatically be stored and rendered as such.

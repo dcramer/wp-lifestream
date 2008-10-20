@@ -819,6 +819,21 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
     {
         return 'http://identi.ca/'.$this->options['username'].'/rss';
     }
+    
+    function yield($row)
+    {
+        $string = $this->options['username'] . ': ';
+        $title = html_entity_decode($row->get_title());
+        if (str_startswith($title, $string))
+        {
+            $title = substr($title, strlen($string));
+        }
+        return array(
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  $title,
+        );
+    }
 }
 register_lifestream_feed('LifeStream_IdenticaFeed');
 
