@@ -13,7 +13,7 @@ $authors = get_users_of_blog();
         <?php
         foreach ($lifestream_feeds as $identifier=>$class_name)
         {
-            ?><li><a href="javascript:showFeedOptions('<?php echo $identifier; ?>');" title="<?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?>"><img src="../wp-content/plugins/lifestream/images/<?php echo $identifier; ?>.png"/></a></li><?php
+            ?><li><a href="javascript:showFeedOptions('<?php echo $identifier; ?>');" title="<?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?>"><img src="<?php echo $lifestream_path; ?>/images/<?php echo $identifier; ?>.png"/></a></li><?php
         }
         ?>
     </ul>
