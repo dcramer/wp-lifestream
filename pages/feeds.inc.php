@@ -48,7 +48,7 @@ if (count($results))
                 <tr valign="top">
                     <th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
                     <td class="num"><?php echo $result->id; ?></td>
-                    <td class="icon"><img src="../wp-content/plugins/lifestream/images/<?php echo $instance->get_constant('ID'); ?>.png"/></td>
+                    <td class="icon"><img src="<?php echo $lifestream_path; ?>/images/<?php echo $instance->get_constant('ID'); ?>.png"/></td>
                     <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars($instance->get_feed_display()); ?></a></strong></td>
                     <td class="num"><?php echo $result->events; ?></td>
                     <td><?php echo $result->owner; ?></td>

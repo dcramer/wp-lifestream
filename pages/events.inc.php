@@ -40,7 +40,7 @@ if (count($results))
                     <th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
                     <td class="num"><?php echo $result->id; ?></td>
                     <td class="num"><a href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->feed_id; ?>"><?php echo $result->feed_id; ?></a></td>
-                    <td class="icon"><img src="../wp-content/plugins/lifestream/images/<?php echo get_class_constant($lifestream_feeds[$result->feed], 'ID'); ?>.png"/></td>
+                    <td class="icon"><img src="<?php echo $lifestream_path; ?>/images/<?php echo get_class_constant($lifestream_feeds[$result->feed], 'ID'); ?>.png"/></td>
                     <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->link); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo $result->link; ?></a></strong></td>
                     <td><?php echo date($date_format, $result->timestamp); ?></td>
                     <td><?php echo $result->owner; ?></td>

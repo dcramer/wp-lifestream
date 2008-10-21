@@ -8,7 +8,7 @@ if (!class_exists('SimplePie'))
     require_once('lib/simplepie.inc');
 }
 
-$lifestream_path = trailingslashit(get_settings('siteurl')) . 'wp-content/plugins/lifestream';
+$lifestream_path = trailingslashit(get_option('home')) . 'wp-content/plugins/lifestream';
 
 if (!function_exists('array_key_pop'))
 {
@@ -943,7 +943,7 @@ function lifestream_get_events($_=array())
 
 function lifestream_options()
 {
-    global $lifestream_feeds, $lifestream__options, $wpdb, $userdata;
+    global $lifestream_feeds, $lifestream_path, $lifestream__options, $wpdb, $userdata;
 
     $wpdb->show_errors();
     
