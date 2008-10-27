@@ -2,6 +2,7 @@
 define(LIFESTREAM_PLUGIN_FILE, dirname(__FILE__) . '/lifestream.php');
 define(LIFESTREAM_FEEDS_PER_PAGE, 20);
 define(LIFESTREAM_EVENTS_PER_PAGE, 50);
+define(LIFESTREAM_ERRORS_PER_PAGE, 50);
 
 if (!class_exists('SimplePie'))
 {
@@ -40,6 +41,9 @@ if (!function_exists('get_class_constant'))
         return constant(sprintf('%s::%s', $class, $const));
     }    
 }
+
+class LifeStream_Error extends Exception { }
+class LifeStream_FeedFetchError extends LifeStream_Error { }
 
 $lifestream_feeds = array();
 /**
@@ -159,19 +163,39 @@ function lifestream_install($allow_database_install=true)
     $version = get_option('lifestream__version');
     
     if (!$version) $version = 0;
+
+    if ($allow_database_install) lifestream_install_database($version);
     
     if ($version == LIFESTREAM_VERSION) return;
     
     // default options and their values
-    
     foreach ($lifestream__options as $key=>$value)
     {
         if (!get_option($key)) update_option($key, $value);
     }
-
-    if ($allow_database_install) lifestream_install_database($version);
     
     update_option('lifestream__version', LIFESTREAM_VERSION);
+}
+
+function lifestream_safe_query($sql)
+{
+    global $wpdb;
+    
+    $result = $wpdb->query($sql);
+    if ($result === false)
+    {
+        if ($wpdb->error)
+        {
+            $reason = $wpdb->error->get_error_message();
+        }
+        else
+        {
+            $reason = __('Unknown SQL Error', 'lifestream');
+        }
+        lifestream_log_error($reason);
+        throw new LifeStream_Error($reason);
+    }
+    return $result;
 }
 
 /**
@@ -183,7 +207,7 @@ function lifestream_install_database($version)
     
     get_currentuserinfo();
     
-    $wpdb->query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event` (
+    lifestream_safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event` (
       `id` int(11) NOT NULL auto_increment,
       `feed_id` int(11) NOT NULL,
       `link` varchar(200) NOT NULL,
@@ -198,7 +222,8 @@ function lifestream_install_database($version)
       UNIQUE `feed_id` (`feed_id`, `key`, `owner_id`, `link`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 
-    $wpdb->query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event_group` (
+
+    lifestream_safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event_group` (
       `id` int(11) NOT NULL auto_increment,
       `feed_id` int(11) NOT NULL,
       `event_id` int(11) NULL,
@@ -216,7 +241,7 @@ function lifestream_install_database($version)
       INDEX `feed_id` (`feed_id`, `key`, `owner_id`, `timestamp`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     
-    $wpdb->query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_feeds` (
+    lifestream_safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_feeds` (
       `id` int(11) NOT NULL auto_increment,
       `feed` varchar(32) NOT NULL,
       `options` text default NULL,
@@ -227,26 +252,38 @@ function lifestream_install_database($version)
       PRIMARY KEY  (`id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     
+    lifestream_safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_error_log` (
+      `id` int(11) NOT NULL auto_increment,
+      `message` varchar(255) NOT NULL,
+      `trace` text NULL,
+      `feed_id` int(11) NULL,
+      `timestamp` int(11) NOT NULL,
+      `has_viewed` tinyint(1) default 0 NOT NULL,
+      INDEX `feed_id` (`feed_id`, `has_viewed`),
+      INDEX `has_viewed` (`has_viewed`),
+      PRIMARY KEY  (`id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+    
     if ($version < 0.5)
     {
         // Old wp-cron built-in stuff
         wp_clear_scheduled_hook('LifeStream_Hourly');
 
         // Upgrade them to version 0.5
-        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
-        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
     }
     if ($version < 0.6)
     {
-        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
-        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
-        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `owner` VARCHAR(128) NOT NULL AFTER `timestamp`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
-        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `owner_id` , `link` );");
-        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` , `owner_id`);");
-        $wpdb->query("ALTER TABLE `".$wpdb->prefix."lifestream_feeds` ADD INDEX `owner_id` (`owner_id`);");
-        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
-        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
-        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `owner` VARCHAR(128) NOT NULL AFTER `timestamp`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `owner_id` , `link` );");
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` , `owner_id`);");
+        lifestream_safe_query("ALTER TABLE `".$wpdb->prefix."lifestream_feeds` ADD INDEX `owner_id` (`owner_id`);");
+        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
     }
 }
 
@@ -450,6 +487,18 @@ class LifeStream_Feed
         $this->id = null;
     }
     
+    function test()
+    {
+        try
+        {
+            $this->fetch();
+        }
+        catch (LifeStream_Error $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+    
     function refresh()
     {
         global $wpdb;
@@ -574,8 +623,7 @@ class LifeStream_Feed
             $success = $feed->init();
             if (!$success)
             {
-                echo 'Error fetching feed from ' . $url . ' ('. $feed->error() . ')';
-                return;
+                throw new LifeStream_FeedFetchError('Error fetching feed from ' . $url . ' ('. $feed->error() . ')');
             }
             $feed->handle_content_type();
             foreach ($feed->get_items() as $row)
@@ -1123,10 +1171,10 @@ function lifestream_options()
                         }
                     }
                 break;
-                default:
-                    if ($_POST['save'])
+                case 'add':
+                    if ($_POST)
                     {
-                        $class_name = $lifestream_feeds[$_POST['feed_type']];
+                        $class_name = $lifestream_feeds[$_GET['feed']];
                         if (!$class_name) break;
                         $feed = new $class_name();
                         $values = array();
@@ -1159,18 +1207,25 @@ function lifestream_options()
                             $feed->owner = $userdata->user_nicename;
                         }
                         $values['show_label'] = $_POST['show_label'];
+                        $feed->options = $values;
                         if (!count($errors))
                         {
-                            $feed->options = $values;
-                            $result = $feed->save();
-                            if ($result !== false)
+                            if (!($error = $feed->test()))
                             {
-                                unset($_POST);
-                                $events = $feed->refresh();
-                                if ($events !== false)
+                                $result = $feed->save();
+                                if ($result !== false)
                                 {
-                                    $message = sprintf(__('Selected feed was added to your LifeStream with %d event(s).', 'lifestream'), $events);                                                                    
+                                    unset($_POST);
+                                    $events = $feed->refresh();
+                                    if ($events !== false)
+                                    {
+                                        $message = sprintf(__('Selected feed was added to your LifeStream with %d event(s).', 'lifestream'), $events);
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                $errors[] = $error;
                             }
                         }
                     }
@@ -1197,7 +1252,7 @@ function lifestream_options()
     if (count($errors)) { ?>
     <div id="message" class="error"><p><strong><?php _e('Please correct the following errors:', 'lifestream') ?></strong></p><ul>
         <?php foreach ($errors as $error) { ?>
-            <li><?php echo htmlspecialchars($error); ?></li>
+            <li><?php echo LifeStream_Feed::parse_urls(htmlspecialchars($error)); ?></li>
         <?php } ?>
     </ul></div>
     <?php } elseif ($message) { ?>
@@ -1207,6 +1262,19 @@ function lifestream_options()
         <?php
         switch ($_GET['page'])
         {
+            case 'lifestream-errors.php':
+                $page = $_GET['paged'] ? $_GET['paged'] : 1;
+                $start = ($page-1)*LIFESTREAM_ERRORS_PER_PAGE;
+                $end = $page*LIFESTREAM_ERRORS_PER_PAGE;
+                
+                $wpdb->query("UPDATE `".$wpdb->prefix."lifestream_error_log` SET has_viewed = 1");
+                
+                $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_error_log`");
+                $number_of_pages = ceil($results[0]->count/LIFESTREAM_EVENTS_PER_PAGE);
+                $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_error_log` as t1 LEFT JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $start, $end));
+                
+                include('pages/errors.inc.php');
+            break;
             case 'lifestream-changelog.php':
                 include('pages/changelog.inc.php');
             break;
@@ -1241,6 +1309,14 @@ function lifestream_options()
                     case 'edit':
                         include('pages/edit-feed.inc.php');
                     break;
+                    case 'add':
+                        $identifier = $_GET['feed'];
+                        $class_name = $lifestream_feeds[$identifier];
+                        if (!$class_name) break;
+                        $feed = new $class_name();
+                        $options = $feed->get_options();
+                        include('pages/add-feed.inc.php');
+                    break;
                     default:
                         $page = $_GET['paged'] ? $_GET['paged'] : 1;
                         $start = ($page-1)*LIFESTREAM_FEEDS_PER_PAGE;
@@ -1273,15 +1349,21 @@ function lifestream_options()
 
 function lifestream_options_menu()
 {
+    global $wpdb;
+    
     if (function_exists('add_menu_page'))
     {
         $basename = basename(LIFESTREAM_PLUGIN_FILE);
-
+        
+        $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_error_log` WHERE has_viewed = 0");
+        $errors = $results[0]->count;
+        
         add_menu_page('LifeStream', 'LifeStream', 'edit_posts', $basename, 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 'edit_posts', $basename, 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 'edit_posts', 'lifestream-events.php', 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Settings', 'lifestream'), __('Settings', 'lifestream'), 'manage_options', 'lifestream-settings.php', 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Change Log', 'lifestream'), __('Change Log', 'lifestream'), 'manage_options', 'lifestream-changelog.php', 'lifestream_options');
+        add_submenu_page($basename, __('LifeStream Errors', 'lifestream'), sprintf(__('Errors (%d)', 'lifestream'), $errors), 'manage_options', 'lifestream-errors.php', 'lifestream_options');
         add_submenu_page($basename, __('LifeStream Support Forums', 'lifestream'), __('Support Forums', 'lifestream'), 'manage_options', 'lifestream-forums.php', 'lifestream_options');
     }
 }
@@ -1331,7 +1413,14 @@ function lifestream_update()
     foreach ($results as $result)
     {
         $instance = LifeStream_Feed::construct_from_query_result($result);
-        $events += $instance->refresh();
+        try
+        {
+            $events += $instance->refresh();
+        }
+        catch (LifeStream_FeedFetchError $ex)
+        {
+            lifestream_log_error($ex, $instance->id);
+        }
     }
     return $events;
 }
@@ -1399,6 +1488,25 @@ function lifestream_do_digest()
     }
     update_option('lifestream__last_digest', $now);
     update_option('lifestream__in_digest', '0');
+}
+
+function lifestream_log_error($message, $feed_id=null)
+{
+    global $wpdb;
+    
+    if ($feed_id)
+    {
+        $result = $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_error_log` (`feed_id`, `message`, `timestamp`) VALUES ('%s', '%s', %d)", $wpdb->escape($feed_id), $wpdb->escape($message), time()));
+    }
+    else
+    {
+        $result = $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_error_log` (`feed_id`, `message`, `timestamp`) VALUES (NULL, '%s', %d)", $wpdb->escape($message), time()));
+    }
+}
+
+function lifestream_rss_feed()
+{
+    
 }
 
 function lifestream_dump_opml()
@@ -1489,6 +1597,13 @@ function lifestream_init()
         wp_enqueue_script('admin-forms');
     }
 }
+
+// function lifestream_cron_schedules($cron)
+// {
+//     $cron['lifestream'] = array( 'interval' => get_option('lifestream_update_interval') * 60, 'display' => __('On LifeStream update', 'lifestream') );
+// }
+// 
+// add_filter('cron_schedules', 'lifestream_cron_schedules');
 
 add_action('admin_menu', 'lifestream_options_menu');
 add_action('wp_head', 'lifestream_header');

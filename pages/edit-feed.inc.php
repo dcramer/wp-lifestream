@@ -10,7 +10,6 @@ $authors = get_users_of_blog();
         <?php if ($description = $instance->get_constant('DESCRIPTION')) { ?>
         <p><?php echo $description; ?></p>
         <?php } ?>
-        <input type="hidden" name="feed_type" value="<?php echo $identifier; ?>"/>
         <table class="options">
             <colgroup>
                 <col style="width: 150px;"/>

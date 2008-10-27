@@ -58,6 +58,7 @@ if (count($results))
         </div>
         <br class="clear" />
     </div>
+    </form>
 <?php } else { ?>
     <p><?php _e('There are no events to show.', 'lifestream'); ?></p>
 <?php } ?>

@@ -1346,6 +1346,8 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
     // http://media.tumblr.com/ck3ATKEVYd6ay62wLAzqtEkX_500.jpg
     private $image_match_regexp = '/src="(http:\/\/media\.tumblr\.com\/[a-zA-Z0-9_-]+\.jpg)"/i';
     
+    # TODO: initialization import
+    # http://twitter.com/statuses/user_timeline/zeeg.xml
     function get_url()
     {
         return 'http://'.$this->options['username'].'.tumblr.com/rss';
@@ -1667,25 +1669,25 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
         return '<a href="%s">%s</a> posted %d messages on <a href="%s">%s</a>.';
     }
     
-    function yield($row)
+    function yield($item)
     {
-        $type = $row->get_item_tags(self::NS_BRIGHTKITE, 'eventType');
+        $type = $item->get_item_tags(self::NS_BRIGHTKITE, 'eventType');
         $type = $type[0]['data'];
 
         $data = array(
-            'date'      =>  $row->get_date('U'),
-            'link'      =>  html_entity_decode($row->get_link()),
-            'text'      =>  html_entity_decode($row->get_description()),
+            'date'      =>  $item->get_date('U'),
+            'link'      =>  html_entity_decode($item->get_link()),
+            'text'      =>  html_entity_decode($item->get_description()),
             'key'       =>  $type,
         );
 
-        $placelink = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeLink');
+        $placelink = $item->get_item_tags(self::NS_BRIGHTKITE, 'placeLink');
         $data['placelink'] = $placelink[0]['data'];
 
-        $placename = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeName');
+        $placename = $item->get_item_tags(self::NS_BRIGHTKITE, 'placeName');
         $data['placename'] = $placename[0]['data'];
 
-        $placeaddress = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeAddress');
+        $placeaddress = $item->get_item_tags(self::NS_BRIGHTKITE, 'placeAddress');
         $data['placeaddress'] = $placeaddress[0]['data'];
 
         if ($enclosure = $item->get_enclosure())
