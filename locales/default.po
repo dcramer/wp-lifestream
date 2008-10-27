@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-27 05:19-0600\n"
+"POT-Creation-Date: 2008-10-27 05:31-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -322,12 +322,20 @@ msgstr ""
 msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
 msgstr ""
 
+#: pages/settings.inc.php:62
+msgid "Show Owners:"
+msgstr ""
+
 #: pages/settings.inc.php:63
 msgid "Show the owner of the feed in the display."
 msgstr ""
 
 #: pages/settings.inc.php:69
 msgid "Enable iBox on plugins that support it."
+msgstr ""
+
+#: pages/settings.inc.php:74
+msgid "Show Credits:"
 msgstr ""
 
 #: pages/settings.inc.php:75
@@ -340,6 +348,10 @@ msgstr ""
 
 #: pages/settings.inc.php:83
 msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr ""
+
+#: pages/settings.inc.php:90
+msgid "Show Daily Digest:"
 msgstr ""
 
 #: pages/settings.inc.php:91
