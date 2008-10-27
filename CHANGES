@@ -1,3 +1,12 @@
+0.78
+
+* Moved Add Feed to it's own page in anticipation for callbacks.
+* Fixed an error with Brightkite feeds.
+* Added error log.
+* Changed database handling support. Now attempts to create the database anytime install() is called (probably way too often, but what can you do).
+* Some markup fixes for Events management page.
+* Add Feed now has more validation before letting you add a feed.
+
 0.77c
 
 * Tweaks to some image pathing from Joseph Scott.

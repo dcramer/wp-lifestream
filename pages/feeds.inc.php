@@ -72,4 +72,15 @@ if (count($results))
     <p><?php _e('You do not currently have ownership of any feeds.', 'lifestream'); ?></p>
 <?php } ?>
 <br />
-<?php include('add-feed.inc.php'); ?>
+
+<h2><?php _e('Add a Feed', 'lifestream');?></h2>
+<p><?php _e('Add a new feed by first selecting the type of feed:', 'lifestream'); ?></p>
+<ul class="feedlist">
+    <?php
+    foreach ($lifestream_feeds as $identifier=>$class_name)
+    {
+        ?><li><a href="?page=lifestream.php&amp;op=add&amp;feed=<?php echo urlencode($identifier); ?>" title="<?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?>"><img src="<?php echo $lifestream_path; ?>/images/<?php echo $identifier; ?>.png"/></a></li><?php
+    }
+    ?>
+</ul>
+<br/>
