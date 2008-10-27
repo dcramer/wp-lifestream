@@ -10,7 +10,7 @@ $authors = get_users_of_blog();
         <?php if ($description = $instance->get_constant('DESCRIPTION')) { ?>
         <p><?php echo $description; ?></p>
         <?php } ?>
-        <table class="options">
+        <table class="form-table">
             <colgroup>
                 <col style="width: 150px;"/>
                 <col/>

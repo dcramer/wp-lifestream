@@ -10,7 +10,7 @@ $authors = get_users_of_blog();
     <p><?php echo $description; ?></p>
     <?php } ?>
     <input type="hidden" name="feed_type" value="<?php echo htmlspecialchars($identifier); ?>"/>
-    <table class="options">
+    <table class="form-table">
         <colgroup>
             <col style="width: 150px;"/>
             <col/>

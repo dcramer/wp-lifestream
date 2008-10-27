@@ -1237,10 +1237,6 @@ function lifestream_options()
     ob_start();
     ?>
     <style type="text/css">
-    table.options th, table.options td { padding: 3px 0; }
-    table.options th { text-align: left; }
-    table.options th { vertical-align: top; line-height: 30px; }
-    table.options td .helptext { color: #999; margin-top: 3px; }
     .feedlist { margin: 0; padding: 0; }
     .feedlist li { list-style: none; display: inline; }
     .feedlist li a { width: 16px; height: 16px; float: left; display: block; border: 1px solid #ccc; padding: 2px; margin: 1px; }
