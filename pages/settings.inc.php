@@ -7,7 +7,7 @@ $authors = get_users_of_blog();
 <h2><?php _e('LifeStream Configuration', 'lifestream');?></h2>
 <p><?php printf(__('The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href="%s">Feed Management page</a>.', 'lifestream'), '?page=lifestream.php'); ?></p>
 <form method="post" action="">
-    <table class="options">
+    <table class="form-table">
         <colgroup>
             <col style="width: 150px;"/>
             <col/>
@@ -59,7 +59,7 @@ $authors = get_users_of_blog();
                 </td>
             </tr>
             <tr>
-                <th>&nbsp;</th>
+                <th><?php _e('Show Owners:', 'lifestream'); ?></th>
                 <td><label for="id_show_owners"><input type="checkbox" name="lifestream_show_owners" id="id_show_owners" value="1"<?php if (get_option('lifestream_show_owners')) echo ' checked="checked"'; ?>/> <?php _e('Show the owner of the feed in the display.', 'lifestream'); ?></label>
                     <div class="helptext">e.g. <a href="#">admin</a> posted a new photo on <a href="http://www.flickr.com/">Flickr</a></div>
                 </td>
@@ -71,7 +71,7 @@ $authors = get_users_of_blog();
                 </td>
             </tr> -->
             <tr>
-                <th>&nbsp;</th>
+                <th><?php _e('Show Credits:', 'lifestream'); ?></th>
                 <td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if (get_option('lifestream_show_credits')) echo ' checked="checked"'; ?>/> <?php _e('Give credit to LifeStream when it\'s embedded.', 'lifestream'); ?></label>
                     <div class="helptext">e.g. <?php echo lifestream_credits(); ?></div>
                 </td>
@@ -81,13 +81,13 @@ $authors = get_users_of_blog();
     <br />
     <h2><?php _e('Daily Digest'); ?></h2>
     <p><?php _e('LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day.', 'lifestream'); ?></p>
-    <table class="options">
+    <table class="form-table">
         <colgroup>
             <col style="width: 150px;"/>
             <col/>
         </colgroup>
         <tr>
-            <th>&nbsp;</th>
+            <th><?php _e('Show Daily Digest:', 'lifestream'); ?></th>
             <td><label for="id_daily_digest"><input type="checkbox" name="lifestream_daily_digest" id="id_daily_digest" value="1"<?php if (get_option('lifestream_daily_digest')) echo ' checked="checked"'; ?>/> <?php _e('Post a daily summary of my lifestream.', 'lifestream'); ?></label>
             </td>
         </tr>
