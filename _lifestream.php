@@ -264,6 +264,9 @@ function lifestream_install_database($version)
       PRIMARY KEY  (`id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     
+    
+    if (!$version) return;
+
     if ($version < 0.5)
     {
         // Old wp-cron built-in stuff
