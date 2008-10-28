@@ -1,3 +1,7 @@
+0.78a
+
+* Adjusted URL to use siteurl and not home. Fixes image paths for installations in subdirectories.
+
 0.78
 
 * Moved Add Feed to it's own page in anticipation for callbacks.
