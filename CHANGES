@@ -1,6 +1,7 @@
 0.78a
 
 * Adjusted URL to use siteurl and not home. Fixes image paths for installations in subdirectories.
+* Fixed install for SQL changes.
 
 0.78
 
