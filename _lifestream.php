@@ -9,7 +9,7 @@ if (!class_exists('SimplePie'))
     require_once('lib/simplepie.inc');
 }
 
-$lifestream_path = trailingslashit(get_option('home')) . 'wp-content/plugins/lifestream';
+$lifestream_path = trailingslashit(get_option('siteurl')) . 'wp-content/plugins/lifestream';
 
 if (!function_exists('array_key_pop'))
 {
