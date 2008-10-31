@@ -673,8 +673,10 @@ class LifeStream_Feed
         // XXX: should we change this to use $event->key ?
         if (!empty($item['thumbnail']))
         {
-            if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
-            else $ibox = '';
+            // if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
+            // else $ibox = '';
+            
+            $ibox = '';
             
             return sprintf('<a href="%s" '.$ibox.'class="photo" title="%s""><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
         }
@@ -1580,14 +1582,15 @@ function lifestream_init()
     }
     load_plugin_textdomain('lifestream', 'wp-content/plugins/lifestream/locales');
     
-    if (function_exists('register_sidebar_widget'))
+    if (function_exists('wp_register_widget_control'))
     {
-        //         if ( !$id ) {
-        //             wp_register_sidebar_widget( 'rss-1', $name, 'wp_widget_rss', $widget_ops, array( 'number' => -1 ) );
-        //             wp_register_widget_control( 'rss-1', $name, 'wp_widget_rss_control', $control_ops, array( 'number' => -1 ) );
-        // }
-        // wp_register_widget_control('lifestream-1', 'LifeStream', 'widget_lifestream', array('id_base'=>'lifestream')) {
-        //         register_sidebar_widget('LifeStream', 'widget_lifestream');
+        if (!$id)
+        {
+            wp_register_sidebar_widget('rss-1', $name, 'wp_widget_rss', $widget_ops, array('number' => -1));
+            wp_register_widget_control('rss-1', $name, 'wp_widget_rss_control', $control_ops, array('number' => -1));
+        }
+        wp_register_widget_control('lifestream-1', 'LifeStream', 'widget_lifestream', array('id_base'=>'lifestream'));
+        // register_sidebar_widget('LifeStream', 'widget_lifestream');
     }
     
     if (is_admin() && str_startswith($_GET['page'], 'lifestream'))
