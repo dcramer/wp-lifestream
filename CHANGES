@@ -1,3 +1,7 @@
+0.78b
+
+* Fix for photo events in Brightkite feeds.
+
 0.78a
 
 * Adjusted URL to use siteurl and not home. Fixes image paths for installations in subdirectories.

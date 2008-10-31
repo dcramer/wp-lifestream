@@ -1618,7 +1618,7 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
     
     function render_group_items($id, $output, $event)
     {
-        if ($event->key == 'image')
+        if ($event->key == 'photo')
         {
             return LifeStream_PhotoFeed::render_group_items($id, $output, $event);
         }
@@ -1630,7 +1630,7 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
     
     function render_item($event, $item)
     {
-        if ($event->key == 'image')
+        if ($event->key == 'photo')
         {
             return LifeStream_PhotoFeed::render_item($event, $item);
         }
@@ -1643,28 +1643,28 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
     
     function get_label_single($key)
     {
-        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_SINGLE;
+        if ($key == 'photo') return LifeStream_PhotoFeed::LABEL_SINGLE;
         elseif ($key == 'checkin') return 'Checked in on <a href="%s">%s</a>.';
         return 'Posted a message on <a href="%s">%s</a>.';
     }
     
     function get_label_plural($key)
     {
-        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_PLURAL;
+        if ($key == 'photo') return LifeStream_PhotoFeed::LABEL_PLURAL;
         elseif ($key == 'checkin') return 'Checked in %d times on <a href="%s">%s</a>.';
         return 'Posted %d messages on <a href="%s">%s</a>.';
     }
     
     function get_label_single_user($key)
     {
-        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_SINGLE_USER;
+        if ($key == 'photo') return LifeStream_PhotoFeed::LABEL_SINGLE_USER;
         elseif ($key == 'checkin') return '<a href="%s">%s</a> checked in on <a href="%s">%s</a>.';
         return '<a href="%s">%s</a> posted a message on <a href="%s">%s</a>.';
     }
     
     function get_label_plural_user($key)
     {
-        if ($key == 'image') return LifeStream_PhotoFeed::LABEL_PLURAL_USER;
+        if ($key == 'photo') return LifeStream_PhotoFeed::LABEL_PLURAL_USER;
         elseif ($key == 'checkin') return '<a href="%s">%s</a> checked in %d times on <a href="%s">%s</a>.';
         return '<a href="%s">%s</a> posted %d messages on <a href="%s">%s</a>.';
     }
