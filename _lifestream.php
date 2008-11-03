@@ -356,12 +356,11 @@ class LifeStream_Feed
     // The version is so you can manage data in the database for old versions.
     const VERSION       = 0;
     
+    /**
+     * Instantiates this object through a feed database object.
+     */
     public static function construct_from_query_result($row)
     {
-        /**
-         * Instantiates this object through a feed database object.
-         */
-
         global $lifestream_feeds;
         
         $class = $lifestream_feeds[$row->feed];
@@ -664,7 +663,6 @@ class LifeStream_Feed
             }
             $data['key'] = 'photo';
         }
-        
         return $data;
     }
     
