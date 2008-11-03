@@ -2094,4 +2094,38 @@ class LifeStream_IMDBFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_IMDBFeed');
 
+class LifeStream_SlideShareFeed extends LifeStream_Feed
+{
+    const ID            = 'slideshare';
+    const NAME          = 'SlideShare';
+    const URL           = 'http://www.slideshare.net/';
+    const LABEL_SINGLE  = 'Posted a slides on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Posted %d sets of slides on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted slides on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d sets of slides on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://www.slideshare.net/'.$this->options['username'];
+    }
+    
+    function get_url()
+    {
+        return 'http://www.slideshare.net/rss/user/'.$this->options['username'];
+    }
+}
+register_lifestream_feed('LifeStream_SlideShareFeed');
+
 ?>
