@@ -9,7 +9,7 @@ if (!class_exists('SimplePie'))
     require_once('lib/simplepie.inc');
 }
 
-$lifestream_path = trailingslashit(get_option('siteurl')) . 'wp-content/plugins/lifestream';
+$lifestream_path = trailingslashit(get_bloginfo('wpurl')) . 'wp-content/plugins/lifestream';
 
 if (!function_exists('array_key_pop'))
 {
@@ -115,7 +115,7 @@ function lifestream_activate()
     $results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds`");
     if (!$results[0]->count)
     {
-        $rss_url = trailingslashit(get_settings('siteurl')) . 'wp-rss2.php';
+        $rss_url = get_bloginfo('rss2_url');
         $options = array('url' => $rss_url);
 
         $feed = new LifeStream_BlogFeed($options);
@@ -171,7 +171,7 @@ function lifestream_install($allow_database_install=true)
     // default options and their values
     foreach ($lifestream__options as $key=>$value)
     {
-        if (!get_option($key)) update_option($key, $value);
+        add_option($key, $value);
     }
     
     update_option('lifestream__version', LIFESTREAM_VERSION);
