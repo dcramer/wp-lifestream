@@ -2128,4 +2128,38 @@ class LifeStream_SlideShareFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_SlideShareFeed');
 
+class LifeStream_BlipTVFeed extends LifeStream_Feed
+{
+    const ID            = 'bliptv';
+    const NAME          = 'Blip.tv';
+    const URL           = 'http://www.blip.tv/';
+    const LABEL_SINGLE  = 'Posted an episode on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Posted %d episodes on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted an episode on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d episodes on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://'.$this->options['username'].'.blip.tv/';
+    }
+    
+    function get_url()
+    {
+        return $this->get_public_url().'rss';
+    }
+}
+register_lifestream_feed('LifeStream_BlipTVFeed');
+
 ?>
