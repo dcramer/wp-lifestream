@@ -210,6 +210,7 @@ function lifestream_install_database($version)
     lifestream_safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event` (
       `id` int(11) NOT NULL auto_increment,
       `feed_id` int(11) NOT NULL,
+      `feed` varchar(32) NOT NULL,
       `link` varchar(200) NOT NULL,
       `data` blob NOT NULL,
       `visible` tinyint(1) default 1 NOT NULL,
@@ -288,12 +289,17 @@ function lifestream_install_database($version)
         lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
         lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
     }
+    if ($version < 0.81)
+    {
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `feed` VARCHAR(32) NOT NULL AFTER `feed_id`");
+        lifestream_safe_query("UPDATE IGNORE `".$wpdb->prefix."lifestream_event` as t1 set t1.`feed` = (SELECT t2.`feed` FROM `".$wpdb->prefix."lifestream_feeds` as t2 WHERE t1.`feed_id` = t2.`id`)");
+    }
 }
 
 class LifeStream_Event
 {
     /**
-     * Represents a grouped event in the database.
+     * Represents a single event in the database.
      */
      
      function __construct($row)
@@ -304,7 +310,8 @@ class LifeStream_Event
          $this->data = unserialize($row->data);
          $this->id = $row->id;
          $this->timestamp = $row->timestamp;
-         $this->total = $row->total;
+         $this->total = 1;
+         $this->is_grouped = false;
          $this->key = $row->key;
          $this->version = $row->version;
          $this->owner = $row->owner;
@@ -319,14 +326,27 @@ class LifeStream_Event
          return $this->date + LIFESTREAM_DATE_OFFSET*60*60;
      }
      
-     function render()
+     function render($options)
      {
         /**
          * Returns an HTML-ready string.
          */
-        return $this->feed->render($this);
+        return $this->feed->render($this, $options);
      }
-    
+}
+
+class LifeStream_EventGroup extends LifeStream_Event
+{
+    /**
+     * Represents a grouped event in the database.
+     */
+     
+     function __construct($row)
+     {
+         parent::__construct($row);
+         $this->total = $row->total ? $row->total : 1;
+         $this->is_grouped = true;
+     }
 }
 class LifeStream_Feed
 {
@@ -519,7 +539,7 @@ class LifeStream_Feed
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
             
-            $affected = $wpdb->query(sprintf("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
+            $affected = $wpdb->query(sprintf("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `feed`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $this->get_constant('ID'), $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
             if ($affected)
             {
                 $item['id'] = $wpdb->insert_id;
@@ -595,7 +615,7 @@ class LifeStream_Feed
         $events = array();
         foreach ($results as &$result)
         {
-            $events[] = new LifeStream_Event($result);
+            $events[] = new LifeStream_EventGroup($result);
         }
         return $events;
     }
@@ -697,9 +717,16 @@ class LifeStream_Feed
         $label = '';
         $rows = array();
 
-        foreach ($event->data as $row)
+        if ($event->is_grouped)
         {
-            $rows[] = $this->render_item($event, $row);
+            foreach ($event->data as $row)
+            {
+                $rows[] = $this->render_item($event, $row);
+            }
+        }
+        else
+        {
+            $rows[] = $this->render_item($event, $event->data);
         }
         if (count($rows) > 1)
         {
@@ -726,14 +753,14 @@ class LifeStream_Feed
         return array($label, $rows);
     }
     
-    function render($event)
+    function render($event, $options)
     {
         list($label, $rows) = $this->get_render_output($event);
         if (count($rows) > 1)
         {
             return sprintf('%1$s <small class="lifestream_more">(<span onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</span>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows, $event));
         }
-        elseif ($this->options['show_label'])
+        elseif ($this->options['show_label'] && !$options['hide_label'])
         {
             return sprintf('%s<div class="lifestream_events">%s', $label, $rows[0]);
         }
@@ -863,6 +890,10 @@ function lifestream($args=array())
 
     $_ = func_get_args();
 
+    $defaults = array(
+        'hide_labels'       => false,
+    );
+
     if (!is_array($_[0]))
     {
         // old style
@@ -881,6 +912,8 @@ function lifestream($args=array())
     {
         $_ = $args;
     }
+    
+    $_ = array_merge($defaults, $_);
     
     // TODO: offset
     //$offset = get_option('lifestream_timezone');
@@ -908,6 +941,8 @@ function lifestream_sidebar_widget($_=array())
     $defaults = array(
         'number_of_results' => 10,
         'event_total_max'   => 1,
+        'hide_labels'       => false,
+        'break_groups'      => false,
     );
     
     $_ = array_merge($defaults, $_);
@@ -940,6 +975,7 @@ function lifestream_get_events($_=array())
         'date_interval'     => get_option('lifestream_date_interval'),
         'event_total_min'   => -1,
         'event_total_max'   => -1,
+        'break_groups'      => false,
     );
     
     $_ = array_merge($defaults, $_);
@@ -985,13 +1021,26 @@ function lifestream_get_events($_=array())
         $where[] = sprintf('t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s))', $_['date_interval']);
     }
     
-    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE (%s) ORDER BY t1.`timestamp` DESC LIMIT %d, %d", implode(') AND (', $where), $_['offset'], $_['number_of_results']);
+    
+    if ($_['break_groups'])
+    {
+        // we select from lifestream_event vs grouped
+        $table = 'lifestream_event';
+        $cls = 'LifeStream_Event';
+    }
+    else
+    {
+        $table = 'lifestream_event_group';
+        $cls = 'LifeStream_EventGroup';
+    }
+    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix.$table."` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE (%s) ORDER BY t1.`timestamp` DESC LIMIT %d, %d", implode(') AND (', $where), $_['offset'], $_['number_of_results']);
+
 
     $results =& $wpdb->get_results($sql);
     $events = array();
     foreach ($results as &$result)
     {
-        $events[] = new LifeStream_Event($result);
+        $events[] = new $cls($result);
     }
     return $events;
 }
@@ -1445,7 +1494,7 @@ function lifestream_do_digest()
         $events = array();
         foreach ($results as &$result)
         {
-            $events[] = new LifeStream_Event($result);
+            $events[] = new LifeStream_EventGroup($result);
         }
 
         if (count($events))

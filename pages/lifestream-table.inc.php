@@ -33,7 +33,7 @@ if (count($events))
                 <abbr title="<?php echo date("c", $timestamp); ?>"><?php echo date($hour_format, $timestamp); ?></abbr>
             </td>
             <td class="lifestream_text">
-                <?php echo $result->render(); ?>
+                <?php echo $result->render($_); ?>
             </td>
         </tr>
         <?php
