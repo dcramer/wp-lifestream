@@ -6,7 +6,7 @@ define(LIFESTREAM_ERRORS_PER_PAGE, 50);
 
 if (!class_exists('SimplePie'))
 {
-    require_once('lib/simplepie.inc');
+    require_once(dirname(__FILE__) . '/lib/simplepie.inc');
 }
 
 $lifestream_path = trailingslashit(get_bloginfo('wpurl')) . 'wp-content/plugins/lifestream';
@@ -889,7 +889,7 @@ function lifestream($args=array())
     
     $events = call_user_func('lifestream_get_events', $_);
     
-    include('pages/lifestream-table.inc.php');
+    include(dirname(__FILE__) . '/pages/lifestream-table.inc.php');
 
     echo '<!-- Powered by iBegin LifeStream '.LIFESTREAM_VERSION.' -->';
 
@@ -919,7 +919,7 @@ function lifestream_sidebar_widget($_=array())
     
     $events = call_user_func('lifestream_get_events', $_);
     
-    include('pages/lifestream-list.inc.php');
+    include(dirname(__FILE__) . '/pages/lifestream-list.inc.php');
 }
 
 /**
@@ -943,17 +943,17 @@ function lifestream_get_events($_=array())
     );
     
     $_ = array_merge($defaults, $_);
-
+    
     # If any arguments are invalid we bail out
-
+    
     if (!((int)$_['number_of_results'] > 0)) return;
     if (!((int)$_['offset'] >= 0)) return;
 
-    if (!preg_match('/[\d]+ (month|day|year|hour|second|microsecond|week|quarter)s?/', $_['date_interval'])) return;
-    $_['date_interval'] = rtrim($_['date_interval'], 's');
+    if (!preg_match('/[\d]+ (month|day|year|hour|second|microsecond|week|quarter)s?/', $_['date_interval'])) $_['date_interval'] = -1;
+    else $_['date_interval'] = rtrim($_['date_interval'], 's');
 
-    if (!is_array($_['feed_ids'])) return;
-    if (!is_array($_['user_ids'])) return;
+    $_['feed_ids'] = (array)$_['feed_ids'];
+    $_['user_ids'] = (array)$_['user_ids'];
     
     $where = array('t1.`visible` = 1');
     if (count($_['feed_ids']))
@@ -980,8 +980,12 @@ function lifestream_get_events($_=array())
     {
         $where[] = sprintf('t1.`total` >= %d', $_['event_total_min']);
     }
-
-    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s)) AND (%s) ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $_['date_interval'], implode(') AND (', $where), $_['offset'], $_['number_of_results']);
+    if ($_['date_interval'] !== -1)
+    {
+        $where[] = sprintf('t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s))', $_['date_interval']);
+    }
+    
+    $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix."lifestream_event_group` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE (%s) ORDER BY t1.`timestamp` DESC LIMIT %d, %d", implode(') AND (', $where), $_['offset'], $_['number_of_results']);
 
     $results =& $wpdb->get_results($sql);
     $events = array();
@@ -1272,16 +1276,16 @@ function lifestream_options()
                 $number_of_pages = ceil($results[0]->count/LIFESTREAM_EVENTS_PER_PAGE);
                 $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_error_log` as t1 LEFT JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $start, $end));
                 
-                include('pages/errors.inc.php');
+                include(dirname(__FILE__) . '/pages/errors.inc.php');
             break;
             case 'lifestream-changelog.php':
-                include('pages/changelog.inc.php');
+                include(dirname(__FILE__) . '/pages/changelog.inc.php');
             break;
             case 'lifestream-forums.php':
-                include('pages/forums.inc.php');
+                include(dirname(__FILE__) . '/pages/forums.inc.php');
             break;
             case 'lifestream-settings.php':
-                include('pages/settings.inc.php');
+                include(dirname(__FILE__) . '/pages/settings.inc.php');
             break;
             case 'lifestream-events.php':
                 $page = $_GET['paged'] ? $_GET['paged'] : 1;
@@ -1300,13 +1304,13 @@ function lifestream_options()
                     $number_of_pages = ceil($results[0]->count/LIFESTREAM_EVENTS_PER_PAGE);
                     $results =& $wpdb->get_results(sprintf("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $start, $end));
                 }
-                include('pages/events.inc.php');
+                include(dirname(__FILE__) . '/pages/events.inc.php');
             break;
             default:
                 switch ($_GET['op'])
                 {
                     case 'edit':
-                        include('pages/edit-feed.inc.php');
+                        include(dirname(__FILE__) . '/pages/edit-feed.inc.php');
                     break;
                     case 'add':
                         $identifier = $_GET['feed'];
@@ -1314,7 +1318,7 @@ function lifestream_options()
                         if (!$class_name) break;
                         $feed = new $class_name();
                         $options = $feed->get_options();
-                        include('pages/add-feed.inc.php');
+                        include(dirname(__FILE__) . '/pages/add-feed.inc.php');
                     break;
                     default:
                         $page = $_GET['paged'] ? $_GET['paged'] : 1;
@@ -1334,7 +1338,7 @@ function lifestream_options()
                         }
                         if ($results !== false)
                         {
-                            include('pages/feeds.inc.php');
+                            include(dirname(__FILE__) . '/pages/feeds.inc.php');
                         }
                     break;
                 }
@@ -1375,30 +1379,7 @@ function lifestream_header()
     echo '<script type="text/javascript" src="'.$lifestream_path.'/lifestream.js"></script>';
 }
 
-function widget_lifestream_config()
-{
-    ?>
-    <p><label for="lifestream_title">Title: <input class="widefat" id="lifestream_title" name="lifestream_title" value="" type="text"></label></p>
-    <p>
-        <label for="lifestream_show_grouped"><input class="checkbox" id="lifestream_show_grouped" name="lifestream_show_grouped" type="checkbox"> Show events ungrouped.</label>
-    </p>
-    <?php
-}
-
-function widget_lifestream($args)
-{
-    extract($args);
-?>
-    <?php echo $before_widget; ?>
-        <?php echo $before_title
-            . 'LifeStream'
-            . $after_title; ?>
-        <?php lifestream_sidebar_widget(array('number_of_results'=>10)); ?>
-    <?php echo $after_widget; ?>
-<?php
-}
-
-include('feeds.inc.php');
+include(dirname(__FILE__) . '/feeds.inc.php');
 
 /**
  * Attempts to update all feeds
@@ -1503,55 +1484,6 @@ function lifestream_log_error($message, $feed_id=null)
     }
 }
 
-function lifestream_rss_feed()
-{
-    
-}
-
-function lifestream_dump_opml()
-{
-    global $wpdb;
-    
-    $date = date(DATE_RFC822);
-    $lines = array('<?xml version="1.0" encoding="ISO-8859-1"?>');
-    $lines[] = '<!-- OPML generated by LifeStream '.LIFESTREAM_VERSION.' on '.$date.' -->';
-    $lines[] = '<opml version="1.1">';
-    $lines[] = '    <head>';
-    $lines[] = '        <title>lifestream.feeds</title>';
-    $lines[] = '        <dateCreated>'.$date.'</dateCreated>';
-    $lines[] = '        <dateModified>'.$date.'</dateModified>';
-    $lines[] = '    </head>';
-    $lines[] = '    <body>';
-    $results =& $wpdb->get_results("SELECT * FROM `".$wpdb->prefix."lifestream_feeds`");
-    foreach ($results as $result)
-    {
-        $instance = LifeStream_Feed::construct_from_query_result($result);
-        if (method_exists($instance, 'get_url'))
-        {
-            $urls = $instance->get_url();
-            if (!is_array($urls)) $urls = array($urls);
-            $items = array();
-            foreach ($urls as $url_data)
-            {
-                if (is_array($url_data))
-                {
-                    // url, key
-                    list($url, $key) = $url_data;
-                }
-                else
-                {
-                    $url = $url_data;
-                    $key = '';
-                }
-                $lines[] = '        <outline text="'.htmlspecialchars($instance->get_feed_display()).'" xmlUrl="'.$url.'" type="'.$instance->get_constant('ID').'"/>';
-            }
-        }
-    }
-    $lines[] = '    </body>';
-    $lines[] = '</opml>';
-    echo implode("\n", $lines);
-}
-
 function lifestream_init()
 {
     global $wpdb;
@@ -1580,23 +1512,16 @@ function lifestream_init()
     }
     load_plugin_textdomain('lifestream', 'wp-content/plugins/lifestream/locales');
     
-    if (function_exists('wp_register_widget_control'))
-    {
-        if (!$id)
-        {
-            wp_register_sidebar_widget('rss-1', $name, 'wp_widget_rss', $widget_ops, array('number' => -1));
-            wp_register_widget_control('rss-1', $name, 'wp_widget_rss_control', $control_ops, array('number' => -1));
-        }
-        wp_register_widget_control('lifestream-1', 'LifeStream', 'widget_lifestream', array('id_base'=>'lifestream'));
-        // register_sidebar_widget('LifeStream', 'widget_lifestream');
-    }
-    
     if (is_admin() && str_startswith($_GET['page'], 'lifestream'))
     {
         wp_enqueue_script('jquery');
         wp_enqueue_script('admin-forms');
     }
 }
+
+// Require more of the codebase
+require_once(dirname(__FILE__) . '/inc/widget.php');
+require_once(dirname(__FILE__) . '/inc/syndicate.php');
 
 // function lifestream_cron_schedules($cron)
 // {

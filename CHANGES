@@ -1,3 +1,9 @@
+0.80
+
+* Sidebar widgets are here!
+* Changed include paths to be absolute.
+* Tweaked widget CSS to solve an issue with the default WordPress theme.
+
 0.78c
 
 * Added SlideShare feed.
