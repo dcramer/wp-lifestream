@@ -23,8 +23,6 @@ function lifestream_widget($args, $widget_args=1)
 
     echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : __('LifeStream', 'lifestream')) . $after_title;
 
-    echo $before_widget;
-
     lifestream_sidebar_widget(array(
         'number_of_results'=>$options['amount'],
         'feed_ids'=>$options['feeds'],
