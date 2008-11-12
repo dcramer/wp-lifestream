@@ -124,6 +124,8 @@ The plugin includes most of the major social networking feeds available. You may
 * FoodFeed
 * MyEpisodes
 * Mixx
+* SlideShare
+* Blip.tv
 
 == Localization ==
 
