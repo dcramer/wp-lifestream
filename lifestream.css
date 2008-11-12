@@ -16,13 +16,13 @@ table.lifestream .lifestream_hour { width: 50px; }
 table.lifestream td { vertical-align: top; padding: 3px 0; }
 
 .lifestream_feedid_flickr div a { padding: 2px; }
-.lifestream ul { list-style-type: none; margin: 0; padding: 0; }
+#sidebar .lifestream ul, .lifestream ul { list-style-type: none; margin: 0; padding: 0; }
 
 .lifestream_more span { color: #006699; text-decoration: underline; cursor: pointer; }
 
 /* list specific css */
-ul.lifestream { list-style-type: none; margin: 0 0; padding: 0 5px; }
-ul.lifestream li { padding-left: 24px !important; margin: 2px 0; background-repeat: no-repeat; background-position: 0 2px; }
+#sidebar ul.lifestream, ul.lifestream { list-style-type: none; margin: 0 0; padding: 0 5px; }
+#sidebar ul.lifestream li, ul.lifestream li { padding: 0 0 0 24px !important; margin: 2px 0; background-repeat: no-repeat; background-position: 0 0; }
 /* fix for default wp theme */
 ul.lifestream li:before { content: none !important; }
 ul.lifestream .lifestream_hour { color: #aaa; font-size: smaller; }

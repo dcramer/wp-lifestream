@@ -1,3 +1,9 @@
+0.81
+
+* Added "hide_labels" option for lifestream output.
+* Added "break_groups" option for lifestream_get_events.
+* More CSS tweaks.
+
 0.80
 
 * Sidebar widgets are here!

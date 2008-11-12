@@ -28,6 +28,8 @@ function lifestream_widget($args, $widget_args=1)
     lifestream_sidebar_widget(array(
         'number_of_results'=>$options['amount'],
         'feed_ids'=>$options['feeds'],
+        'break_groups'=>$options['break_groups'] ? true : false,
+        'hide_labels'=>$options['hide_labels'] ? true : false,
         'event_total_max'=>-1,
         'date_interval'=>-1,
     ));
@@ -140,6 +142,16 @@ function lifestream_widget_control($widget_args=1)
         <label>
             <?php _e('Number of events to show:', 'lifestream'); ?>
             <input style="width: 25px; text-align: center;" name="lifestream[<?php echo $number; ?>][amount]" type="text" value="<?php echo $current_options['amount']; ?>" />
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" name="lifestream[<?php echo $number; ?>][break_groups]" value="1"<?php if ($current_options['break_groups']) echo ' checked = "checked"'; ?>/>
+            <?php _e('Break up grouped events.', 'lifestream'); ?>
+        </label><br />
+        <label>
+            <input type="checkbox" name="lifestream[<?php echo $number; ?>][hide_labels]" value="1"<?php if ($current_options['hide_labels']) echo ' checked = "checked"'; ?>/>
+            <?php _e('Hide labels for events.', 'lifestream'); ?>
         </label>
     </p>
     <p>
