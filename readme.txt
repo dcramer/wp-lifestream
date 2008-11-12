@@ -139,6 +139,7 @@ Currently the plugin is localized in the default language of English, as well as
 * Bulgarian
 * French
 * German
+* Danish
 
 == Credits ==
 
