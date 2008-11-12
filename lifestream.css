@@ -23,6 +23,8 @@ table.lifestream td { vertical-align: top; padding: 3px 0; }
 /* list specific css */
 ul.lifestream { list-style-type: none; margin: 0 0; padding: 0 5px; }
 ul.lifestream li { padding-left: 24px !important; margin: 2px 0; background-repeat: no-repeat; background-position: 0 2px; }
+/* fix for default wp theme */
+ul.lifestream li:before { content: none !important; }
 ul.lifestream .lifestream_hour { color: #aaa; font-size: smaller; }
 ul.lifestream .lifestream_text { padding-left: 0; }
 ul.lifestream a { display: inline; }
