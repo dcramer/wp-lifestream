@@ -9,7 +9,7 @@ function lifestream_widget($args, $widget_args=1)
     extract($args, EXTR_SKIP);
     if (is_numeric($widget_args))
         $widget_args = array('number' => $widget_args);
-    $widget_args = wp_parse_args( $widget_args, array('number' => -1));
+    $widget_args = wp_parse_args($widget_args, array('number' => -1));
     extract($widget_args, EXTR_SKIP);
 
     // Data should be stored as array:  array( number => data for that instance of the widget, ... )
@@ -18,6 +18,10 @@ function lifestream_widget($args, $widget_args=1)
         return;
 
     $options = $options[$number];
+
+    echo $before_widget;
+
+    echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : __('LifeStream', 'lifestream')) . $after_title;
 
     echo $before_widget;
 
