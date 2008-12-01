@@ -521,7 +521,7 @@ class LifeStream_Feed
         }
     }
     
-    function refresh()
+    function refresh($urls=null)
     {
         global $wpdb;
         
@@ -531,7 +531,7 @@ class LifeStream_Feed
 
         $inserted = array();
         $total = 0;
-        $items = $this->fetch();
+        $items = $this->fetch($urls);
         if (!$items) return false;
         foreach ($items as $item_key=>$item)
         {
@@ -619,9 +619,10 @@ class LifeStream_Feed
         }
         return $events;
     }
-    function fetch()
+    function fetch($urls=null)
     {
-        $urls = $this->get_url();
+        // kind of an ugly hack for now so we can extend twitter
+        if (!$urls) $urls = $this->get_url();
         if (!is_array($urls)) $urls = array($urls);
         $items = array();
         foreach ($urls as $url_data)
@@ -1124,7 +1125,7 @@ function lifestream_options()
             {
                 foreach (array_keys($lifestream__options) as $value)
                 {
-                    update_option($value, $_POST[$value] ? $_POST[$value] : '');
+                    update_option($value, $_POST[$value] ? stripslashes($_POST[$value]) : '');
                 }
             }
         break;
@@ -1272,10 +1273,11 @@ function lifestream_options()
                                 if ($result !== false)
                                 {
                                     unset($_POST);
+                                    unset($_REQUEST['op']);
                                     $events = $feed->refresh();
                                     if ($events !== false)
                                     {
-                                        $message = sprintf(__('Selected feed was added to your LifeStream with %d event(s).', 'lifestream'), $events);
+                                        $message = sprintf(__('A new %s feed was added to your LifeStream.', 'lifestream'), $feed->get_constant('NAME'));
                                     }
                                 }
                             }
@@ -1356,7 +1358,7 @@ function lifestream_options()
                 include(dirname(__FILE__) . '/pages/events.inc.php');
             break;
             default:
-                switch ($_GET['op'])
+                switch ($_REQUEST['op'])
                 {
                     case 'edit':
                         include(dirname(__FILE__) . '/pages/edit-feed.inc.php');

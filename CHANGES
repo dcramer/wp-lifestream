@@ -1,3 +1,8 @@
+0.82
+
+* Twitter feeds will now import full history on creation.
+* Tweaked feed adding to be more intuitive and informational.
+
 0.81
 
 * Added "hide_labels" option for lifestream output.

@@ -82,9 +82,26 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         return preg_replace_callback('/([^\w]*)(#[a-z0-9_-]+)\b/i', array($this, '_get_search_term_link'), $text);
     }
 
-    function get_url()
+    function get_url($page=1, $count=20)
     {
-        return 'http://twitter.com/statuses/user_timeline/'.$this->options['username'].'.rss';
+        return 'http://twitter.com/statuses/user_timeline/'.$this->options['username'].'.rss?page='.$page.'&count='.$count;
+    }
+    
+    function save()
+    {
+        $is_new = (bool)!$this->id;
+        parent::save();
+        if ($is_new)
+        {
+            // new feed -- attempt to import all statuses
+            $total = 200;
+            $page = 0;
+            while ($total)
+            {
+                $page += 1;
+                $total = $this->refresh($this->get_url($page, 200));
+            }
+        }
     }
     
     function render_item($row, $item)
