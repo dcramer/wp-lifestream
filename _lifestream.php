@@ -763,7 +763,7 @@ class LifeStream_Feed
         }
         elseif ($this->options['show_label'] && !$options['hide_label'])
         {
-            return sprintf('%s<div class="lifestream_events">%s', $label, $rows[0]);
+            return sprintf('%s<div class="lifestream_events">%s</div>', $label, $rows[0]);
         }
         else
         {
