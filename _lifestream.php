@@ -221,6 +221,7 @@ function lifestream_install_database($version)
       `owner` varchar(128) NOT NULL,
       `owner_id` int(11) NOT NULL,
       PRIMARY KEY  (`id`),
+      INDEX `feed` (`feed`),
       UNIQUE `feed_id` (`feed_id`, `key`, `owner_id`, `link`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 
@@ -240,6 +241,7 @@ function lifestream_install_database($version)
       `owner` varchar(128) NOT NULL,
       `owner_id` int(11) NOT NULL,
       PRIMARY KEY  (`id`),
+      INDEX `feed` (`feed`),
       INDEX `feed_id` (`feed_id`, `key`, `owner_id`, `timestamp`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     
@@ -295,6 +297,11 @@ function lifestream_install_database($version)
         lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `feed` VARCHAR(32) NOT NULL AFTER `feed_id`");
         lifestream_safe_query("UPDATE IGNORE `".$wpdb->prefix."lifestream_event` as t1 set t1.`feed` = (SELECT t2.`feed` FROM `".$wpdb->prefix."lifestream_feeds` as t2 WHERE t1.`feed_id` = t2.`id`)");
     }
+    if ($version < 0.84)
+    {
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD INDEX ( `feed` )");
+        lifestream_safe_query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD INDEX ( `feed` )");
+    }
 }
 
 class LifeStream_Event
@@ -320,6 +327,11 @@ class LifeStream_Event
          $this->visible = $row->visible;
          $this->link = ($this->data['link'] ? $this->data['link'] : $row->link);
          $this->feed = new $lifestream_feeds[$row->feed](unserialize($row->options), $row->feed_id);
+     }
+     
+     function __toString()
+     {
+         return $this->data['title'];
      }
      
      function get_date()
@@ -976,6 +988,7 @@ function lifestream_get_events($_=array())
         'offset'            => 0,
         'feed_ids'          => array(),
         'user_ids'          => array(),
+        'feed_types'        => array(),
         'date_interval'     => get_option('lifestream_date_interval'),
         'event_total_min'   => -1,
         'event_total_max'   => -1,
@@ -994,6 +1007,7 @@ function lifestream_get_events($_=array())
 
     $_['feed_ids'] = (array)$_['feed_ids'];
     $_['user_ids'] = (array)$_['user_ids'];
+    $_['feed_types'] = (array)$_['feed_types'];
     
     $where = array('t1.`visible` = 1');
     if (count($_['feed_ids']))
@@ -1003,6 +1017,14 @@ function lifestream_get_events($_=array())
             $_['feed_ids'][$key] = $wpdb->escape($value);
         }
         $where[] = 't1.`feed_id` IN ('.implode(', ', $_['feed_ids']).')';
+    }
+    elseif (count($_['feed_types']))
+    {
+        foreach ($_['feed_types'] as $key=>$value)
+        {
+            $_['feed_types'][$key] = $wpdb->escape($value);
+        }
+        $where[] = 't1.`feed` IN ("'.implode('", "', $_['feed_types']).'")';
     }
     if (count($_['user_ids']))
     {
@@ -1038,8 +1060,7 @@ function lifestream_get_events($_=array())
         $cls = 'LifeStream_EventGroup';
     }
     $sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix.$table."` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE (%s) ORDER BY t1.`timestamp` DESC LIMIT %d, %d", implode(') AND (', $where), $_['offset'], $_['number_of_results']);
-
-
+    
     $results =& $wpdb->get_results($sql);
     $events = array();
     foreach ($results as &$result)
@@ -1570,6 +1591,54 @@ function lifestream_init()
     {
         wp_enqueue_script('jquery');
         wp_enqueue_script('admin-forms');
+    }
+}
+
+function lifestream_get_single_event($feed_type)
+{
+    $events = lifestream_get_events(array('feed_types'=>array($feed_type), 'number_of_results'=>array(1), 'break_groups'=>true));
+    $event = $events[0];
+
+    return $event;
+}
+
+/**
+ * Displays your latest Twitter status.
+ * @param {Boolean} $links Parse user links.
+ */
+function lifestream_twitter_status($links=true)
+{
+    $event = lifestream_get_single_event('twitter');
+    if (!$event) return;
+    if ($links)
+    {
+        // to render it with links
+        echo $event->feed->render_item($event, $event->data);
+    }
+    else
+    {
+        // or render just the text
+        echo $event->data['title'];
+    }
+}
+
+/**
+ * Displays your latest Facebook status.
+ * @param {Boolean} $links Parse user links.
+ */
+function lifestream_facebook_status($links=true)
+{
+    $event = lifestream_get_single_event('facebook');
+    if (!$event) return;
+    if ($links)
+    {
+        // to render it with links
+        echo $event->feed->render_item($event, $event->data);
+    }
+    else
+    {
+        // or render just the text
+        echo $event->data['title'];
     }
 }
 

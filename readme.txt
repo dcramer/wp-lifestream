@@ -46,16 +46,19 @@ Another method requires a [custom WordPress page](http://codex.wordpress.org/Pag
 
 You may also specify several parameters in the `lifestream` method (useful for sidebar display):
 
+* `(int) offset`: defaults to 0
 * `(int) number_of_items`: defaults to '50'
-* `(array) feed_ids`: defaults to all feeds
 * `(string) date_interval`: defaults to '1 month'
-* `(string) output`: defaults to table; options are table and list
+* `(boolean) break_events`: defaults to false - forces grouped events to be single
+* `(array) user_ids`: defaults to all users -- specify the ids of users to show
+* `(array) feed_types`: defaults to all feeds -- specify the feed keys (e.g. twitter) to show
+* `(array) feed_ids`: defaults to all feeds -- specify the ids of feeds to show, also overrides `feed_types` setting
 
 For example:
 
 `[lifestream number_of_items="10" output="list"]`
 
-For more advanced uses, you may directly use `lifestream_get_events()` which will return an array of `Event` instances.
+For more advanced uses, you may directly use `lifestream_get_events()` which will return an array of `Event` instances. This is the same syntax as the `lifestream()` method.
 
 Example:
 
@@ -69,6 +72,25 @@ foreach ($events as $event)
 }
 ?>
 </ul>`
+
+Another popular example, would to be show your current Twitter, or Facebook status somewhere in your templates:
+
+`$events = lifestream_get_events(array('feed_types'=>array('twitter'), 'number_of_results'=>array(1), 'break_groups'=>true);
+$event = $events[0];
+
+// to render it with links
+echo $event->feed->render_item($event, $event->data);
+
+// or render just the text
+echo $event->data['title'];`
+
+Or, use our handy shortcuts:
+
+`<?php lifestream_twitter_status(); ?>`
+
+And
+
+`<?php lifestream_facebook_status(); ?>`
 
 == Requirements ==
 
