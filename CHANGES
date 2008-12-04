@@ -1,3 +1,10 @@
+0.84
+
+* Added `feed_types` argument to lifestream output functions.
+* Added an example in readme.txt to fetch latest Twitter status in a template.
+* Added `lifestream_twitter_status()` shortcut.
+* Added `lifestream_facebook_status()` shortcut.
+
 0.83
 
 * There is now an option to have the grouped events details shown by default.
