@@ -71,6 +71,11 @@ $authors = get_users_of_blog();
                 </td>
             </tr> -->
             <tr>
+                <th><?php _e('Hide Grouped Details:', 'lifestream'); ?></th>
+                <td><label for="id_hide_details_default"><input type="checkbox" name="lifestream_hide_details_default" id="id_hide_details_default" value="1"<?php if (get_option('lifestream_hide_details_default')) echo ' checked="checked"'; ?>/> <?php _e('Hide details of grouped events by default.', 'lifestream'); ?></label>
+                </td>
+            </tr>
+            <tr>
                 <th><?php _e('Show Credits:', 'lifestream'); ?></th>
                 <td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if (get_option('lifestream_show_credits')) echo ' checked="checked"'; ?>/> <?php _e('Give credit to LifeStream when it\'s embedded.', 'lifestream'); ?></label>
                     <div class="helptext">e.g. <?php echo lifestream_credits(); ?></div>

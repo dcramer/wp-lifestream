@@ -11,7 +11,6 @@
 table.lifestream { border: 0; border-spacing: collapse; width: 100%; }
 table.lifestream .lifestream_hour { text-align: center; color: #777; padding: 3px 0.5em; }
 .lifestream abbr { text-decoration: none; border: 0; }
-table.lifestream .lifestream_icon { padding: 5px 0; }
 table.lifestream .lifestream_hour { width: 50px; }
 table.lifestream td { vertical-align: top; padding: 3px 0; }
 
@@ -24,14 +23,24 @@ table.lifestream td { vertical-align: top; padding: 3px 0; }
 #sidebar ul.lifestream, ul.lifestream { list-style-type: none; margin: 0 0; padding: 0 5px; }
 #sidebar ul.lifestream li, ul.lifestream li { padding: 0 0 0 24px !important; margin: 2px 0; background-repeat: no-repeat; background-position: 0 0; }
 /* fix for default wp theme */
-ul.lifestream li:before { content: none !important; }
+.lifestream li:before { content: none !important; }
 ul.lifestream .lifestream_hour { color: #aaa; font-size: smaller; }
 ul.lifestream .lifestream_text { padding-left: 0; }
 ul.lifestream a { display: inline; }
 ul.lifestream .lifestream_feedid_flickr .lifestream_hour { display: none; }
 
-.lifestream_text ul { margin: 5px 0; padding: 0; list-style-type: none; font-size: small; }
-.lifestream_text li { margin: 1px 0; padding: 2px 2px 2px 7px; border-left: 5px solid #ddd; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.lifestream_text ul {
+    margin: 5px 0;
+    padding: 0;
+    list-style-type: none;
+    font-size: small;
+}
+html > body .lifestream_text li,
+.lifestream_text li {
+    margin: 1px 0;
+    padding: 2px;
+    border-bottom: 1px solid #eee;
+}
 .lifestream_text .photo img { border: 1px solid #aaa; padding: 2px; margin: 0 0 3px 0; }
 .lifestream_text .photo:hover img { border: 1px solid #006699; }
 
