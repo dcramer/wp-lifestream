@@ -1,3 +1,9 @@
+0.83
+
+* There is now an option to have the grouped events details shown by default.
+* Daily Digest will no longer show date headers, and has been moved to a new template (daily-digest.inc.php)
+* Changed some of the CSS to be a bit more relaxed and easier for custom themes.
+
 0.82
 
 * Twitter feeds will now import full history on creation.

@@ -151,6 +151,7 @@ $lifestream__options = array(
     'lifestream_show_owners'    => '0',
     'lifestream_use_ibox'       => '1',
     'lifestream_show_credits'   => '1',
+    'lifestream_hide_details_default' => '1',
 );
 
 /**
@@ -703,13 +704,13 @@ class LifeStream_Feed
         
     }
     
-    function render_group_items($id, $output, $event)
+    function render_group_items($id, $output, $event, $visible=false)
     {
         if (!empty($event->data[0]['thumbnail']))
         {
-            return sprintf('<div id="%s" style="display:none;">%s</div>', $id, implode(' ', $output));
+            return sprintf('<div id="%s"'.(!$visible ? ' style="display:none;"' : '').'>%s</div>', $id, implode(' ', $output));
         }
-        return sprintf('<ul id="%s" style="display:none;"><li>%s</li></ul>', $id, implode('</li><li>', $output));
+        return sprintf('<ul id="%s"'.(!$visible ? ' style="display:none;"' : '').'><li>%s</li></ul>', $id, implode('</li><li>', $output));
         
     }
     
@@ -759,7 +760,9 @@ class LifeStream_Feed
         list($label, $rows) = $this->get_render_output($event);
         if (count($rows) > 1)
         {
-            return sprintf('%1$s <small class="lifestream_more">(<span onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">%3$s</span>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows, $event));
+            $hide_details = get_option('lifestream_hide_details_default');
+            $details_opt = $hide_details ? '%3$s' : '%4$s';
+            return sprintf('%1$s <small class="lifestream_more">(<span onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">'.$details_opt.'</span>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows, $event, !$hide_details));
         }
         elseif ($this->options['show_label'] && !$options['hide_label'])
         {
@@ -1502,7 +1505,7 @@ function lifestream_do_digest()
         if (count($events))
         {
             ob_start();
-            include('pages/lifestream-table.inc.php');
+            include('pages/daily-digest.inc.php');
             $content = sprintf(get_option('lifestream_digest_body'), ob_get_clean(), date(get_option('lifestream_day_format'), $digest_day), count($events));
 
             $data = array(
