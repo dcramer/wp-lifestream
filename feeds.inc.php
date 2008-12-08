@@ -2214,4 +2214,71 @@ class LifeStream_SteamFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_SteamFeed');
 
+class LifeStream_XboxLiveFeed extends LifeStream_Feed
+{
+    const ID            = 'xboxlive';
+    const NAME          = 'Xbox Live';
+    const URL           = 'http://www.xbox.com/';
+    const LABEL_SINGLE  = 'Played a game on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Played %d games on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> played a game on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> played %d games on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Xbox Live ID:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://live.xbox.com/member/'.$this->options['username'];
+    }
+    
+    function get_url()
+    {
+        return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.$this->options['username'];
+    }
+    
+    function yield($item)
+    {
+        return array(
+            'date'      =>  strtotime($item->LastPlayed),
+            'link'      =>  html_entity_decode($item->DetailsURL),
+            'name'      =>  html_entity_decode($item->Game->Name),
+        );
+    }
+    
+    function fetch()
+    {
+        // Look it's our first non-feed parser!
+        $response = lifestream_file_get_contents($this->get_url());
+
+        if ($response)
+        {
+            $xml = new SimpleXMLElement($response);
+            
+            $feed = $xml->RecentGames->XboxUserGameInfo;
+            $items = array();
+            foreach ($feed as $item)
+            {
+                $items[] = $this->yield($item);
+            }
+            return $items;
+        }
+    }
+    
+    function render_item($row, $item)
+    {
+        return sprintf('<a href="%s">%s</a>', $item['link'], $item['name']);
+    }
+}
+register_lifestream_feed('LifeStream_XboxLiveFeed');
+
 ?>
