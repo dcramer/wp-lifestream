@@ -2179,4 +2179,39 @@ class LifeStream_BlipTVFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_BlipTVFeed');
 
+class LifeStream_SteamFeed extends LifeStream_Feed
+{
+    const ID            = 'steam';
+    const NAME          = 'Steam';
+    const URL           = 'http://www.steampowered.com/';
+    const LABEL_SINGLE  = 'Obtained an achievement on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Obtained %d achievements on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> obtained an achievement on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> obtained %d achievements on <a href="%s">%s</a>.';
+    const MEDIA         = 'text';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Steam ID:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://steamcommunity.com/id/'.$this->options['username'];
+    }
+    
+    function get_url()
+    {
+        return 'http://pipes.yahoo.com/pipes/pipe.run?_id=6d87c178f6f6a0b941fe7269c9415c32&_render=rss&steamid='.$this->options['username'];
+    }
+}
+register_lifestream_feed('LifeStream_SteamFeed');
+
 ?>

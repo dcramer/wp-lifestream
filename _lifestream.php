@@ -388,6 +388,7 @@ class LifeStream_Feed
     const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d items on <a href="%s">%s</a>.';
     // The version is so you can manage data in the database for old versions.
     const VERSION       = 0;
+    const MEDIA         = 'automatic';
     
     /**
      * Instantiates this object through a feed database object.
@@ -703,7 +704,7 @@ class LifeStream_Feed
     function render_item($row, $item)
     {
         // XXX: should we change this to use $event->key ?
-        if (!empty($item['thumbnail']))
+        if (!empty($item['thumbnail']) && $this->get_constant('MEDIA') == 'automatic')
         {
             // if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
             // else $ibox = '';
@@ -718,7 +719,7 @@ class LifeStream_Feed
     
     function render_group_items($id, $output, $event, $visible=false)
     {
-        if (!empty($event->data[0]['thumbnail']))
+        if (!empty($event->data[0]['thumbnail']) && $this->get_constant('MEDIA') == 'automatic')
         {
             return sprintf('<div id="%s"'.(!$visible ? ' style="display:none;"' : '').'>%s</div>', $id, implode(' ', $output));
         }
