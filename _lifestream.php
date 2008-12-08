@@ -711,7 +711,7 @@ class LifeStream_Feed
             
             $ibox = '';
             
-            return sprintf('<a href="%s" '.$ibox.'class="photo" title="%s""><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
+            return sprintf('<a href="%s" '.$ibox.'class="photo" title="%s"><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
         }
         return sprintf('<a href="%s">%s</a>', $item['link'], $item['title']);
         
