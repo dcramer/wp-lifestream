@@ -696,6 +696,10 @@ class LifeStream_Feed
             {
                 $data['thumbnail'] = $thumbnail;
             }
+            if ($image = $enclosure->get_medium())
+            {
+                $data['image'] = $image;
+            }
             $data['key'] = 'photo';
         }
         return $data;
@@ -957,9 +961,8 @@ function lifestream_sidebar_widget($_=array())
     
     $defaults = array(
         'number_of_results' => 10,
-        'event_total_max'   => 1,
         'hide_labels'       => false,
-        'break_groups'      => false,
+        'break_groups'      => true,
     );
     
     $_ = array_merge($defaults, $_);
@@ -1456,6 +1459,8 @@ function lifestream_header()
 }
 
 include(dirname(__FILE__) . '/feeds.inc.php');
+
+@include(dirname(__FILE__). '/local_feeds.inc.php');
 
 /**
  * Attempts to update all feeds

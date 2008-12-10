@@ -1,3 +1,10 @@
+0.85
+
+* YouTubeFeed now handles favorites (thanks futtta).
+* Default options for `lifestream_sidebar_widget()` have been changed.
+* Support for a `local_feeds.inc.php` file has been added.
+* Added Spanish localization from Guillermo López.
+
 0.84c
 
 * Added Xbox Live feed.

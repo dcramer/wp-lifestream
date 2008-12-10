@@ -148,6 +148,8 @@ The plugin includes most of the major social networking feeds available. You may
 * Mixx
 * SlideShare
 * Blip.tv
+* Steam (Work in progress)
+* Xbox Live
 
 == Localization ==
 
@@ -162,6 +164,7 @@ Currently the plugin is localized in the default language of English, as well as
 * French
 * German
 * Danish
+* Spanish
 
 == Credits ==
 
