@@ -22,11 +22,11 @@ table.lifestream td { vertical-align: top; padding: 3px 0; }
 /* list specific css */
 #sidebar ul.lifestream, ul.lifestream { list-style-type: none; margin: 0 0; padding: 0 5px; }
 #sidebar ul.lifestream li, ul.lifestream li { padding: 0 0 0 24px !important; margin: 2px 0; background-repeat: no-repeat; background-position: 0 0; }
+#sidebar ul.lifestream li a, ul.lifestream li a { display: inline; }
 /* fix for default wp theme */
 .lifestream li:before { content: none !important; }
 ul.lifestream .lifestream_hour { color: #aaa; font-size: smaller; }
 ul.lifestream .lifestream_text { padding-left: 0; }
-ul.lifestream a { display: inline; }
 ul.lifestream .lifestream_feedid_flickr .lifestream_hour { display: none; }
 
 .lifestream_text ul {
