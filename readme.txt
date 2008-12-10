@@ -75,7 +75,7 @@ foreach ($events as $event)
 
 Another popular example, would to be show your current Twitter, or Facebook status somewhere in your templates:
 
-`$events = lifestream_get_events(array('feed_types'=>array('twitter'), 'number_of_results'=>array(1), 'break_groups'=>true);
+`$events = lifestream_get_events(array('feed_types'=>array('twitter'), 'number_of_results'=>1, 'break_groups'=>true);
 $event = $events[0];
 
 // to render it with links
