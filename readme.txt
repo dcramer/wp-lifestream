@@ -42,9 +42,7 @@ Another method requires a [custom WordPress page](http://codex.wordpress.org/Pag
 
 `<?php lifestream(); ?>`
 
-* Note: arguments passed must be as an array with key/value pairs.
-
-You may also specify several parameters in the `lifestream` method (useful for sidebar display):
+You may also specify several parameters in the `lifestream` method (useful for sidebar display). These should be in the standard key=>value format for PHP calls.
 
 * `(int) offset`: defaults to 0
 * `(int) number_of_items`: defaults to '50'
