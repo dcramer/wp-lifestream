@@ -617,10 +617,6 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
     const ID            = 'youtube';
     const NAME          = 'YouTube';
     const URL           = 'http://www.youtube.com/';
-    const LABEL_SINGLE  = 'Posted a video on <a href="%s">%s</a>.';
-    const LABEL_PLURAL  = 'Posted %d videos on <a href="%s">%s</a>.';
-    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a video on <a href="%s">%s</a>.';
-    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d videos on <a href="%s">%s</a>.';
     const DESCRIPTION   = '';
     
     function __toString()
@@ -632,6 +628,7 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
     {
         return array(
             'username' => array('Username:', true, '', ''),
+            'show_favorites' => array('Include favorites in this feed.', false, true, false),
         );
     }
     
@@ -640,14 +637,76 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
         return 'http://www.youtube.com/user/'.$this->options['username'];
     }
     
-    function get_url()
+    function get_label_single($key)
     {
-        return 'http://www.youtube.com/rss/user/'.$this->options['username'].'/videos.rss';
+        if ($key == 'favorite')
+        {
+            $label = 'Favorited a video on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = 'Posted a video on <a href="%s">%s</a>.';
+        }
+        return $label;
     }
-    
+
+    function get_label_plural($key)
+    {
+        if ($key == 'favorite')
+        {
+            $label = 'Favorited %d videos on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = 'Posted %d videos on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_single_user($key)
+    {
+        if ($key == 'favorite')
+        {
+            $label = '<a href="%s">%s</a> favorited a video on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = '<a href="%s">%s</a> posted a video on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key) {
+        if ($key == 'favorite')
+        {
+            $label = '<a href="%s">%s</a> favorited %d videos on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = '<a href="%s">%s</a> posted %d videos on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_posted_url() {
+        return 'http://www.youtube.com/rss/user/'.$this->options['username'].'/videos.rss';
+        }
+
+    function get_favorited_url() {
+        return 'http://gdata.youtube.com/feeds/api/users/'.$this->options['username'].'/favorites?v=2';
+        }
+
+    function get_url() {
+        $urls = array();
+        $urls[] = array($this->get_posted_url(), 'video');
+        if ($this->options['show_favorites']) $urls[] = array($this->get_favorited_url(), 'favorite');
+        return $urls;
+    }
+
     function yield($item)
     {
         $enclosure = $item->get_enclosure();
+        
         return array(
             'date'      =>  $item->get_date('U'),
             'link'      =>  html_entity_decode($item->get_link()),
