@@ -705,15 +705,17 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
 
     function yield($item)
     {
-        $enclosure = $item->get_enclosure();
-        
-        return array(
+        $data = array(
             'date'      =>  $item->get_date('U'),
             'link'      =>  html_entity_decode($item->get_link()),
             'title'     =>  html_entity_decode($item->get_title()),
-            'thumbnail' =>  $enclosure->get_thumbnail(),
-            'image'     =>  $enclosure->get_medium(),
         );
+        if ($enclosure = $item->get_enclosure())
+        {
+            $data['thumbnail'] =  $enclosure->get_thumbnail();
+            $data['image']     =  $enclosure->get_medium();
+        }
+        return $data;
     }
 }
 register_lifestream_feed('LifeStream_YouTubeFeed');
