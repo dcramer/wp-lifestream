@@ -1,3 +1,8 @@
+0.85c
+
+* Fixed an issue with YouTubeFeed.
+* Deleting a feed now deletes related errors.
+
 0.85
 
 * YouTubeFeed now handles favorites (thanks futtta).
