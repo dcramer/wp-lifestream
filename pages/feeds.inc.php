@@ -83,4 +83,4 @@ if (count($results))
     }
     ?>
 </ul>
-<br/>
+<br/><br />
