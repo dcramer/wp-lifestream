@@ -7,7 +7,7 @@ $authors = get_users_of_blog();
 <form action="?page=lifestream.php&amp;op=add&amp;feed=<?php echo urlencode($identifier); ?>" method="post" id="feed_options_<?php echo htmlspecialchars($identifier); ?>">
     <h3><?php printf(__('%s Feed Settings', 'lifestream'), $feed->get_constant('NAME')) ;?></h3>
     <?php if ($description = $feed->get_constant('DESCRIPTION')) { ?>
-    <p><?php echo $description; ?></p>
+    <p><?php echo nl2br($description); ?></p>
     <?php } ?>
     <input type="hidden" name="feed_type" value="<?php echo htmlspecialchars($identifier); ?>"/>
     <table class="form-table">
@@ -17,6 +17,7 @@ $authors = get_users_of_blog();
         </colgroup>
         <tbody>
         <?php foreach ($options as $option=>$option_meta) { ?>
+            <?php if ($option_meta[1] === null) continue; ?>
             <?php $current_value = (isset($_POST[$option]) ? stripslashes($_POST[$option]) : $option_meta[2]); ?>
             <tr>
                 <?php if (is_array($option_meta[3])) { ?>

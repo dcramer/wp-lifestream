@@ -1,3 +1,12 @@
+0.86
+
+* Changed upgrade process to silently ignore alter complications.
+* Updated homepage (we've moved the WP project completely to iBegin).
+* Added iTunes plugin.
+* $key is now passed to the yield() function.
+* Fixed an issue where the key was being overwritten on generic feeds.
+* You can now specify an option requirement as `null` to have it hidden.
+
 0.85c
 
 * Fixed an issue with YouTubeFeed.

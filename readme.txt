@@ -54,7 +54,7 @@ You may also specify several parameters in the `lifestream` method (useful for s
 
 For example:
 
-`[lifestream number_of_items="10" output="list"]`
+`[lifestream number_of_items="10"]`
 
 For more advanced uses, you may directly use `lifestream_get_events()` which will return an array of `Event` instances. This is the same syntax as the `lifestream()` method.
 
@@ -146,8 +146,9 @@ The plugin includes most of the major social networking feeds available. You may
 * Mixx
 * SlideShare
 * Blip.tv
-* Steam (Work in progress)
+* Steam
 * Xbox Live
+* iTunes
 
 == Localization ==
 
@@ -165,6 +166,8 @@ Currently the plugin is localized in the default language of English, as well as
 * Spanish
 
 == Credits ==
+
+An [iBegin Labs](http://www.ibegin.com/labs/) project.
 
 Created and mainted by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net)).
 

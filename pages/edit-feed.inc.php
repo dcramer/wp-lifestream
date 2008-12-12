@@ -8,7 +8,7 @@ $authors = get_users_of_blog();
     <form action="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $instance->id; ?>" method="post">
         <h3><?php printf(__('%s Feed Settings', 'lifestream'), $instance->get_constant('NAME')); ?></h3>
         <?php if ($description = $instance->get_constant('DESCRIPTION')) { ?>
-        <p><?php echo $description; ?></p>
+        <p><?php echo nl2br($description); ?></p>
         <?php } ?>
         <table class="form-table">
             <colgroup>
@@ -17,6 +17,7 @@ $authors = get_users_of_blog();
             </colgroup>
             <tbody>
             <?php foreach ($options as $option=>$option_meta) { ?>
+                <?php if ($option_meta[1] === null) continue; ?>
                 <?php $current_value = (isset($_POST[$option]) ? stripslashes($_POST[$option]) : $instance->options[$option]); ?>
                 <tr>
                     <?php if (is_array($option_meta[3])) { ?>
