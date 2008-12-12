@@ -2342,4 +2342,119 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_XboxLiveFeed');
 
+
+class LifeStream_iTunesFeed extends LifeStream_Feed
+{
+    const ID            = 'itunes';
+    const NAME          = 'iTunes';
+    const URL           = '';
+    const DESCRIPTION   = 'To obtain your iTunes feed URL you must first go to your account in the iTunes Store. Once there, follow the "Enable My iTunes" link at the bottom. Follow the instructions to enable any feeds you wish to use (it\'s easiest just to enable them all).
+
+Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On this page, click "Copy Feed URL", and you should now have the URL for your feed. Lifestream just needs one feed url, it doesn\'t matter which, to process any of the feeds.
+
+<strong>Note:</strong> If HTML code link opened in Firefox, you may need to re-open it in Internet Explorer for the "Copy Feed URL" to work correctly.';
+    
+    function __toString()
+    {
+        return $this->options['user_id'];
+    }
+    
+    function get_options()
+    {        
+        return array(
+            'url' => array('Feed URL:', true, '', ''),
+            'user_id' => array('User ID:', null, '', ''),
+            'show_purchases' => array('Show Purchases', false, true, true),
+            'show_reviews' => array('Show Reviews', false, true, true),
+        );
+    }
+    
+    function save()
+    {
+        # We need to get their user id from the URL
+        
+        if (preg_match('/\/userid=([0-9]+)\//i', $this->options['url'], $match))
+        {
+            $this->options['user_id'] = $match[1];
+        }
+        
+        parent::save();
+    }
+
+    function get_url()
+    {
+        $urls = array();
+        if ($user_id = $this->options['user_id'])
+        {
+            if ($this->options['show_purchases'])
+            {
+                $urls[] = array('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/myrecentpurchases/sf=143441/userid='.$user_id.'/xml?v0=9987', 'purchase');
+            }
+            if ($this->options['show_purchases'])
+            {
+                $urls[] = array('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/myrecentreviews/sf=143441/toprated=true/userid='.$user_id.'/xml?v0=9987', 'review');
+            }
+        }
+        return $urls;
+    }
+    
+    # http://phobos.apple.com/rss
+    # <im:contentType term="Music" label="Music"><im:contentType term="Track" label="Track"/></im:contentType>
+    # <im:image height="170">http://a1.phobos.apple.com/us/r1000/022/Music/c4/ae/6e/mzi.qpurndic.170x170-75.jpg</im:image>
+    
+    function get_label_single($key)
+    {
+        if ($key == 'review')
+        {
+            $label = 'Reviewed an item on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'purchase')
+        {
+            $label = 'Purchased an a item on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural($key)
+    {
+        if ($key == 'review')
+        {
+            $label = 'Reviewed %s items on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'purchase')
+        {
+            $label = 'Purchased %s items on <a href="%s">%s</a>.';
+        }
+
+        return $label;
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'review')
+        {
+            $label = '<a href="%s">%s</a> reviewed an item on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'purchase')
+        {
+            $label = '<a href="%s">%s</a> purchased an item on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key)
+    {
+        if ($key == 'review')
+        {
+            $label = '<a href="%s">%s</a> reviewed %s items on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'purchase')
+        {
+            $label = '<a href="%s">%s</a> purchased %s items on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+}
+register_lifestream_feed('LifeStream_iTunesFeed');
+
 ?>

@@ -132,7 +132,7 @@ function lifestream_activate()
 
 function lifestream_credits()
 {
-    return 'Powered by <a href="http://www.davidcramer.net/my-projects/lifestream">LifeStream</a> from <a href="http://www.ibegin.com/">iBegin</a>.';
+    return 'Powered by <a href="http://www.ibegin.com/labs/wp-lifestream/">LifeStream</a> from <a href="http://www.ibegin.com/">iBegin</a>.';
 }
 
 $lifestream__options = array(
@@ -667,7 +667,7 @@ class LifeStream_Feed
             $feed->handle_content_type();
             foreach ($feed->get_items() as $row)
             {
-                $row =& $this->yield($row, $url);
+                $row =& $this->yield($row, $url, $key);
                 if (!$row) continue;
                 if (!$row['key']) $row['key'] = $key;
                 if (!($row['date'] > 0)) $row['date'] = time();
@@ -677,7 +677,7 @@ class LifeStream_Feed
         return $items;
     }
 
-    function yield($item)
+    function yield($item, $url, $key)
     {
         // date and link are required
         // the rest of the data will be serialized into a `data` field
@@ -689,7 +689,7 @@ class LifeStream_Feed
             'date'      =>  $item->get_date('U'),
             'link'      =>  html_entity_decode($item->get_link()),
             'title'     =>  html_entity_decode($title),
-            'key'       =>  '',
+            'key'       =>  $key,
         );
         
         if ($enclosure = $item->get_enclosure())
@@ -702,7 +702,7 @@ class LifeStream_Feed
             {
                 $data['image'] = $image;
             }
-            $data['key'] = 'photo';
+            if (!$data['key']) $data['key'] = 'photo';
         }
         return $data;
     }
