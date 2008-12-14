@@ -288,7 +288,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
             $items = array();
             foreach ($feed as $track)
             {
-                $items[] = $this->yield($track);
+                $items[] = $this->yield($track, $url);
             }
             return $items;
         }
@@ -1045,10 +1045,10 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
         return $urls;
     }
     
-    function yield($row)
+    function yield($row, $url, $key)
     {
         if (str_endswith($row->get_title(), 'QuickMix')) return false;
-        return parent::yield($row);
+        return parent::yield($row, $url, $key);
     }
 }
 register_lifestream_feed('LifeStream_PandoraFeed');
