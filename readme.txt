@@ -10,7 +10,7 @@ Lifestream displays your social feeds and photos much like you would see it on m
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
-For more information please visit the homepage: http://www.davidcramer.net/my-projects/lifestream
+For more information please visit the homepage: http://www.ibegin.com/labs/wp-lifestream/
 
 Update Notes:
 
