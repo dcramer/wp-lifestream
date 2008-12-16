@@ -2457,4 +2457,39 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 }
 register_lifestream_feed('LifeStream_iTunesFeed');
 
+class LifeStream_GitHubFeed extends LifeStream_Feed
+{
+    const ID            = 'github';
+    const NAME          = 'GitHub';
+    const URL           = 'http://www.github.com/';
+    const LABEL_SINGLE  = 'Committed code on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Made %d commits on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> committed code on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> made %d commits on <a href="%s">%s</a>.';
+    const DESCRIPTION   = 'You can obtain your GitHub feed URL from the <a href="https://github.com/dashboard/yours">Your Dashboard</a> page. You will find the feed link in orange feed icon next to "News Feed".';
+
+    function parse_message($text)
+    {
+        preg_match('/<\/a>\s*<\/p>\s*<p>(.+)<\/p>/', $text, $match);
+        // It's necessary to convert to entities, since commit messages may contain HTML.
+        return htmlentities($match[1]);
+    }
+
+    function yield($row)
+    {
+        if (strpos($row->get_id(), "CommitEvent") === false) {
+            return null;
+        } else {
+            $description = html_entity_decode($row->get_description());
+            $message = $this->parse_message($description);
+            return array(
+                'date'  =>  $row->get_date('U'),
+                'link'  =>  html_entity_decode($row->get_link()),
+                'title' =>  $message,
+            );
+        }
+    }
+}
+register_lifestream_feed('LifeStream_GithubFeed');
+
 ?>

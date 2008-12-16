@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your social activity in a lifestream. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.87
+Version: 0.87b
 Author URI: http://www.davidcramer.net
 */
 
