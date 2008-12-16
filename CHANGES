@@ -1,3 +1,8 @@
+0.87
+
+* Added Lifestream RSS feed (available via /feed/lifestream/ or /feed/?feed=lifestream).
+* Fixed an issue with the path to the daily digest template on some hosts.
+
 0.86
 
 * Changed upgrade process to silently ignore alter complications.
