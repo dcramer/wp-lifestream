@@ -1534,7 +1534,7 @@ function lifestream_do_digest()
         if (count($events))
         {
             ob_start();
-            include('pages/daily-digest.inc.php');
+            include(dirname(__FILE__) . 'pages/daily-digest.inc.php');
             $content = sprintf(get_option('lifestream_digest_body'), ob_get_clean(), date(get_option('lifestream_day_format'), $digest_day), count($events));
 
             $data = array(
