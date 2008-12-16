@@ -812,6 +812,7 @@ class LifeStream_Feed
         return $text;
     }
 }
+
 /**
  * You need to pass a thumbnail item in yield() for PhotoFeed item's
  */
@@ -1600,6 +1601,7 @@ function lifestream_init()
         wp_enqueue_script('jquery');
         wp_enqueue_script('admin-forms');
     }
+    add_feed('lifestream', 'lifestream_rss_feed');
 }
 
 function lifestream_get_single_event($feed_type)
