@@ -39,7 +39,6 @@ html > body .lifestream_text li,
 .lifestream_text li {
     margin: 1px 0;
     padding: 2px;
-    border-bottom: 1px solid #eee;
 }
 .lifestream_text .photo img { border: 1px solid #aaa; padding: 2px; margin: 0 0 3px 0; }
 .lifestream_text .photo:hover img { border: 1px solid #006699; }
