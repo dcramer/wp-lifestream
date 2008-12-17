@@ -1,6 +1,6 @@
 0.87
 
-* Added Lifestream RSS feed (available via /feed/lifestream/ or /feed/?feed=lifestream).
+* Added Lifestream RSS feed (available via /feed/lifestream-feed/ or /feed/?feed=lifestream-feed).
 * Fixed an issue with the path to the daily digest template on some hosts.
 * Added Github plugin thanks to Chromakode.
 
