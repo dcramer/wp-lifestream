@@ -1,3 +1,9 @@
+0.90a
+
+* Change log will now pull directly from SVN.
+* Updated icon for Last.fm.
+* Deleting a feed will now use the lifestream_safe_query function, and raise an exception if there is an SQL error.
+
 0.90
 
 * Added icon_url global option for feeds.
