@@ -1,3 +1,8 @@
+0.90b
+
+* Updated localized strings.
+* Added current version info to change log.
+
 0.90a
 
 * Change log will now pull directly from SVN.

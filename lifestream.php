@@ -11,6 +11,7 @@ Author URI: http://www.davidcramer.net
 // since so many people miss the installation requirements
 if (phpversion() >= 5)
 {
+    define(LIFESTREAM_BUILD_VERSION, '0.90a');
     define(LIFESTREAM_VERSION, 0.90);
     define(LIFESTREAM_PLUGIN_FILE, __FILE__);
 
