@@ -45,6 +45,23 @@ $authors = get_users_of_blog();
                 <?php } ?>
             </tr>
         <?php } ?>
+        
+        <tr>
+            <th><label>Feed Label:</label><br /><small>(<?php _e('Optional'); ?>)</small></th>
+            <td>
+                <?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : ''); ?>
+                <input type="text" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
+                <div class="helptext"><?php _e('A label to use for this feed instead of the default.', 'lifestream'); ?></div>
+            </td>
+        </tr>
+        <tr>
+            <th><label>Icon URL:</label><br /><small>(<?php _e('Optional'); ?>)</small></th>
+            <td>
+                <?php $current_value = (isset($_POST['icon_url']) ? stripslashes($_POST['icon_url']) : ''); ?>
+                <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/>
+                <div class="helptext"><?php _e('An icon to use for this feed instead of the default.', 'lifestream'); ?></div>
+            </td>
+        </tr>
         <tr>
             <th>&nbsp;</th>
             <td>
@@ -52,7 +69,6 @@ $authors = get_users_of_blog();
                 <div class="helptext">e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', $feed->get_public_name()); ?></div>
             </td>
         </tr>
-        
         <?php if ($feed->get_constant('CAN_GROUP')) { ?>
             <tr>
                 <th>&nbsp;</th>
@@ -61,7 +77,6 @@ $authors = get_users_of_blog();
                 </td>
             </tr>
         <?php } ?>
-        
         <tr>
             <th><label for="id_owner"><?php _e('Owner:', 'lifestream'); ?></label></th>
             <td>

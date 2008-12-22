@@ -1,3 +1,9 @@
+0.90
+
+* Added icon_url global option for feeds.
+* Added feed_label global option for feeds.
+* RSS/Atom feeds will now use the the title + link as the key. Please note, that this only affects newly created feeds.
+
 0.87
 
 * Added Lifestream RSS feed (available via /feed/lifestream-feed/ or /feed/?feed=lifestream-feed).
