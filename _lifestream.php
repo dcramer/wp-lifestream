@@ -538,10 +538,10 @@ class LifeStream_Feed
     {
         global $wpdb;
 
-        $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d", $this->id));
-        $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d", $this->id));
-        $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d", $this->id));
-        $wpdb->query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_error_log` WHERE `feed_id` = %d", $this->id));
+        $wpdb->lifestream_safe_query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d", $this->id));
+        $wpdb->lifestream_safe_query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d", $this->id));
+        $wpdb->lifestream_safe_query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d", $this->id));
+        $wpdb->lifestream_safe_query(sprintf("DELETE FROM `".$wpdb->prefix."lifestream_error_log` WHERE `feed_id` = %d", $this->id));
         $this->id = null;
     }
     
