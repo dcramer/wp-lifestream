@@ -252,6 +252,7 @@ function lifestream_install_database($version)
       `timestamp` int(11) NOT NULL,
       `owner` varchar(128) NOT NULL,
       `owner_id` int(11) NOT NULL,
+      `version` int(11) default 0 NOT NULL,
       INDEX `owner_id` (`owner_id`),
       PRIMARY KEY  (`id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
@@ -304,6 +305,10 @@ function lifestream_install_database($version)
         $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD INDEX ( `feed` )");
         $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD INDEX ( `feed` )");
     }
+    if ($version < 0.90)
+    {
+        $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `version` int(11) default 0 NOT NULL AFTER `owner_id`");
+    }
 }
 
 class LifeStream_Event
@@ -323,7 +328,6 @@ class LifeStream_Event
          $this->total = 1;
          $this->is_grouped = false;
          $this->key = $row->key;
-         $this->version = $row->version;
          $this->owner = $row->owner;
          $this->owner_id = $row->owner_id;
          $this->visible = $row->visible;
@@ -389,7 +393,7 @@ class LifeStream_Feed
     // params: author url, author name, number of items, feed url, feed name
     const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d items on <a href="%s">%s</a>.';
     // The version is so you can manage data in the database for old versions.
-    const VERSION       = 0;
+    const VERSION       = 1;
     const MEDIA         = 'automatic';
     
     /**
@@ -422,6 +426,7 @@ class LifeStream_Feed
             $this->owner = $row->owner;
             $this->owner_id = $row->owner_id;
             $this->_owner_id = $row->owner_id;
+            $this->version = $row->version;
         }
     }
     
@@ -439,6 +444,17 @@ class LifeStream_Feed
     {
         return $this->__toString();
     }
+    
+    function get_icon_url()
+    {
+        global $lifestream_path;
+        
+        if (!empty($this->options['icon_url']))
+        {
+            return $this->options['icon_url'];
+        }
+        return $lifestream_path . '/images/' . $this->get_constant('ID') . '.png';
+    }
 
     function get_public_url()
     {
@@ -447,6 +463,10 @@ class LifeStream_Feed
 
     function get_public_name()
     {
+        if (!empty($this->options['feed_label']))
+        {
+            return $this->options['feed_label'];
+        }
         return $this->get_constant('NAME');
     }
     
@@ -508,7 +528,7 @@ class LifeStream_Feed
         }
         else
         {
-            $result = $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_feeds` (`feed`, `options`, `timestamp`, `owner`, `owner_id`) VALUES ('%s', '%s', %d, '%s', %d)", $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($this->options)), time(), $wpdb->escape($this->owner), $this->owner_id));
+            $result = $wpdb->query(sprintf("INSERT INTO `".$wpdb->prefix."lifestream_feeds` (`feed`, `options`, `timestamp`, `owner`, `owner_id`, `version`) VALUES ('%s', '%s', %d, '%s', %d, %d)", $wpdb->escape($this->get_constant('ID')), $wpdb->escape(serialize($this->options)), time(), $wpdb->escape($this->owner), $this->owner_id, $this->get_constant('VERSION')));
             $this->id = $wpdb->insert_id;
         }
         return $result;
@@ -555,7 +575,16 @@ class LifeStream_Feed
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
             
-            $affected = $wpdb->query(sprintf("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `feed`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $this->get_constant('ID'), $wpdb->escape($link), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
+            if ($this->version == 1)
+            {
+                $link_key = md5($item['link'] . $item['title']);
+            }
+            else
+            {
+                $link_key = $item['link'];
+            }
+            
+            $affected = $wpdb->query(sprintf("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `feed`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, '%s', '%s', '%s', %d, %d, '%s', '%s', %d)", $this->id, $this->get_constant('ID'), $wpdb->escape($link_key), $wpdb->escape(serialize($item)), $date, $this->get_constant('VERSION'), $wpdb->escape($key), $wpdb->escape($this->owner), $this->owner_id));
             if ($affected)
             {
                 $item['id'] = $wpdb->insert_id;
@@ -841,13 +870,7 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
     {        
         return array(
             'url' => array('Feed URL:', true, '', ''),
-            'name' => array('Feed Name:', false, '', ''),
         );
-    }
-
-    function get_public_name()
-    {
-        return $this->options['name'];
     }
 
     function get_public_url()
@@ -1243,6 +1266,8 @@ function lifestream_options()
                             {
                                 $values['grouped'] = $_POST['grouped'];
                             }
+                            $values['feed_label'] = $_POST['feed_label'];
+                            $values['icon_url'] = $_POST['icon_url'];
                             if ($_POST['owner'] != $instance->owner_id && current_user_can('manage_options'))
                             {
                                 $instance->owner_id = $_POST['owner'];
@@ -1282,6 +1307,8 @@ function lifestream_options()
                         {
                             $values['grouped'] = $_POST['grouped'];
                         }
+                        $values['feed_label'] = $_POST['feed_label'];
+                        $values['icon_url'] = $_POST['icon_url'];
                         if (current_user_can('manage_options'))
                         {
                             $feed->owner_id = $_POST['owner'];

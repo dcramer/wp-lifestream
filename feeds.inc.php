@@ -1507,7 +1507,7 @@ register_lifestream_feed('LifeStream_TumblrFeed');
 class LifeStream_AmazonFeed extends LifeStream_PhotoFeed
 {
     const ID            = 'amazon';
-    const NAME          = 'Amazon Wishlist';
+    const NAME          = 'Amazon';
     const URL           = 'http://www.amazon.com/';
     const LABEL_SINGLE  = 'Added an item to their wishlist on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Added %d items to their wishlist on <a href="%s">%s</a>.';
@@ -1515,11 +1515,6 @@ class LifeStream_AmazonFeed extends LifeStream_PhotoFeed
     const LABEL_PLURAL_USER = '<a href="%s">%s</a> added %d items to their wishlist on <a href="%s">%s</a>.';
 
     private $image_match_regexp = '/src="(http\:\/\/ecx\.images-amazon\.com\/[^"]+\.jpg)"/i';
-    
-    function get_public_name()
-    {
-        return 'Amazon';
-    }
     
     function yield($item)
     {
