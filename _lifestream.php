@@ -428,6 +428,10 @@ class LifeStream_Feed
             $this->_owner_id = $row->owner_id;
             $this->version = $row->version;
         }
+        else
+        {
+            $this->version = $this->get_constant('VERSION');
+        }
     }
     
     function __toInt()
@@ -575,7 +579,12 @@ class LifeStream_Feed
             $date = array_key_pop($item, 'date');
             $key = array_key_pop($item, 'key');
             
-            if ($this->version == 1)
+            if ($this->version == 2)
+            {
+                if ($item['guid']) $link_key = md5(array_key_pop($item, 'guid'));
+                $link_key = md5($item['link'] . $item['title']);
+            }
+            elseif ($this->version == 1)
             {
                 $link_key = md5($item['link'] . $item['title']);
             }
@@ -706,22 +715,23 @@ class LifeStream_Feed
         return $items;
     }
 
-    function yield($item, $url, $key)
+    function yield($row, $url, $key)
     {
         // date and link are required
         // the rest of the data will be serialized into a `data` field
         // and is pulled out and used on the render($row) method
 
-        $title = $item->get_title();
+        $title = $row->get_title();
         if (!$title) return false;
         $data = array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($title),
             'key'       =>  $key,
+            'guid'      =>  $row->get_id(),
         );
         
-        if ($enclosure = $item->get_enclosure())
+        if ($enclosure = $row->get_enclosure())
         {
             if ($thumbnail = $enclosure->get_thumbnail())
             {

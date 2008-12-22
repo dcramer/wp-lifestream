@@ -1,3 +1,8 @@
+0.91
+
+* Any newly added feeds will now attempt to use the GUID as a key.
+* Fixed an issue that was causing duplicate events when you added a new feed.
+
 0.90b
 
 * Updated localized strings.
