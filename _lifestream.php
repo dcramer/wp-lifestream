@@ -741,6 +741,10 @@ class LifeStream_Feed
             {
                 $data['image'] = $image;
             }
+            elseif ($image = $enclosure->get_link())
+            {
+                $data['image'] = $image;
+            }
             if (!$data['key']) $data['key'] = 'photo';
         }
         return $data;
@@ -748,17 +752,23 @@ class LifeStream_Feed
     
     function render_item($row, $item)
     {
-        // XXX: should we change this to use $event->key ?
-        if (!empty($item['thumbnail']) && $this->get_constant('MEDIA') == 'automatic')
+        // Array checks are for backwards compatbility
+        $thumbnail = is_array($item['thumbnail']) ? $item['thumbnail']['url'] : $item['thumbnail'];
+        
+        if (!empty($thumbnail) && $this->get_constant('MEDIA') == 'automatic')
         {
-            // if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
-            // else $ibox = '';
+            $image = is_array($item['image']) ? $item['image']['url'] : $item['image'];
+        
+            if (get_option('lifestream_use_ibox') == '1' && !empty($image))
+            {
+                // change it to be large size images
+                $ibox = ' rel="ibox&target=\''.htmlspecialchars($image).'\'"';
+            }
+            else $ibox = '';
             
-            $ibox = '';
-            
-            return sprintf('<a href="%s" '.$ibox.'class="photo" title="%s"><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
+            return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
         }
-        return sprintf('<a href="%s">%s</a>', $item['link'], $item['title']);
+        return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
         
     }
     
@@ -839,11 +849,8 @@ class LifeStream_Feed
     
     function parse_urls($text)
     {
-        if (get_option('lifestream_use_ibox') == '1') $ibox = ' rel="ibox"';
-        else $ibox = '';
-    
         # match http(s):// urls
-        $text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/\~_\.]*(\?\S+)?)?)?)@', '<a href="$1"'.$ibox.'>$1</a>', $text);
+        $text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/\~_\.]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $text);
         # match www urls
         $text = preg_replace('@((?<!http://)www\.([-\w\.]+)+(:\d+)?(/([\w/\~_\.]*(\?\S+)?)?)?)@', '<a href="http://$1">$1</a>', $text);
         # match email@address

@@ -64,12 +64,12 @@ $authors = get_users_of_blog();
                     <div class="helptext">e.g. <a href="#">admin</a> posted a new photo on <a href="http://www.flickr.com/">Flickr</a></div>
                 </td>
             </tr>
-            <!-- <tr>
-                <th>&nbsp;</th>
+            <tr>
+                <th><?php _e('Enable iBox:', 'lifestream'); ?></th>
                 <td><label for="id_use_ibox"><input type="checkbox" name="lifestream_use_ibox" id="id_use_ibox" value="1"<?php if (get_option('lifestream_use_ibox')) echo ' checked="checked"'; ?>/> <?php _e('Enable iBox on plugins that support it.', 'lifestream'); ?></label>
                     <div class="helptext">Requires the <a href="http://www.ibegin.com/labs/ibox/">iBox</a> plugin.</div>
                 </td>
-            </tr> -->
+            </tr>
             <tr>
                 <th><?php _e('Hide Grouped Details:', 'lifestream'); ?></th>
                 <td><label for="id_hide_details_default"><input type="checkbox" name="lifestream_hide_details_default" id="id_hide_details_default" value="1"<?php if (get_option('lifestream_hide_details_default')) echo ' checked="checked"'; ?>/> <?php _e('Hide details of grouped events by default.', 'lifestream'); ?></label>

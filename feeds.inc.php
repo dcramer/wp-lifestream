@@ -106,7 +106,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return $this->parse_search_term($this->parse_users($this->parse_urls($item['title'])));
+        return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title']))));
     }
     
     function yield($row)
@@ -150,7 +150,7 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
 
     function render_item($row, $item)
     {
-        return $this->parse_users($this->parse_urls($item['title']));
+        return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
     }
 
     
@@ -300,7 +300,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return sprintf('<a href="%s">%s - %s</a>', $item['link'], $item['artist'], $item['name']);
+        return sprintf('<a href="%s">%s - %s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['artist']), htmlspecialchars($item['name']));
     }
     
 }
@@ -361,40 +361,11 @@ class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
         return 'http://api.flickr.com/services/feeds/photos_public.gne?id='.$this->options['user_id'].'&format=rss_200';
     }
 
-    function yield($row)
+    function yield($row, $url, $key)
     {
-        $enclosure = $row->get_enclosure();
-        return array(
-            'guid'      =>  $row->get_id(),
-            'date'      =>  $row->get_date('U'),
-            'link'      =>  html_entity_decode($row->get_link()),
-            'title'     =>  html_entity_decode($row->get_title()),
-            'thumbnail' =>  $enclosure->get_thumbnail(),
-            'image'     =>  str_replace('_m', '', $enclosure->get_medium()),
-        );
-    }
-    
-    function render_item($row, $item)
-    {
-        // Maintain backwards compatibility.
-        $thumbnail = is_array($item['thumbnail']) ? $item['thumbnail']['url'] : $item['thumbnail'];
-        if (isset($item['image']))
-        {
-            $image = is_array($item['image']) ? str_replace('_m', '', $item['image']['url']) : $item['image'];
-        }
-        else
-        {
-            $image = null;
-        }
-        
-        if (get_option('lifestream_use_ibox') == '1' && $item['image'])
-        {
-            // change it to be large size images
-            $ibox = ' rel="ibox&target=\''.$image.'\'"';
-        }
-        else $ibox = '';
-        
-        return sprintf('<a href="%s" class="photo" title="%s"'.$lightbox.'><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $thumbnail);
+        $data = parent::yield($row, $url, $key);
+        $data['image'] = str_replace('_m', '', $data['image']);
+        return $data;
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
@@ -426,7 +397,7 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return $item['title'];
+        return htmlspecialchars($item['title']);
     }
     
     function yield($row)
@@ -504,15 +475,15 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
     {
         if ($event->key == 'event')
         {
-            return sprintf('<a href="%s">%s</a>', $item['link'], $item['description']);
+            return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['description']));
         }
         elseif ($event->key == 'link')
         {
-            return sprintf('<a href="%s">%s</a>', $item['relurl'], $item['description']);
+            return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['relurl']), htmlspecialchars($item['description']));
         }
         else
         {
-            return $this->parse_users($this->parse_urls($item['description']));
+            return $this->parse_users($this->parse_urls(htmlspecialchars($item['description'])));
         }
     }
     
@@ -726,6 +697,16 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
         }
         return $data;
     }
+    
+    function render_item($row, $item)
+    {
+        if (get_option('lifestream_use_ibox') == '1')
+        {
+            $ibox = ' rel="ibox"';
+        }
+        else $ibox = '';
+        return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
+    }
 }
 register_lifestream_feed('LifeStream_YouTubeFeed');
 
@@ -902,7 +883,7 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 
     function render_item($row, $item)
     {
-        return $this->parse_users($this->parse_urls($item['title']));
+        return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
     }
 
     function get_url()
@@ -1491,7 +1472,7 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
         }
         else
         {
-            return $this->parse_users($this->parse_urls($item['title']));
+            return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
         }
     }
     
@@ -1663,7 +1644,7 @@ class LifeStream_BlipFMFeed extends LifeStream_TwitterFeed
     
     function render_item($row, $item)
     {
-        return $this->parse_users($item['text']).' &#9835; <span class="song_link"><a href="'.$item['link'].'">'.$item['song'].'</a></span>';
+        return $this->parse_users($item['text']).' &#9835; <span class="song_link"><a href="'.htmlspecialchars($item['link']).'">'.htmlspecialchars($item['song']).'</a></span>';
     }
     
     function yield($row)
@@ -1728,10 +1709,10 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
         {
             return LifeStream_PhotoFeed::render_item($event, $item);
         }
-        elseif ($event->key == 'checkin') return '<a href="'.$item['placelink'].'">'.$item['placename'].'</a>';
+        elseif ($event->key == 'checkin') return '<a href="'.htmlspecialchars($item['placelink']).'">'.htmlspecialchars($item['placename']).'</a>';
         else
         {
-            return $this->parse_urls($item['text']);
+            return $this->parse_urls(htmlspecialchars($item['text']));
         }
     }
     
@@ -1986,7 +1967,7 @@ class LifeStream_FoodFeedFeed extends LifeStream_Feed
 
     function render_item($row, $item)
     {
-        return $item['title'];
+        return htmlspecialchars($item['title']);
     }
     
     function yield($row)
@@ -2347,7 +2328,7 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return sprintf('<a href="%s">%s</a>', $item['link'], $item['name']);
+        return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['name']));
     }
 }
 register_lifestream_feed('LifeStream_XboxLiveFeed');
