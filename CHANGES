@@ -1,3 +1,7 @@
+0.91b
+
+* Fixes an issue with links on version 2 feeds (using GUID).
+
 0.91
 
 * Any newly added feeds will now attempt to use the GUID as a key.

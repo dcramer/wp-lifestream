@@ -626,7 +626,7 @@ class LifeStream_Feed
                         foreach ($results as &$result)
                         {
                             $result->data = unserialize($result->data);
-                            $result->data['link'] = $result->link;
+                            if (!$result->data['link']) $result->data['link'] = $result->link;
                             $events[] = $result->data;
                         }
 
