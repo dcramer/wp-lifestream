@@ -345,7 +345,7 @@ class LifeStream_Event
          return $this->date + LIFESTREAM_DATE_OFFSET*60*60;
      }
      
-     function render($options)
+     function render($options=array())
      {
         /**
          * Returns an HTML-ready string.
