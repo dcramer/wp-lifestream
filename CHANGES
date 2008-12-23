@@ -1,3 +1,9 @@
+0.92
+
+* Enabled iBox support in the plugin.
+* Refactored some image handling out of the Flickr class and into base class.
+* Fixed a bug with SimplePie not retrieving the full image from Flickr.
+
 0.91b
 
 * Fixes an issue with links on version 2 feeds (using GUID).
