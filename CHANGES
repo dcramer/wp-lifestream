@@ -1,3 +1,7 @@
+0.92b
+
+* Some XHTML/XSS cleanup.
+
 0.92a
 
 * Fixed an issue with the iTunes feed not showing reviews.
