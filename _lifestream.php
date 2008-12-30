@@ -352,6 +352,22 @@ class LifeStream_Event
          */
         return $this->feed->render($this, $options);
      }
+     
+     function get_url()
+     {
+         if (count($this->data) > 1)
+         {
+             // return the public url if it's grouped
+             $url = $this->feed->get_public_url();
+             if ($url) return $url;
+         }
+         else
+         {
+             $url = $this->data[0]['link'];
+             if ($url) return $url;
+         }
+         return '#';
+     }
 }
 
 class LifeStream_EventGroup extends LifeStream_Event

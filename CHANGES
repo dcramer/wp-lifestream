@@ -1,3 +1,8 @@
+0.92c
+
+* Added lifestream_feed_<extension> class name to event wrappers.
+* Added a link around the image in the default [lifestream] display. If it's a group it links to `Feed::get_public_url()`, and if it's not it links to the `link` property in the data.
+
 0.92b
 
 * Some XHTML/XSS cleanup.
