@@ -1047,6 +1047,48 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_PandoraFeed');
 
+// class LifeStream_HuluFeed extends LifeStream_PhotoFeed
+// {
+//     const ID            = 'hulu';
+//     const NAME          = 'Hulu';
+//     const URL           = 'http://www.hulu.com/';
+//     const LABEL_SINGLE  = 'Watched a video on <a href="%s">%s</a>.';
+//     const LABEL_PLURAL  = 'Watched %d videos on <a href="%s">%s</a>.';
+//     const LABEL_SINGLE_USER = '<a href="%s">%s</a> watched a video on <a href="%s">%s</a>.';
+//     const LABEL_PLURAL_USER = '<a href="%s">%s</a> watched %d videos on <a href="%s">%s</a>.';
+//     const DESCRIPTION   = 'You may first need to change your privacy settings on Hulu for the feed to be viewable.';
+//     
+//     private $link_match_regexp = '/href="(http\:\/\/www\.hulu\.com\/watch\/[^"]+)"/i';
+//     private $image_match_regexp = '/src="(http\:\/\/thumbnails\.hulu\.com\/[^"]+\.jpg)"/i';
+//     
+//     function get_options()
+//     {        
+//         return array(
+//             'username' => array('Username:', true, '', ''),
+//         );
+//     }
+// 
+//     function get_url()
+//     {
+//         // Support old-style url for feed
+//         if ($this->options['url']) return $this->options['url'];
+//         return 'http://www.hulu.com/feed/activity/'.$this->options['username'];
+//     }
+// 
+//     
+//     function yield($row, $url, $key)
+//     {
+//         $data = parent::yield($row, $url, $key);
+//         if (!$data['thumbnail'])
+//         {
+//             preg_match($this->link_match_regexp, $row->get_description(), $link_match);
+//             preg_match($this->image_match_regexp, $row->get_description(), $image_match);
+//             $data['thumbnail'] = $image_match[1];
+//             $data['link'] = $link_match[1];
+//         }
+//         return $data;
+//     }
+// }
 class LifeStream_HuluFeed extends LifeStream_Feed
 {
     const ID            = 'hulu';
@@ -2381,7 +2423,7 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
             {
                 $urls[] = array('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/myrecentpurchases/sf=143441/userid='.$user_id.'/xml?v0=9987', 'purchase');
             }
-            if ($this->options['show_purchases'])
+            if ($this->options['show_reviews'])
             {
                 $urls[] = array('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/myrecentreviews/sf=143441/toprated=true/userid='.$user_id.'/xml?v0=9987', 'review');
             }

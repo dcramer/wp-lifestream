@@ -1,3 +1,7 @@
+0.92a
+
+* Fixed an issue with the iTunes feed not showing reviews.
+
 0.92
 
 * Event->render() has been changed so $options is an optional argument.
