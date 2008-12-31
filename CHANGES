@@ -1,3 +1,8 @@
+0.93
+
+* Changed users to use the `display_name` column.
+* Fixed an issue with the GitHub feed and HTML entities.
+
 0.92c
 
 * Added lifestream_feed_<extension> class name to event wrappers.

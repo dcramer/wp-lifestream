@@ -87,12 +87,12 @@ $authors = get_users_of_blog();
                     {
                         $usero = new WP_User($author->user_id);
                         $author = $usero->data;
-                        echo '<option value="'.$author->ID.'"'.($userdata->ID == $author->ID ? ' selected="selected"' : '').'>'.$author->user_nicename.'</option>';
+                        echo '<option value="'.$author->ID.'"'.($userdata->ID == $author->ID ? ' selected="selected"' : '').'>'.$author->display_name.'</option>';
                     }
                     ?>
                 </select>
                 <?php } else { ?>
-                <?php echo $userdata->user_nicename; ?>
+                <?php echo $userdata->display_name; ?>
                 <?php } ?>
             </td>
         </tr>

@@ -122,7 +122,7 @@ $authors = get_users_of_blog();
                     $author = $usero->data;
                     // Only list users who are allowed to publish
                     if (!$usero->has_cap('publish_posts')) continue;
-                    echo '<option value="'.$author->ID.'"'.($author->ID == $current_author ? ' selected="selected"' : '').'>'.$author->user_nicename.'</option>';
+                    echo '<option value="'.$author->ID.'"'.($author->ID == $current_author ? ' selected="selected"' : '').'>'.$author->display_name.'</option>';
                 }
                 ?>
                 </select>
