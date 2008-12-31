@@ -291,9 +291,9 @@ function lifestream_install_database($version)
         $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `owner_id` , `link` );");
         $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` , `owner_id`);");
         $wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD INDEX `owner_id` (`owner_id`);");
-        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
-        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
-        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->user_nicename, $userdata->ID));
+        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `owner` = '%s', `owner_id` = %d", $userdata->display_name, $userdata->ID));
+        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event` SET `owner` = '%s', `owner_id` = %d", $userdata->display_name, $userdata->ID));
+        lifestream_safe_query(sprintf("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `owner` = '%s', `owner_id` = %d", $userdata->display_name, $userdata->ID));
     }
     if ($version < 0.81)
     {
@@ -1306,7 +1306,7 @@ function lifestream_options()
                                 $instance->owner_id = $_POST['owner'];
                                 $usero = new WP_User($author->user_id);
                                 $owner = $usero->data;
-                                $instance->owner = $owner->user_nicename;
+                                $instance->owner = $owner->display_name;
                             }
                             $values['show_label'] = $_POST['show_label'];
                             if (!count($errors))
@@ -1347,12 +1347,12 @@ function lifestream_options()
                             $feed->owner_id = $_POST['owner'];
                             $usero = new WP_User($feed->owner_id);
                             $owner = $usero->data;
-                            $feed->owner = $owner->user_nicename;
+                            $feed->owner = $owner->display_name;
                         }
                         else
                         {
                             $feed->owner_id = $userdata->ID;
-                            $feed->owner = $userdata->user_nicename;
+                            $feed->owner = $userdata->display_name;
                         }
                         $values['show_label'] = $_POST['show_label'];
                         $feed->options = $values;

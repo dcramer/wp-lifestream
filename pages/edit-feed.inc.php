@@ -87,7 +87,7 @@ $authors = get_users_of_blog();
                         {
                             $usero = new WP_User($author->user_id);
                             $author = $usero->data;
-                            echo '<option value="'.$author->ID.'"'.($instance->owner_id == $author->ID ? ' selected="selected"' : '').'>'.$author->user_nicename.'</option>';
+                            echo '<option value="'.$author->ID.'"'.($instance->owner_id == $author->ID ? ' selected="selected"' : '').'>'.$author->display_name.'</option>';
                         }
                         ?>
                     </select>

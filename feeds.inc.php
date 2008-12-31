@@ -2505,7 +2505,7 @@ class LifeStream_GitHubFeed extends LifeStream_Feed
     {
         preg_match('/<\/a>\s*<\/p>\s*<p>(.+)<\/p>/', $text, $match);
         // It's necessary to convert to entities, since commit messages may contain HTML.
-        return htmlentities($match[1]);
+        return $match[1];
     }
 
     function yield($row)
