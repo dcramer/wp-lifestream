@@ -1,3 +1,7 @@
+0.93a
+
+* XHTML issues with unclosed link tag on feed images.
+
 0.93
 
 * Changed users to use the `display_name` column.
