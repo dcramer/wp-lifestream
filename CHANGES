@@ -1,3 +1,7 @@
+0.93b
+
+* If a feed failed to refresh properly it was halting all feed updates.
+
 0.93a
 
 * XHTML issues with unclosed link tag on feed images.

@@ -587,7 +587,15 @@ class LifeStream_Feed
 
         $inserted = array();
         $total = 0;
-        $items = $this->fetch($urls);
+        try
+        {
+            $items = $this->fetch($urls);
+        }
+        catch (LifeStream_Error $ex)
+        {
+            lifestream_log_error($ex, $this->id);
+            return false;
+        }
         if (!$items) return false;
         foreach ($items as $item_key=>$item)
         {
@@ -1239,8 +1247,14 @@ function lifestream_options()
                         else
                         {
                             $instance = LifeStream_Feed::construct_from_query_result($result[0]);
-                            $instance->refresh();
-                            $message = __('The selected feeds and their events have been refreshed.', 'lifestream');
+                            if ($instance->refresh() !== false)
+                            {
+                                $message = __('The selected feeds and their events have been refreshed.', 'lifestream');
+                            }
+                            else
+                            {
+                                $errors[] = __('There was an error refreshing the selected feed', 'lifestream');
+                            }
                         }
                     }
                 break;
@@ -1539,7 +1553,10 @@ function lifestream_update()
         $instance = LifeStream_Feed::construct_from_query_result($result);
         try
         {
-            $events += $instance->refresh();
+            if (($status = $instance->refresh()) !== false)
+            {
+                $events += $status;
+            }
         }
         catch (LifeStream_FeedFetchError $ex)
         {
