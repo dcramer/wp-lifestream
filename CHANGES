@@ -1,3 +1,19 @@
+0.94
+
+* Changed LifeStream update and daily digest to use wp-cron.
+* Changed activation hooks to use official methods.
+* Added an option to specify the URL handler. Automatic, Curl, and fopen are currently available.
+* Twitter based feeds will now show a [#] link after the message.
+* Added a "Hide Replies" option to Twitter based feeds.
+* Digest now uses your Day Format in the Post Title.
+* Added time to the Post Title option for digest.
+* Added interval for digest (hourly, daily, weekly).
+* Added post time for digest.
+* Added Scrnshots feed thanks to Logan Leger.
+* Added Readernaut feed thanks to Logan Leger.
+* The Xbox Live feed is now properly encoding your username if it had spaces.
+* The lifestream_feedid_<N> class name is now the ID of the feed, and not the feed type.
+
 0.93b
 
 * If a feed failed to refresh properly it was halting all feed updates.

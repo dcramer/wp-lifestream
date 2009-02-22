@@ -44,6 +44,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     {        
         return array(
             'username' => array('Username:', true, '', ''),
+            'hide_replies' => array('Hide Replies', false, true, false),
         );
     }
     
@@ -94,19 +95,19 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         if ($is_new)
         {
             // new feed -- attempt to import all statuses
-            $total = 200;
+            $feed_msg = array(true, '');
             $page = 0;
-            while ($total)
+            while ($feed_msg[1] !== false)
             {
                 $page += 1;
-                $total = $this->refresh($this->get_url($page, 200));
+                $feed_msg = $this->refresh($this->get_url($page, 200));
             }
         }
     }
     
     function render_item($row, $item)
     {
-        return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title']))));
+        return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title'])))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
     }
     
     function yield($row)
@@ -116,6 +117,10 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         if (str_startswith($title, $string))
         {
             $title = substr($title, strlen($string));
+        }
+        if ($this->options['hide_replies'] && str_startswith($title, '@'))
+        {
+            return false;
         }
         return array(
             'guid'      =>  $row->get_id(),
@@ -2331,12 +2336,12 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
     
     function get_public_url()
     {
-        return 'http://live.xbox.com/member/'.$this->options['username'];
+        return 'http://live.xbox.com/member/'.urlencode($this->options['username']);
     }
     
     function get_url()
     {
-        return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.$this->options['username'];
+        return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.urlencode($this->options['username']);
     }
     
     function yield($row)
@@ -2526,4 +2531,92 @@ class LifeStream_GitHubFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_GithubFeed');
 
+class LifeStream_ReadernautFeed extends LifeStream_Feed
+{
+    const ID            = 'readernaut';
+    const NAME          = 'Readernaut';
+    const URL           = 'http://www.readernaut.com/';
+    const DESCRIPTION   = 'Readernaut is my library, my notebook, my book club.';
+    const LABEL_SINGLE  = 'Added a book to his collection on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Added books to his collection on <a href="%s">%s</a>.';
+	const LABEL_SINGLE_USER = '<a href="%s">%s</a> added a book to his collection on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> added books to his collection on <a href="%s">%s</a>.';
+
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+
+    function get_url()
+    {
+    	return 'http://readernaut.com/rss/'.$this->options['username'].'/books/';
+    }
+
+    function get_public_url()
+    {
+    	return 'http://readernaut.com/'.$this->options['username'];
+    }
+}
+register_lifestream_feed('LifeStream_ReadernautFeed');
+
+class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'scrnshots';
+    const NAME          = 'Scrnshots';
+    const URL           = 'http://www.scrnshots.com/';
+    const DESCRIPTION   = 'ScrnShots is the best way to take and share screenshots of web and screen based design. Upload as many screenshots as you want, embed them in your blog, discuss them with your contacts and become a better designer!';
+    const LABEL_SINGLE  = 'Added a new screenshot to <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Added new screenshots to <a href="%s">%s</a>.';
+	const LABEL_SINGLE_USER = '<a href="%s">%s</a> added a new screenshot to <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> added new screenshots to <a href="%s">%s</a>.';
+
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+
+    function get_url()
+    {
+    	return 'http://scrnshots.com/users/'.$this->options['username'].'/screenshots.rss';
+    }
+
+    function get_public_url()
+    {
+    	return 'http://scrnshots.com/users/'.$this->options['username'];
+    }
+
+    function yield($row)
+    {
+    	$description = $row->get_description();
+    	$title = strip_tags($description);
+    	$img = strip_tags($description,'<img>');
+    	$src = str_replace($title,'',$img);
+    	$large = preg_replace('/.*src=([\'"])((?:(?!\1).)*)\1.*/si','$2',$src);
+    	$small = str_replace('large','med_rect',$large);
+	
+        $arr = array(
+             'title'     =>  strip_tags(html_entity_decode($row->get_description())),
+             'date'      =>  $row->get_date('U'),
+             'link'      =>  html_entity_decode($row->get_link()),
+    		 'thumbnail' =>  $small,
+         );
+
+    	return $arr;
+    }
+}
+register_lifestream_feed('LifeStream_ScrnshotsFeed');
 ?>
