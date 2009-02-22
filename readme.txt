@@ -1,7 +1,7 @@
 === Lifestream ===
 Tags: lifestream, rss, social, miniblogging, twitter, flickr, pownce, delicious, last.fm, facebook, digg, atom
 Requires at least: 2.5
-Tested up to: 2.6
+Tested up to: 2.7.1
 Stable tag: trunk
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
