@@ -1674,6 +1674,8 @@ function lifestream_digest_update()
 {
     global $wpdb, $lifestream_path;
     
+    if (get_option('lifestream_daily_digest') != '1') return;
+    
     $hour_format = get_option('lifestream_hour_format');
     $day_format = get_option('lifestream_day_format');
     
