@@ -30,11 +30,12 @@ $authors = get_users_of_blog();
             <tr>
                 <th><label for="id_timezone"><?php _e('Current Time:', 'lifestream'); ?></label></th>
                 <td>
-                    <select name="lifestream_timezone">
+                    <select name="lifestream_timezone" id="id_timezone">
                         <?php for ($i=-12; $i<12; $i++) {?>
                             <option value="<?php echo $i; ?>"<?php if (get_option('lifestream_timezone') == $i) echo ' selected="selected"'; ?>><?php echo date('g:ia', time()+(3600*$i)); ?></option>
                         <?php } ?>
                     </select>
+                    <div class="helptext"><?php _e('This will adjust the timezone offset for your LifeStream.', 'lifestream'); ?>
                 </td>
             </tr>
             <tr>
@@ -64,12 +65,25 @@ $authors = get_users_of_blog();
                     <div class="helptext">e.g. <a href="#">admin</a> posted a new photo on <a href="http://www.flickr.com/">Flickr</a></div>
                 </td>
             </tr>
-            <!-- <tr>
-                <th>&nbsp;</th>
+            <tr>
+                <th><?php _e('Enable iBox:', 'lifestream'); ?></th>
                 <td><label for="id_use_ibox"><input type="checkbox" name="lifestream_use_ibox" id="id_use_ibox" value="1"<?php if (get_option('lifestream_use_ibox')) echo ' checked="checked"'; ?>/> <?php _e('Enable iBox on plugins that support it.', 'lifestream'); ?></label>
                     <div class="helptext">Requires the <a href="http://www.ibegin.com/labs/ibox/">iBox</a> plugin.</div>
                 </td>
-            </tr> -->
+            </tr>
+            <tr>
+                <th><?php _e('Hide Grouped Details:', 'lifestream'); ?></th>
+                <td><label for="id_hide_details_default"><input type="checkbox" name="lifestream_hide_details_default" id="id_hide_details_default" value="1"<?php if (get_option('lifestream_hide_details_default')) echo ' checked="checked"'; ?>/> <?php _e('Hide details of grouped events by default.', 'lifestream'); ?></label>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="id_url_handler"><?php _e('URL Handler:', 'lifestream'); ?></label></th>
+                <td><select name="lifestream_url_handler" id="id_url_handler">
+                    <option value="auto"<?php if (get_option('lifestream_url_handler') == 'auto') echo ' selected="selected"'; ?>><?php _e('(Automatic)', 'lifestream'); ?></option>
+                    <option value="curl"<?php if (get_option('lifestream_url_handler') == 'curl') echo ' selected="selected"'; ?>><?php _e('Curl', 'lifestream'); ?></option>
+                    <option value="fopen"<?php if (get_option('lifestream_url_handler') == 'fopen') echo ' selected="selected"'; ?>><?php _e('fopen', 'lifestream'); ?></option>
+                </td>
+            </tr>
             <tr>
                 <th><?php _e('Show Credits:', 'lifestream'); ?></th>
                 <td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if (get_option('lifestream_show_credits')) echo ' checked="checked"'; ?>/> <?php _e('Give credit to LifeStream when it\'s embedded.', 'lifestream'); ?></label>
@@ -79,23 +93,50 @@ $authors = get_users_of_blog();
         </tbody>
     </table>
     <br />
-    <h2><?php _e('Daily Digest'); ?></h2>
-    <p><?php _e('LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day.', 'lifestream'); ?></p>
+    <h2><?php _e('Digest'); ?></h2>
+    <p><?php _e('LifeStream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period.', 'lifestream'); ?></p>
     <table class="form-table">
         <colgroup>
             <col style="width: 150px;"/>
             <col/>
         </colgroup>
         <tr>
-            <th><?php _e('Show Daily Digest:', 'lifestream'); ?></th>
-            <td><label for="id_daily_digest"><input type="checkbox" name="lifestream_daily_digest" id="id_daily_digest" value="1"<?php if (get_option('lifestream_daily_digest')) echo ' checked="checked"'; ?>/> <?php _e('Post a daily summary of my lifestream.', 'lifestream'); ?></label>
+            <th><?php _e('Show Digest:', 'lifestream'); ?></th>
+            <td><label for="id_daily_digest"><input type="checkbox" name="lifestream_daily_digest" id="id_daily_digest" value="1"<?php if (get_option('lifestream_daily_digest')) echo ' checked="checked"'; ?>/> <?php _e('Post a summary of my lifestream.', 'lifestream'); ?></label>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="id_digest_interval"><?php _e('Post Interval:', 'lifestream'); ?></label></th>
+            <td>
+                <select name="lifestream_digest_interval" id="id_digest_interval" onchange="handleDigestTimeField();">
+                    <?php foreach ($lifestream_digest_intervals as $interval=>$label) {?>
+                        <option value="<?php echo $interval; ?>"<?php if (get_option('lifestream_digest_interval') == $interval) echo ' selected="selected"'; ?>><?php echo htmlspecialchars($label); ?></option>
+                    <?php } ?>
+                </select><span id="id_digest_time_wrap"> @ <select name="lifestream_digest_time" id="id_digest_time">
+                    <?php for ($i=0; $i<=24; $i++) {?>
+                        <option value="<?php echo $i; ?>"<?php if (get_option('lifestream_digest_time') == $i) echo ' selected="selected"'; ?>><?php echo ($i > 12 ? ($i-12) : ($i == 0 ? 12 : $i)); ?>:00 <?php echo ($i >= 12 ? 'pm' : 'am'); ?></option>
+                    <?php } ?>
+                </select></span>
+                <script type="text/javascript">
+                function handleDigestTimeField() {
+                    var el = document.getElementById('id_digest_interval');
+                    if (el.options[el.selectedIndex].value == 'hourly') {
+                        var display = 'none';
+                    } else {
+                        var display = '';
+                    }
+                    document.getElementById('id_digest_time_wrap').style.display = display;
+                }
+                handleDigestTimeField();
+                </script>
+                <div class="helptext"><?php _e('This determines the approximate time when your digest should be posted.', 'lifestream'); ?>
             </td>
         </tr>
         <tr>
             <th><label for="id_digest_title"><?php _e('Summary Post Title:', 'lifestream'); ?></label></th>
             <td>
                 <input type="text" name="lifestream_digest_title" size="40" value="<?php echo htmlspecialchars(get_option('lifestream_digest_title')); ?>"/>
-                <div class="helptext"><?php _e('You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option.', 'lifestream'); ?></div>
+                <div class="helptext"><?php _e('You may use <code>%1$s</code> for the current date, and <code>%2$s</code> for the current time.', 'lifestream'); ?></div>
             </td>
         </tr>
         <tr>
@@ -117,7 +158,7 @@ $authors = get_users_of_blog();
                     $author = $usero->data;
                     // Only list users who are allowed to publish
                     if (!$usero->has_cap('publish_posts')) continue;
-                    echo '<option value="'.$author->ID.'"'.($author->ID == $current_author ? ' selected="selected"' : '').'>'.$author->user_nicename.'</option>';
+                    echo '<option value="'.$author->ID.'"'.($author->ID == $current_author ? ' selected="selected"' : '').'>'.$author->display_name.'</option>';
                 }
                 ?>
                 </select>

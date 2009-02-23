@@ -1,7 +1,7 @@
 === Lifestream ===
 Tags: lifestream, rss, social, miniblogging, twitter, flickr, pownce, delicious, last.fm, facebook, digg, atom
 Requires at least: 2.5
-Tested up to: 2.6
+Tested up to: 2.7.1
 Stable tag: trunk
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
@@ -10,7 +10,7 @@ Lifestream displays your social feeds and photos much like you would see it on m
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
-For more information please visit the homepage: http://www.davidcramer.net/my-projects/lifestream
+For more information please visit the homepage: http://www.ibegin.com/labs/wp-lifestream/
 
 Update Notes:
 
@@ -42,20 +42,21 @@ Another method requires a [custom WordPress page](http://codex.wordpress.org/Pag
 
 `<?php lifestream(); ?>`
 
-* Note: arguments passed must be as an array with key/value pairs.
+You may also specify several parameters in the `lifestream` method (useful for sidebar display). These should be in the standard key=>value format for PHP calls.
 
-You may also specify several parameters in the `lifestream` method (useful for sidebar display):
-
+* `(int) offset`: defaults to 0
 * `(int) number_of_items`: defaults to '50'
-* `(array) feed_ids`: defaults to all feeds
 * `(string) date_interval`: defaults to '1 month'
-* `(string) output`: defaults to table; options are table and list
+* `(boolean) break_events`: defaults to false - forces grouped events to be single
+* `(array) user_ids`: defaults to all users -- specify the ids of users to show
+* `(array) feed_types`: defaults to all feeds -- specify the feed keys (e.g. twitter) to show
+* `(array) feed_ids`: defaults to all feeds -- specify the ids of feeds to show, also overrides `feed_types` setting
 
 For example:
 
-`[lifestream number_of_items="10" output="list"]`
+`[lifestream number_of_items="10"]`
 
-For more advanced uses, you may directly use `lifestream_get_events()` which will return an array of `Event` instances.
+For more advanced uses, you may directly use `lifestream_get_events()` which will return an array of `Event` instances. This is the same syntax as the `lifestream()` method.
 
 Example:
 
@@ -69,6 +70,25 @@ foreach ($events as $event)
 }
 ?>
 </ul>`
+
+Another popular example, would to be show your current Twitter, or Facebook status somewhere in your templates:
+
+`$events = lifestream_get_events(array('feed_types'=>array('twitter'), 'number_of_results'=>1, 'break_groups'=>true);
+$event = $events[0];
+
+// to render it with links
+echo $event->feed->render_item($event, $event->data);
+
+// or render just the text
+echo $event->data['title'];`
+
+Or, use our handy shortcuts:
+
+`<?php lifestream_twitter_status(); ?>`
+
+And
+
+`<?php lifestream_facebook_status(); ?>`
 
 == Requirements ==
 
@@ -126,6 +146,9 @@ The plugin includes most of the major social networking feeds available. You may
 * Mixx
 * SlideShare
 * Blip.tv
+* Steam
+* Xbox Live
+* iTunes
 
 == Localization ==
 
@@ -140,8 +163,11 @@ Currently the plugin is localized in the default language of English, as well as
 * French
 * German
 * Danish
+* Spanish
 
 == Credits ==
+
+An [iBegin Labs](http://www.ibegin.com/labs/) project.
 
 Created and mainted by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net)).
 

@@ -44,6 +44,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     {        
         return array(
             'username' => array('Username:', true, '', ''),
+            'hide_replies' => array('Hide Replies', false, true, false),
         );
     }
     
@@ -82,14 +83,31 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         return preg_replace_callback('/([^\w]*)(#[a-z0-9_-]+)\b/i', array($this, '_get_search_term_link'), $text);
     }
 
-    function get_url()
+    function get_url($page=1, $count=20)
     {
-        return 'http://twitter.com/statuses/user_timeline/'.$this->options['username'].'.rss';
+        return 'http://twitter.com/statuses/user_timeline/'.$this->options['username'].'.rss?page='.$page.'&count='.$count;
+    }
+    
+    function save()
+    {
+        $is_new = (bool)!$this->id;
+        parent::save();
+        if ($is_new)
+        {
+            // new feed -- attempt to import all statuses
+            $feed_msg = array(true, '');
+            $page = 0;
+            while ($feed_msg[1] !== false)
+            {
+                $page += 1;
+                $feed_msg = $this->refresh($this->get_url($page, 200));
+            }
+        }
     }
     
     function render_item($row, $item)
     {
-        return $this->parse_search_term($this->parse_users($this->parse_urls($item['title'])));
+        return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title'])))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
     }
     
     function yield($row)
@@ -100,7 +118,12 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
         {
             $title = substr($title, strlen($string));
         }
+        if ($this->options['hide_replies'] && str_startswith($title, '@'))
+        {
+            return false;
+        }
         return array(
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  $title,
@@ -132,7 +155,7 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
 
     function render_item($row, $item)
     {
-        return $this->parse_users($this->parse_urls($item['title']));
+        return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
     }
 
     
@@ -144,6 +167,7 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
         $title = $matches[1];
         
         return array(
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($title),
@@ -196,6 +220,7 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
 
         return array(
             // TODO: can we just use get_date()?
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
@@ -251,6 +276,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     function yield($track)
     {
         return array(
+            'guid'      =>  html_entity_decode($track->url),
             'date'      =>  strtotime($track->date),
             'link'      =>  html_entity_decode($track->url),
             'name'      =>  html_entity_decode($track->name),
@@ -271,7 +297,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
             $items = array();
             foreach ($feed as $track)
             {
-                $items[] = $this->yield($track);
+                $items[] = $this->yield($track, $url);
             }
             return $items;
         }
@@ -279,7 +305,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return sprintf('<a href="%s">%s - %s</a>', $item['link'], $item['artist'], $item['name']);
+        return sprintf('<a href="%s">%s - %s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['artist']), htmlspecialchars($item['name']));
     }
     
 }
@@ -306,6 +332,7 @@ class LifeStream_BlogFeed extends LifeStream_Feed
         $author =& $row->get_item_tags(SIMPLEPIE_NAMESPACE_DC_11, 'creator');
 
         return array(
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
@@ -339,39 +366,11 @@ class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
         return 'http://api.flickr.com/services/feeds/photos_public.gne?id='.$this->options['user_id'].'&format=rss_200';
     }
 
-    function yield($item)
+    function yield($row, $url, $key)
     {
-        $enclosure = $item->get_enclosure();
-        return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
-            'thumbnail' =>  $enclosure->get_thumbnail(),
-            'image'     =>  str_replace('_m', '', $enclosure->get_medium()),
-        );
-    }
-    
-    function render_item($row, $item)
-    {
-        // Maintain backwards compatibility.
-        $thumbnail = is_array($item['thumbnail']) ? $item['thumbnail']['url'] : $item['thumbnail'];
-        if (isset($item['image']))
-        {
-            $image = is_array($item['image']) ? str_replace('_m', '', $item['image']['url']) : $item['image'];
-        }
-        else
-        {
-            $image = null;
-        }
-        
-        if (get_option('lifestream_use_ibox') == '1' && $item['image'])
-        {
-            // change it to be large size images
-            $ibox = ' rel="ibox&target=\''.$image.'\'"';
-        }
-        else $ibox = '';
-        
-        return sprintf('<a href="%s" class="photo" title="%s"'.$lightbox.'><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $thumbnail);
+        $data = parent::yield($row, $url, $key);
+        $data['image'] = str_replace('_m', '', $data['image']);
+        return $data;
     }
 }
 register_lifestream_feed('LifeStream_FlickrFeed');
@@ -403,16 +402,17 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
     
     function render_item($row, $item)
     {
-        return $item['title'];
+        return htmlspecialchars($item['title']);
     }
     
-    function yield($item)
+    function yield($row)
     {
         return array(
-            'date'      =>  $item->get_date('U'),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
             # There's not a unique link, but we need a unique key
-            'link'      =>  $item->get_title(),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'link'      =>  $row->get_title(),
+            'title'     =>  html_entity_decode($row->get_title()),
         );
     }
 }
@@ -448,6 +448,7 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
         else $key = 'note';
 
         $data = array(
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'description'   =>  html_entity_decode($row->get_description()),
@@ -479,15 +480,15 @@ class LifeStream_PownceFeed extends LifeStream_TwitterFeed
     {
         if ($event->key == 'event')
         {
-            return sprintf('<a href="%s">%s</a>', $item['link'], $item['description']);
+            return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['description']));
         }
         elseif ($event->key == 'link')
         {
-            return sprintf('<a href="%s">%s</a>', $item['relurl'], $item['description']);
+            return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['relurl']), htmlspecialchars($item['description']));
         }
         else
         {
-            return $this->parse_users($this->parse_urls($item['description']));
+            return $this->parse_users($this->parse_urls(htmlspecialchars($item['description'])));
         }
     }
     
@@ -600,10 +601,6 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
     const ID            = 'youtube';
     const NAME          = 'YouTube';
     const URL           = 'http://www.youtube.com/';
-    const LABEL_SINGLE  = 'Posted a video on <a href="%s">%s</a>.';
-    const LABEL_PLURAL  = 'Posted %d videos on <a href="%s">%s</a>.';
-    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a video on <a href="%s">%s</a>.';
-    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d videos on <a href="%s">%s</a>.';
     const DESCRIPTION   = '';
     
     function __toString()
@@ -615,6 +612,7 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
     {
         return array(
             'username' => array('Username:', true, '', ''),
+            'show_favorites' => array('Include favorites in this feed.', false, true, false),
         );
     }
     
@@ -623,21 +621,96 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
         return 'http://www.youtube.com/user/'.$this->options['username'];
     }
     
-    function get_url()
+    function get_label_single($key)
     {
+        if ($key == 'favorite')
+        {
+            $label = 'Favorited a video on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = 'Posted a video on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural($key)
+    {
+        if ($key == 'favorite')
+        {
+            $label = 'Favorited %d videos on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = 'Posted %d videos on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_single_user($key)
+    {
+        if ($key == 'favorite')
+        {
+            $label = '<a href="%s">%s</a> favorited a video on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = '<a href="%s">%s</a> posted a video on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key) {
+        if ($key == 'favorite')
+        {
+            $label = '<a href="%s">%s</a> favorited %d videos on <a href="%s">%s</a>.';
+        }
+        else
+        {
+            $label = '<a href="%s">%s</a> posted %d videos on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_posted_url() {
         return 'http://www.youtube.com/rss/user/'.$this->options['username'].'/videos.rss';
+        }
+
+    function get_favorited_url() {
+        return 'http://gdata.youtube.com/feeds/api/users/'.$this->options['username'].'/favorites?v=2';
+        }
+
+    function get_url() {
+        $urls = array();
+        $urls[] = array($this->get_posted_url(), 'video');
+        if ($this->options['show_favorites']) $urls[] = array($this->get_favorited_url(), 'favorite');
+        return $urls;
+    }
+
+    function yield($row)
+    {
+        $data = array(
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
+        );
+        if ($enclosure = $row->get_enclosure())
+        {
+            $data['thumbnail'] =  $enclosure->get_thumbnail();
+            $data['image']     =  $enclosure->get_medium();
+        }
+        return $data;
     }
     
-    function yield($item)
+    function render_item($row, $item)
     {
-        $enclosure = $item->get_enclosure();
-        return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
-            'thumbnail' =>  $enclosure->get_thumbnail(),
-            'image'     =>  $enclosure->get_medium(),
-        );
+        if (get_option('lifestream_use_ibox') == '1')
+        {
+            $ibox = ' rel="ibox"';
+        }
+        else $ibox = '';
+        return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
     }
 }
 register_lifestream_feed('LifeStream_YouTubeFeed');
@@ -683,6 +756,7 @@ class LifeStream_RedditFeed extends LifeStream_Feed
             $title = substr($title, strlen($chunk));
         
         return array(
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($title),
@@ -724,6 +798,7 @@ class LifeStream_YelpFeed extends LifeStream_Feed
             $title = substr($title, 0, strlen($title)-strlen($on_part));
         
         return array(
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($title),
@@ -781,13 +856,14 @@ class LifeStream_SkitchFeed extends LifeStream_FlickrFeed
         return 'http://www.skitch.com/feeds/'.$this->options['username'].'/atom.xml';
     }
     
-    function yield($item)
+    function yield($row)
     {
-        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        preg_match($this->image_match_regexp, $row->get_description(), $match);
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $match[1],
             'image'     =>  str_replace('.preview.', '', $match[1]),
         );
@@ -812,7 +888,7 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 
     function render_item($row, $item)
     {
-        return $this->parse_users($this->parse_urls($item['title']));
+        return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
     }
 
     function get_url()
@@ -829,6 +905,7 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
             $title = substr($title, strlen($string));
         }
         return array(
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  $title,
@@ -967,14 +1044,56 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
         return $urls;
     }
     
-    function yield($row)
+    function yield($row, $url, $key)
     {
         if (str_endswith($row->get_title(), 'QuickMix')) return false;
-        return parent::yield($row);
+        return parent::yield($row, $url, $key);
     }
 }
 register_lifestream_feed('LifeStream_PandoraFeed');
 
+// class LifeStream_HuluFeed extends LifeStream_PhotoFeed
+// {
+//     const ID            = 'hulu';
+//     const NAME          = 'Hulu';
+//     const URL           = 'http://www.hulu.com/';
+//     const LABEL_SINGLE  = 'Watched a video on <a href="%s">%s</a>.';
+//     const LABEL_PLURAL  = 'Watched %d videos on <a href="%s">%s</a>.';
+//     const LABEL_SINGLE_USER = '<a href="%s">%s</a> watched a video on <a href="%s">%s</a>.';
+//     const LABEL_PLURAL_USER = '<a href="%s">%s</a> watched %d videos on <a href="%s">%s</a>.';
+//     const DESCRIPTION   = 'You may first need to change your privacy settings on Hulu for the feed to be viewable.';
+//     
+//     private $link_match_regexp = '/href="(http\:\/\/www\.hulu\.com\/watch\/[^"]+)"/i';
+//     private $image_match_regexp = '/src="(http\:\/\/thumbnails\.hulu\.com\/[^"]+\.jpg)"/i';
+//     
+//     function get_options()
+//     {        
+//         return array(
+//             'username' => array('Username:', true, '', ''),
+//         );
+//     }
+// 
+//     function get_url()
+//     {
+//         // Support old-style url for feed
+//         if ($this->options['url']) return $this->options['url'];
+//         return 'http://www.hulu.com/feed/activity/'.$this->options['username'];
+//     }
+// 
+//     
+//     function yield($row, $url, $key)
+//     {
+//         $data = parent::yield($row, $url, $key);
+//         if (!$data['thumbnail'])
+//         {
+//             preg_match($this->link_match_regexp, $row->get_description(), $link_match);
+//             preg_match($this->image_match_regexp, $row->get_description(), $image_match);
+//             $data['thumbnail'] = $image_match[1];
+//             $data['link'] = $link_match[1];
+//         }
+//         return $data;
+//     }
+// }
 class LifeStream_HuluFeed extends LifeStream_Feed
 {
     const ID            = 'hulu';
@@ -1093,6 +1212,7 @@ class LifeStream_TwitPicFeed extends LifeStream_PhotoFeed
     function yield($row)
     {
         return array(
+            'guid'      =>  $row->get_id(),
             'date'      =>  $row->get_date('U'),
             'link'      =>  html_entity_decode($row->get_link()),
             'title'     =>  html_entity_decode($row->get_title()),
@@ -1179,17 +1299,17 @@ class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
     
     function get_videos_url()
     {
-        return 'http://www.vimeo.com/user'.$this->options['user_id'].'/videos/rss';
+        return 'http://www.vimeo.com/'.$this->options['user_id'].'/videos/rss';
     }
     
     function get_likes_url()
     {
-        return 'http://www.vimeo.com/user'.$this->options['user_id'].'/likes/rss';
+        return 'http://www.vimeo.com/'.$this->options['user_id'].'/likes/rss';
     }
 
     function get_public_url()
     {
-        return 'http://www.vimeo.com/user'.$this->options['user_id'];
+        return 'http://www.vimeo.com/'.$this->options['user_id'];
     }
 
     function get_url()
@@ -1206,13 +1326,14 @@ class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
         return $urls;
     }
     
-    function yield($item)
+    function yield($row)
     {
-        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        preg_match($this->image_match_regexp, $row->get_description(), $match);
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $match[1],
         );
     }
@@ -1320,13 +1441,14 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
         return $urls;
     }
     
-    function yield($item)
+    function yield($row)
     {
-        $enclosure = $item->get_enclosure();
+        $enclosure = $row->get_enclosure();
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $enclosure->link,
         );
     }
@@ -1358,13 +1480,14 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
         return 'http://'.$this->options['username'].'.tumblr.com/';
     }
     
-    function yield($item)
+    function yield($row)
     {
-        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        preg_match($this->image_match_regexp, $row->get_description(), $match);
         $data = array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'key'       =>  'note',
         );
         if ($match)
@@ -1396,7 +1519,7 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
         }
         else
         {
-            return $this->parse_users($this->parse_urls($item['title']));
+            return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
         }
     }
     
@@ -1429,7 +1552,7 @@ register_lifestream_feed('LifeStream_TumblrFeed');
 class LifeStream_AmazonFeed extends LifeStream_PhotoFeed
 {
     const ID            = 'amazon';
-    const NAME          = 'Amazon Wishlist';
+    const NAME          = 'Amazon';
     const URL           = 'http://www.amazon.com/';
     const LABEL_SINGLE  = 'Added an item to their wishlist on <a href="%s">%s</a>.';
     const LABEL_PLURAL  = 'Added %d items to their wishlist on <a href="%s">%s</a>.';
@@ -1438,18 +1561,14 @@ class LifeStream_AmazonFeed extends LifeStream_PhotoFeed
 
     private $image_match_regexp = '/src="(http\:\/\/ecx\.images-amazon\.com\/[^"]+\.jpg)"/i';
     
-    function get_public_name()
+    function yield($row)
     {
-        return 'Amazon';
-    }
-    
-    function yield($item)
-    {
-        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        preg_match($this->image_match_regexp, $row->get_description(), $match);
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $match[1],
         );
     }
@@ -1490,13 +1609,14 @@ class LifeStream_MagnoliaFeed extends LifeStream_PhotoFeed
         return 'http://ma.gnolia.com/people/'.$this->options['username'];
     }
     
-    function yield($item)
+    function yield($row)
     {
-        preg_match($this->image_match_regexp, $item->get_description(), $match);
+        preg_match($this->image_match_regexp, $row->get_description(), $match);
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $match[1],
         );
     }
@@ -1533,13 +1653,14 @@ class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
         return 'http://www.zooomr.com/photos/'.$this->options['username'].'/';
     }
     
-    function yield($item)
+    function yield($row)
     {
-        $enclosure = $item->get_enclosure();
+        $enclosure = $row->get_enclosure();
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $enclosure->get_thumbnail(),
             'image'     =>  $enclosure->get_medium(),
         );
@@ -1570,12 +1691,13 @@ class LifeStream_BlipFMFeed extends LifeStream_TwitterFeed
     
     function render_item($row, $item)
     {
-        return $this->parse_users($item['text']).' &#9835; <span class="song_link"><a href="'.$item['link'].'">'.$item['song'].'</a></span>';
+        return $this->parse_users($item['text']).' &#9835; <span class="song_link"><a href="'.htmlspecialchars($item['link']).'">'.htmlspecialchars($item['song']).'</a></span>';
     }
     
     function yield($row)
     {
         return array(
+            'guid'      =>  $row->get_id(),
             'date'  =>  $row->get_date('U'),
             'link'  =>  html_entity_decode($row->get_link()),
             'text'  =>  html_entity_decode($row->get_description()),
@@ -1634,10 +1756,10 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
         {
             return LifeStream_PhotoFeed::render_item($event, $item);
         }
-        elseif ($event->key == 'checkin') return '<a href="'.$item['placelink'].'">'.$item['placename'].'</a>';
+        elseif ($event->key == 'checkin') return '<a href="'.htmlspecialchars($item['placelink']).'">'.htmlspecialchars($item['placename']).'</a>';
         else
         {
-            return $this->parse_urls($item['text']);
+            return $this->parse_urls(htmlspecialchars($item['text']));
         }
     }
     
@@ -1669,28 +1791,29 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
         return '<a href="%s">%s</a> posted %d messages on <a href="%s">%s</a>.';
     }
     
-    function yield($item)
+    function yield($row)
     {
-        $type = $item->get_item_tags(self::NS_BRIGHTKITE, 'eventType');
+        $type = $row->get_item_tags(self::NS_BRIGHTKITE, 'eventType');
         $type = $type[0]['data'];
 
         $data = array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'text'      =>  html_entity_decode($item->get_description()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'text'      =>  html_entity_decode($row->get_description()),
             'key'       =>  $type,
         );
 
-        $placelink = $item->get_item_tags(self::NS_BRIGHTKITE, 'placeLink');
+        $placelink = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeLink');
         $data['placelink'] = $placelink[0]['data'];
 
-        $placename = $item->get_item_tags(self::NS_BRIGHTKITE, 'placeName');
+        $placename = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeName');
         $data['placename'] = $placename[0]['data'];
 
-        $placeaddress = $item->get_item_tags(self::NS_BRIGHTKITE, 'placeAddress');
+        $placeaddress = $row->get_item_tags(self::NS_BRIGHTKITE, 'placeAddress');
         $data['placeaddress'] = $placeaddress[0]['data'];
 
-        if ($enclosure = $item->get_enclosure())
+        if ($enclosure = $row->get_enclosure())
         {
             $data['thumbnail'] = $enclosure->get_thumbnail();
             $data['image'] = $enclosure->get_medium();
@@ -1729,13 +1852,14 @@ class LifeStream_PicasaFeed extends LifeStream_FlickrFeed
         return 'http://picasaweb.google.com/'.$this->options['username'];
     }
     
-    function yield($item)
+    function yield($row)
     {
-        $enclosure = $item->get_enclosure();
+        $enclosure = $row->get_enclosure();
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $enclosure->get_thumbnail(),
             'image'     =>  $enclosure->get_medium(),
         );
@@ -1775,18 +1899,6 @@ class LifeStream_KongregateFeed extends LifeStream_Feed
     {
         return 'http://www.kongregate.com/accounts/'.$this->options['username'];
     }
-    
-    // function yield($item)
-    // {
-    //     $enclosure = $item->get_enclosure();
-    //     return array(
-    //         'date'      =>  $item->get_date('U'),
-    //         'link'      =>  html_entity_decode($item->get_link()),
-    //         'title'     =>  html_entity_decode($item->get_title()),
-    //         'thumbnail' =>  $enclosure->get_thumbnail(),
-    //         'image'     =>  $enclosure->get_medium(),
-    //     );
-    // }
 }
 register_lifestream_feed('LifeStream_KongregateFeed');
 
@@ -1819,13 +1931,14 @@ class LifeStream_ViddlerFeed extends LifeStream_YouTubeFeed
         return 'http://www.viddler.com/explore/'.$this->options['username'].'/videos/feed/';
     }
     
-    function yield($item)
+    function yield($row)
     {
-        $enclosure = $item->get_enclosure();
+        $enclosure = $row->get_enclosure();
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  html_entity_decode($item->get_link()),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  html_entity_decode($row->get_link()),
+            'title'     =>  html_entity_decode($row->get_title()),
             'thumbnail' =>  $enclosure->get_thumbnail(),
         );
     }
@@ -1901,16 +2014,17 @@ class LifeStream_FoodFeedFeed extends LifeStream_Feed
 
     function render_item($row, $item)
     {
-        return $item['title'];
+        return htmlspecialchars($item['title']);
     }
     
-    function yield($item)
+    function yield($row)
     {
         return array(
-            'date'      =>  $item->get_date('U'),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
             # There's not a unique link, but we need a unique key
-            'link'      =>  $item->get_title(),
-            'title'     =>  html_entity_decode($item->get_title()),
+            'link'      =>  $row->get_title(),
+            'title'     =>  html_entity_decode($row->get_title()),
         );
     }
 }
@@ -1977,9 +2091,9 @@ class LifeStream_MixxFeed extends LifeStream_Feed
         return 'http://www.mixx.com/feeds/users/'.$this->options['username'];
     }
     
-    function yield($item)
+    function yield($row)
     {
-        $title = html_entity_decode($item->get_title());
+        $title = html_entity_decode($row->get_title());
         if (str_startswith($title, 'Comment on: '))
         {
             if (!$this->options['show_comments']) return;
@@ -2004,8 +2118,9 @@ class LifeStream_MixxFeed extends LifeStream_Feed
         }
         
         return array(
-            'date'      =>  $item->get_date('U'),
-            'link'      =>  $item->get_link(),
+            'guid'      =>  $row->get_id(),
+            'date'      =>  $row->get_date('U'),
+            'link'      =>  $row->get_link(),
             'title'     =>  $title,
             'key'       =>  $key,
         );
@@ -2162,4 +2277,346 @@ class LifeStream_BlipTVFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_BlipTVFeed');
 
+class LifeStream_SteamFeed extends LifeStream_Feed
+{
+    const ID            = 'steam';
+    const NAME          = 'Steam';
+    const URL           = 'http://www.steampowered.com/';
+    const LABEL_SINGLE  = 'Obtained an achievement on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Obtained %d achievements on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> obtained an achievement on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> obtained %d achievements on <a href="%s">%s</a>.';
+    const MEDIA         = 'text';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Steam ID:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://steamcommunity.com/id/'.$this->options['username'];
+    }
+    
+    function get_url()
+    {
+        return 'http://pipes.yahoo.com/pipes/pipe.run?_id=6d87c178f6f6a0b941fe7269c9415c32&_render=rss&steamid='.$this->options['username'];
+    }
+}
+register_lifestream_feed('LifeStream_SteamFeed');
+
+class LifeStream_XboxLiveFeed extends LifeStream_Feed
+{
+    const ID            = 'xboxlive';
+    const NAME          = 'Xbox Live';
+    const URL           = 'http://www.xbox.com/';
+    const LABEL_SINGLE  = 'Played a game on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Played %d games on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> played a game on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> played %d games on <a href="%s">%s</a>.';
+    
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Xbox Live ID:', true, '', ''),
+        );
+    }
+    
+    function get_public_url()
+    {
+        return 'http://live.xbox.com/member/'.urlencode($this->options['username']);
+    }
+    
+    function get_url()
+    {
+        return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.urlencode($this->options['username']);
+    }
+    
+    function yield($row)
+    {
+        return array(
+            'guid'      =>  html_entity_decode($row->DetailsURL),
+            'date'      =>  strtotime($row->LastPlayed),
+            'link'      =>  html_entity_decode($row->DetailsURL),
+            'name'      =>  html_entity_decode($row->Game->Name),
+        );
+    }
+    
+    function fetch()
+    {
+        // Look it's our first non-feed parser!
+        $response = lifestream_file_get_contents($this->get_url());
+
+        if ($response)
+        {
+            $xml = new SimpleXMLElement($response);
+            
+            $feed = $xml->RecentGames->XboxUserGameInfo;
+            $items = array();
+            foreach ($feed as $item)
+            {
+                $items[] = $this->yield($row);
+            }
+            return $items;
+        }
+    }
+    
+    function render_item($row, $item)
+    {
+        return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['name']));
+    }
+}
+register_lifestream_feed('LifeStream_XboxLiveFeed');
+
+
+class LifeStream_iTunesFeed extends LifeStream_Feed
+{
+    const ID            = 'itunes';
+    const NAME          = 'iTunes';
+    const URL           = '';
+    const DESCRIPTION   = 'To obtain your iTunes feed URL you must first go to your account in the iTunes Store. Once there, follow the "Enable My iTunes" link at the bottom. Follow the instructions to enable any feeds you wish to use (it\'s easiest just to enable them all).
+
+Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On this page, click "Copy Feed URL", and you should now have the URL for your feed. Lifestream just needs one feed url, it doesn\'t matter which, to process any of the feeds.
+
+<strong>Note:</strong> If HTML code link opened in Firefox, you may need to re-open it in Internet Explorer for the "Copy Feed URL" to work correctly.';
+    
+    function __toString()
+    {
+        return $this->options['user_id'];
+    }
+    
+    function get_options()
+    {        
+        return array(
+            'url' => array('Feed URL:', true, '', ''),
+            'user_id' => array('User ID:', null, '', ''),
+            'show_purchases' => array('Show Purchases', false, true, true),
+            'show_reviews' => array('Show Reviews', false, true, true),
+        );
+    }
+    
+    function save()
+    {
+        # We need to get their user id from the URL
+        
+        if (preg_match('/\/userid=([0-9]+)\//i', $this->options['url'], $match))
+        {
+            $this->options['user_id'] = $match[1];
+        }
+        
+        parent::save();
+    }
+
+    function get_url()
+    {
+        $urls = array();
+        if ($user_id = $this->options['user_id'])
+        {
+            if ($this->options['show_purchases'])
+            {
+                $urls[] = array('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/myrecentpurchases/sf=143441/userid='.$user_id.'/xml?v0=9987', 'purchase');
+            }
+            if ($this->options['show_reviews'])
+            {
+                $urls[] = array('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/myrecentreviews/sf=143441/toprated=true/userid='.$user_id.'/xml?v0=9987', 'review');
+            }
+        }
+        return $urls;
+    }
+    
+    # http://phobos.apple.com/rss
+    # <im:contentType term="Music" label="Music"><im:contentType term="Track" label="Track"/></im:contentType>
+    # <im:image height="170">http://a1.phobos.apple.com/us/r1000/022/Music/c4/ae/6e/mzi.qpurndic.170x170-75.jpg</im:image>
+    
+    function get_label_single($key)
+    {
+        if ($key == 'review')
+        {
+            $label = 'Reviewed an item on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'purchase')
+        {
+            $label = 'Purchased an a item on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural($key)
+    {
+        if ($key == 'review')
+        {
+            $label = 'Reviewed %s items on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'purchase')
+        {
+            $label = 'Purchased %s items on <a href="%s">%s</a>.';
+        }
+
+        return $label;
+    }
+    
+    function get_label_single_user($key)
+    {
+        if ($key == 'review')
+        {
+            $label = '<a href="%s">%s</a> reviewed an item on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'purchase')
+        {
+            $label = '<a href="%s">%s</a> purchased an item on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+
+    function get_label_plural_user($key)
+    {
+        if ($key == 'review')
+        {
+            $label = '<a href="%s">%s</a> reviewed %s items on <a href="%s">%s</a>.';
+        }
+        elseif ($key == 'purchase')
+        {
+            $label = '<a href="%s">%s</a> purchased %s items on <a href="%s">%s</a>.';
+        }
+        return $label;
+    }
+}
+register_lifestream_feed('LifeStream_iTunesFeed');
+
+class LifeStream_GitHubFeed extends LifeStream_Feed
+{
+    const ID            = 'github';
+    const NAME          = 'GitHub';
+    const URL           = 'http://www.github.com/';
+    const LABEL_SINGLE  = 'Committed code on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Made %d commits on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> committed code on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> made %d commits on <a href="%s">%s</a>.';
+    const DESCRIPTION   = 'You can obtain your GitHub feed URL from the <a href="https://github.com/dashboard/yours">Your Dashboard</a> page. You will find the feed link in orange feed icon next to "News Feed".';
+
+    function parse_message($text)
+    {
+        preg_match('/<\/a>\s*<\/p>\s*<p>(.+)<\/p>/', $text, $match);
+        // It's necessary to convert to entities, since commit messages may contain HTML.
+        return $match[1];
+    }
+
+    function yield($row)
+    {
+        if (strpos($row->get_id(), "CommitEvent") === false) {
+            return null;
+        } else {
+            $description = html_entity_decode($row->get_description());
+            $message = $this->parse_message($description);
+            return array(
+                'guid'  =>  $row->get_id(),
+                'date'  =>  $row->get_date('U'),
+                'link'  =>  html_entity_decode($row->get_link()),
+                'title' =>  $message,
+            );
+        }
+    }
+}
+register_lifestream_feed('LifeStream_GithubFeed');
+
+class LifeStream_ReadernautFeed extends LifeStream_Feed
+{
+    const ID            = 'readernaut';
+    const NAME          = 'Readernaut';
+    const URL           = 'http://www.readernaut.com/';
+    const DESCRIPTION   = 'Readernaut is my library, my notebook, my book club.';
+    const LABEL_SINGLE  = 'Added a book to his collection on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Added books to his collection on <a href="%s">%s</a>.';
+	const LABEL_SINGLE_USER = '<a href="%s">%s</a> added a book to his collection on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> added books to his collection on <a href="%s">%s</a>.';
+
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+
+    function get_url()
+    {
+    	return 'http://readernaut.com/rss/'.$this->options['username'].'/books/';
+    }
+
+    function get_public_url()
+    {
+    	return 'http://readernaut.com/'.$this->options['username'];
+    }
+}
+register_lifestream_feed('LifeStream_ReadernautFeed');
+
+class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'scrnshots';
+    const NAME          = 'Scrnshots';
+    const URL           = 'http://www.scrnshots.com/';
+    const DESCRIPTION   = 'ScrnShots is the best way to take and share screenshots of web and screen based design. Upload as many screenshots as you want, embed them in your blog, discuss them with your contacts and become a better designer!';
+    const LABEL_SINGLE  = 'Added a new screenshot to <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Added new screenshots to <a href="%s">%s</a>.';
+	const LABEL_SINGLE_USER = '<a href="%s">%s</a> added a new screenshot to <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> added new screenshots to <a href="%s">%s</a>.';
+
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+
+    function get_url()
+    {
+    	return 'http://scrnshots.com/users/'.$this->options['username'].'/screenshots.rss';
+    }
+
+    function get_public_url()
+    {
+    	return 'http://scrnshots.com/users/'.$this->options['username'];
+    }
+
+    function yield($row)
+    {
+    	$description = $row->get_description();
+    	$title = strip_tags($description);
+    	$img = strip_tags($description,'<img>');
+    	$src = str_replace($title,'',$img);
+    	$large = preg_replace('/.*src=([\'"])((?:(?!\1).)*)\1.*/si','$2',$src);
+    	$small = str_replace('large','med_rect',$large);
+	
+        $arr = array(
+             'title'     =>  strip_tags(html_entity_decode($row->get_description())),
+             'date'      =>  $row->get_date('U'),
+             'link'      =>  html_entity_decode($row->get_link()),
+    		 'thumbnail' =>  $small,
+         );
+
+    	return $arr;
+    }
+}
+register_lifestream_feed('LifeStream_ScrnshotsFeed');
 ?>

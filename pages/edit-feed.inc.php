@@ -8,7 +8,7 @@ $authors = get_users_of_blog();
     <form action="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $instance->id; ?>" method="post">
         <h3><?php printf(__('%s Feed Settings', 'lifestream'), $instance->get_constant('NAME')); ?></h3>
         <?php if ($description = $instance->get_constant('DESCRIPTION')) { ?>
-        <p><?php echo $description; ?></p>
+        <p><?php echo nl2br($description); ?></p>
         <?php } ?>
         <table class="form-table">
             <colgroup>
@@ -17,6 +17,7 @@ $authors = get_users_of_blog();
             </colgroup>
             <tbody>
             <?php foreach ($options as $option=>$option_meta) { ?>
+                <?php if ($option_meta[1] === null) continue; ?>
                 <?php $current_value = (isset($_POST[$option]) ? stripslashes($_POST[$option]) : $instance->options[$option]); ?>
                 <tr>
                     <?php if (is_array($option_meta[3])) { ?>
@@ -45,6 +46,22 @@ $authors = get_users_of_blog();
                 </tr>
             <?php } ?>
             <tr>
+                <th><label>Feed Label:</label><br /><small>(<?php _e('Optional'); ?>)</small></th>
+                <td>
+                    <?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : $instance->options['feed_label']); ?>
+                    <input type="text" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
+                    <div class="helptext"><?php _e('A label to use for this feed instead of the default.', 'lifestream'); ?></div>
+                </td>
+            </tr>
+            <tr>
+                <th><label>Icon URL:</label><br /><small>(<?php _e('Optional'); ?>)</small></th>
+                <td>
+                    <?php $current_value = (isset($_POST['icon_url']) ? stripslashes($_POST['icon_url']) : $instance->options['icon_url']); ?>
+                    <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/>
+                    <div class="helptext"><?php _e('An icon to use for this feed instead of the default.', 'lifestream'); ?></div>
+                </td>
+            </tr>
+            <tr>
                 <th>&nbsp;</th>
                 <td>
                     <label><input type="checkbox" name="show_label" value="1"<?php if (isset($_POST['show_label']) ? $_POST['show_label'] : $instance->options['show_label']) echo ' checked="checked"'; ?>/> <?php _e('Show labels for events in this feed. This will not effect grouped events.', 'lifestream'); ?></label>
@@ -70,7 +87,7 @@ $authors = get_users_of_blog();
                         {
                             $usero = new WP_User($author->user_id);
                             $author = $usero->data;
-                            echo '<option value="'.$author->ID.'"'.($instance->owner_id == $author->ID ? ' selected="selected"' : '').'>'.$author->user_nicename.'</option>';
+                            echo '<option value="'.$author->ID.'"'.($instance->owner_id == $author->ID ? ' selected="selected"' : '').'>'.$author->display_name.'</option>';
                         }
                         ?>
                     </select>

@@ -49,7 +49,13 @@ if (count($results))
                     <th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
                     <td class="num"><?php echo $result->id; ?></td>
                     <td class="icon"><img src="<?php echo $lifestream_path; ?>/images/<?php echo $instance->get_constant('ID'); ?>.png"/></td>
-                    <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars($instance->get_feed_display()); ?></a></strong></td>
+                    <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars($instance->get_feed_display()); ?></a></strong><?php
+                    if (isset($feedmsgs[$result->id]) && !empty($feedmsgs[$result->id]))
+                    {
+                        $msg = $feedmsgs[$result->id];
+                        if (is_int($msg)) echo '<div class="success">'.$msg.' new event(s).</div>';
+                    }
+                    ?></td>
                     <td class="num"><?php echo $result->events; ?></td>
                     <td><?php echo $result->owner; ?></td>
                 </tr>
@@ -83,4 +89,4 @@ if (count($results))
     }
     ?>
 </ul>
-<br/>
+<br/><br/><br/>

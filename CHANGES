@@ -1,3 +1,131 @@
+0.94
+
+* Changed LifeStream update and daily digest to use wp-cron.
+* Changed activation hooks to use official methods.
+* Added an option to specify the URL handler. Automatic, Curl, and fopen are currently available.
+* Twitter based feeds will now show a [#] link after the message.
+* Added a "Hide Replies" option to Twitter based feeds.
+* Digest now uses your Day Format in the Post Title.
+* Added time to the Post Title option for digest.
+* Added interval for digest (hourly, daily, weekly).
+* Added post time for digest.
+* Added Scrnshots feed thanks to Logan Leger.
+* Added Readernaut feed thanks to Logan Leger.
+* The Xbox Live feed is now properly encoding your username if it had spaces.
+* The lifestream_feedid_<N> class name is now the ID of the feed, and not the feed type.
+
+0.93b
+
+* If a feed failed to refresh properly it was halting all feed updates.
+
+0.93a
+
+* XHTML issues with unclosed link tag on feed images.
+
+0.93
+
+* Changed users to use the `display_name` column.
+* Fixed an issue with the GitHub feed and HTML entities.
+
+0.92c
+
+* Added lifestream_feed_<extension> class name to event wrappers.
+* Added a link around the image in the default [lifestream] display. If it's a group it links to `Feed::get_public_url()`, and if it's not it links to the `link` property in the data.
+
+0.92b
+
+* Some XHTML/XSS cleanup.
+
+0.92a
+
+* Fixed an issue with the iTunes feed not showing reviews.
+
+0.92
+
+* Event->render() has been changed so $options is an optional argument.
+* Enabled iBox support in the plugin.
+* Refactored some image handling out of the Flickr class and into base class.
+* Fixed a bug with SimplePie not retrieving the full image from Flickr.
+
+0.91b
+
+* Fixes an issue with links on version 2 feeds (using GUID).
+
+0.91
+
+* Any newly added feeds will now attempt to use the GUID as a key.
+* Fixed an issue that was causing duplicate events when you added a new feed.
+
+0.90b
+
+* Updated localized strings.
+* Added current version info to change log.
+
+0.90a
+
+* Change log will now pull directly from SVN.
+* Updated icon for Last.fm.
+* Deleting a feed will now use the lifestream_safe_query function, and raise an exception if there is an SQL error.
+
+0.90
+
+* Added icon_url global option for feeds.
+* Added feed_label global option for feeds.
+* RSS/Atom feeds will now use the the title + link as the key. Please note, that this only affects newly created feeds.
+
+0.87
+
+* Added Lifestream RSS feed (available via /feed/lifestream-feed/ or /feed/?feed=lifestream-feed).
+* Fixed an issue with the path to the daily digest template on some hosts.
+* Added Github plugin thanks to Chromakode.
+
+0.86
+
+* Changed upgrade process to silently ignore alter complications.
+* Updated homepage (we've moved the WP project completely to iBegin).
+* Added iTunes plugin.
+* $key is now passed to the yield() function.
+* Fixed an issue where the key was being overwritten on generic feeds.
+* You can now specify an option requirement as `null` to have it hidden.
+
+0.85c
+
+* Fixed an issue with YouTubeFeed.
+* Deleting a feed now deletes related errors.
+
+0.85
+
+* YouTubeFeed now handles favorites (thanks futtta).
+* Default options for `lifestream_sidebar_widget()` have been changed.
+* Support for a `local_feeds.inc.php` file has been added.
+* Added Spanish localization from Guillermo López.
+
+0.84c
+
+* Added Xbox Live feed.
+
+0.84b
+
+* Added Steam feed (http://www.steampowered.com/).
+
+0.84
+
+* Added `feed_types` argument to lifestream output functions.
+* Added an example in readme.txt to fetch latest Twitter status in a template.
+* Added `lifestream_twitter_status()` shortcut.
+* Added `lifestream_facebook_status()` shortcut.
+
+0.83
+
+* There is now an option to have the grouped events details shown by default.
+* Daily Digest will no longer show date headers, and has been moved to a new template (daily-digest.inc.php)
+* Changed some of the CSS to be a bit more relaxed and easier for custom themes.
+
+0.82
+
+* Twitter feeds will now import full history on creation.
+* Tweaked feed adding to be more intuitive and informational.
+
 0.81
 
 * Added "hide_labels" option for lifestream output.

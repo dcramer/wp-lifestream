@@ -1,4 +1,4 @@
-<h2><?php _e('LifeStream Errors', 'lifestream'); ?></h2><?php
+<h2><?php _e('LifeStream Errors', 'lifestream'); ?> <small>(<a href="?page=lifestream-errors.php&amp;op=clear"><?php _e('Clear Log', 'lifestream'); ?></a>)</small></h2><?php
 
 if (count($results))
 {
