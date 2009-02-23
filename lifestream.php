@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your social activity in a lifestream. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.94-BETA
+Version: 0.94-BETA2
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,9 +14,10 @@ if (phpversion() < 5)
     echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
     return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.94-BETA');
+define(LIFESTREAM_BUILD_VERSION, '0.94-BETA2');
 define(LIFESTREAM_VERSION, 0.94);
-define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
+//define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
+define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
 define(LIFESTREAM_FEEDS_PER_PAGE, 20);
 define(LIFESTREAM_EVENTS_PER_PAGE, 50);
 define(LIFESTREAM_ERRORS_PER_PAGE, 50);
@@ -26,7 +27,7 @@ if (!class_exists('SimplePie'))
     require_once(dirname(__FILE__) . '/lib/simplepie.inc');
 }
 
-global $lifestream_feeds, $lifestream_path, $lifestream__options;
+global $lifestream_feeds, $lifestream_path, $lifestream__options, $wpdb, $userdata;
 
 $lifestream_feeds = array();
 
@@ -81,7 +82,7 @@ if (!function_exists('get_class_constant'))
     function get_class_constant($class, $const)
     {
         return constant(sprintf('%s::%s', $class, $const));
-    }    
+    }
 }
 
 class LifeStream_Error extends Exception { }
@@ -1626,7 +1627,7 @@ function lifestream_update()
 {
     $event_arr = lifestream_update_all();
     $events = 0;
-    foreach ($event_arr as $instance->$result)
+    foreach ($event_arr as $instance=>$result)
     {
         if (is_int($result)) $events += $result;
     }
