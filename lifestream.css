@@ -2,7 +2,7 @@
 .lifestream a { background: none; padding: 0; }
 .lifestream_date { text-align: left; margin-bottom:5px; }
 .lifestream_icon a,
-.lifestream_text a { padding: 0 !important; background-image: none !important; }
+.lifestream_text a { padding: 0 !important; background-image: none !important; display: inline !important; }
 .lifestream_icon a { text-decoration: none !important; }
 .lifestream_icon { width: 16px; }
 .lifestream_text { padding: 0 0.5em; }
