@@ -119,7 +119,7 @@ function lifestream_file_get_contents($url)
         {
             throw new LifeStream_FeedFetchError('Failed to open url: '.$url);
         }
-        return $file_contents
+        return $file_contents;
     }
 }
 
