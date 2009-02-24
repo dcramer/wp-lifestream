@@ -30,6 +30,7 @@ if (count($results))
             <col style="width:40px;"/>
             <col style="width:16px;"/>
             <col/>
+            <col style="width:130px"/>
             <col style="width:50px;"/>
             <col style="width:90px;"/>
         </colgroup>
@@ -38,6 +39,7 @@ if (count($results))
                 <th scope="col" class="check-column"><input type="checkbox" /></th>
                 <th scope="col" class="num"><?php _e('ID', 'lifestream'); ?></th>
                 <th scope="col" colspan="2"><?php _e('Description', 'lifestream'); ?></th>
+                <th scope="col" class="date"><?php _e('Last Update', 'lifestream'); ?></th>
                 <th scope="col" class="num"><?php _e('Events', 'lifestream'); ?></th>
                 <th scope="col"><?php _e('Owner', 'lifestream'); ?></th>
             </tr>
@@ -56,6 +58,7 @@ if (count($results))
                         if (is_int($msg)) echo '<div class="success">'.$msg.' new event(s).</div>';
                     }
                     ?></td>
+                    <td class="date"><?php echo date('F j, Y', $result->timestamp).'<br/>'.date('g:ia', $result->timestamp); ?></td>
                     <td class="num"><?php echo $result->events; ?></td>
                     <td><?php echo $result->owner; ?></td>
                 </tr>

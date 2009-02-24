@@ -13,6 +13,7 @@
 * Added Readernaut feed thanks to Logan Leger.
 * The Xbox Live feed is now properly encoding your username if it had spaces.
 * The lifestream_feedid_<N> class name is now the ID of the feed, and not the feed type.
+* Added Last Update column to feed list.
 
 0.93b
 
