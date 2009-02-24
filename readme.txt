@@ -12,6 +12,8 @@ Lifestream displays your social feeds and photos much like you would see it on m
 
 For more information please visit the homepage: http://www.ibegin.com/labs/wp-lifestream/
 
+Follow us on Twitter: http://www.twitter.com/wplifestream
+
 Update Notes:
 
 * LifeStream v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
