@@ -736,6 +736,7 @@ class LifeStream_Feed
                 }
             }
         }
+        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `timestamp` = UNIX_TIMESTAMP() WHERE `id` = '%s'", $this->id));
         return array(true, $total);
     }
     
