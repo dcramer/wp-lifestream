@@ -114,11 +114,12 @@ function lifestream_file_get_contents($url)
     }
     else
     {
-        $contents = @file_get_contents($url);
-        if (!$contents)
+        $file_contents = @file_get_contents($url);
+        if (!$file_contents)
         {
             throw new LifeStream_FeedFetchError('Failed to open url: '.$url);
         }
+        return $file_contents
     }
 }
 
