@@ -1294,7 +1294,7 @@ function lifestream_options()
                     foreach ($results as $id=>$result)
                     {
                         if (is_int($result)) $feedmsgs[$id] = $result;
-                        else $errors[] = sprintf(__('There was an error refreshing the selected feed: %s', 'lifestream'), $id);
+                        else $errors[] = sprintf(__('There was an error refreshing the selected feed: ID %s', 'lifestream'), $id);
                     }
                     $message = __('All of your feeds have been refreshed.', 'lifestream');
                     break;
@@ -1322,7 +1322,7 @@ function lifestream_options()
                             }
                             else
                             {
-                                $errors[] = sprintf(__('There was an error refreshing the selected feed: %s', 'lifestream'), $instance->id);
+                                $errors[] = sprintf(__('There was an error refreshing the selected feed: ID %s', 'lifestream'), $instance->id);
                             }
                         }
                     }

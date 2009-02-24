@@ -57,7 +57,7 @@ define('SIMPLEPIE_VERSION', 'Pecan');
  * SimplePie Build
  * @todo Hardcode for release (there's no need to have to call SimplePie_Misc::parse_date() only every load of simplepie.inc)
  */
-define('SIMPLEPIE_BUILD', gmdate('YmdHis', SimplePie_Misc::parse_date(substr('$Date: 2008-08-16 06:29:20 -0700 (Sat, 16 Aug 2008) $', 7, 25)) ? SimplePie_Misc::parse_date(substr('$Date: 2008-08-16 06:29:20 -0700 (Sat, 16 Aug 2008) $', 7, 25)) : filemtime(__FILE__)));
+define('SIMPLEPIE_BUILD', gmdate('YmdHis', SimplePie_Misc::parse_date(substr('$Date: 2008-12-19 06:06:54 -0800 (Fri, 19 Dec 2008) $', 7, 25)) ? SimplePie_Misc::parse_date(substr('$Date: 2008-12-19 06:06:54 -0800 (Fri, 19 Dec 2008) $', 7, 25)) : filemtime(__FILE__)));
 
 /**
  * SimplePie Website URL
@@ -1448,7 +1448,7 @@ class SimplePie
 	 */
 	function set_favicon_handler($page = false, $qs = 'i')
 	{
-		if ($page != false)
+		if ($page !== false)
 		{
 			$this->favicon_handler = $page . '?' . $qs . '=';
 		}
@@ -1467,7 +1467,7 @@ class SimplePie
 	 */
 	function set_image_handler($page = false, $qs = 'i')
 	{
-		if ($page != false)
+		if ($page !== false)
 		{
 			$this->sanitize->set_image_handler($page . '?' . $qs . '=');
 		}
@@ -1496,39 +1496,7 @@ class SimplePie
 		}
 		if (isset($_GET[$this->javascript]))
 		{
-			if (function_exists('ob_gzhandler'))
-			{
-				ob_start('ob_gzhandler');
-			}
-			header('Content-type: text/javascript; charset: UTF-8');
-			header('Cache-Control: must-revalidate');
-			header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 604800) . ' GMT'); // 7 days
-			?>
-function embed_odeo(link) {
-	document.writeln('<embed src="http://odeo.com/flash/audio_player_fullsize.swf" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" quality="high" width="440" height="80" wmode="transparent" allowScriptAccess="any" flashvars="valid_sample_rate=true&external_url='+link+'"></embed>');
-}
-
-function embed_quicktime(type, bgcolor, width, height, link, placeholder, loop) {
-	if (placeholder != '') {
-		document.writeln('<embed type="'+type+'" style="cursor:hand; cursor:pointer;" href="'+link+'" src="'+placeholder+'" width="'+width+'" height="'+height+'" autoplay="false" target="myself" controller="false" loop="'+loop+'" scale="aspect" bgcolor="'+bgcolor+'" pluginspage="http://www.apple.com/quicktime/download/"></embed>');
-	}
-	else {
-		document.writeln('<embed type="'+type+'" style="cursor:hand; cursor:pointer;" src="'+link+'" width="'+width+'" height="'+height+'" autoplay="false" target="myself" controller="true" loop="'+loop+'" scale="aspect" bgcolor="'+bgcolor+'" pluginspage="http://www.apple.com/quicktime/download/"></embed>');
-	}
-}
-
-function embed_flash(bgcolor, width, height, link, loop, type) {
-	document.writeln('<embed src="'+link+'" pluginspage="http://www.macromedia.com/go/getflashplayer" type="'+type+'" quality="high" width="'+width+'" height="'+height+'" bgcolor="'+bgcolor+'" loop="'+loop+'"></embed>');
-}
-
-function embed_flv(width, height, link, placeholder, loop, player) {
-	document.writeln('<embed src="'+player+'" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" quality="high" width="'+width+'" height="'+height+'" wmode="transparent" flashvars="file='+link+'&autostart=false&repeat='+loop+'&showdigits=true&showfsbutton=false"></embed>');
-}
-
-function embed_wmedia(width, height, link) {
-	document.writeln('<embed type="application/x-mplayer2" src="'+link+'" autosize="1" width="'+width+'" height="'+height+'" showcontrols="1" showstatusbar="0" showdisplay="0" autostart="0"></embed>');
-}
-			<?php
+			SimplePie_Misc::output_javascript();
 			exit;
 		}
 
@@ -1765,7 +1733,7 @@ function embed_wmedia(width, height, link) {
 				{
 					// Create new parser
 					$parser =& new $this->parser_class();
-	
+
 					// If it's parsed fine
 					if ($parser->parse($utf8_data, 'UTF-8'))
 					{
@@ -1777,7 +1745,7 @@ function embed_wmedia(width, height, link) {
 								$this->data['headers'] = $headers;
 							}
 							$this->data['build'] = SIMPLEPIE_BUILD;
-	
+
 							// Cache the file if caching is enabled
 							if ($cache && !$cache->save($this))
 							{
@@ -2665,7 +2633,7 @@ function embed_wmedia(width, height, link) {
 		}
 		elseif ($return = $this->get_channel_tags(SIMPLEPIE_NAMESPACE_RSS_20, 'description'))
 		{
-			return $this->sanitize($return[0]['data'], SIMPLEPIE_CONSTRUCT_MAYBE_HTML, $this->get_base($return[0]));
+			return $this->sanitize($return[0]['data'], SIMPLEPIE_CONSTRUCT_HTML, $this->get_base($return[0]));
 		}
 		elseif ($return = $this->get_channel_tags(SIMPLEPIE_NAMESPACE_DC_11, 'description'))
 		{
@@ -7135,7 +7103,7 @@ class SimplePie_Enclosure
 
 		// Mime-types by handler.
 		$types_flash = array('application/x-shockwave-flash', 'application/futuresplash'); // Flash
-		$types_fmedia = array('video/flv', 'video/x-flv'); // Flash Media Player
+		$types_fmedia = array('video/flv', 'video/x-flv','flv-application/octet-stream'); // Flash Media Player
 		$types_quicktime = array('audio/3gpp', 'audio/3gpp2', 'audio/aac', 'audio/x-aac', 'audio/aiff', 'audio/x-aiff', 'audio/mid', 'audio/midi', 'audio/x-midi', 'audio/mp4', 'audio/m4a', 'audio/x-m4a', 'audio/wav', 'audio/x-wav', 'video/3gpp', 'video/3gpp2', 'video/m4v', 'video/x-m4v', 'video/mp4', 'video/mpeg', 'video/x-mpeg', 'video/quicktime', 'video/sd-video'); // QuickTime
 		$types_wmedia = array('application/asx', 'application/x-mplayer2', 'audio/x-ms-wma', 'audio/x-ms-wax', 'video/x-ms-asf-plugin', 'video/x-ms-asf', 'video/x-ms-wm', 'video/x-ms-wmv', 'video/x-ms-wvx'); // Windows Media
 		$types_mp3 = array('audio/mp3', 'audio/x-mp3', 'audio/mpeg', 'audio/x-mpeg'); // MP3
@@ -7727,9 +7695,9 @@ class SimplePie_File
 					$out = "GET $get HTTP/1.0\r\n";
 					$out .= "Host: $url_parts[host]\r\n";
 					$out .= "User-Agent: $useragent\r\n";
-					if (function_exists('gzinflate'))
+					if (extension_loaded('zlib'))
 					{
-						$out .= "Accept-Encoding: gzip,deflate\r\n";
+						$out .= "Accept-Encoding: x-gzip,gzip,deflate\r\n";
 					}
 
 					if (isset($url_parts['user']) && isset($url_parts['pass']))
@@ -7765,48 +7733,41 @@ class SimplePie_File
 								$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
 								return $this->SimplePie_File($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
 							}
-							if (isset($this->headers['content-encoding']) && ($this->headers['content-encoding'] === 'gzip' || $this->headers['content-encoding'] === 'deflate'))
+							if (isset($this->headers['content-encoding']))
 							{
-								// if (substr($this->body, 0, 8) === "\x1f\x8b\x08\x00\x00\x00\x00\x00")
-								// {
-								// 	$this->body = substr($this->body, 10);
-								// }
-								// $this->body = gzinflate($this->body);
-
-								/**
-								 * Improved gzip decoding.
-								 * Author: patatraboum at free dot fr <http://us.php.net/manual/en/function.gzinflate.php#77336>
-								 */
-								if (substr($this->body, 0, 3) === "\x1f\x8b\x08")
+								// Hey, we act dumb elsewhere, so let's do that here too
+								switch (strtolower(trim($this->headers['content-encoding'], "\x09\x0A\x0D\x20")))
 								{
-									$i = 10;
-									$flg = ord(substr($this->body, 3, 1));
-								
-									if ($flg > 0)
-									{
-										if ($flg & 4)
+									case 'gzip':
+									case 'x-gzip':
+										$decoder = new SimplePie_gzdecode($this->body);
+										if (!$decoder->parse())
 										{
-											list($xlen) = unpack('v', substr($this->body, $i, 2));
-											$i = $i + 2 + $xlen;
+											$this->error = 'Unable to decode HTTP "gzip" stream';
+											$this->success = false;
 										}
-										if ($flg & 8)
+										else
 										{
-											$i = strpos($this->body, "\0", $i) +1;
+											$this->body = $decoder->data;
 										}
-										if ($flg & 16)
+										break;
+
+									case 'deflate':
+										if (($body = gzuncompress($this->body)) === false)
 										{
-											$i = strpos($this->body, "\0", $i) +1;
+											if (($body = gzinflate($this->body)) === false)
+											{
+												$this->error = 'Unable to decode HTTP "deflate" stream';
+												$this->success = false;
+											}
 										}
-										if ($flg & 2)
-										{
-											$i = $i + 2;
-										}
-									}
-								
-									$this->body = gzinflate(substr($this->body, $i, -8));
+										$this->body = $body;
+										break;
+
+									default:
+										$this->error = 'Unknown content coding';
+										$this->success = false;
 								}
-
-
 							}
 						}
 					}
@@ -8261,6 +8222,316 @@ class SimplePie_HTTP_Parser
 	}
 }
 
+/**
+ * gzdecode
+ *
+ * @package SimplePie
+ */
+class SimplePie_gzdecode
+{
+	/**
+	 * Compressed data
+	 *
+	 * @access private
+	 * @see gzdecode::$data
+	 */
+	var $compressed_data;
+
+	/**
+	 * Size of compressed data
+	 *
+	 * @access private
+	 */
+	var $compressed_size;
+
+	/**
+	 * Minimum size of a valid gzip string
+	 *
+	 * @access private
+	 */
+	var $min_compressed_size = 18;
+
+	/**
+	 * Current position of pointer
+	 *
+	 * @access private
+	 */
+	var $position = 0;
+
+	/**
+	 * Flags (FLG)
+	 *
+	 * @access private
+	 */
+	var $flags;
+
+	/**
+	 * Uncompressed data
+	 *
+	 * @access public
+	 * @see gzdecode::$compressed_data
+	 */
+	var $data;
+
+	/**
+	 * Modified time
+	 *
+	 * @access public
+	 */
+	var $MTIME;
+
+	/**
+	 * Extra Flags
+	 *
+	 * @access public
+	 */
+	var $XFL;
+
+	/**
+	 * Operating System
+	 *
+	 * @access public
+	 */
+	var $OS;
+
+	/**
+	 * Subfield ID 1
+	 *
+	 * @access public
+	 * @see gzdecode::$extra_field
+	 * @see gzdecode::$SI2
+	 */
+	var $SI1;
+
+	/**
+	 * Subfield ID 2
+	 *
+	 * @access public
+	 * @see gzdecode::$extra_field
+	 * @see gzdecode::$SI1
+	 */
+	var $SI2;
+
+	/**
+	 * Extra field content
+	 *
+	 * @access public
+	 * @see gzdecode::$SI1
+	 * @see gzdecode::$SI2
+	 */
+	var $extra_field;
+
+	/**
+	 * Original filename
+	 *
+	 * @access public
+	 */
+	var $filename;
+
+	/**
+	 * Human readable comment
+	 *
+	 * @access public
+	 */
+	var $comment;
+
+	/**
+	 * Don't allow anything to be set
+	 *
+	 * @access public
+	 */
+	function __set($name, $value)
+	{
+		trigger_error("Cannot write property $name", E_USER_ERROR);
+	}
+
+	/**
+	 * Set the compressed string and related properties
+	 *
+	 * @access public
+	 */
+	function SimplePie_gzdecode($data)
+	{
+		$this->compressed_data = $data;
+		$this->compressed_size = strlen($data);
+	}
+
+	/**
+	 * Decode the GZIP stream
+	 *
+	 * @access public
+	 */
+	function parse()
+	{
+		if ($this->compressed_size >= $this->min_compressed_size)
+		{
+			// Check ID1, ID2, and CM
+			if (substr($this->compressed_data, 0, 3) !== "\x1F\x8B\x08")
+			{
+				return false;
+			}
+
+			// Get the FLG (FLaGs)
+			$this->flags = ord($this->compressed_data[3]);
+
+			// FLG bits above (1 << 4) are reserved
+			if ($this->flags > 0x1F)
+			{
+				return false;
+			}
+
+			// Advance the pointer after the above
+			$this->position += 4;
+
+			// MTIME
+			$mtime = substr($this->compressed_data, $this->position, 4);
+			// Reverse the string if we're on a big-endian arch because l is the only signed long and is machine endianness
+			if (current(unpack('S', "\x00\x01")) === 1)
+			{
+				$mtime = strrev($mtime);
+			}
+			$this->MTIME = current(unpack('l', $mtime));
+			$this->position += 4;
+
+			// Get the XFL (eXtra FLags)
+			$this->XFL = ord($this->compressed_data[$this->position++]);
+
+			// Get the OS (Operating System)
+			$this->OS = ord($this->compressed_data[$this->position++]);
+
+			// Parse the FEXTRA
+			if ($this->flags & 4)
+			{
+				// Read subfield IDs
+				$this->SI1 = $this->compressed_data[$this->position++];
+				$this->SI2 = $this->compressed_data[$this->position++];
+
+				// SI2 set to zero is reserved for future use
+				if ($this->SI2 === "\x00")
+				{
+					return false;
+				}
+
+				// Get the length of the extra field
+				$len = current(unpack('v', substr($this->compressed_data, $this->position, 2)));
+				$position += 2;
+
+				// Check the length of the string is still valid
+				$this->min_compressed_size += $len + 4;
+				if ($this->compressed_size >= $this->min_compressed_size)
+				{
+					// Set the extra field to the given data
+					$this->extra_field = substr($this->compressed_data, $this->position, $len);
+					$this->position += $len;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			// Parse the FNAME
+			if ($this->flags & 8)
+			{
+				// Get the length of the filename
+				$len = strspn($this->compressed_data, "\x00", $this->position);
+
+				// Check the length of the string is still valid
+				$this->min_compressed_size += $len + 1;
+				if ($this->compressed_size >= $this->min_compressed_size)
+				{
+					// Set the original filename to the given string
+					$this->filename = substr($this->compressed_data, $this->position, $len);
+					$this->position += $len + 1;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			// Parse the FCOMMENT
+			if ($this->flags & 16)
+			{
+				// Get the length of the comment
+				$len = strspn($this->compressed_data, "\x00", $this->position);
+
+				// Check the length of the string is still valid
+				$this->min_compressed_size += $len + 1;
+				if ($this->compressed_size >= $this->min_compressed_size)
+				{
+					// Set the original comment to the given string
+					$this->comment = substr($this->compressed_data, $this->position, $len);
+					$this->position += $len + 1;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			// Parse the FHCRC
+			if ($this->flags & 2)
+			{
+				// Check the length of the string is still valid
+				$this->min_compressed_size += $len + 2;
+				if ($this->compressed_size >= $this->min_compressed_size)
+				{
+					// Read the CRC
+					$crc = current(unpack('v', substr($this->compressed_data, $this->position, 2)));
+
+					// Check the CRC matches
+					if ((crc32(substr($this->compressed_data, 0, $this->position)) & 0xFFFF) === $crc)
+					{
+						$this->position += 2;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			// Decompress the actual data
+			if (($this->data = gzinflate(substr($this->compressed_data, $this->position, -8))) === false)
+			{
+				return false;
+			}
+			else
+			{
+				$this->position = $this->compressed_size - 8;
+			}
+
+			// Check CRC of data
+			$crc = current(unpack('V', substr($this->compressed_data, $this->position, 4)));
+			$this->position += 4;
+			/*if (extension_loaded('hash') && sprintf('%u', current(unpack('V', hash('crc32b', $this->data)))) !== sprintf('%u', $crc))
+			{
+				return false;
+			}*/
+
+			// Check ISIZE of data
+			$isize = current(unpack('V', substr($this->compressed_data, $this->position, 4)));
+			$this->position += 4;
+			if (sprintf('%u', strlen($this->data) & 0xFFFFFFFF) !== sprintf('%u', $isize))
+			{
+				return false;
+			}
+
+			// Wow, against all odds, we've actually got a valid gzip string
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
 class SimplePie_Cache
 {
 	/**
@@ -8707,7 +8978,7 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 
 	function touch()
 	{
-		if ($this->mysql && ($query = mysql_query('UPDATE `' . $this->options['prefix'][0] . 'cache_data` SET `mtime` = ' . time() . ' WHERE `id` = \'' . mysql_real_escape_string($this->id) . "'", $this->mysql)) && mysql_affected_rows($query))
+		if ($this->mysql && ($query = mysql_query('UPDATE `' . $this->options['prefix'][0] . 'cache_data` SET `mtime` = ' . time() . ' WHERE `id` = \'' . mysql_real_escape_string($this->id) . "'", $this->mysql)) && mysql_affected_rows($this->mysql))
 		{
 			return true;
 		}
@@ -8878,22 +9149,25 @@ class SimplePie_Misc
 
 	function error($message, $level, $file, $line)
 	{
-		switch ($level)
+		if ((ini_get('error_reporting') & $level) > 0)
 		{
-			case E_USER_ERROR:
-				$note = 'PHP Error';
-				break;
-			case E_USER_WARNING:
-				$note = 'PHP Warning';
-				break;
-			case E_USER_NOTICE:
-				$note = 'PHP Notice';
-				break;
-			default:
-				$note = 'Unknown Error';
-				break;
+			switch ($level)
+			{
+				case E_USER_ERROR:
+					$note = 'PHP Error';
+					break;
+				case E_USER_WARNING:
+					$note = 'PHP Warning';
+					break;
+				case E_USER_NOTICE:
+					$note = 'PHP Notice';
+					break;
+				default:
+					$note = 'Unknown Error';
+					break;
+			}
+			error_log("$note: $message in $file on line $line", 0);
 		}
-		error_log("$note: $message in $file on line $line", 0);
 		return $message;
 	}
 
@@ -9147,47 +9421,47 @@ class SimplePie_Misc
 			case 'adobestandardencoding':
 			case 'csadobestandardencoding':
 				return 'Adobe-Standard-Encoding';
-	
+
 			case 'adobesymbolencoding':
 			case 'cshppsmath':
 				return 'Adobe-Symbol-Encoding';
-	
+
 			case 'ami1251':
 			case 'ami1251':
 			case 'amiga1251':
 			case 'amiga1251':
 				return 'Amiga-1251';
-	
+
 			case 'ansix31101983':
 			case 'csat5001983':
 			case 'csiso99naplps':
 			case 'isoir99':
 			case 'naplps':
 				return 'ANSI_X3.110-1983';
-	
+
 			case 'arabic7':
 			case 'asmo449':
 			case 'csiso89asmo449':
 			case 'isoir89':
 			case 'iso9036':
 				return 'ASMO_449';
-	
+
 			case 'big5':
 			case 'csbig5':
 			case 'xxbig5':
 				return 'Big5';
-	
+
 			case 'big5hkscs':
 				return 'Big5-HKSCS';
-	
+
 			case 'bocu1':
 			case 'csbocu1':
 				return 'BOCU-1';
-	
+
 			case 'brf':
 			case 'csbrf':
 				return 'BRF';
-	
+
 			case 'bs4730':
 			case 'csiso4unitedkingdom':
 			case 'gb':
@@ -9195,16 +9469,16 @@ class SimplePie_Misc
 			case 'iso646gb':
 			case 'uk':
 				return 'BS_4730';
-	
+
 			case 'bsviewdata':
 			case 'csiso47bsviewdata':
 			case 'isoir47':
 				return 'BS_viewdata';
-	
+
 			case 'cesu8':
 			case 'cscesu8':
 				return 'CESU-8';
-	
+
 			case 'ca':
 			case 'csa71':
 			case 'csaz243419851':
@@ -9212,137 +9486,137 @@ class SimplePie_Misc
 			case 'isoir121':
 			case 'iso646ca':
 				return 'CSA_Z243.4-1985-1';
-	
+
 			case 'csa72':
 			case 'csaz243419852':
 			case 'csiso122canadian2':
 			case 'isoir122':
 			case 'iso646ca2':
 				return 'CSA_Z243.4-1985-2';
-	
+
 			case 'csaz24341985gr':
 			case 'csiso123csaz24341985gr':
 			case 'isoir123':
 				return 'CSA_Z243.4-1985-gr';
-	
+
 			case 'csiso139csn369103':
 			case 'csn369103':
 			case 'isoir139':
 				return 'CSN_369103';
-	
+
 			case 'csdecmcs':
 			case 'dec':
 			case 'decmcs':
 				return 'DEC-MCS';
-	
+
 			case 'csiso21german':
 			case 'de':
 			case 'din66003':
 			case 'isoir21':
 			case 'iso646de':
 				return 'DIN_66003';
-	
+
 			case 'csdkus':
 			case 'dkus':
 				return 'dk-us';
-	
+
 			case 'csiso646danish':
 			case 'dk':
 			case 'ds2089':
 			case 'ds2089':
 			case 'iso646dk':
 				return 'DS_2089';
-	
+
 			case 'csibmebcdicatde':
 			case 'ebcdicatde':
 				return 'EBCDIC-AT-DE';
-	
+
 			case 'csebcdicatdea':
 			case 'ebcdicatdea':
 				return 'EBCDIC-AT-DE-A';
-	
+
 			case 'csebcdiccafr':
 			case 'ebcdiccafr':
 				return 'EBCDIC-CA-FR';
-	
+
 			case 'csebcdicdkno':
 			case 'ebcdicdkno':
 				return 'EBCDIC-DK-NO';
-	
+
 			case 'csebcdicdknoa':
 			case 'ebcdicdknoa':
 				return 'EBCDIC-DK-NO-A';
-	
+
 			case 'csebcdices':
 			case 'ebcdices':
 				return 'EBCDIC-ES';
-	
+
 			case 'csebcdicesa':
 			case 'ebcdicesa':
 				return 'EBCDIC-ES-A';
-	
+
 			case 'csebcdicess':
 			case 'ebcdicess':
 				return 'EBCDIC-ES-S';
-	
+
 			case 'csebcdicfise':
 			case 'ebcdicfise':
 				return 'EBCDIC-FI-SE';
-	
+
 			case 'csebcdicfisea':
 			case 'ebcdicfisea':
 				return 'EBCDIC-FI-SE-A';
-	
+
 			case 'csebcdicfr':
 			case 'ebcdicfr':
 				return 'EBCDIC-FR';
-	
+
 			case 'csebcdicit':
 			case 'ebcdicit':
 				return 'EBCDIC-IT';
-	
+
 			case 'csebcdicpt':
 			case 'ebcdicpt':
 				return 'EBCDIC-PT';
-	
+
 			case 'csebcdicuk':
 			case 'ebcdicuk':
 				return 'EBCDIC-UK';
-	
+
 			case 'csebcdicus':
 			case 'ebcdicus':
 				return 'EBCDIC-US';
-	
+
 			case 'csiso111ecmacyrillic':
 			case 'ecmacyrillic':
 			case 'isoir111':
 			case 'koi8e':
 				return 'ECMA-cyrillic';
-	
+
 			case 'csiso17spanish':
 			case 'es':
 			case 'isoir17':
 			case 'iso646es':
 				return 'ES';
-	
+
 			case 'csiso85spanish2':
 			case 'es2':
 			case 'isoir85':
 			case 'iso646es2':
 				return 'ES2';
-	
+
 			case 'cseucfixwidjapanese':
 			case 'extendedunixcodefixedwidthforjapanese':
 				return 'Extended_UNIX_Code_Fixed_Width_for_Japanese';
-	
+
 			case 'cseucpkdfmtjapanese':
 			case 'eucjp':
 			case 'extendedunixcodepackedformatforjapanese':
 				return 'Extended_UNIX_Code_Packed_Format_for_Japanese';
-	
+
 			case 'gb18030':
 				return 'GB18030';
-	
+
 			case 'cp936':
 			case 'gbk':
 			case 'ms936':
@@ -9354,143 +9628,143 @@ class SimplePie_Misc
 			case 'gb231280':
 			case 'isoir58':
 				return 'GBK';
-	
+
 			case 'cn':
 			case 'csiso57gb1988':
 			case 'gb198880':
 			case 'isoir57':
 			case 'iso646cn':
 				return 'GB_1988-80';
-	
+
 			case 'csiso153gost1976874':
 			case 'gost1976874':
 			case 'isoir153':
 			case 'stsev35888':
 				return 'GOST_19768-74';
-	
+
 			case 'csiso150':
 			case 'csiso150greekccitt':
 			case 'greekccitt':
 			case 'isoir150':
 				return 'greek-ccitt';
-	
+
 			case 'csiso88greek7':
 			case 'greek7':
 			case 'isoir88':
 				return 'greek7';
-	
+
 			case 'csiso18greek7old':
 			case 'greek7old':
 			case 'isoir18':
 				return 'greek7-old';
-	
+
 			case 'cshpdesktop':
 			case 'hpdesktop':
 				return 'HP-DeskTop';
-	
+
 			case 'cshplegal':
 			case 'hplegal':
 				return 'HP-Legal';
-	
+
 			case 'cshpmath8':
 			case 'hpmath8':
 				return 'HP-Math8';
-	
+
 			case 'cshppifont':
 			case 'hppifont':
 				return 'HP-Pi-font';
-	
+
 			case 'cshproman8':
 			case 'hproman8':
 			case 'r8':
 			case 'roman8':
 				return 'hp-roman8';
-	
+
 			case 'hzgb2312':
 				return 'HZ-GB-2312';
-	
+
 			case 'csibmsymbols':
 			case 'ibmsymbols':
 				return 'IBM-Symbols';
-	
+
 			case 'csibmthai':
 			case 'ibmthai':
 				return 'IBM-Thai';
-	
+
 			case 'ccsid00858':
 			case 'cp00858':
 			case 'ibm00858':
 			case 'pcmultilingual850euro':
 				return 'IBM00858';
-	
+
 			case 'ccsid00924':
 			case 'cp00924':
 			case 'ebcdiclatin9euro':
 			case 'ibm00924':
 				return 'IBM00924';
-	
+
 			case 'ccsid01140':
 			case 'cp01140':
 			case 'ebcdicus37euro':
 			case 'ibm01140':
 				return 'IBM01140';
-	
+
 			case 'ccsid01141':
 			case 'cp01141':
 			case 'ebcdicde273euro':
 			case 'ibm01141':
 				return 'IBM01141';
-	
+
 			case 'ccsid01142':
 			case 'cp01142':
 			case 'ebcdicdk277euro':
 			case 'ebcdicno277euro':
 			case 'ibm01142':
 				return 'IBM01142';
-	
+
 			case 'ccsid01143':
 			case 'cp01143':
 			case 'ebcdicfi278euro':
 			case 'ebcdicse278euro':
 			case 'ibm01143':
 				return 'IBM01143';
-	
+
 			case 'ccsid01144':
 			case 'cp01144':
 			case 'ebcdicit280euro':
 			case 'ibm01144':
 				return 'IBM01144';
-	
+
 			case 'ccsid01145':
 			case 'cp01145':
 			case 'ebcdices284euro':
 			case 'ibm01145':
 				return 'IBM01145';
-	
+
 			case 'ccsid01146':
 			case 'cp01146':
 			case 'ebcdicgb285euro':
 			case 'ibm01146':
 				return 'IBM01146';
-	
+
 			case 'ccsid01147':
 			case 'cp01147':
 			case 'ebcdicfr297euro':
 			case 'ibm01147':
 				return 'IBM01147';
-	
+
 			case 'ccsid01148':
 			case 'cp01148':
 			case 'ebcdicinternational500euro':
 			case 'ibm01148':
 				return 'IBM01148';
-	
+
 			case 'ccsid01149':
 			case 'cp01149':
 			case 'ebcdicis871euro':
 			case 'ibm01149':
 				return 'IBM01149';
-	
+
 			case 'cp037':
 			case 'csibm037':
 			case 'ebcdiccpca':
@@ -9499,306 +9773,306 @@ class SimplePie_Misc
 			case 'ebcdiccpwt':
 			case 'ibm037':
 				return 'IBM037';
-	
+
 			case 'cp038':
 			case 'csibm038':
 			case 'ebcdicint':
 			case 'ibm038':
 				return 'IBM038';
-	
+
 			case 'cp273':
 			case 'csibm273':
 			case 'ibm273':
 				return 'IBM273';
-	
+
 			case 'cp274':
 			case 'csibm274':
 			case 'ebcdicbe':
 			case 'ibm274':
 				return 'IBM274';
-	
+
 			case 'cp275':
 			case 'csibm275':
 			case 'ebcdicbr':
 			case 'ibm275':
 				return 'IBM275';
-	
+
 			case 'csibm277':
 			case 'ebcdiccpdk':
 			case 'ebcdiccpno':
 			case 'ibm277':
 				return 'IBM277';
-	
+
 			case 'cp278':
 			case 'csibm278':
 			case 'ebcdiccpfi':
 			case 'ebcdiccpse':
 			case 'ibm278':
 				return 'IBM278';
-	
+
 			case 'cp280':
 			case 'csibm280':
 			case 'ebcdiccpit':
 			case 'ibm280':
 				return 'IBM280';
-	
+
 			case 'cp281':
 			case 'csibm281':
 			case 'ebcdicjpe':
 			case 'ibm281':
 				return 'IBM281';
-	
+
 			case 'cp284':
 			case 'csibm284':
 			case 'ebcdiccpes':
 			case 'ibm284':
 				return 'IBM284';
-	
+
 			case 'cp285':
 			case 'csibm285':
 			case 'ebcdiccpgb':
 			case 'ibm285':
 				return 'IBM285';
-	
+
 			case 'cp290':
 			case 'csibm290':
 			case 'ebcdicjpkana':
 			case 'ibm290':
 				return 'IBM290';
-	
+
 			case 'cp297':
 			case 'csibm297':
 			case 'ebcdiccpfr':
 			case 'ibm297':
 				return 'IBM297';
-	
+
 			case 'cp420':
 			case 'csibm420':
 			case 'ebcdiccpar1':
 			case 'ibm420':
 				return 'IBM420';
-	
+
 			case 'cp423':
 			case 'csibm423':
 			case 'ebcdiccpgr':
 			case 'ibm423':
 				return 'IBM423';
-	
+
 			case 'cp424':
 			case 'csibm424':
 			case 'ebcdiccphe':
 			case 'ibm424':
 				return 'IBM424';
-	
+
 			case '437':
 			case 'cp437':
 			case 'cspc8codepage437':
 			case 'ibm437':
 				return 'IBM437';
-	
+
 			case 'cp500':
 			case 'csibm500':
 			case 'ebcdiccpbe':
 			case 'ebcdiccpch':
 			case 'ibm500':
 				return 'IBM500';
-	
+
 			case 'cp775':
 			case 'cspc775baltic':
 			case 'ibm775':
 				return 'IBM775';
-	
+
 			case '850':
 			case 'cp850':
 			case 'cspc850multilingual':
 			case 'ibm850':
 				return 'IBM850';
-	
+
 			case '851':
 			case 'cp851':
 			case 'csibm851':
 			case 'ibm851':
 				return 'IBM851';
-	
+
 			case '852':
 			case 'cp852':
 			case 'cspcp852':
 			case 'ibm852':
 				return 'IBM852';
-	
+
 			case '855':
 			case 'cp855':
 			case 'csibm855':
 			case 'ibm855':
 				return 'IBM855';
-	
+
 			case '857':
 			case 'cp857':
 			case 'csibm857':
 			case 'ibm857':
 				return 'IBM857';
-	
+
 			case '860':
 			case 'cp860':
 			case 'csibm860':
 			case 'ibm860':
 				return 'IBM860';
-	
+
 			case '861':
 			case 'cpis':
 			case 'cp861':
 			case 'csibm861':
 			case 'ibm861':
 				return 'IBM861';
-	
+
 			case '862':
 			case 'cp862':
 			case 'cspc862latinhebrew':
 			case 'ibm862':
 				return 'IBM862';
-	
+
 			case '863':
 			case 'cp863':
 			case 'csibm863':
 			case 'ibm863':
 				return 'IBM863';
-	
+
 			case 'cp864':
 			case 'csibm864':
 			case 'ibm864':
 				return 'IBM864';
-	
+
 			case '865':
 			case 'cp865':
 			case 'csibm865':
 			case 'ibm865':
 				return 'IBM865';
-	
+
 			case '866':
 			case 'cp866':
 			case 'csibm866':
 			case 'ibm866':
 				return 'IBM866';
-	
+
 			case 'cpar':
 			case 'cp868':
 			case 'csibm868':
 			case 'ibm868':
 				return 'IBM868';
-	
+
 			case '869':
 			case 'cpgr':
 			case 'cp869':
 			case 'csibm869':
 			case 'ibm869':
 				return 'IBM869';
-	
+
 			case 'cp870':
 			case 'csibm870':
 			case 'ebcdiccproece':
 			case 'ebcdiccpyu':
 			case 'ibm870':
 				return 'IBM870';
-	
+
 			case 'cp871':
 			case 'csibm871':
 			case 'ebcdiccpis':
 			case 'ibm871':
 				return 'IBM871';
-	
+
 			case 'cp880':
 			case 'csibm880':
 			case 'ebcdiccyrillic':
 			case 'ibm880':
 				return 'IBM880';
-	
+
 			case 'cp891':
 			case 'csibm891':
 			case 'ibm891':
 				return 'IBM891';
-	
+
 			case 'cp903':
 			case 'csibm903':
 			case 'ibm903':
 				return 'IBM903';
-	
+
 			case '904':
 			case 'cp904':
 			case 'csibbm904':
 			case 'ibm904':
 				return 'IBM904';
-	
+
 			case 'cp905':
 			case 'csibm905':
 			case 'ebcdiccptr':
 			case 'ibm905':
 				return 'IBM905';
-	
+
 			case 'cp918':
 			case 'csibm918':
 			case 'ebcdiccpar2':
 			case 'ibm918':
 				return 'IBM918';
-	
+
 			case 'cp1026':
 			case 'csibm1026':
 			case 'ibm1026':
 				return 'IBM1026';
-	
+
 			case 'ibm1047':
 			case 'ibm1047':
 				return 'IBM1047';
-	
+
 			case 'csiso143iecp271':
 			case 'iecp271':
 			case 'isoir143':
 				return 'IEC_P27-1';
-	
+
 			case 'csiso49inis':
 			case 'inis':
 			case 'isoir49':
 				return 'INIS';
-	
+
 			case 'csiso50inis8':
 			case 'inis8':
 			case 'isoir50':
 				return 'INIS-8';
-	
+
 			case 'csiso51iniscyrillic':
 			case 'iniscyrillic':
 			case 'isoir51':
 				return 'INIS-cyrillic';
-	
+
 			case 'csinvariant':
 			case 'invariant':
 				return 'INVARIANT';
-	
+
 			case 'iso2022cn':
 				return 'ISO-2022-CN';
-	
+
 			case 'iso2022cnext':
 				return 'ISO-2022-CN-EXT';
-	
+
 			case 'csiso2022jp':
 			case 'iso2022jp':
 				return 'ISO-2022-JP';
-	
+
 			case 'csiso2022jp2':
 			case 'iso2022jp2':
 				return 'ISO-2022-JP-2';
-	
+
 			case 'csiso2022kr':
 			case 'iso2022kr':
 				return 'ISO-2022-KR';
-	
+
 			case 'cswindows30latin1':
 			case 'iso88591windows30latin1':
 				return 'ISO-8859-1-Windows-3.0-Latin-1';
-	
+
 			case 'cswindows31latin1':
 			case 'iso88591windows31latin1':
 				return 'ISO-8859-1-Windows-3.1-Latin-1';
-	
+
 			case 'csisolatin2':
 			case 'iso88592':
 			case 'isoir101':
@@ -9807,11 +10081,11 @@ class SimplePie_Misc
 			case 'l2':
 			case 'latin2':
 				return 'ISO-8859-2';
-	
+
 			case 'cswindows31latin2':
 			case 'iso88592windowslatin2':
 				return 'ISO-8859-2-Windows-Latin-2';
-	
+
 			case 'csisolatin3':
 			case 'iso88593':
 			case 'isoir109':
@@ -9820,7 +10094,7 @@ class SimplePie_Misc
 			case 'l3':
 			case 'latin3':
 				return 'ISO-8859-3';
-	
+
 			case 'csisolatin4':
 			case 'iso88594':
 			case 'isoir110':
@@ -9829,7 +10103,7 @@ class SimplePie_Misc
 			case 'l4':
 			case 'latin4':
 				return 'ISO-8859-4';
-	
+
 			case 'csisolatincyrillic':
 			case 'cyrillic':
 			case 'iso88595':
@@ -9837,7 +10111,7 @@ class SimplePie_Misc
 			case 'iso88595':
 			case 'iso885951988':
 				return 'ISO-8859-5';
-	
+
 			case 'arabic':
 			case 'asmo708':
 			case 'csisolatinarabic':
@@ -9847,17 +10121,17 @@ class SimplePie_Misc
 			case 'iso88596':
 			case 'iso885961987':
 				return 'ISO-8859-6';
-	
+
 			case 'csiso88596e':
 			case 'iso88596e':
 			case 'iso88596e':
 				return 'ISO-8859-6-E';
-	
+
 			case 'csiso88596i':
 			case 'iso88596i':
 			case 'iso88596i':
 				return 'ISO-8859-6-I';
-	
+
 			case 'csisolatingreek':
 			case 'ecma118':
 			case 'elot928':
@@ -9868,7 +10142,7 @@ class SimplePie_Misc
 			case 'iso88597':
 			case 'iso885971987':
 				return 'ISO-8859-7';
-	
+
 			case 'csisolatinhebrew':
 			case 'hebrew':
 			case 'iso88598':
@@ -9876,21 +10150,21 @@ class SimplePie_Misc
 			case 'iso88598':
 			case 'iso885981988':
 				return 'ISO-8859-8';
-	
+
 			case 'csiso88598e':
 			case 'iso88598e':
 			case 'iso88598e':
 				return 'ISO-8859-8-E';
-	
+
 			case 'csiso88598i':
 			case 'iso88598i':
 			case 'iso88598i':
 				return 'ISO-8859-8-I';
-	
+
 			case 'cswindows31latin5':
 			case 'iso88599windowslatin5':
 				return 'ISO-8859-9-Windows-Latin-5';
-	
+
 			case 'csisolatin6':
 			case 'iso885910':
 			case 'isoir157':
@@ -9898,10 +10172,10 @@ class SimplePie_Misc
 			case 'l6':
 			case 'latin6':
 				return 'ISO-8859-10';
-	
+
 			case 'iso885913':
 				return 'ISO-8859-13';
-	
+
 			case 'iso885914':
 			case 'isoceltic':
 			case 'isoir199':
@@ -9910,12 +10184,12 @@ class SimplePie_Misc
 			case 'l8':
 			case 'latin8':
 				return 'ISO-8859-14';
-	
+
 			case 'iso885915':
 			case 'iso885915':
 			case 'latin9':
 				return 'ISO-8859-15';
-	
+
 			case 'iso885916':
 			case 'isoir226':
 			case 'iso885916':
@@ -9923,120 +10197,120 @@ class SimplePie_Misc
 			case 'l10':
 			case 'latin10':
 				return 'ISO-8859-16';
-	
+
 			case 'iso10646j1':
 				return 'ISO-10646-J-1';
-	
+
 			case 'csunicode':
 			case 'iso10646ucs2':
 				return 'ISO-10646-UCS-2';
-	
+
 			case 'csucs4':
 			case 'iso10646ucs4':
 				return 'ISO-10646-UCS-4';
-	
+
 			case 'csunicodeascii':
 			case 'iso10646ucsbasic':
 				return 'ISO-10646-UCS-Basic';
-	
+
 			case 'csunicodelatin1':
 			case 'iso10646':
 			case 'iso10646unicodelatin1':
 				return 'ISO-10646-Unicode-Latin1';
-	
+
 			case 'csiso10646utf1':
 			case 'iso10646utf1':
 				return 'ISO-10646-UTF-1';
-	
+
 			case 'csiso115481':
 			case 'iso115481':
 			case 'iso115481':
 			case 'isotr115481':
 				return 'ISO-11548-1';
-	
+
 			case 'csiso90':
 			case 'isoir90':
 				return 'iso-ir-90';
-	
+
 			case 'csunicodeibm1261':
 			case 'isounicodeibm1261':
 				return 'ISO-Unicode-IBM-1261';
-	
+
 			case 'csunicodeibm1264':
 			case 'isounicodeibm1264':
 				return 'ISO-Unicode-IBM-1264';
-	
+
 			case 'csunicodeibm1265':
 			case 'isounicodeibm1265':
 				return 'ISO-Unicode-IBM-1265';
-	
+
 			case 'csunicodeibm1268':
 			case 'isounicodeibm1268':
 				return 'ISO-Unicode-IBM-1268';
-	
+
 			case 'csunicodeibm1276':
 			case 'isounicodeibm1276':
 				return 'ISO-Unicode-IBM-1276';
-	
+
 			case 'csiso646basic1983':
 			case 'iso646basic1983':
 			case 'ref':
 				return 'ISO_646.basic:1983';
-	
+
 			case 'csiso2intlrefversion':
 			case 'irv':
 			case 'isoir2':
 			case 'iso646irv1983':
 				return 'ISO_646.irv:1983';
-	
+
 			case 'csiso2033':
 			case 'e13b':
 			case 'isoir98':
 			case 'iso20331983':
 				return 'ISO_2033-1983';
-	
+
 			case 'csiso5427cyrillic':
 			case 'isoir37':
 			case 'iso5427':
 				return 'ISO_5427';
-	
+
 			case 'isoir54':
 			case 'iso5427cyrillic1981':
 			case 'iso54271981':
 				return 'ISO_5427:1981';
-	
+
 			case 'csiso5428greek':
 			case 'isoir55':
 			case 'iso54281980':
 				return 'ISO_5428:1980';
-	
+
 			case 'csiso6937add':
 			case 'isoir152':
 			case 'iso6937225':
 				return 'ISO_6937-2-25';
-	
+
 			case 'csisotextcomm':
 			case 'isoir142':
 			case 'iso69372add':
 				return 'ISO_6937-2-add';
-	
+
 			case 'csiso8859supp':
 			case 'isoir154':
 			case 'iso8859supp':
 			case 'latin125':
 				return 'ISO_8859-supp';
-	
+
 			case 'csiso10367box':
 			case 'isoir155':
 			case 'iso10367box':
 				return 'ISO_10367-box';
-	
+
 			case 'csiso15italian':
 			case 'isoir15':
 			case 'iso646it':
 			case 'it':
 				return 'IT';
-	
+
 			case 'csiso13jisc6220jp':
 			case 'isoir13':
 			case 'jisc62201969':
@@ -10044,77 +10318,77 @@ class SimplePie_Misc
 			case 'katakana':
 			case 'x02017':
 				return 'JIS_C6220-1969-jp';
-	
+
 			case 'csiso14jisc6220ro':
 			case 'isoir14':
 			case 'iso646jp':
 			case 'jisc62201969ro':
 			case 'jp':
 				return 'JIS_C6220-1969-ro';
-	
+
 			case 'csiso42jisc62261978':
 			case 'isoir42':
 			case 'jisc62261978':
 				return 'JIS_C6226-1978';
-	
+
 			case 'csiso87jisx0208':
 			case 'isoir87':
 			case 'jisc62261983':
 			case 'jisx02081983':
 			case 'x0208':
 				return 'JIS_C6226-1983';
-	
+
 			case 'csiso91jisc62291984a':
 			case 'isoir91':
 			case 'jisc62291984a':
 			case 'jpocra':
 				return 'JIS_C6229-1984-a';
-	
+
 			case 'csiso92jisc62991984b':
 			case 'isoir92':
 			case 'iso646jpocrb':
 			case 'jisc62291984b':
 			case 'jpocrb':
 				return 'JIS_C6229-1984-b';
-	
+
 			case 'csiso93jis62291984badd':
 			case 'isoir93':
 			case 'jisc62291984badd':
 			case 'jpocrbadd':
 				return 'JIS_C6229-1984-b-add';
-	
+
 			case 'csiso94jis62291984hand':
 			case 'isoir94':
 			case 'jisc62291984hand':
 			case 'jpocrhand':
 				return 'JIS_C6229-1984-hand';
-	
+
 			case 'csiso95jis62291984handadd':
 			case 'isoir95':
 			case 'jisc62291984handadd':
 			case 'jpocrhandadd':
 				return 'JIS_C6229-1984-hand-add';
-	
+
 			case 'csiso96jisc62291984kana':
 			case 'isoir96':
 			case 'jisc62291984kana':
 				return 'JIS_C6229-1984-kana';
-	
+
 			case 'csjisencoding':
 			case 'jisencoding':
 				return 'JIS_Encoding';
-	
+
 			case 'cshalfwidthkatakana':
 			case 'jisx0201':
 			case 'x0201':
 				return 'JIS_X0201';
-	
+
 			case 'csiso159jisx02121990':
 			case 'isoir159':
 			case 'jisx02121990':
 			case 'x0212':
 				return 'JIS_X0212-1990';
-	
+
 			case 'csiso141jusib1002':
 			case 'isoir141':
 			case 'iso646yu':
@@ -10122,120 +10396,120 @@ class SimplePie_Misc
 			case 'jusib1002':
 			case 'yu':
 				return 'JUS_I.B1.002';
-	
+
 			case 'csiso147macedonian':
 			case 'isoir147':
 			case 'jusib1003mac':
 			case 'macedonian':
 				return 'JUS_I.B1.003-mac';
-	
+
 			case 'csiso146serbian':
 			case 'isoir146':
 			case 'jusib1003serb':
 			case 'serbian':
 				return 'JUS_I.B1.003-serb';
-	
+
 			case 'koi7switched':
 				return 'KOI7-switched';
-	
+
 			case 'cskoi8r':
 			case 'koi8r':
 				return 'KOI8-R';
-	
+
 			case 'koi8u':
 				return 'KOI8-U';
-	
+
 			case 'csksc5636':
 			case 'iso646kr':
 			case 'ksc5636':
 				return 'KSC5636';
-	
+
 			case 'cskz1048':
 			case 'kz1048':
 			case 'rk1048':
 			case 'strk10482002':
 				return 'KZ-1048';
-	
+
 			case 'csiso19latingreek':
 			case 'isoir19':
 			case 'latingreek':
 				return 'latin-greek';
-	
+
 			case 'csiso27latingreek1':
 			case 'isoir27':
 			case 'latingreek1':
 				return 'Latin-greek-1';
-	
+
 			case 'csiso158lap':
 			case 'isoir158':
 			case 'lap':
 			case 'latinlap':
 				return 'latin-lap';
-	
+
 			case 'csmacintosh':
 			case 'mac':
 			case 'macintosh':
 				return 'macintosh';
-	
+
 			case 'csmicrosoftpublishing':
 			case 'microsoftpublishing':
 				return 'Microsoft-Publishing';
-	
+
 			case 'csmnem':
 			case 'mnem':
 				return 'MNEM';
-	
+
 			case 'csmnemonic':
 			case 'mnemonic':
 				return 'MNEMONIC';
-	
+
 			case 'csiso86hungarian':
 			case 'hu':
 			case 'isoir86':
 			case 'iso646hu':
 			case 'msz77953':
 				return 'MSZ_7795.3';
-	
+
 			case 'csnatsdano':
 			case 'isoir91':
 			case 'natsdano':
 				return 'NATS-DANO';
-	
+
 			case 'csnatsdanoadd':
 			case 'isoir92':
 			case 'natsdanoadd':
 				return 'NATS-DANO-ADD';
-	
+
 			case 'csnatssefi':
 			case 'isoir81':
 			case 'natssefi':
 				return 'NATS-SEFI';
-	
+
 			case 'csnatssefiadd':
 			case 'isoir82':
 			case 'natssefiadd':
 				return 'NATS-SEFI-ADD';
-	
+
 			case 'csiso151cuba':
 			case 'cuba':
 			case 'isoir151':
 			case 'iso646cu':
 			case 'ncnc001081':
 				return 'NC_NC00-10:81';
-	
+
 			case 'csiso69french':
 			case 'fr':
 			case 'isoir69':
 			case 'iso646fr':
 			case 'nfz62010':
 				return 'NF_Z_62-010';
-	
+
 			case 'csiso25french':
 			case 'isoir25':
 			case 'iso646fr1':
 			case 'nfz620101973':
 				return 'NF_Z_62-010_(1973)';
-	
+
 			case 'csiso60danishnorwegian':
 			case 'csiso60norwegian1':
 			case 'isoir60':
@@ -10243,53 +10517,53 @@ class SimplePie_Misc
 			case 'no':
 			case 'ns45511':
 				return 'NS_4551-1';
-	
+
 			case 'csiso61norwegian2':
 			case 'isoir61':
 			case 'iso646no2':
 			case 'no2':
 			case 'ns45512':
 				return 'NS_4551-2';
-	
+
 			case 'osdebcdicdf03irv':
 				return 'OSD_EBCDIC_DF03_IRV';
-	
+
 			case 'osdebcdicdf041':
 				return 'OSD_EBCDIC_DF04_1';
-	
+
 			case 'osdebcdicdf0415':
 				return 'OSD_EBCDIC_DF04_15';
-	
+
 			case 'cspc8danishnorwegian':
 			case 'pc8danishnorwegian':
 				return 'PC8-Danish-Norwegian';
-	
+
 			case 'cspc8turkish':
 			case 'pc8turkish':
 				return 'PC8-Turkish';
-	
+
 			case 'csiso16portuguese':
 			case 'isoir16':
 			case 'iso646pt':
 			case 'pt':
 				return 'PT';
-	
+
 			case 'csiso84portuguese2':
 			case 'isoir84':
 			case 'iso646pt2':
 			case 'pt2':
 				return 'PT2';
-	
+
 			case 'cp154':
 			case 'csptcp154':
 			case 'cyrillicasian':
 			case 'pt154':
 			case 'ptcp154':
 				return 'PTCP154';
-	
+
 			case 'scsu':
 				return 'SCSU';
-	
+
 			case 'csiso10swedish':
 			case 'fi':
 			case 'isoir10':
@@ -10298,51 +10572,51 @@ class SimplePie_Misc
 			case 'se':
 			case 'sen850200b':
 				return 'SEN_850200_B';
-	
+
 			case 'csiso11swedishfornames':
 			case 'isoir11':
 			case 'iso646se2':
 			case 'se2':
 			case 'sen850200c':
 				return 'SEN_850200_C';
-	
+
 			case 'csshiftjis':
 			case 'mskanji':
 			case 'shiftjis':
 				return 'Shift_JIS';
-	
+
 			case 'csiso102t617bit':
 			case 'isoir102':
 			case 't617bit':
 				return 'T.61-7bit';
-	
+
 			case 'csiso103t618bit':
 			case 'isoir103':
 			case 't61':
 			case 't618bit':
 				return 'T.61-8bit';
-	
+
 			case 'csiso128t101g2':
 			case 'isoir128':
 			case 't101g2':
 				return 'T.101-G2';
-	
+
 			case 'cstscii':
 			case 'tscii':
 				return 'TSCII';
-	
+
 			case 'csunicode11':
 			case 'unicode11':
 				return 'UNICODE-1-1';
-	
+
 			case 'csunicode11utf7':
 			case 'unicode11utf7':
 				return 'UNICODE-1-1-UTF-7';
-	
+
 			case 'csunknown8bit':
 			case 'unknown8bit':
 				return 'UNKNOWN-8BIT';
-	
+
 			case 'ansix341968':
 			case 'ansix341986':
 			case 'ascii':
@@ -10355,68 +10629,68 @@ class SimplePie_Misc
 			case 'us':
 			case 'usascii':
 				return 'US-ASCII';
-	
+
 			case 'csusdk':
 			case 'usdk':
 				return 'us-dk';
-	
+
 			case 'utf7':
 				return 'UTF-7';
-	
+
 			case 'utf8':
 				return 'UTF-8';
-	
+
 			case 'utf16':
 				return 'UTF-16';
-	
+
 			case 'utf16be':
 				return 'UTF-16BE';
-	
+
 			case 'utf16le':
 				return 'UTF-16LE';
-	
+
 			case 'utf32':
 				return 'UTF-32';
-	
+
 			case 'utf32be':
 				return 'UTF-32BE';
-	
+
 			case 'utf32le':
 				return 'UTF-32LE';
-	
+
 			case 'csventurainternational':
 			case 'venturainternational':
 				return 'Ventura-International';
-	
+
 			case 'csventuramath':
 			case 'venturamath':
 				return 'Ventura-Math';
-	
+
 			case 'csventuraus':
 			case 'venturaus':
 				return 'Ventura-US';
-	
+
 			case 'csiso70videotexsupp1':
 			case 'isoir70':
 			case 'videotexsuppl':
 				return 'videotex-suppl';
-	
+
 			case 'csviqr':
 			case 'viqr':
 				return 'VIQR';
-	
+
 			case 'csviscii':
 			case 'viscii':
 				return 'VISCII';
-	
+
 			case 'cswindows31j':
 			case 'windows31j':
 				return 'Windows-31J';
-	
+
 			case 'iso885911':
 			case 'tis620':
 				return 'Windows-874';
-	
+
 			case 'cseuckr':
 			case 'euckr':
 			case 'windows949':
@@ -10427,13 +10701,13 @@ class SimplePie_Misc
 			case 'ksc56011987':
 			case 'ksc56011989':
 				return 'Windows-949';
-	
+
 			case 'windows1250':
 				return 'windows-1250';
-	
+
 			case 'windows1251':
 				return 'windows-1251';
-	
+
 			case 'cp819':
 			case 'csisolatin1':
 			case 'ibm819':
@@ -10444,13 +10718,13 @@ class SimplePie_Misc
 			case 'latin1':
 			case 'windows1252':
 				return 'Windows-1252';
-	
+
 			case 'windows1252':
 				return 'windows-1252';
-	
+
 			case 'windows1253':
 				return 'windows-1253';
-	
+
 			case 'csisolatin5':
 			case 'iso88599':
 			case 'isoir148':
@@ -10459,22 +10733,22 @@ class SimplePie_Misc
 			case 'latin5':
 			case 'windows1254':
 				return 'Windows-1254';
-	
+
 			case 'windows1254':
 				return 'windows-1254';
-	
+
 			case 'windows1255':
 				return 'windows-1255';
-	
+
 			case 'windows1256':
 				return 'windows-1256';
-	
+
 			case 'windows1257':
 				return 'windows-1257';
-	
+
 			case 'windows1258':
 				return 'windows-1258';
-	
+
 			default:
 				return $charset;
 		}
@@ -10901,7 +11175,7 @@ class SimplePie_Misc
 				trigger_error('needle is not a string or an integer', E_USER_WARNING);
 				return false;
 			}
-	
+
 			return strpos(strtolower($haystack), $needle, $offset);
 		}
 	}
@@ -11043,6 +11317,43 @@ class SimplePie_Misc
 			$encoding[] = 'UTF-8';
 		}
 		return $encoding;
+	}
+
+	function output_javascript()
+	{
+		if (function_exists('ob_gzhandler'))
+		{
+			ob_start('ob_gzhandler');
+		}
+		header('Content-type: text/javascript; charset: UTF-8');
+		header('Cache-Control: must-revalidate');
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 604800) . ' GMT'); // 7 days
+		?>
+function embed_odeo(link) {
+	document.writeln('<embed src="http://odeo.com/flash/audio_player_fullsize.swf" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" quality="high" width="440" height="80" wmode="transparent" allowScriptAccess="any" flashvars="valid_sample_rate=true&external_url='+link+'"></embed>');
+}
+
+function embed_quicktime(type, bgcolor, width, height, link, placeholder, loop) {
+	if (placeholder != '') {
+		document.writeln('<embed type="'+type+'" style="cursor:hand; cursor:pointer;" href="'+link+'" src="'+placeholder+'" width="'+width+'" height="'+height+'" autoplay="false" target="myself" controller="false" loop="'+loop+'" scale="aspect" bgcolor="'+bgcolor+'" pluginspage="http://www.apple.com/quicktime/download/"></embed>');
+	}
+	else {
+		document.writeln('<embed type="'+type+'" style="cursor:hand; cursor:pointer;" src="'+link+'" width="'+width+'" height="'+height+'" autoplay="false" target="myself" controller="true" loop="'+loop+'" scale="aspect" bgcolor="'+bgcolor+'" pluginspage="http://www.apple.com/quicktime/download/"></embed>');
+	}
+}
+
+function embed_flash(bgcolor, width, height, link, loop, type) {
+	document.writeln('<embed src="'+link+'" pluginspage="http://www.macromedia.com/go/getflashplayer" type="'+type+'" quality="high" width="'+width+'" height="'+height+'" bgcolor="'+bgcolor+'" loop="'+loop+'"></embed>');
+}
+
+function embed_flv(width, height, link, placeholder, loop, player) {
+	document.writeln('<embed src="'+player+'" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" quality="high" width="'+width+'" height="'+height+'" wmode="transparent" flashvars="file='+link+'&autostart=false&repeat='+loop+'&showdigits=true&showfsbutton=false"></embed>');
+}
+
+function embed_wmedia(width, height, link) {
+	document.writeln('<embed type="application/x-mplayer2" src="'+link+'" autosize="1" width="'+width+'" height="'+height+'" showcontrols="1" showstatusbar="0" showdisplay="0" autostart="0"></embed>');
+}
+		<?php
 	}
 }
 
@@ -12047,7 +12358,7 @@ class SimplePie_Net_IPv6
 	 * function expects an valid IPv6 address and expands the '::' to
 	 * the required zeros.
 	 *
-	 * Example:	 FF01::101	->  FF01:0:0:0:0:0:0:101
+	 * Example:	 FF01::101	->	FF01:0:0:0:0:0:0:101
 	 *			 ::1		->	0:0:0:0:0:0:0:1
 	 *
 	 * @access public
@@ -12069,7 +12380,7 @@ class SimplePie_Net_IPv6
 			}
 			else
 			{
-			   	$pos = 0;
+				$pos = 0;
 				if (($pos = substr_count($ip1, ':')) > 0)
 				{
 					$c1 = $pos;
@@ -13843,7 +14154,7 @@ class SimplePie_Locator
 		{
 			$sniffer = new $this->content_type_sniffer_class($file);
 			$sniffed = $sniffer->get_type();
-			if (in_array($sniffed, array('application/rss+xml', 'application/rdf+xml', 'application/atom+xml', 'text/xml', 'application/xml')))
+			if (in_array($sniffed, array('application/rss+xml', 'application/rdf+xml', 'text/rdf', 'application/atom+xml', 'text/xml', 'application/xml')))
 			{
 				return true;
 			}
@@ -14080,6 +14391,13 @@ class SimplePie_Parser
 				return false;
 			}
 		}
+
+		// Work around libxml bug
+		$data = str_replace('&lt;', '&#60;', $data);
+		$data = str_replace('&gt;', '&#62;', $data);
+		$data = str_replace('&amp;', '&#38;', $data);
+		$data = str_replace('&apos;', '&#39;', $data);
+		$data = str_replace('&quot;', '&#34;', $data);
 
 		$return = true;
 
