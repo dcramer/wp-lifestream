@@ -2363,9 +2363,8 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
         {
             $xml = new SimpleXMLElement($response);
             
-            $feed = $xml->RecentGames->XboxUserGameInfo;
             $items = array();
-            foreach ($feed as $item)
+            foreach ($xml->RecentGames->XboxUserGameInfo as $row)
             {
                 $items[] = $this->yield($row);
             }
