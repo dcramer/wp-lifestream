@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your social activity in a lifestream. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.94-BETA2
+Version: 0.94-PRE
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,7 +14,7 @@ if (phpversion() < 5)
     echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
     return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.94-BETA2');
+define(LIFESTREAM_BUILD_VERSION, '0.94-PRE');
 define(LIFESTREAM_VERSION, 0.94);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -114,7 +114,12 @@ function lifestream_file_get_contents($url)
     }
     else
     {
-        return file_get_contents($url);
+        $file_contents = @file_get_contents($url);
+        if (!$file_contents)
+        {
+            throw new LifeStream_FeedFetchError('Failed to open url: '.$url);
+        }
+        return $file_contents;
     }
 }
 
@@ -736,6 +741,7 @@ class LifeStream_Feed
                 }
             }
         }
+        $wpdb->query(sprintf("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `timestamp` = UNIX_TIMESTAMP() WHERE `id` = '%s'", $this->id));
         return array(true, $total);
     }
     
@@ -1293,7 +1299,7 @@ function lifestream_options()
                     foreach ($results as $id=>$result)
                     {
                         if (is_int($result)) $feedmsgs[$id] = $result;
-                        else $errors[] = sprintf(__('There was an error refreshing the selected feed: %s', 'lifestream'), $id);
+                        else $errors[] = sprintf(__('There was an error refreshing the selected feed: ID %s', 'lifestream'), $id);
                     }
                     $message = __('All of your feeds have been refreshed.', 'lifestream');
                     break;
@@ -1321,7 +1327,7 @@ function lifestream_options()
                             }
                             else
                             {
-                                $errors[] = sprintf(__('There was an error refreshing the selected feed: %s', 'lifestream'), $instance->id);
+                                $errors[] = sprintf(__('There was an error refreshing the selected feed: ID %s', 'lifestream'), $instance->id);
                             }
                         }
                     }
