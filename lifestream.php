@@ -1476,8 +1476,8 @@ function lifestream_options()
     <style type="text/css">
     .feedlist { margin: 0; padding: 0; }
     .feedlist li { list-style: none; display: inline; }
-    .feedlist li a { float: left; display: block; border: 1px solid #ccc; padding: 2px; margin: 1px; width: 23%; text-decoration: none; }
-    .feedlist li a:hover { border-color: #999; }
+    .feedlist li a { float: left; display: block; padding: 2px; margin: 1px; width: 23%; text-decoration: none; }
+    .feedlist li a:hover { background-color: #e9e9e9; }
     .success { color: #397D33; background-color: #D1FBCA; }
     .error { border-color: #E25F53; color: #E25F53; }
     td.icon { padding: 7px 0 9px 10px; }
