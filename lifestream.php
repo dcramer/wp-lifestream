@@ -101,33 +101,19 @@ function register_lifestream_feed($class_name)
 function lifestream_file_get_contents($url)
 {
     $handler = get_option('lifestream_url_handler');
+
+    $use_fsock = true;
     if (($handler == 'auto' && function_exists('curl_init')) || $handler == 'curl')
     {
-        $options = array( 
-            CURLOPT_RETURNTRANSFER => true,     // return web page 
-            CURLOPT_HEADER         => false,    // don't return headers 
-            CURLOPT_FOLLOWLOCATION => true,     // follow redirects 
-            CURLOPT_ENCODING       => "",       // handle all encodings 
-            //CURLOPT_USERAGENT      => "spider", // who am i 
-            CURLOPT_AUTOREFERER    => true,     // set referer on redirect 
-            CURLOPT_CONNECTTIMEOUT => 10,      // timeout on connect 
-            CURLOPT_TIMEOUT        => 10,      // timeout on response 
-            CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects 
-        );
-        $ch = curl_init($url);
-        curl_setopt_array($ch, $options);
-        $file_contents = curl_exec($ch);
-        curl_close($ch);
+        $use_fsock = false;
     }
-    else
+
+    $file = new SimplePie_File($url, 10, 5, null, null, $use_fsock);
+    if (!$file->success)
     {
-        $file_contents = @file_get_contents($url);
+        throw new LifeStream_FeedFetchError('Failed to open url: '.$url .' ('.$file->error.')');
     }
-    if (!$file_contents)
-    {
-        throw new LifeStream_FeedFetchError('Failed to open url: '.$url);
-    }
-    return $file_contents;
+    return $file->body;
 }
 
 /*
