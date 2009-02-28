@@ -279,7 +279,7 @@ function lifestream_install_database($version)
       PRIMARY KEY  (`id`),
       INDEX `feed` (`feed`),
       UNIQUE `feed_id` (`feed_id`, `key`, `owner_id`, `link`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+    ) ENGINE=MyISAM;");
 
 
     lifestream_safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event_group` (
@@ -299,7 +299,7 @@ function lifestream_install_database($version)
       PRIMARY KEY  (`id`),
       INDEX `feed` (`feed`),
       INDEX `feed_id` (`feed_id`, `key`, `owner_id`, `timestamp`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+    ) ENGINE=MyISAM;");
     
     lifestream_safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_feeds` (
       `id` int(11) NOT NULL auto_increment,
@@ -311,7 +311,7 @@ function lifestream_install_database($version)
       `version` int(11) default 0 NOT NULL,
       INDEX `owner_id` (`owner_id`),
       PRIMARY KEY  (`id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+    ) ENGINE=MyISAM;");
     
     lifestream_safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_error_log` (
       `id` int(11) NOT NULL auto_increment,
@@ -323,7 +323,7 @@ function lifestream_install_database($version)
       INDEX `feed_id` (`feed_id`, `has_viewed`),
       INDEX `has_viewed` (`has_viewed`),
       PRIMARY KEY  (`id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+    ) ENGINE=MyISAM;");
     
     
     if (!$version) return;
