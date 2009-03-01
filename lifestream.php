@@ -1222,8 +1222,9 @@ function lifestream_options()
             switch (strtolower($_REQUEST['op']))
             {
                 case 'delete':
-                    if (!$_REQUEST['id']) break;
-                    foreach ($_REQUEST['id'] as $id)
+                    if (!($ids = $_REQUEST['id'])) break;
+                    if (!is_array($ids)) $ids = array($ids);
+                    foreach ($ids as $id)
                     {
                         $result =& $wpdb->get_results(sprintf("SELECT `id`, `feed_id`, `timestamp`, `owner_id` FROM `".$wpdb->prefix."lifestream_event` WHERE `id` = %d", $id));
                         if (!$result)
