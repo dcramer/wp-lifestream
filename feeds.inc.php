@@ -55,12 +55,12 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
     
     function _get_search_term_link($match)
     {
-        return $match[1].'<a href="http://search.twitter.com/search?q='.$match[2].'">'.$match[2].'</a>';
+        return $match[1].'<a href="http://search.twitter.com/search?q='.urlencode($match[2]).'">'.htmlspecialchars($match[2]).'</a>';
     }
 
     function get_user_link($user)
     {
-        return '<a href="'.$this->get_user_url($user).'" class="user">@'.$user.'</a>';
+        return '<a href="'.urlencode($this->get_user_url($user)).'" class="user">@'.htmlspecialchars($user).'</a>';
     }
     
     function get_user_url($user)
