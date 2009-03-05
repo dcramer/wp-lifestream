@@ -792,6 +792,8 @@ class LifeStream_Feed
                 if (!($row['date'] > 0)) $row['date'] = time();
                 if (count($row)) $items[] = $row;
             }
+            $feed->__destruct();
+            unset($feed);
         }
         return $items;
     }
