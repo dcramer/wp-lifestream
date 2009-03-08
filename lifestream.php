@@ -108,7 +108,7 @@ function lifestream_file_get_contents($url)
         $use_fsock = false;
     }
 
-    $file = new SimplePie_File($url, 10, 5, null, null, $use_fsock);
+    $file = new SimplePie_File($url, 10, 5, null, SIMPLEPIE_USERAGENT, $use_fsock);
     if (!$file->success)
     {
         throw new LifeStream_FeedFetchError('Failed to open url: '.$url .' ('.$file->error.')');
