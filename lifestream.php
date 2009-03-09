@@ -52,6 +52,7 @@ $lifestream__options = array(
     'lifestream_show_credits'   => '1',
     'lifestream_hide_details_default' => '1',
     'lifestream_url_handler'    => 'auto',
+    'lifestream_feed_items'     => '10',
 );
 
 if (!function_exists('array_key_pop'))

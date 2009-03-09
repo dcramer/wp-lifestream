@@ -49,7 +49,7 @@ $authors = get_users_of_blog();
                 <th><label for="id_number_of_items"><?php _e('Number of Items:', 'lifestream'); ?></label></th>
                 <td>
                     <input type="text" class="text" name="lifestream_number_of_items" id="id_number_of_items" value="<?php echo htmlspecialchars(get_option('lifestream_number_of_items')); ?>"/> <?php printf(__('(Default: %s)', 'lifestream'), 50); ?>
-                    <div class="helptext"><?php _e('The number of items to display in the default lifestream feed call.', 'lifestream'); ?></div></p>
+                    <div class="helptext"><?php _e('The number of items to display in the default lifestream call.', 'lifestream'); ?></div></p>
                 </td>
             </tr>
             <tr>
@@ -93,7 +93,24 @@ $authors = get_users_of_blog();
         </tbody>
     </table>
     <br />
-    <h2><?php _e('Digest'); ?></h2>
+    <h2><?php _e('Feed', 'lifestream'); ?></h2>
+    <?php $url = trailingslashit(get_bloginfo('wpurl')) . 'wp-rss2.php?feed=lifestream-feed'; ?>
+    <p><?php printf(__('You can access your feed URL at <a href="%s">%s</a>.'), $url, $url); ?></p>
+    <table class="form-table">
+        <colgroup>
+            <col style="width:150px;"/>
+            <col/>
+        </colgroup>
+        <tr>
+            <th><label for="id_feed_items"><?php _e('Number of Items:', 'lifestream'); ?></label></th>
+            <td>
+                <input type="text" class="text" name="lifestream_feed_items" id="id_feed_items" value="<?php echo htmlspecialchars(get_option('lifestream_feed_items')); ?>"/> <?php printf(__('(Default: %s)', 'lifestream'), 10); ?>
+                <div class="helptext"><?php _e('The number of items to display in the default lifestream feed call.', 'lifestream'); ?></div></p>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <h2><?php _e('Digest', 'lifestream'); ?></h2>
     <p><?php _e('LifeStream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period.', 'lifestream'); ?></p>
     <table class="form-table">
         <colgroup>

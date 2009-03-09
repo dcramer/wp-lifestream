@@ -8,7 +8,7 @@ function lifestream_rss_feed()
     global $wpdb;
     
     $options = array(
-        'number_of_results' => 10,
+        'number_of_results' => get_option('lifestream_feed_items'),
         'break_groups'      => true,
     );
     
