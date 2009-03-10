@@ -122,7 +122,8 @@ function lifestream_file_get_contents($url)
  */
 function lifestream_embed_callback($content)
 {
-    return preg_replace_callback("|[<\[]lifestream(?:\s+([a-z_]+)=[\"']?([a-z0-9_-\s]+)[\"']?)*\s*/?[>\]]|i", 'lifestream_embed_handler', $content);
+    return preg_replace_callback("|\[lifestream(?:\s+([^\]]+))?\]|i", 'lifestream_embed_handler', $content);
+    return preg_replace_callback("|<\[]lifestream(?:\s+([^>\]+]))?/?[>\]]|i", 'lifestream_embed_handler', $content);
 }
 
 /*
@@ -130,16 +131,19 @@ function lifestream_embed_callback($content)
  */
 function lifestream_embed_handler($matches)
 {
-    // max_number
-    // var_dump($matches);
     $args = array();
-    for ($i=1; $i<=count($matches); $i+=2)
+    if (count($matches) > 1)
     {
-        if ($matches[$i]) $args[$matches[$i]] = $matches[$i+1];
+        preg_match_all("|(?:([a-z_]+)=[\"']?([a-z0-9_-\s]+)[\"']?)\s*|i", $matches[1], $options);
+        for ($i=0; $i<count($options[1]); $i++)
+        {
+            if ($options[$i]) $args[$options[1][$i]] = $options[2][$i];
+        }
     }
     ob_start();
     if ($args['feed_ids']) $args['feed_ids'] = explode(',', $args['feed_ids']);
     if ($args['user_ids']) $args['user_ids'] = explode(',', $args['user_ids']);
+    if ($args['feed_types']) $args['feed_types'] = explode(',', $args['feed_types']);
     lifestream($args);
     return ob_get_clean();
 }
