@@ -97,7 +97,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
             // new feed -- attempt to import all statuses
             $feed_msg = array(true, '');
             $page = 0;
-            while ($feed_msg[1] !== false)
+            while ($feed_msg[0] !== false)
             {
                 $page += 1;
                 $feed_msg = $this->refresh($this->get_url($page, 200));
