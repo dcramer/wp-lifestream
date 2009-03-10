@@ -1115,14 +1115,27 @@ function lifestream_get_events($_=array())
     setlocale(LC_ALL, WPLANG);
     
     $defaults = array(
+         // number of events
         'number_of_results' => get_option('lifestream_number_of_items'),
+        // offset of events (e.g. pagination)
         'offset'            => 0,
+        // array of feed ids
         'feed_ids'          => array(),
+        // array of user ids
         'user_ids'          => array(),
+        // array of feed type identifiers
         'feed_types'        => array(),
+        // interval for date cutoff (see mysql INTERVAL)
         'date_interval'     => get_option('lifestream_date_interval'),
+        // start date of events
+        'start_date'        => -1,
+        // end date
+        'end_date'          => -1,
+        // minimum number of events in group
         'event_total_min'   => -1,
+        // maximum
         'event_total_max'   => -1,
+        // break groups into single events
         'break_groups'      => false,
     );
     
@@ -1177,7 +1190,16 @@ function lifestream_get_events($_=array())
     {
         $where[] = sprintf('t1.`timestamp` > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %s))', $_['date_interval']);
     }
-    
+    if ($_['start_date'] !== -1)
+    {
+        if (!is_int($_['start_date'])) $_['start_date'] = strtotime($_['start_date']);
+        $where[] = sprintf('t1.`timestamp` >= %s', $_['start_date']);
+    }
+    if ($_['end_date'] !== -1)
+    {
+        if (!is_int($_['end_date'])) $_['end_date'] = strtotime($_['end_date']);
+        $where[] = sprintf('t1.`timestamp` >= %s', $_['end_date']);
+    }
     
     if ($_['break_groups'])
     {
