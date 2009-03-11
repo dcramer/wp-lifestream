@@ -17,6 +17,8 @@
 * Added a setting for the number of items to display in the feed.
 * Added start_date and end_date options to all lifestream calls.
 * Fixed passing multiple arguments to [lifestream].
+* Added Mobypicture extension from Chillez.com.
+* Added SmugMug extension.
 
 0.93b
 
