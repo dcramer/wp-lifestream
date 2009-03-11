@@ -288,7 +288,6 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
     {
         // Look it's our first non-feed parser!
         $response = lifestream_file_get_contents($this->get_url());
-
         if ($response)
         {
             $xml = new SimpleXMLElement($response);
@@ -2406,16 +2405,17 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
         );
     }
     
-    function save()
+    function save_options()
     {
-        # We need to get their user id from the URL
-        
         if (preg_match('/\/userid=([0-9]+)\//i', $this->options['url'], $match))
         {
             $this->options['user_id'] = $match[1];
         }
-        
-        parent::save();
+        else
+        {
+            throw new LifeStream_Error("Invalid feed URL.");
+        }
+        parent::save_options();
     }
 
     function get_url()
@@ -2678,5 +2678,86 @@ class LifeStream_SmugMugFeed extends LifeStream_PhotoFeed
     }
 }
 register_lifestream_feed('LifeStream_SmugMugFeed');
+
+class LifeStream_GoodReadsFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'goodreads';
+    const NAME          = 'GoodReads';
+    const URL           = 'http://www.goodreads.com/';
+    const LABEL_SINGLE  = 'Added a book on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Added %d books on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> added a book on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> added %d books on <a href="%s">%s</a>.';
+
+
+    function __toString()
+    {
+        return $this->options['user_id'];
+    }
+
+    function get_options()
+    {        
+        return array(
+            'url' => array('Profile URL:', true, '', ''),
+            'user_id' => array('User ID:', null, '', ''),
+        );
+    }
+    
+    function save_options()
+    {
+        # We need to get their user id from the URL
+        if (preg_match('/\/([0-9]+)-.+$/i', $this->options['url'], $match))
+        {
+            $this->options['user_id'] = $match[1];
+        }
+        else
+        {
+            throw new LifeStream_Error("Invalid profile URL.");
+        }
+        
+        parent::save_options();
+    }
+    function get_public_url()
+    {
+        return $this->options['url'];
+    }
+
+    function get_url()
+    {
+        return 'http://www.goodreads.com/review/list_rss/'.$this->options['user_id'];
+    }
+    
+    function yield($item)
+    {
+        return array(
+            'guid'      =>  html_entity_decode($item->guid),
+            'date'      =>  strtotime($item->pubDate),
+            'link'      =>  html_entity_decode($item->link),
+            'title'     =>  html_entity_decode($item->title),
+            'author'    =>  html_entity_decode($item->author_name),
+            'description'    =>  html_entity_decode($item->book_description),
+            'image'     =>  html_entity_decode($item->book_large_image_url),
+            'thumbnail' =>  html_entity_decode($item->book_small_image_url),
+        );
+    }
+    
+    function fetch()
+    {
+        // Look it's our first non-feed parser!
+        $response = lifestream_file_get_contents($this->get_url());
+        
+        if ($response)
+        {
+            $xml = new SimpleXMLElement($response);
+            
+            $items = array();
+            foreach ($xml->channel->item as $item)
+            {
+                $items[] = $this->yield($item, $url);
+            }
+            return $items;
+        }
+    }}
+register_lifestream_feed('LifeStream_GoodReadsFeed');
 
 ?>

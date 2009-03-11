@@ -19,6 +19,9 @@
 * Fixed passing multiple arguments to [lifestream].
 * Added Mobypicture extension from Chillez.com.
 * Added SmugMug extension.
+* Added GoodReads extension.
+* Added save_options() method which is called to process options.
+* Fixed Last.fm extension.
 
 0.93b
 

@@ -626,10 +626,13 @@ class LifeStream_Feed
         $this->id = null;
     }
     
+    function save_options() { }
+    
     function test()
     {
         try
         {
+            $this->save_options();
             $this->fetch();
         }
         catch (LifeStream_Error $ex)
