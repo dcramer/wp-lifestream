@@ -2618,4 +2618,65 @@ class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
     }
 }
 register_lifestream_feed('LifeStream_ScrnshotsFeed');
+
+class LifeStream_MobypictureFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'mobypicture';
+    const NAME          = 'Mobypicture';
+    const URL           = 'http://www.mobypicture.com/';
+
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+
+    function get_public_url()
+    {
+        return 'http://www.mobypicture.com/user/'.$this->options['username'];
+    }
+
+    function get_url()
+    {
+        return 'http://www.mobypicture.com/rss/'.$this->options['username'].'/user.rss';
+    }
+}
+register_lifestream_feed('LifeStream_MobypictureFeed');
+
+class LifeStream_SmugMugFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'smugmug';
+    const NAME          = 'SmugMug';
+    const URL           = 'http://www.smugmug.com/';
+
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+
+    function get_public_url()
+    {
+        return 'http://'.$this->options['username'].'.smugmug.com/';
+    }
+
+    function get_url()
+    {
+        return 'http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data='.$this->options['username'].'&format=atom10';
+    }
+}
+register_lifestream_feed('LifeStream_SmugMugFeed');
+
 ?>
