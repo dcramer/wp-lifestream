@@ -50,7 +50,7 @@ $authors = get_users_of_blog();
                 <td>
                     <?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : $instance->options['feed_label']); ?>
                     <input type="text" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
-                    <div class="helptext"><?php _e('A label to use for this feed instead of the default.', 'lifestream'); ?><br />e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', 'My Custom Label'); ?></div>
+                    <div class="helptext"><?php _e('A label to use for this feed instead of the default.', 'lifestream'); ?><br />e.g. <?php printf($instance->get_constant('LABEL_SINGLE'), '#', 'My Custom Label'); ?></div>
                 </td>
             </tr>
             <tr>
