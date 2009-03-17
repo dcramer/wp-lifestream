@@ -22,6 +22,7 @@
 * Added GoodReads extension.
 * Added save_options() method which is called to process options.
 * Fixed Last.fm extension.
+* Added deviantART extension.
 
 0.93b
 
