@@ -2760,4 +2760,34 @@ class LifeStream_GoodReadsFeed extends LifeStream_PhotoFeed
     }}
 register_lifestream_feed('LifeStream_GoodReadsFeed');
 
+class LifeStream_DeviantArtFeed extends LifeStream_PhotoFeed
+{
+    const ID            = 'deviantart';
+    const NAME          = 'deviantART';
+    const URL           = 'http://www.deviantart.com/';
+
+    function __toString()
+    {
+        return $this->options['username'];
+    }
+
+    function get_options()
+    {
+        return array(
+            'username' => array('Username:', true, '', ''),
+        );
+    }
+
+    function get_public_url()
+    {
+        return 'http://'.urlencode($this->options['username']).'.deviantart.com/';
+    }
+
+    function get_url()
+    {
+        return 'http://backend.deviantart.com/rss.xml?q=gallery%3A'.urlencode($this->options['username']).'&type=deviation&offset=0'
+    }
+}
+register_lifestream_feed('LifeStream_DeviantArtFeed');
+
 ?>
