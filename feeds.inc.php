@@ -2785,7 +2785,7 @@ class LifeStream_DeviantArtFeed extends LifeStream_PhotoFeed
 
     function get_url()
     {
-        return 'http://backend.deviantart.com/rss.xml?q=gallery%3A'.urlencode($this->options['username']).'&type=deviation&offset=0'
+        return 'http://backend.deviantart.com/rss.xml?q=gallery%3A'.urlencode($this->options['username']).'&type=deviation&offset=0';
     }
 }
 register_lifestream_feed('LifeStream_DeviantArtFeed');
