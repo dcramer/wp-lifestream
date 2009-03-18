@@ -2790,4 +2790,68 @@ class LifeStream_DeviantArtFeed extends LifeStream_PhotoFeed
 }
 register_lifestream_feed('LifeStream_DeviantArtFeed');
 
+class LifeStream_BackTypeFeed extends LifeStream_Feed
+{
+    const ID            = 'backtype';
+    const NAME          = 'BackType';
+    const URL           = 'http://www.backtype.com/';
+    const LABEL_SINGLE  = 'Posted a comment, tracked by <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Posted %d comments, tracked by <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a comment, tracked by <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d comments, tracked by <a href="%s">%s</a>.';
+    
+    function get_options()
+    {        
+        return array(
+            'username' => array('Username:', true, '', ''),
+			'filter' => array('Sites to filter out:', true, '', '' ,'Sites as named by BackType, usually the title of the RSS Feed, separate with comma\'s.'),
+        );
+    }
+    
+    function get_user_link($user)
+    {
+        return '<a href="'.$this->get_user_url($user).'" class="user">'.htmlspecialchars($user).'</a>';
+    }
+    
+    function get_user_url($user)
+    {
+        return 'http://www.backtype.com/'.urlencode($user);
+    }
+    
+    function get_public_url()
+    {
+        return $this->get_user_url($this->options['username']);
+    }
+
+    function get_url()
+    {
+        return 'http://feeds.backtype.com/'.$this->options['username'];
+    }
+    
+    function render_item($row, $item)
+    {
+        $output = "Posted a comment on ".htmlspecialchars($item['title'])."<br/>";
+		$output .= str_replace("</p>", "<br/><br/>", str_replace("<p>","",$item['description'])) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+		return $output;
+    }
+    
+    function yield($row)
+    {
+		$filters = explode(",",$this->options['filter']);
+		foreach ($filters as $filter) {
+			if (strtolower($filter) == strtolower(strip_tags($row->get_title()))) {
+				return false;
+				exit;
+			}
+		}
+       	return array(
+            'guid'      	=>  $row->get_id(),
+            'date'      	=>  $row->get_date('U'),
+            'link' 			=>  html_entity_decode($row->get_link()),
+            'title'     	=>  html_entity_decode($row->get_title()),
+			'description'	=>  '"<em>'.strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->options['username']).'">Read more comments by '.strtolower($this->options['username']).'</a></p>','',html_entity_decode($row->get_description()))).'</em>"',
+        );
+    }
+}
+register_lifestream_feed('LifeStream_BackTypeFeed');
 ?>
