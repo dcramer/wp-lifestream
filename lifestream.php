@@ -941,9 +941,9 @@ class LifeStream_Feed
     function parse_urls($text)
     {
         # match http(s):// urls
-        $text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/\~_\.]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $text);
+        $text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w\=/\~_\.]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $text);
         # match www urls
-        $text = preg_replace('@((?<!http://)www\.([-\w\.]+)+(:\d+)?(/([\w/\~_\.]*(\?\S+)?)?)?)@', '<a href="http://$1">$1</a>', $text);
+        $text = preg_replace('@((?<!http://)www\.([-\w\.]+)+(:\d+)?(/([\w/\=\~_\.]*(\?\S+)?)?)?)@', '<a href="http://$1">$1</a>', $text);
         # match email@address
         $text = preg_replace('/\b([A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4})\b/i', '<a href="mailto:$1">$1</a>', $text);
         return $text;
