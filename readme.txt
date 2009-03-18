@@ -14,12 +14,6 @@ For more information please visit the homepage: http://www.ibegin.com/labs/wp-li
 
 Follow us on Twitter: http://www.twitter.com/wplifestream
 
-Update Notes:
-
-* LifeStream v0.3 extensions are NOT compatible with v0.2 or v0.1. You also will need to reactivate the plugin when upgrading from v0.1, as the database has changed.
-* When updating to 0.38 you will need to remove your Last.fm feed and re-add it as the data structure has been completely changed. (First non-rss lifestream feed!)
-* LifeStream v0.6 extensions have newly added support for multi-user which introduces two new LABEL constants that you must add to your custom code.
-
 Requirements:
 
 * PHP 5.x
@@ -109,7 +103,7 @@ And
 
 == Built-in Feeds ==
 
-The plugin includes most of the major social networking feeds available. You may add your own, as well as send me ideas for new feeds at dcramer@gmail.com.
+The plugin includes most of the major social networking feeds available. You may add your own, as well as send me ideas for new feeds at dcramer@gmail.com. If you wish to add custom extensions, you may do so by creating a local_feeds.inc.php file in the lifestream directory.
 
 * Facebook
 * Digg
