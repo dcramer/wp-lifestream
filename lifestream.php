@@ -782,14 +782,16 @@ class LifeStream_Feed
             }
             $feed = new SimplePie();
             $feed->enable_cache(false);
-            $feed->set_raw_data(lifestream_file_get_contents($url));
+            $data = lifestream_file_get_contents($url);
+            $feed->set_raw_data($data);
             $feed->enable_order_by_date(false);
             $feed->force_feed(true); 
             
             $success = $feed->init();
             if (!$success)
             {
-                throw new LifeStream_FeedFetchError('Error fetching feed from ' . $url . ' ('. $feed->error() . ')');
+                $sample = substr($data, 0, 150)
+                throw new LifeStream_FeedFetchError("Error fetching feed from {$url} ({$feed->error()})....\n\n{$sample}");
             }
             $feed->handle_content_type();
             foreach ($feed->get_items() as $row)
