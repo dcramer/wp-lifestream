@@ -95,11 +95,11 @@ And
 
 * Personalizable CSS classes.
 * Detailed configuration options.
-* Supports nearly every major social networking website (see)
+* Supports nearly every major social networking website
 * Unlimited number of feeds in your Lifestream.
 * Supports grouping of events.
 * Localization ready!
-* Daily digest available to summarize your activities.
+* Digest available to summarize your activities.
 
 == Built-in Feeds ==
 
