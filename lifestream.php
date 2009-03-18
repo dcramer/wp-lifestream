@@ -790,7 +790,7 @@ class LifeStream_Feed
             $success = $feed->init();
             if (!$success)
             {
-                $sample = substr($data, 0, 150)
+                $sample = substr($data, 0, 150);
                 throw new LifeStream_FeedFetchError("Error fetching feed from {$url} ({$feed->error()})....\n\n{$sample}");
             }
             $feed->handle_content_type();
