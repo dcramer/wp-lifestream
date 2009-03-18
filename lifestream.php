@@ -1515,7 +1515,7 @@ function lifestream_options()
     if (count($errors)) { ?>
     <div id="message" class="error"><p><strong><?php _e('There were errors with your request:', 'lifestream') ?></strong></p><ul>
         <?php foreach ($errors as $error) { ?>
-            <li><?php echo LifeStream_Feed::parse_urls(htmlspecialchars($error)); ?></li>
+            <li><?php echo nl2br(LifeStream_Feed::parse_urls(htmlspecialchars($error))); ?></li>
         <?php } ?>
     </ul></div>
     <?php } elseif ($message) { ?>
