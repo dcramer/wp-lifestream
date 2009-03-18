@@ -169,7 +169,7 @@ function lifestream_reschedule_cron()
         if (date('H') > $digest_time) $time = strtotime('+1 day', $time);
         $time = strtotime(date('Y-m-d '.$digest_time.':00:00', $time));
     }
-    wp_schedule_event($time, 'lifestream', 'lifestream_digest_cron');
+    wp_schedule_event($time, 'lifestream_digest', 'lifestream_digest_cron');
 }
 
 function lifestream_deactivate()
