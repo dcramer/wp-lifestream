@@ -2706,7 +2706,7 @@ class LifeStream_GoodReadsFeed extends LifeStream_PhotoFeed
     function save_options()
     {
         # We need to get their user id from the URL
-        if (preg_match('/\/([0-9]+)-.+$/i', $this->options['url'], $match))
+        if (preg_match('/\/([0-9]+)(?:-.+)?$/i', $this->options['url'], $match))
         {
             $this->options['user_id'] = $match[1];
         }
