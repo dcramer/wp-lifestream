@@ -597,6 +597,7 @@ class LifeStream_Feed
     {
         global $wpdb;
 
+        $this->save_options();
         // If it has an ID it means it already exists.
         if ($this->id)
         {
