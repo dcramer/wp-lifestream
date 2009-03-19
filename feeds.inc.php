@@ -196,11 +196,11 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
         $output = sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
         if ($this->options['show_tags'])
         {
-            $output .= '<br/>'.htmlspecialchars(implode(', ', $item['tags']));
+            $output .= '<div class="tags">Tags: '.htmlspecialchars(implode(', ', $item['tags'])).'</div>';
         }
         if ($this->options['display_description'])
         {
-            $output .= '<br/>'.htmlspecialchars($item['description']);
+            $output .= '<div class="description">'.htmlspecialchars($item['description']).'</div>';
         }
         return $output;
         
