@@ -60,12 +60,12 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 
     function get_user_link($user)
     {
-        return '<a href="'.urlencode($this->get_user_url($user)).'" class="user">@'.htmlspecialchars($user).'</a>';
+        return '<a href="'.$this->get_user_url($user).'" class="user">@'.htmlspecialchars($user).'</a>';
     }
     
     function get_user_url($user)
     {
-        return 'http://www.twitter.com/'.$user;
+        return 'http://www.twitter.com/'.urlencode($user);
     }
     
     function get_public_url()
