@@ -190,9 +190,24 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
     {
         return $this->options['username'];
     }
+    
+    function render_item($row, $item)
+    {
+        $output = sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
+        if ($this->options['show_tags'])
+        {
+            $output .= '<br/>'.htmlspecialchars(implode(', ', $item['tags']));
+        }
+        if ($this->options['display_description'])
+        {
+            $output .= '<br/>'.htmlspecialchars($item['description']);
+        }
+        return $output;
         
+    }
+    
     function get_options()
-    {        
+    {
         return array(
             'username' => array('Username:', true, '', ''),
             'filter_tag' => array('Limit items to tag:', false, '', ''),
