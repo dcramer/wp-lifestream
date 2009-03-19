@@ -2855,11 +2855,15 @@ class LifeStream_BackTypeFeed extends LifeStream_Feed
 }
 register_lifestream_feed('LifeStream_BackTypeFeed');
 
-class LifeStream_LibraryThingFeed extends LifeStream_GoodReadsFeed
+class LifeStream_LibraryThingFeed extends LifeStream_PhotoFeed
 {
     const ID            = 'librarything';
     const NAME          = 'LibraryThing';
     const URL           = 'http://www.librarything.com/';
+    const LABEL_SINGLE  = 'Added a book on <a href="%s">%s</a>.';
+    const LABEL_PLURAL  = 'Added %d books on <a href="%s">%s</a>.';
+    const LABEL_SINGLE_USER = '<a href="%s">%s</a> added a book on <a href="%s">%s</a>.';
+    const LABEL_PLURAL_USER = '<a href="%s">%s</a> added %d books on <a href="%s">%s</a>.';
 
     function __toString()
     {
