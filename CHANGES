@@ -23,7 +23,8 @@
 * Added save_options() method which is called to process options.
 * Fixed Last.fm extension.
 * Added deviantART extension.
-* Added BackType feed from yoast.
+* Added BackType extension from yoast.
+* Added LibraryThing extension from Stephen Edmonds.
 
 0.93b
 
