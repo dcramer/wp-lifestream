@@ -1202,13 +1202,13 @@ function lifestream_get_events($_=array())
     }
     if ($_['start_date'] !== -1)
     {
-        if (!is_int($_['start_date'])) $_['start_date'] = strtotime($_['start_date']);
+        if ((int)$_['start_date'] != $_['start_date']) $_['start_date'] = strtotime($_['start_date']);
         $where[] = sprintf('t1.`timestamp` >= %s', $_['start_date']);
     }
     if ($_['end_date'] !== -1)
     {
-        if (!is_int($_['end_date'])) $_['end_date'] = strtotime($_['end_date']);
-        $where[] = sprintf('t1.`timestamp` >= %s', $_['end_date']);
+        if ((int)$_['end_date'] != $_['end_date']) $_['end_date'] = strtotime($_['end_date']);
+        $where[] = sprintf('t1.`timestamp` <= %s', $_['end_date']);
     }
     
     if ($_['break_groups'])
