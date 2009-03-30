@@ -1538,7 +1538,7 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
         }
         else
         {
-            return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
+            return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
         }
     }
     
@@ -2923,4 +2923,44 @@ class LifeStream_LibraryThingFeed extends LifeStream_PhotoFeed
     }
 }
 register_lifestream_feed('LifeStream_LibraryThingFeed');
+
+/**
+ * Displays your latest Twitter status.
+ * @param {Boolean} $links Parse user links.
+ */
+function lifestream_twitter_status($links=true)
+{
+    $event = lifestream_get_single_event('twitter');
+    if (!$event) return;
+    if ($links)
+    {
+        // to render it with links
+        echo $event->feed->render_item($event, $event->data);
+    }
+    else
+    {
+        // or render just the text
+        echo $event->data['title'];
+    }
+}
+
+/**
+ * Displays your latest Facebook status.
+ * @param {Boolean} $links Parse user links.
+ */
+function lifestream_facebook_status($links=true)
+{
+    $event = lifestream_get_single_event('facebook');
+    if (!$event) return;
+    if ($links)
+    {
+        // to render it with links
+        echo $event->feed->render_item($event, $event->data);
+    }
+    else
+    {
+        // or render just the text
+        echo $event->data['title'];
+    }
+}
 ?>

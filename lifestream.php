@@ -1663,10 +1663,6 @@ function lifestream_header()
     echo '<script type="text/javascript" src="'.$lifestream_path.'/lifestream.js"></script>';
 }
 
-include(dirname(__FILE__) . '/feeds.inc.php');
-
-@include(dirname(__FILE__). '/local_feeds.inc.php');
-
 /**
  * Attempts to update all feeds
  */
@@ -1814,45 +1810,9 @@ function lifestream_get_single_event($feed_type)
     return $event;
 }
 
-/**
- * Displays your latest Twitter status.
- * @param {Boolean} $links Parse user links.
- */
-function lifestream_twitter_status($links=true)
-{
-    $event = lifestream_get_single_event('twitter');
-    if (!$event) return;
-    if ($links)
-    {
-        // to render it with links
-        echo $event->feed->render_item($event, $event->data);
-    }
-    else
-    {
-        // or render just the text
-        echo $event->data['title'];
-    }
-}
 
-/**
- * Displays your latest Facebook status.
- * @param {Boolean} $links Parse user links.
- */
-function lifestream_facebook_status($links=true)
-{
-    $event = lifestream_get_single_event('facebook');
-    if (!$event) return;
-    if ($links)
-    {
-        // to render it with links
-        echo $event->feed->render_item($event, $event->data);
-    }
-    else
-    {
-        // or render just the text
-        echo $event->data['title'];
-    }
-}
+include(dirname(__FILE__) . '/feeds.inc.php');
+@include(dirname(__FILE__). '/local_feeds.inc.php');
 
 // Require more of the codebase
 require_once(dirname(__FILE__) . '/inc/widget.php');
