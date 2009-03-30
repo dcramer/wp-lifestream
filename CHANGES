@@ -25,6 +25,9 @@
 * Added deviantART extension.
 * Added BackType extension from yoast.
 * Added LibraryThing extension from Stephen Edmonds.
+* Fixed TwitPic thumbnails.
+* Added get_thumbnail_url() and get_image_url() hooks to extensions.
+* Added permalinks to Tumblr posts.
 
 0.93b
 
