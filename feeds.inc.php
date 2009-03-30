@@ -1226,7 +1226,6 @@ class LifeStream_TwitPicFeed extends LifeStream_PhotoFeed
     function get_thumbnail_url($row, $item)
     {
         preg_match('#/([0-9a-zA-Z]+)$#', $item['url'], $matches);
-        $id = ;
         return 'http://www.twitpic.com/show/thumb/'.$matches[0].'.jpg';
     }
 
