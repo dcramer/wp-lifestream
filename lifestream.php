@@ -541,6 +541,16 @@ class LifeStream_Feed
     {
         return $this->get_constant('URL');
     }
+    
+    function get_image_url($row, $item)
+    {
+        return is_array($item['image']) ? $item['image']['url'] : $item['image'];
+    }
+
+    function get_thumbnail_url($row, $item)
+    {
+        return is_array($item['thumbnail']) ? $item['thumbnail']['url'] : $item['thumbnail'];
+    }
 
     function get_public_name()
     {
@@ -847,12 +857,12 @@ class LifeStream_Feed
     function render_item($row, $item)
     {
         // Array checks are for backwards compatbility
-        $thumbnail = is_array($item['thumbnail']) ? $item['thumbnail']['url'] : $item['thumbnail'];
+        $image = $this->get_image_url();
         
-        if (!empty($thumbnail) && $this->get_constant('MEDIA') == 'automatic')
+        if (!empty($image) && $this->get_constant('MEDIA') == 'automatic')
         {
-            $image = is_array($item['image']) ? $item['image']['url'] : $item['image'];
-        
+            $thumbnail = $this->get_thumbnail_url($row, $item);
+            
             if (get_option('lifestream_use_ibox') == '1' && !empty($image))
             {
                 // change it to be large size images
