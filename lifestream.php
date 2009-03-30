@@ -857,11 +857,11 @@ class LifeStream_Feed
     function render_item($row, $item)
     {
         // Array checks are for backwards compatbility
-        $image = $this->get_image_url($row, $item);
+        $thumbnail = $this->get_thumbnail_url($row, $item);
         
-        if (!empty($image) && $this->get_constant('MEDIA') == 'automatic')
+        if (!empty($thumbnail) && $this->get_constant('MEDIA') == 'automatic')
         {
-            $thumbnail = $this->get_thumbnail_url($row, $item);
+            $image = $this->get_image_url($row, $item);
             
             if (get_option('lifestream_use_ibox') == '1' && !empty($image))
             {
