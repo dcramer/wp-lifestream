@@ -857,7 +857,7 @@ class LifeStream_Feed
     function render_item($row, $item)
     {
         // Array checks are for backwards compatbility
-        $image = $this->get_image_url();
+        $image = $this->get_image_url($row, $item);
         
         if (!empty($image) && $this->get_constant('MEDIA') == 'automatic')
         {
