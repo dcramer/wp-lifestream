@@ -870,7 +870,7 @@ class LifeStream_Feed
             }
             else $ibox = '';
             
-            return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50" alt="%s"/></a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']), htmlspecialchars($item['thumbnail']), htmlspecialchars($item['title']));
+            return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50" alt="%s"/></a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']), htmlspecialchars($thumbnail), htmlspecialchars($item['title']));
         }
         return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
         
@@ -878,7 +878,9 @@ class LifeStream_Feed
     
     function render_group_items($id, $output, $event, $visible=false)
     {
-        if (!empty($event->data[0]['thumbnail']) && $this->get_constant('MEDIA') == 'automatic')
+        $thumbnail = $this->get_thumbnail_url($event, $event->data[0]);
+        
+        if (!empty($thumbnail) && $this->get_constant('MEDIA') == 'automatic')
         {
             return sprintf('<div id="%s"'.(!$visible ? ' style="display:none;"' : '').'>%s</div>', $id, implode(' ', $output));
         }
