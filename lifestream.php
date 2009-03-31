@@ -1804,7 +1804,7 @@ function lifestream_init()
 
 function lifestream_get_single_event($feed_type)
 {
-    $events = lifestream_get_events(array('feed_types'=>array($feed_type), 'number_of_results'=>array(1), 'break_groups'=>true));
+    $events = lifestream_get_events(array('feed_types'=>array($feed_type), 'number_of_results'=>1, 'break_groups'=>true));
     $event = $events[0];
 
     return $event;
