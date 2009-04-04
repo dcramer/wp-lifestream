@@ -2,7 +2,7 @@
 $authors = get_users_of_blog();
 
 ?>
-<h2><?php _e('Edit Feed', 'lifestream'); ?> <small><?php printf(__('(<a href="%s">Back to LifeStream Feeds</a>)', 'lifestream'), '?page=lifestream.php'); ?></small></h2>
+<h2><?php $lifestream->_e('Edit Feed'); ?> <small><?php printf(__('(<a href="%s">Back to LifeStream Feeds</a>)', 'lifestream'), '?page=lifestream.php'); ?></small></h2>
 
 <?php if ($instance) { ?>
     <form action="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $instance->id; ?>" method="post">
@@ -50,7 +50,7 @@ $authors = get_users_of_blog();
                 <td>
                     <?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : $instance->options['feed_label']); ?>
                     <input type="text" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
-                    <div class="helptext"><?php _e('A label to use for this feed instead of the default.', 'lifestream'); ?><br />e.g. <?php printf($instance->get_constant('LABEL_SINGLE'), '#', 'My Custom Label'); ?></div>
+                    <div class="helptext"><?php $lifestream->_e('A label to use for this feed instead of the default.'); ?><br />e.g. <?php printf($instance->get_constant('LABEL_SINGLE'), '#', 'My Custom Label'); ?></div>
                 </td>
             </tr>
             <tr>
@@ -58,13 +58,13 @@ $authors = get_users_of_blog();
                 <td>
                     <?php $current_value = (isset($_POST['icon_url']) ? stripslashes($_POST['icon_url']) : $instance->options['icon_url']); ?>
                     <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/>
-                    <div class="helptext"><?php _e('An icon to use for this feed instead of the default.', 'lifestream'); ?></div>
+                    <div class="helptext"><?php $lifestream->_e('An icon to use for this feed instead of the default.'); ?></div>
                 </td>
             </tr>
             <tr>
                 <th>&nbsp;</th>
                 <td>
-                    <label><input type="checkbox" name="show_label" value="1"<?php if (isset($_POST['show_label']) ? $_POST['show_label'] : $instance->options['show_label']) echo ' checked="checked"'; ?>/> <?php _e('Show labels for events in this feed. This will not effect grouped events.', 'lifestream'); ?></label>
+                    <label><input type="checkbox" name="show_label" value="1"<?php if (isset($_POST['show_label']) ? $_POST['show_label'] : $instance->options['show_label']) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Show labels for events in this feed. This will not effect grouped events.'); ?></label>
                     <div class="helptext">e.g. <?php printf($instance->get_constant('LABEL_SINGLE'), '#', $instance->get_public_name()); ?></div>
                 </td>
             </tr>
@@ -72,13 +72,13 @@ $authors = get_users_of_blog();
                 <tr>
                     <th>&nbsp;</th>
                     <td>
-                        <label><input type="checkbox" name="grouped" value="1"<?php if (isset($_POST['grouped']) ? $_POST['grouped'] : $instance->options['grouped']) echo ' checked="checked"'; ?>/> <?php _e('Group events from the same day together.', 'lifestream'); ?></label>
+                        <label><input type="checkbox" name="grouped" value="1"<?php if (isset($_POST['grouped']) ? $_POST['grouped'] : $instance->options['grouped']) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Group events from the same day together.'); ?></label>
                         <div class="helptext"><?php _e('This will not affect any event\'s already listed.', 'lifestream'); ?></div>
                     </td>
                 </tr>
             <?php } ?>
             <tr>
-                <th><label for="id_owner"><?php _e('Owner:', 'lifestream'); ?></label></th>
+                <th><label for="id_owner"><?php $lifestream->_e('Owner:'); ?></label></th>
                 <td>
                     <?php if (current_user_can('manage_options')) { ?>
                     <select name="owner" id="id_owner">
@@ -102,19 +102,19 @@ $authors = get_users_of_blog();
             <p><?php printf(__('Find more information about %s by visiting <a href="%s">%s</a>.', 'lifestream'), htmlspecialchars($instance->get_constant('NAME')), htmlspecialchars($url), htmlspecialchars($url)); ?></p>
         <?php } ?>
         <p class="submit">
-            <input type="submit" name="save" value="<?php _e('Save Feed', 'lifestream');?>" />
+            <input type="submit" name="save" value="<?php $lifestream->_e('Save Feed');?>" />
         </p>
     </form>
     <br />
-    <h2><?php _e('Recent Events', 'lifestream'); ?></h2><br />
+    <h2><?php $lifestream->_e('Recent Events'); ?></h2><br />
     <?php $events =& $instance->get_events(50); ?>
     <?php if (count($events)) { ?>
         <table class="widefat">
             <thead>
                 <tr>
-                    <th scope="col" class="num"><?php _e('ID', 'lifestream'); ?></th>
-                    <th scope="col"><?php _e('Event', 'lifestream'); ?></th>
-                    <th scope="col" style="width: 150px;"><?php _e('Date', 'lifestream'); ?></th>
+                    <th scope="col" class="num"><?php $lifestream->_e('ID'); ?></th>
+                    <th scope="col"><?php $lifestream->_e('Event'); ?></th>
+                    <th scope="col" style="width: 150px;"><?php $lifestream->_e('Date'); ?></th>
                     <th scope="col" style="width: 40px;">&nbsp;</th>
                 </tr>
             </thead>
@@ -124,12 +124,12 @@ $authors = get_users_of_blog();
                         <td class="num"><?php echo $result->id; ?></td>
                         <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->link); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo $result->link; ?></a></strong></td>
                         <td><?php echo date($date_format, $result->timestamp); ?></td>
-                        <td><a href="?page=lifestream-events.php&amp;op=delete&amp;id=<?php echo $result->id; ?>"><?php _e('Delete', 'lifestream'); ?></a></td>
+                        <td><a href="?page=lifestream-events.php&amp;op=delete&amp;id=<?php echo $result->id; ?>"><?php $lifestream->_e('Delete'); ?></a></td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
     <?php } else { ?>
-        <p><?php _e('There are no events to show.', 'lifestream'); ?></p>
+        <p><?php $lifestream->_e('There are no events to show.'); ?></p>
     <?php } ?>    
 <?php } ?>

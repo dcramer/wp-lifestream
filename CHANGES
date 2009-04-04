@@ -1,3 +1,10 @@
+0.95
+
+* Complete overhaul of the codebase. Much more efficient and contained.
+* `number_of_results` is deprecated. Use `limit` instead.
+* `lifestream_register_feed()` is deprecated. Use `$lifestream->register_feed()` instead.
+* Feed displays will now use custom icons in the administration on most pages.
+
 0.94
 
 * Changed LifeStream update and daily digest to use wp-cron.

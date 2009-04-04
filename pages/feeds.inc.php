@@ -1,4 +1,4 @@
-<h2><?php _e('LifeStream Feeds', 'lifestream'); ?> <small>(<a href="?page=lifestream.php&amp;op=refreshall"><?php _e('Refresh All Feeds', 'lifestream'); ?></a>)</small></h2><?php
+<h2><?php $lifestream->_e('LifeStream Feeds'); ?> <small>(<a href="?page=lifestream.php&amp;op=refreshall"><?php $lifestream->_e('Refresh All Feeds'); ?></a>)</small></h2><?php
 
 if (count($results))
 {
@@ -17,7 +17,7 @@ if (count($results))
             echo "<div class='tablenav-pages'>$page_links</div>";
         ?>
         <div class="alignleft">
-            <input type="submit" value="<?php _e('Refresh', 'lifestream'); ?>" name="op" class="button-secondary refresh" />
+            <input type="submit" value="<?php $lifestream->_e('Refresh'); ?>" name="op" class="button-secondary refresh" />
             <input type="submit" value="<?php _e('Delete'); ?>" name="op" class="button-secondary delete" />
         </div>
         <br class="clear" />
@@ -30,27 +30,27 @@ if (count($results))
             <col style="width:40px;"/>
             <col style="width:16px;"/>
             <col/>
-            <col style="width:130px"/>
+            <col style="width:150px"/>
             <col style="width:50px;"/>
             <col style="width:90px;"/>
         </colgroup>
         <thead>
             <tr>
                 <th scope="col" class="check-column"><input type="checkbox" /></th>
-                <th scope="col" class="num"><?php _e('ID', 'lifestream'); ?></th>
-                <th scope="col" colspan="2"><?php _e('Description', 'lifestream'); ?></th>
-                <th scope="col" class="date"><?php _e('Last Update', 'lifestream'); ?></th>
-                <th scope="col" class="num"><?php _e('Events', 'lifestream'); ?></th>
-                <th scope="col"><?php _e('Owner', 'lifestream'); ?></th>
+                <th scope="col" class="num"><?php $lifestream->_e('ID'); ?></th>
+                <th scope="col" colspan="2"><?php $lifestream->_e('Description'); ?></th>
+                <th scope="col" class="date"><?php $lifestream->_e('Last Update'); ?></th>
+                <th scope="col" class="num"><?php $lifestream->_e('Events'); ?></th>
+                <th scope="col"><?php $lifestream->_e('Owner'); ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($results as $result) { ?>
-            <?php $instance = LifeStream_Feed::construct_from_query_result($result); ?>
+            <?php $instance = LifeStream_Feed::construct_from_query_result($lifestream, $result); ?>
                 <tr valign="top">
                     <th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
                     <td class="num"><?php echo $result->id; ?></td>
-                    <td class="icon"><img src="<?php echo $lifestream_path; ?>/images/<?php echo $instance->get_constant('ID'); ?>.png"/></td>
+                    <td class="icon"><img src="<?php echo $instance->get_icon_url(); ?>"/></td>
                     <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars($instance->get_feed_display()); ?></a></strong><?php
                     if (isset($feedmsgs[$result->id]) && !empty($feedmsgs[$result->id]))
                     {
@@ -71,24 +71,24 @@ if (count($results))
             echo "<div class='tablenav-pages'>$page_links</div>";
         ?>
         <div class="alignleft">
-            <input type="submit" value="<?php _e('Refresh', 'lifestream'); ?>" name="op" class="button-secondary refresh" />
+            <input type="submit" value="<?php $lifestream->_e('Refresh'); ?>" name="op" class="button-secondary refresh" />
             <input type="submit" value="<?php _e('Delete'); ?>" name="op" class="button-secondary delete" />
         </div>
         <br class="clear" />
     </div>
     </form>
 <?php } else { ?>
-    <p><?php _e('You do not currently have ownership of any feeds.', 'lifestream'); ?></p>
+    <p><?php $lifestream->_e('You do not currently have ownership of any feeds.'); ?></p>
 <?php } ?>
 <br />
 
-<h2><?php _e('Add a Feed', 'lifestream');?></h2>
-<p><?php _e('Add a new feed by first selecting the type of feed:', 'lifestream'); ?></p>
+<h2><?php $lifestream->_e('Add a Feed');?></h2>
+<p><?php $lifestream->_e('Add a new feed by first selecting the type of feed:'); ?></p>
 <ul class="feedlist">
     <?php
-    foreach ($lifestream_feeds as $identifier=>$class_name)
+    foreach ($lifestream->feeds as $identifier=>$class_name)
     {
-        ?><li><a href="?page=lifestream.php&amp;op=add&amp;feed=<?php echo urlencode($identifier); ?>" title="<?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?>"><img src="<?php echo $lifestream_path; ?>/images/<?php echo $identifier; ?>.png"/> <?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?></a></li><?php
+        ?><li><a href="?page=lifestream.php&amp;op=add&amp;feed=<?php echo urlencode($identifier); ?>" title="<?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?>"><img src="<?php echo $lifestream->path; ?>/images/<?php echo $identifier; ?>.png"/> <?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?></a></li><?php
     }
     ?>
 </ul>

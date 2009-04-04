@@ -28,7 +28,7 @@ if (count($events))
 else
 {
     ?>
-    <p class="lifestream"><?php _e('There are no events to show at this time.', 'lifestream'); ?></p>
+    <p class="lifestream"><?php $lifestream->_e('There are no events to show at this time.'); ?></p>
     <?php
 }
 ?>

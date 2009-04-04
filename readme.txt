@@ -50,15 +50,15 @@ You may also specify several parameters in the `lifestream` method (useful for s
 
 For example:
 
-`[lifestream number_of_items="10"]`
+`[lifestream limit="10"]`
 
-For more advanced uses, you may directly use `lifestream_get_events()` which will return an array of `Event` instances. This is the same syntax as the `lifestream()` method.
+For more advanced uses, you may directly use `get_events()` which will return an array of `Event` instances. This is the same syntax as the `lifestream()` method.
 
 Example:
 
 `<ul>
 <?php
-$events = lifestream_get_events(array('number_of_results' => 50));
+$events = $lifestream->get_events(array('limit' => 50));
 
 foreach ($events as $event)
 {
@@ -69,7 +69,7 @@ foreach ($events as $event)
 
 Another popular example, would to be show your current Twitter, or Facebook status somewhere in your templates:
 
-`$events = lifestream_get_events(array('feed_types'=>array('twitter'), 'number_of_results'=>1, 'break_groups'=>true);
+`$events = $lifestream->get_events(array('feed_types'=>array('twitter'), 'number_of_results'=>1, 'break_groups'=>true);
 $event = $events[0];
 
 // to render it with links
