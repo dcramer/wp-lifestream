@@ -14,7 +14,7 @@ if (phpversion() < 5)
 	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
 	return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.95');
+define(LIFESTREAM_BUILD_VERSION, '0.95b');
 define(LIFESTREAM_VERSION, 0.95);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -1184,7 +1184,7 @@ class Lifestream
 		# If any arguments are invalid we bail out
 
 		// Old-style
-		$_['limit'] = $_['number_of_results'];
+		if ($_['number_of_results']) $_['limit'] = $_['number_of_results'];
 
 		if (!((int)$_['limit'] > 0)) return;
 		if (!((int)$_['offset'] >= 0)) return;
