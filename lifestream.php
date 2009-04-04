@@ -1184,7 +1184,7 @@ class Lifestream
 		# If any arguments are invalid we bail out
 
 		// Old-style
-		$_['limit'] = $_['number_of_results'];
+		if ($_['number_of_results']) $_['limit'] = $_['number_of_results'];
 
 		if (!((int)$_['limit'] > 0)) return;
 		if (!((int)$_['offset'] >= 0)) return;
