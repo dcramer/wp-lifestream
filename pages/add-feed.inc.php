@@ -2,7 +2,7 @@
 $authors = get_users_of_blog();
 
 ?>
-<h2><?php _e('Add a Feed', 'lifestream');?> <small><?php printf(__('(<a href="%s">Back to LifeStream Feeds</a>)', 'lifestream'), '?page=lifestream.php'); ?></small></h2>
+<h2><?php $lifestream->_e('Add a Feed');?> <small><?php printf(__('(<a href="%s">Back to LifeStream Feeds</a>)', 'lifestream'), '?page=lifestream.php'); ?></small></h2>
 
 <form action="?page=lifestream.php&amp;op=add&amp;feed=<?php echo urlencode($identifier); ?>" method="post" id="feed_options_<?php echo htmlspecialchars($identifier); ?>">
     <h3><?php printf(__('%s Feed Settings', 'lifestream'), $feed->get_constant('NAME')) ;?></h3>
@@ -51,7 +51,7 @@ $authors = get_users_of_blog();
             <td>
                 <?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : ''); ?>
                 <input type="text" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
-                <div class="helptext"><?php _e('A label to use for this feed instead of the default.', 'lifestream'); ?><br />e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', 'My Custom Label'); ?></div>
+                <div class="helptext"><?php $lifestream->_e('A label to use for this feed instead of the default.'); ?><br />e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', 'My Custom Label'); ?></div>
             </td>
         </tr>
         <tr>
@@ -59,13 +59,13 @@ $authors = get_users_of_blog();
             <td>
                 <?php $current_value = (isset($_POST['icon_url']) ? stripslashes($_POST['icon_url']) : ''); ?>
                 <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/>
-                <div class="helptext"><?php _e('An icon to use for this feed instead of the default.', 'lifestream'); ?></div>
+                <div class="helptext"><?php $lifestream->_e('An icon to use for this feed instead of the default.'); ?></div>
             </td>
         </tr>
         <tr>
             <th>&nbsp;</th>
             <td>
-                <label><input type="checkbox" name="show_label" value="1"<?php if (!isset($_POST['save']) || $_POST['show_label'] == '1') echo ' checked="checked"'; ?>/> <?php _e('Show labels for events in this feed. This will not affect grouped events.', 'lifestream'); ?></label>
+                <label><input type="checkbox" name="show_label" value="1"<?php if (!isset($_POST['save']) || $_POST['show_label'] == '1') echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Show labels for events in this feed. This will not affect grouped events.'); ?></label>
                 <div class="helptext">e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', $feed->get_public_name()); ?></div>
             </td>
         </tr>
@@ -73,12 +73,12 @@ $authors = get_users_of_blog();
             <tr>
                 <th>&nbsp;</th>
                 <td>
-                    <label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if ($_POST['grouped'] == '1') echo ' checked="checked"'; ?>/> <?php _e('Group events from the same day together.', 'lifestream'); ?></label>
+                    <label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if ($_POST['grouped'] == '1') echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Group events from the same day together.'); ?></label>
                 </td>
             </tr>
         <?php } ?>
         <tr>
-            <th><label for="id_owner"><?php _e('Owner:', 'lifestream'); ?></label></th>
+            <th><label for="id_owner"><?php $lifestream->_e('Owner:'); ?></label></th>
             <td>
                 <?php if (current_user_can('manage_options')) { ?>
                 <select name="owner" id="id_owner">
@@ -102,6 +102,6 @@ $authors = get_users_of_blog();
     <p><?php printf(__('Find more information about %s by visiting <a href="%s">%s</a>.', 'lifestream'), htmlspecialchars($feed->get_constant('NAME')), htmlspecialchars($url), htmlspecialchars($url)); ?></p>
     <?php } ?>
     <p class="submit">
-        <input type="submit" name="save" value="<?php _e('Add Feed', 'lifestream');?>" />
+        <input type="submit" name="save" value="<?php $lifestream->_e('Add Feed');?>" />
     </p>
 </form>

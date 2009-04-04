@@ -1,4 +1,4 @@
-<h2><?php _e('LifeStream Errors', 'lifestream'); ?> <small>(<a href="?page=lifestream-errors.php&amp;op=clear"><?php _e('Clear Log', 'lifestream'); ?></a>)</small></h2><?php
+<h2><?php $lifestream->_e('LifeStream Errors'); ?> <small>(<a href="?page=lifestream-errors.php&amp;op=clear"><?php $lifestream->_e('Clear Log'); ?></a>)</small></h2><?php
 
 if (count($results))
 {
@@ -22,13 +22,14 @@ if (count($results))
     <table class="widefat">
         <thead>
             <tr>
-                <th scope="col" class="num"><?php _e('Feed', 'lifestream'); ?></th>
-                <th scope="col" colspan="2"><?php _e('Message', 'lifestream'); ?></th>
-                <th scope="col" style="width: 150px;"><?php _e('Date', 'lifestream'); ?></th>
+                <th scope="col" class="num"><?php $lifestream->_e('Feed'); ?></th>
+                <th scope="col" colspan="2"><?php $lifestream->_e('Message'); ?></th>
+                <th scope="col" style="width: 150px;"><?php $lifestream->_e('Date'); ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($results as $result) { ?>
+	            <?php $instance = LifeStream_Feed::construct_from_query_result($lifestream, $result); ?>
                 <tr valign="top">
                     <td class="num">
                         <?php
@@ -46,7 +47,7 @@ if (count($results))
                         if ($result->feed_id)
                         {
                             ?><td class="icon">
-                            <img src="<?php echo $lifestream_path; ?>/images/<?php echo get_class_constant($lifestream_feeds[$result->feed], 'ID'); ?>.png"/></td>
+                            <img src="<?php echo $instance->get_icon_url(); ?>"/></td>
                             <td><?php
                         }
                         else
@@ -76,5 +77,5 @@ if (count($results))
         <br class="clear" />
     </div>
 <?php } else { ?>
-    <p><?php _e('There are no errors to show.', 'lifestream'); ?></p>
+    <p><?php $lifestream->_e('There are no errors to show.'); ?></p>
 <?php } ?>
