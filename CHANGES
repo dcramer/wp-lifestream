@@ -2,6 +2,7 @@
 
 * Fixed an issue with get_icon_url on the errors page.
 * Fixed an issue which was causing the rss feed to error.
+* Updated the daily digest template.
 
 0.96
 
