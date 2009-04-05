@@ -1738,8 +1738,8 @@ class LifeStream_Feed
 		$feed_label = $label_inst->get_feed_label();
 		
 		$hour_format = $this->lifestream->get_option('hour_format');
-		$visible = $options['show_details'];
-		if ($visible === null) $visible = (count($event->data) > 1);
+		if (count($event->data) == 1) $visible = true;
+		else $visible = $options['show_details'];
 		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
 
 		include('templates/'.$label_inst->get_template().'.inc.php');
