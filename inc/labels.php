@@ -351,7 +351,7 @@ class LifeStream_ListenLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', $this->event->data[0]['link'], $this->event->data[0]['title']);
+		$post = sprintf('<a href="%s">%s - %s</a>', $this->event->data[0]['link'], $this->event->data[0]['artist'], $this->event->data[0]['name']);
 		return $this->lifestream->__('Listened to %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -362,7 +362,7 @@ class LifeStream_ListenLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', $this->event->data[0]['link'], $this->event->data[0]['title']);
+		$post = sprintf('<a href="%s">%s - %s</a>', $this->event->data[0]['link'], $this->event->data[0]['artist'], $this->event->data[0]['name']);
 		return $this->lifestream->__('%1$s listened to %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
