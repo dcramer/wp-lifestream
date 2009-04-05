@@ -1,3 +1,15 @@
+0.96
+
+* Overhauled lifestream display to be more precise and compact.
+* Labels are now separate from extensions, and should be reused.
+* get_label() replaces all other label methods on feed extensions.
+* Backtype no longer requires you to fill in sites to filter out.
+* Removed Pownce extension.
+* Events from missing extensions are now ignored, rather than causing an error.
+* Feeds can now be marked as CAN_LABEL = false.
+* Twitter-based feeds can now longer have labels, or be grouped.
+* Feeds can now be marked as MUST_GROUP or MUST_LABEL.
+
 0.95c
 
 * Fix for lifestream.css not being loaded.
