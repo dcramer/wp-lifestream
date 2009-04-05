@@ -1,3 +1,8 @@
+0.96b
+
+* Fixed Last.FM feed.
+* ListenLabel now requires artist and name values.
+
 0.96a
 
 * Fixed an issue with get_icon_url on the errors page.
