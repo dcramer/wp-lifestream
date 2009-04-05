@@ -1,3 +1,7 @@
+0.95c
+
+* Fix for lifestream.css not being loaded.
+
 0.95b
 
 * Fix for lifestream() not outputting without number_of_results passed.
