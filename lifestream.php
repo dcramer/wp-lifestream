@@ -408,7 +408,7 @@ class Lifestream
 	
 	function header()
 	{
-		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$path.'/lifestream.css"/>';
+		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$this->path.'/lifestream.css"/>';
 		echo '<script type="text/javascript" src="'.$this->path.'/lifestream.js"></script>';
 	}
 	
