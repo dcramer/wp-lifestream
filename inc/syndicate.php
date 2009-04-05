@@ -12,7 +12,7 @@ function lifestream_rss_feed()
 		'break_groups'		=> true,
 	);
 	
-	$events = lifestream_get_events($options);
+	$events = $lifestream->get_events($options);
 	
 	$date = date(DATE_RFC822);
 	$lines = array('<?xml version="1.0" encoding="UTF-8"?>');
