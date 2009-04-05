@@ -857,7 +857,7 @@ class LifeStream_UnlockAchievementLabel extends LifeStream_Label
 	
 	function get_label_plural()
 	{
-		return $this->lifestream->__('Unlocked %s achievement.', $this->_get_show_details_link(), $this->get_feed_label());
+		return $this->lifestream->__('Unlocked %s achievements.', $this->_get_show_details_link(), $this->get_feed_label());
 	}
 	
 	function get_label_single_user()
@@ -881,7 +881,7 @@ class LifeStream_PlayGameLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', $this->event->data[0]['link'], $this->event->data[0]['title']);
+		$post = sprintf('<a href="%s">%s</a>', $this->event->data[0]['link'], $this->event->data[0]['name']);
 		return $this->lifestream->__('Played %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -892,7 +892,7 @@ class LifeStream_PlayGameLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', $this->event->data[0]['link'], $this->event->data[0]['title']);
+		$post = sprintf('<a href="%s">%s</a>', $this->event->data[0]['link'], $this->event->data[0]['name']);
 		return $this->lifestream->__('%1$s played %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
