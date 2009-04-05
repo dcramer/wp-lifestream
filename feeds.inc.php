@@ -113,7 +113,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	{
 		$string = $this->options['username'] . ': ';
 		$title = html_entity_decode($row->get_description());
-		if (str_startswith($title, $string))
+		if (str_startswith(strtolower($title), strtolower($string)))
 		{
 			$title = substr($title, strlen($string));
 		}
