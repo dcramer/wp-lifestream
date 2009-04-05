@@ -41,7 +41,7 @@ Another method requires a [custom WordPress page](http://codex.wordpress.org/Pag
 You may also specify several parameters in the `lifestream` method (useful for sidebar display). These should be in the standard key=>value format for PHP calls.
 
 * `(int) offset`: defaults to 0
-* `(int) number_of_items`: defaults to '50'
+* `(int) limit`: defaults to '50'
 * `(string) date_interval`: defaults to '1 month'
 * `(boolean) break_events`: defaults to false - forces grouped events to be single
 * `(array) user_ids`: defaults to all users -- specify the ids of users to show
