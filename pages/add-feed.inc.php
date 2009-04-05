@@ -51,7 +51,7 @@ $authors = get_users_of_blog();
             <td>
                 <?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : ''); ?>
                 <input type="text" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
-                <div class="helptext"><?php $lifestream->_e('A label to use for this feed instead of the default.'); ?><br />e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', 'My Custom Label'); ?></div>
+                <div class="helptext"><?php $lifestream->_e('A label to use for this feed instead of the default.'); ?></div>
             </td>
         </tr>
         <tr>
@@ -62,14 +62,15 @@ $authors = get_users_of_blog();
                 <div class="helptext"><?php $lifestream->_e('An icon to use for this feed instead of the default.'); ?></div>
             </td>
         </tr>
+        <?php if ($feed->get_constant('CAN_LABEL') && !$feed->get_constant('MUST_LABEL')) { ?>
         <tr>
             <th>&nbsp;</th>
             <td>
                 <label><input type="checkbox" name="show_label" value="1"<?php if (!isset($_POST['save']) || $_POST['show_label'] == '1') echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Show labels for events in this feed. This will not affect grouped events.'); ?></label>
-                <div class="helptext">e.g. <?php printf($feed->get_constant('LABEL_SINGLE'), '#', $feed->get_public_name()); ?></div>
             </td>
         </tr>
-        <?php if ($feed->get_constant('CAN_GROUP')) { ?>
+        <?php } ?>
+        <?php if ($feed->get_constant('CAN_GROUP') && !$feed->get_constant('MUST_GROUP')) { ?>
             <tr>
                 <th>&nbsp;</th>
                 <td>

@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your social activity in a lifestream. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.95c
+Version: 0.96
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,8 +14,8 @@ if (phpversion() < 5)
 	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
 	return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.95c');
-define(LIFESTREAM_VERSION, 0.95);
+define(LIFESTREAM_BUILD_VERSION, '0.96');
+define(LIFESTREAM_VERSION, 0.96);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
 define(LIFESTREAM_FEEDS_PER_PAGE, 20);
@@ -589,7 +589,11 @@ class Lifestream
 										$values[$option] = stripslashes($_POST[$option]);
 									}
 								}
-								if ($instance->get_constant('CAN_GROUP'))
+								if ($instance->get_constant('MUST_GROUP'))
+								{
+									$values['grouped'] = 1;
+								}
+								elseif ($instance->get_constant('CAN_GROUP'))
 								{
 									$values['grouped'] = $_POST['grouped'];
 								}
@@ -602,7 +606,14 @@ class Lifestream
 									$owner = $usero->data;
 									$instance->owner = $owner->display_name;
 								}
-								$values['show_label'] = $_POST['show_label'];
+								if ($instance->get_constant('MUST_LABEL'))
+								{
+									$values['show_label'] = 1;
+								}
+								elseif ($instance->get_constant('CAN_LABEL'))
+								{
+									$values['show_label'] = $_POST['show_label'];
+								}
 								if (!count($errors))
 								{
 									$instance->options = $values;
@@ -630,7 +641,11 @@ class Lifestream
 									$values[$option] = stripslashes($_POST[$option]);
 								}
 							}
-							if ($feed->get_constant('CAN_GROUP'))
+							if ($feed->get_constant('MUST_GROUP'))
+							{
+								$values['grouped'] = 1;
+							}
+							elseif ($feed->get_constant('CAN_GROUP'))
 							{
 								$values['grouped'] = $_POST['grouped'];
 							}
@@ -648,7 +663,14 @@ class Lifestream
 								$feed->owner_id = $userdata->ID;
 								$feed->owner = $userdata->display_name;
 							}
-							$values['show_label'] = $_POST['show_label'];
+							if ($feed->get_constant('MUST_LABEL'))
+							{
+								$values['show_label'] = 1;
+							}
+							elseif ($feed->get_constant('CAN_LABEL'))
+							{
+								$values['show_label'] = $_POST['show_label'];
+							}
 							$feed->options = $values;
 							if (!count($errors))
 							{
@@ -1180,7 +1202,7 @@ class Lifestream
 		);
 
 		$_ = array_merge($defaults, $_);
-
+		
 		# If any arguments are invalid we bail out
 
 		// Old-style
@@ -1261,7 +1283,10 @@ class Lifestream
 		$events = array();
 		foreach ($results as &$result)
 		{
-			$events[] = new $cls($this, $result);
+			if (array_key_exists($result->feed, $this->feeds))
+			{
+				$events[] = new $cls($this, $result);
+			}
 		}
 		return $events;
 	}
@@ -1273,6 +1298,8 @@ function lifestream_get_single_event($feed_type)
 {
 	return $lifestream->get_single_event($feed_type);
 }
+
+require_once('inc/labels.php');
 
 class LifeStream_Feed
 {
@@ -1290,15 +1317,13 @@ class LifeStream_Feed
 	const DESCRIPTION	= '';
 	// Can this feed be grouped?
 	const CAN_GROUP		= true;
+	// Can this feed have a label?
+	const CAN_LABEL		= true;
+	const MUST_GROUP	= false;
+	const MUST_LABEL	= false;
 	// Labels used in rendering each event
-	// params: feed url, feed name
-	const LABEL_SINGLE	= 'Posted an item on <a href="%s">%s</a>.';
-	// params: number of items, feed url, feed name
-	const LABEL_PLURAL	= 'Posted %d items on <a href="%s">%s</a>.';
-	// params: author url, author name, feed url, feed name
-	const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted an item on <a href="%s">%s</a>.';
-	// params: author url, author name, number of items, feed url, feed name
-	const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d items on <a href="%s">%s</a>.';
+	// params: feed name, event descriptor
+	const LABEL			= 'LifeStream_Label';
 	// The version is so you can manage data in the database for old versions.
 	const VERSION		= 1;
 	const MEDIA			= 'automatic';
@@ -1389,26 +1414,6 @@ class LifeStream_Feed
 			return $this->options['feed_label'];
 		}
 		return $this->get_constant('NAME');
-	}
-	
-	function get_label_single($key, $event)
-	{
-		return $this->get_constant('LABEL_SINGLE');
-	}
-	
-	function get_label_plural($key, $event)
-	{
-		return $this->get_constant('LABEL_PLURAL');
-	}
-	
-	function get_label_single_user($key, $event)
-	{
-		return $this->get_constant('LABEL_SINGLE_USER');
-	}
-	
-	function get_label_plural_user($key, $event)
-	{
-		return $this->get_constant('LABEL_PLURAL_USER');
 	}
 	
 	/**
@@ -1692,79 +1697,51 @@ class LifeStream_Feed
 			return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50" alt="%s"/></a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']), htmlspecialchars($thumbnail), htmlspecialchars($item['title']));
 		}
 		return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
-		
 	}
 	
-	function render_group_items($id, $output, $event, $visible=false)
+	function get_label($event, $options=array())
 	{
-		$thumbnail = $this->get_thumbnail_url($event, $event->data[0]);
-		
-		if (!empty($thumbnail) && $this->get_constant('MEDIA') == 'automatic')
-		{
-			return sprintf('<div id="%s"'.(!$visible ? ' style="display:none;"' : '').'>%s</div>', $id, implode(' ', $output));
-		}
-		return sprintf('<ul id="%s"'.(!$visible ? ' style="display:none;"' : '').'><li>%s</li></ul>', $id, implode('</li><li>', $output));
-		
-	}
-	
-	function get_render_output($event)
-	{
-		$label = '';
-		$rows = array();
-
-		if ($event->is_grouped)
-		{
-			foreach ($event->data as $row)
-			{
-				$rows[] = $this->render_item($event, $row);
-			}
-		}
-		else
-		{
-			$rows[] = $this->render_item($event, $event->data);
-		}
-		if (count($rows) > 1)
-		{
-			if ($this->lifestream->get_option('show_owners'))
-			{
-				$label = $this->lifestream->__($this->get_label_plural_user($event->key, $event), '#', $event->owner, $event->total, $this->get_public_url(), $this->get_public_name());
-			}
-			else
-			{
-				$label = $this->lifestream->__($this->get_label_plural($event->key, $event), $event->total, $this->get_public_url(), $this->get_public_name());
-			}
-		}
-		else
-		{
-			if ($this->lifestream->get_option('show_owners'))
-			{
-				$label = $this->lifestream->__($this->get_label_single_user($event->key, $event), '#', $event->owner, $this->get_public_url(), $this->get_public_name());
-			}
-			else
-			{
-				$label = $this->lifestream->__($this->get_label_single($event->key, $event), $this->get_public_url(), $this->get_public_name());
-			}
-		}
-		return array($label, $rows);
+		$cls = $this->get_constant('LABEL');
+		return new $cls($this, $event, $options);
 	}
 	
 	function render($event, $options)
 	{
-		list($label, $rows) = $this->get_render_output($event);
-		if (count($rows) > 1)
+		$id = 'ls_'.microtime().'_';
+		$options['id'] = $id;
+
+		$label_inst = $this->get_label($event, $options);
+		
+		if (count($event->data) > 1)
 		{
-			$hide_details = $this->lifestream->get_option('hide_details_default');
-			$details_opt = $hide_details ? '%3$s' : '%4$s';
-			return sprintf('%1$s <small class="lifestream_more">(<span onclick="lifestream_toggle(this, \'lwg_%2$d\', \'%3$s\', \'%4$s\');return false;">'.$details_opt.'</span>)</small><div class="lifestream_events">%5$s</div>', $label, $event->id, __('Show Details', 'lifestream'), __('Hide Details', 'lifestream'), $this->render_group_items('lwg_'.$event->id, $rows, $event, !$hide_details));
-		}
-		elseif ($this->options['show_label'] && !$options['hide_label'])
-		{
-			return sprintf('%s<div class="lifestream_events">%s</div>', $label, $rows[0]);
+			if ($this->lifestream->get_option('show_owners'))
+			{
+				$label = $label_inst->get_label_plural_user();
+			}
+			else
+			{
+				$label = $label_inst->get_label_plural();
+			}
 		}
 		else
 		{
-			return $rows[0];
+			if ($this->lifestream->get_option('show_owners'))
+			{
+				$label = $label_inst->get_label_single_user();
+			}
+			else
+			{
+				$label = $label_inst->get_label_single();
+			}
 		}
+		
+		$feed_label = $label_inst->get_feed_label();
+		
+		$hour_format = $this->lifestream->get_option('hour_format');
+		$visible = $options['show_details'];
+		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
+
+		include('templates/'.$label_inst->get_template().'.inc.php');
 	}
 	
 	function get_url()
@@ -1784,22 +1761,22 @@ class LifeStream_Feed
 	}
 	
 	function get_events($limit=50, $offset=0)
-    {
-        global $wpdb;
+	{
+		global $wpdb;
 
-        if (!$this->id) return false;
-        
-        if (!($limit > 0) || !($offset >= 0)) return false;
+		if (!$this->id) return false;
+		
+		if (!($limit > 0) || !($offset >= 0)) return false;
 
-        $results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`feed_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $this->id, $offset, $limit));
-        $events = array();
-        foreach ($results as &$result)
-        {
-            $events[] = new LifeStream_EventGroup($this->lifestream, $result);
-        }
-        return $events;
-    }
-    
+		$results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`feed_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $this->id, $offset, $limit));
+		$events = array();
+		foreach ($results as &$result)
+		{
+			$events[] = new LifeStream_EventGroup($this->lifestream, $result);
+		}
+		return $events;
+	}
+	
 }
 
 /**
@@ -1807,23 +1784,11 @@ class LifeStream_Feed
  */
 class LifeStream_PhotoFeed extends LifeStream_Feed
 {
-	const LABEL_SINGLE  = 'Posted a photo on <a href="%s">%s</a>.';
-	const LABEL_PLURAL  = 'Posted %d photos on <a href="%s">%s</a>.';
-	const LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a photo on <a href="%s">%s</a>.';
-	const LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d photos on <a href="%s">%s</a>.';
+	const LABEL = 'LifeStream_PhotoLabel';
+	const MUST_GROUP = true;
 }
 
 class LifeStream_GenericFeed extends LifeStream_Feed {
-	const TEXT_LABEL_SINGLE  = 'Posted an item';
-	const TEXT_LABEL_PLURAL  = 'Posted %d items';
-	const TEXT_LABEL_SINGLE_USER = '<a href="%s">%s</a> posted an item.';
-	const TEXT_LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d items.';
-	
-	const PHOTO_LABEL_SINGLE  = 'Posted a photo';
-	const PHOTO_LABEL_PLURAL  = 'Posted %d photos';
-	const PHOTO_LABEL_SINGLE_USER = '<a href="%s">%s</a> posted a photo.';
-	const PHOTO_LABEL_PLURAL_USER = '<a href="%s">%s</a> posted %d photos.';
-	
 	const DESCRIPTION = 'The generic feed can handle both feeds with images (in enclosures), as well as your standard text based RSS and Atom feeds.';
 	
 	function get_options()
@@ -1838,49 +1803,11 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
 		return $this->options['url'];
 	}
 	
-	function get_label_single($key)
+	function get_label($event, $options)
 	{
-		if ($key == 'photo')
-		{
-			if ($this->options['name']) return LifeStream_PhotoFeed::LABEL_SINGLE;
-			return $this->get_constant('PHOTO_LABEL_SINGLE');
-		}
-		if ($this->options['name']) return parent::LABEL_SINGLE;
-		return $this->get_constant('TEXT_LABEL_SINGLE');
-	}
-	
-	function get_label_plural($key)
-	{
-		if ($key == 'photo')
-		{
-			if ($this->options['name']) return LifeStream_PhotoFeed::LABEL_PLURAL;
-			return $this->get_constant('PHOTO_LABEL_PLURAL');
-		}
-		if ($this->options['name']) return parent::LABEL_PLURAL;
-		return $this->get_constant('TEXT_LABEL_PLURAL');
-	}
-	
-	function get_label_single_user($key)
-	{
-		if ($key == 'photo')
-		{
-			if ($this->options['name']) return LifeStream_PhotoFeed::LABEL_SINGLE_USER;
-			return $this->get_constant('PHOTO_LABEL_SINGLE_USER');
-		}
-		if ($this->options['name']) return parent::LABEL_SINGLE_USER;
-		return $this->get_constant('TEXT_LABEL_SINGLE_USER');
-	}
-	
-	function get_label_plural_user($key)
-	{
-		if ($key == 'photo')
-		{
-			if ($this->options['name']) return LifeStream_PhotoFeed::LABEL_PLURAL_USER;
-			return $this->get_constant('PHOTO_LABEL_PLURAL_USER');
-		}
-		
-		if ($this->options['name']) return parent::LABEL_PLURAL_USER;
-		return $this->get_constant('TEXT_LABEL_PLURAL_USER');
+		if ($event->key == 'photo')	$cls = LifeStream_PhotoFeed::LABEL;
+		else $cls = $this->get_constant('LABEL');
+		return new $cls($this, $event, $options);
 	}
 }
 $lifestream->register_feed('LifeStream_GenericFeed');
@@ -1950,6 +1877,7 @@ function lifestream_sidebar_widget($_=array())
 		'limit'			=> 10,
 		'hide_labels'	=> false,
 		'break_groups'	=> true,
+		'show_details'	=> false,
 	);
 	
 	$_ = array_merge($defaults, $_);
@@ -1960,6 +1888,7 @@ function lifestream_sidebar_widget($_=array())
 	$day_format = $lifestream->get_option('day_format');
 	
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
+	
 	
 	include(dirname(__FILE__) . '/pages/lifestream-list.inc.php');
 }

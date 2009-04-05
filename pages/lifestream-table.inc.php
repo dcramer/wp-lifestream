@@ -17,7 +17,7 @@ if (count($events))
         {
             ?>
             <tr>
-                <th colspan="3">
+                <th colspan="2">
                     <h2 class="lifestream_date"><?php echo $this_day; ?></h2>
                 </th>
             </tr>
@@ -29,9 +29,9 @@ if (count($events))
             <td class="lifestream_icon">
                 <a href="<?php echo htmlspecialchars($result->get_url()); ?>"><img src="<?php echo $result->feed->get_icon_url(); ?>" alt="<?php echo $result->feed->get_constant('ID'); ?> (feed #<?php echo $result->feed->id; ?>)" /></a>
             </td>
-            <td class="lifestream_hour">
+            <!-- <td class="lifestream_hour">
                 <abbr title="<?php echo date("c", $timestamp); ?>"><?php echo date($hour_format, $timestamp); ?></abbr>
-            </td>
+            </td> -->
             <td class="lifestream_text">
                 <?php echo $result->render($_); ?>
             </td>
