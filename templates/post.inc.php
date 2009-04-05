@@ -7,7 +7,7 @@
 		<li><?php echo $this->render_item($event, $chunk); ?></li>
 	<?php } ?>
 </ul>
-<?php } else { ?>
+<?php } elseif ($event->data[0]['description']) { ?>
 <blockquote class="lifestream_blogpost">
 	<?php echo $event->data[0]['description']; ?>
 </blockquote>
