@@ -872,7 +872,7 @@ class LifeStream_UnlockAchievementLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_PlayGameabel extends LifeStream_Label
+class LifeStream_PlayGameLabel extends LifeStream_Label
 {
 	function get_template()
 	{
