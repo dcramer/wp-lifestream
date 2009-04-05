@@ -29,7 +29,6 @@ if (count($results))
         </thead>
         <tbody>
             <?php foreach ($results as $result) { ?>
-	            <?php $instance = LifeStream_Feed::construct_from_query_result($lifestream, $result); ?>
                 <tr valign="top">
                     <td class="num">
                         <?php
@@ -47,7 +46,7 @@ if (count($results))
                         if ($result->feed_id)
                         {
                             ?><td class="icon">
-                            <img src="<?php echo $instance->get_icon_url(); ?>"/></td>
+                            <img src="<?php echo $lifestream->path . '/images/' . $result->feed; ?>.png"/></td>
                             <td><?php
                         }
                         else
