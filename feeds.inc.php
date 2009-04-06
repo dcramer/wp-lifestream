@@ -323,7 +323,7 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 	{		
 		return array(
 			'url' => array('Feed URL:', true, '', ''),
-			'permalink_url' = array('Website URL:', false, '', ''),
+			'permalink_url' => array('Website URL:', false, '', ''),
 		);
 	}
 	
