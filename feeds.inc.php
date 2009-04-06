@@ -679,7 +679,7 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 
 	function render_item($row, $item)
 	{
-		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
+		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
 	}
 
 	function get_url()
