@@ -2203,12 +2203,14 @@ class LifeStream_BackTypeFeed extends LifeStream_Feed
 				exit;
 			}
 		}
+		$description = strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->options['username']).'">Read more comments by '.strtolower($this->options['username']).'</a></p>', '' , html_entity_decode($row->get_description())));
+		
 	   	return array(
 			'guid'			=>  $row->get_id(),
 			'date'			=>  $row->get_date('U'),
 			'link'			=>  html_entity_decode($row->get_link()),
 			'title'	 		=>  html_entity_decode($row->get_title()),
-			'description'	=>  '"<em>'.strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->options['username']).'">Read more comments by '.strtolower($this->options['username']).'</a></p>','',html_entity_decode($row->get_description()))).'</em>"',
+			'description'	=>  $description,
 		);
 	}
 }
