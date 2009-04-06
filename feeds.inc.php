@@ -323,7 +323,14 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 	{		
 		return array(
 			'url' => array('Feed URL:', true, '', ''),
+			'permalink_url' = array('Website URL:', false, '', ''),
 		);
+	}
+	
+	function _get_domain()
+	{
+		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $this->options['url'], $matches);
+		return $matches[3];
 	}
 	
 	function get_public_name()
@@ -332,10 +339,13 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 		{
 			return $this->options['feed_label'];
 		}
-		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $this->options['url'], $matches);
-		return $matches[3];
-		return $this->get_constant('NAME');
-		
+		return $this->_get_domain();
+	}
+	
+	function get_public_url()
+	{
+		if ($this->options['permalink_url']) return $this->options['permalink_url'];
+		return 'http://'.$this->_get_domain();
 	}
 
 	function yield($row)
@@ -343,12 +353,12 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 		$author =& $row->get_item_tags(SIMPLEPIE_NAMESPACE_DC_11, 'creator');
 
 		return array(
-			'guid'	  =>  $row->get_id(),
-			'date'	  =>  $row->get_date('U'),
+			'guid'		=>  $row->get_id(),
+			'date'		=>  $row->get_date('U'),
 			'description' => html_entity_decode($row->get_description()),
-			'link'	  =>  html_entity_decode($row->get_link()),
-			'title'	 =>  html_entity_decode($row->get_title()),
-			'author'	=>  $author[0]['data'],
+			'link'		=>  html_entity_decode($row->get_link()),
+			'title'		=>  html_entity_decode($row->get_title()),
+			'author'	=>  html_entity_decode($author[0]['data']),
 		);
 	}
 }
@@ -1087,6 +1097,7 @@ class LifeStream_TumblrFeed extends LifeStream_BlogFeed
 	{
 		if ($event->key == 'image') $cls = LifeStream_PhotoFeed::LABEL;
 		else $cls = $this->get_constant('LABEL');
+		return new $cls($this, $event, $options);
 	}
 }
 $lifestream->register_feed('LifeStream_TumblrFeed');
