@@ -1716,6 +1716,7 @@ class LifeStream_Feed
 	
 	function render($event, $options)
 	{
+		$lifestream = $this;
 		$id = 'ls_'.microtime().'_';
 		$options['id'] = $id;
 
