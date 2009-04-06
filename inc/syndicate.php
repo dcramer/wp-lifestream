@@ -52,7 +52,7 @@ function lifestream_rss_feed()
 		$lines[] = '		<item>';
 		$lines[] = '			<guid isPermaLink="false">'.$event->id.'</guid>';
 		$lines[] = '			<title>'.strip_tags($label).'</title>';
-		$lines[] = '			<description>'.htmlspecialchars($event->feed->render($event, $event->feed->options)).'</description>';
+		$lines[] = '			<description>'.htmlspecialchars($event->feed->render_item($event, $event->data)).'</description>';
 		$lines[] = '			<lifestream:feed>'.$event->feed->get_constant('ID').'</lifestream:feed>';
 		$lines[] = '			<lifestream:label>'.htmlspecialchars($label).'</lifestream:label>';
 		$lines[] = '			<lifestream:event>'.htmlspecialchars($event->feed->render_item($event, $event->data)).'</lifestream:event>';
