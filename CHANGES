@@ -1,3 +1,13 @@
+0.96c
+
+* Fix for RSS feed labels and rendering.
+* Updated Identi.ca icon.
+* Added hash tag link to Identi.ca extension.
+* Fix for Tumblr feeds causing fatal error.
+* Truncating blog posts and comments to 128 characters.
+* Escaping html entities properly in new rendering.
+* Added website url option to Blog extension.
+
 0.96b
 
 * Fixed Last.FM feed.

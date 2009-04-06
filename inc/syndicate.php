@@ -24,19 +24,35 @@ function lifestream_rss_feed()
 	
 	foreach ($events as $event)
 	{
-		if ($lifestream->get_option('show_owners'))
+		$label_inst = $event->feed->get_label($event, $options);
+		
+		if (count($event->data) > 1)
 		{
-			$label = $lifestream->__($event->feed->get_label_single_user($event->key, $event), '#', $event->owner, $event->feed->get_public_url(), $event->feed->get_public_name());
+			if ($lifestream->get_option('show_owners'))
+			{
+				$label = $label_inst->get_label_plural_user();
+			}
+			else
+			{
+				$label = $label_inst->get_label_plural();
+			}
 		}
 		else
 		{
-			$label = $lifestream->__($event->feed->get_label_single($event->key, $event), $event->feed->get_public_url(), $event->feed->get_public_name());
+			if ($lifestream->get_option('show_owners'))
+			{
+				$label = $label_inst->get_label_single_user();
+			}
+			else
+			{
+				$label = $label_inst->get_label_single();
+			}
 		}
 		
 		$lines[] = '		<item>';
 		$lines[] = '			<guid isPermaLink="false">'.$event->id.'</guid>';
 		$lines[] = '			<title>'.strip_tags($label).'</title>';
-		$lines[] = '			<description>'.htmlspecialchars($event->feed->render($event, $event->feed->options)).'</description>';
+		$lines[] = '			<description>'.htmlspecialchars($event->feed->render_item($event, $event->data)).'</description>';
 		$lines[] = '			<lifestream:feed>'.$event->feed->get_constant('ID').'</lifestream:feed>';
 		$lines[] = '			<lifestream:label>'.htmlspecialchars($label).'</lifestream:label>';
 		$lines[] = '			<lifestream:event>'.htmlspecialchars($event->feed->render_item($event, $event->data)).'</lifestream:event>';
