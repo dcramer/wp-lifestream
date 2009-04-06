@@ -182,6 +182,15 @@ class Lifestream
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
 	}
 	
+	function truncate($string, $length=128)
+	{
+		if (strlen($string) > $length)
+		{
+			$string = substr($string, 0, $length-3).'...';
+		}
+		return $string;
+	}
+	
 	// To be quite honest, WordPress should be doing this kind of magic itself.
 	
 	function _populate_option_cache()
