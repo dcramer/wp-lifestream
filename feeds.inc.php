@@ -31,7 +31,6 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	const NAME		= 'Twitter';
 	const URL		= 'http://www.twitter.com/';
 	const LABEL		= 'LifeStream_MessageLabel';
-	const CAN_LABEL	= false;
 	const CAN_GROUP	= false;
 	
 	function __toString()
@@ -318,7 +317,7 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 	const ID			= 'blog';
 	const NAME			= 'Blog';
 	const LABEL			= 'LifeStream_BlogLabel';
-
+	
 	function get_options()
 	{		
 		return array(
@@ -415,7 +414,6 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
 	const URL			= 'http://www.facebook.com/';
 	const DESCRIPTION	= 'To obtain your Facebook feed URL visit the very hard to find <a href="http://www.facebook.com/minifeed.php?filter=11" target="_blank">Your Mini-Feed</a> page. On the right hand side towards the bottom you will the "My Status" RSS feed link.';
 	const CAN_GROUP		= false;
-	const CAN_LABEL		= false; 
 	
 	function render_item($row, $item)
 	{

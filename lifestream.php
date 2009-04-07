@@ -616,14 +616,6 @@ class Lifestream
 									$owner = $usero->data;
 									$instance->owner = $owner->display_name;
 								}
-								if ($instance->get_constant('MUST_LABEL'))
-								{
-									$values['show_label'] = 1;
-								}
-								elseif ($instance->get_constant('CAN_LABEL'))
-								{
-									$values['show_label'] = $_POST['show_label'];
-								}
 								if (!count($errors))
 								{
 									$instance->options = $values;
@@ -672,14 +664,6 @@ class Lifestream
 							{
 								$feed->owner_id = $userdata->ID;
 								$feed->owner = $userdata->display_name;
-							}
-							if ($feed->get_constant('MUST_LABEL'))
-							{
-								$values['show_label'] = 1;
-							}
-							elseif ($feed->get_constant('CAN_LABEL'))
-							{
-								$values['show_label'] = $_POST['show_label'];
 							}
 							$feed->options = $values;
 							if (!count($errors))
@@ -1328,9 +1312,7 @@ class LifeStream_Feed
 	// Can this feed be grouped?
 	const CAN_GROUP		= true;
 	// Can this feed have a label?
-	const CAN_LABEL		= true;
 	const MUST_GROUP	= false;
-	const MUST_LABEL	= false;
 	// Labels used in rendering each event
 	// params: feed name, event descriptor
 	const LABEL			= 'LifeStream_Label';
@@ -1749,7 +1731,7 @@ class LifeStream_Feed
 		$feed_label = $label_inst->get_feed_label();
 		
 		$hour_format = $this->lifestream->get_option('hour_format');
-		if (count($event->data) == 1) $visible = true;
+		if (count($event->data) == 1 && $this->get_constant('MUST_GROUP')) $visible = true;
 		else $visible = $options['show_details'];
 		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
 
@@ -1886,7 +1868,6 @@ function lifestream_sidebar_widget($_=array())
 	
 	$defaults = array(
 		'limit'			=> 10,
-		'hide_labels'	=> false,
 		'break_groups'	=> true,
 		'show_details'	=> false,
 	);

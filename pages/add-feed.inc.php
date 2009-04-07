@@ -62,14 +62,6 @@ $authors = get_users_of_blog();
                 <div class="helptext"><?php $lifestream->_e('An icon to use for this feed instead of the default.'); ?></div>
             </td>
         </tr>
-        <?php if ($feed->get_constant('CAN_LABEL') && !$feed->get_constant('MUST_LABEL')) { ?>
-        <tr>
-            <th>&nbsp;</th>
-            <td>
-                <label><input type="checkbox" name="show_label" value="1"<?php if (!isset($_POST['save']) || $_POST['show_label'] == '1') echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Show labels for events in this feed. This will not affect grouped events.'); ?></label>
-            </td>
-        </tr>
-        <?php } ?>
         <?php if ($feed->get_constant('CAN_GROUP') && !$feed->get_constant('MUST_GROUP')) { ?>
             <tr>
                 <th>&nbsp;</th>
