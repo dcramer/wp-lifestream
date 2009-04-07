@@ -1334,7 +1334,7 @@ class LifeStream_Feed
 	// params: feed name, event descriptor
 	const LABEL			= 'LifeStream_Label';
 	// The version is so you can manage data in the database for old versions.
-	const VERSION		= 1;
+	const VERSION		= 2;
 	const MEDIA			= 'automatic';
 	
 	/**
