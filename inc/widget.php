@@ -25,7 +25,7 @@ function lifestream_widget($args, $widget_args=1)
 
 	echo $before_widget;
 
-	echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : __('LifeStream', 'lifestream')) . $after_title;
+	echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : $lifestream->__('LifeStream')) . $after_title;
 
 	lifestream_sidebar_widget(array(
 		'limit'=>$options['amount'],
@@ -176,10 +176,10 @@ function lifestream_widget_register()
 	if (!$options = $lifestream->get_option('widget'))
 		$options = array();
 
-	$widget_ops = array('classname' => 'widget_lifestream', 'description' => __('Displays your activity from your lifestream'));
+	$widget_ops = array('classname' => 'widget_lifestream', 'description' => $lifestream->__('Displays your activity from your lifestream'));
 	// 'width' => 250, 'height' => 350,
 	$control_ops = array('id_base' => 'lifestream', 'width' => 400);
-	$name = __('Lifestream');
+	$name = $this->__('Lifestream');
 
 	$registered = false;
 	foreach (array_keys($options) as $o)

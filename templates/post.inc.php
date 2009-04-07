@@ -9,6 +9,6 @@
 </ul>
 <?php } elseif ($visible && $event->data[0]['description']) { ?>
 <blockquote class="lifestream_blogpost">
-	<?php echo htmlspecialchars(strip_tags($lifestream->truncate($event->data[0]['description']))); ?>
+	<?php echo htmlspecialchars(strip_tags($lifestream->truncate($event->data[0]['description'], $lifestream->get_option('truncate_length')))); ?>
 </blockquote>
 <?php } ?>
