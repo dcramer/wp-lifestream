@@ -1072,7 +1072,7 @@ class LifeStream_TumblrFeed extends LifeStream_BlogFeed
 			'date'	=>  $row->get_date('U'),
 			'link'	=>  html_entity_decode($row->get_link()),
 			'title'	=>  html_entity_decode($row->get_title()),
-			'description'	=> html_entity_decode($row->get_description());
+			'description'	=> html_entity_decode($row->get_description()),
 			'key'	=>  'note',
 		);
 		if ($match)
