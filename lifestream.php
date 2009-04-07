@@ -621,6 +621,7 @@ class Lifestream
 								{
 									$instance->options = $values;
 									$instance->save();
+									unset($_POST);
 								}
 							}
 						}
@@ -681,6 +682,7 @@ class Lifestream
 										{
 											$message = $this->__('A new %s feed was added to your LifeStream.', $feed->get_constant('NAME'));
 											$feedmsgs[$feed->id] = $msg_arr[1];
+											unset($_POST);
 										}
 									}
 								}
@@ -1816,6 +1818,7 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
 		{
 			$this->options['icon_url'] = $feed->get_favicon();
 		}
+		parent::save_options();
 	}
 
 	function get_public_url()
