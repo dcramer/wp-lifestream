@@ -1684,6 +1684,28 @@ abstract class LifeStream_Extension
  */
 class LifeStream_Feed extends LifeStream_Extension
 {
+	function save_options()
+	{
+		$urls = $this->get_url();
+		if (!is_array($urls)) $urls = array($urls);
+		
+		$url = $urls[0];
+		
+		$feed = new SimplePie();
+		$feed->enable_cache(false);
+		$data = $this->lifestream->file_get_contents($url);
+		$feed->set_raw_data($data);
+		$feed->enable_order_by_date(false);
+		$feed->force_feed(true); 
+		$success = $feed->init();
+		
+		if ($this->options['auto_icon'])
+		{
+			$this->options['icon_url'] = $feed->get_favicon();
+		}
+		parent::save_options();
+	}
+	
 	function fetch($urls=null)
 	{
 		// kind of an ugly hack for now so we can extend twitter
@@ -1799,28 +1821,6 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
 		return array(
 			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
 		);
-	}
-
-	function save_options()
-	{
-		$urls = $this->get_url();
-		if (!is_array($urls)) $urls = array($urls);
-		
-		$url = $urls[0];
-		
-		$feed = new SimplePie();
-		$feed->enable_cache(false);
-		$data = $this->lifestream->file_get_contents($url);
-		$feed->set_raw_data($data);
-		$feed->enable_order_by_date(false);
-		$feed->force_feed(true); 
-		$success = $feed->init();
-		
-		if ($this->options['auto_icon'])
-		{
-			$this->options['icon_url'] = $feed->get_favicon();
-		}
-		parent::save_options();
 	}
 
 	function get_public_url()
