@@ -1,3 +1,24 @@
+0.97
+
+* All strings should now be localized.
+* Fixed an issue where feeds were default to version 1, version 2 is GUID keys.
+* Added an option for the length to truncate blog/comment blurbs.
+* Website URL option will now also be used for the link in BlogFeed's.
+* Hide label option has been removed and is only used on a per-feed basis if it's valid.
+* CAN_LABEL and MUST_LABEL are obsolete. There is no more option to hide labels (since labels are now data).
+* Moved most logic from LifeStream_Feed into LifeStream_Extension.
+* Added default favicon support to GenericFeed extension.
+
+0.96c
+
+* Fix for RSS feed labels and rendering.
+* Updated Identi.ca icon.
+* Added hash tag link to Identi.ca extension.
+* Fix for Tumblr feeds causing fatal error.
+* Truncating blog posts and comments to 128 characters.
+* Escaping html entities properly in new rendering.
+* Added website url option to Blog extension.
+
 0.96b
 
 * Fixed Last.FM feed.
