@@ -329,7 +329,9 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 	
 	function _get_domain()
 	{
-		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $this->options['url'], $matches);
+		if ($this->options['permalink_url']) $url = $this->options['permalink_url'];
+		else $url = $this->options['url'];
+		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $url, $matches);
 		return $matches[3];
 	}
 	
@@ -345,6 +347,7 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 	function get_public_url()
 	{
 		if ($this->options['permalink_url']) return $this->options['permalink_url'];
+		
 		return 'http://'.$this->_get_domain();
 	}
 
