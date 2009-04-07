@@ -1,3 +1,7 @@
+0.97a
+
+* Added an option for automatic favicon fetching.
+
 0.97
 
 * All strings should now be localized.
