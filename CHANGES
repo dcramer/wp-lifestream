@@ -3,6 +3,7 @@
 * Improved Tumblr support. Attempts to identify posts/notes/photos.
 * Tweaked the default website icon logic to verify it's an image.
 * Added Lifestream::validate_image($url).
+* Fixed issues with buttons and non-english localizations.
 
 0.97b
 

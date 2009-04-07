@@ -17,7 +17,7 @@ if (count($results))
             echo "<div class='tablenav-pages'>$page_links</div>";
         ?>
         <div class="alignleft">
-            <input type="submit" value="<?php $lifestream->_e('Delete'); ?>" name="op" class="button-secondary delete" />
+	        <button type="submit" name="op" value="delete" class="button-secondary delete"><?php $lifestream->_e('Delete'); ?></button>
         </div>
         <br class="clear" />
     </div>
@@ -54,7 +54,7 @@ if (count($results))
             echo "<div class='tablenav-pages'>$page_links</div>";
         ?>
         <div class="alignleft">
-            <input type="submit" value="<?php $lifestream->_e('Delete'); ?>" name="op" class="button-secondary delete" />
+	        <button type="submit" name="op" value="delete" class="button-secondary delete"><?php $lifestream->_e('Delete'); ?></button>
         </div>
         <br class="clear" />
     </div>
