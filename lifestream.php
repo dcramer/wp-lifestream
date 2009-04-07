@@ -185,6 +185,7 @@ class Lifestream
 	
 	function truncate($string, $length=128)
 	{
+		if ($length === -1) return $string;
 		if (strlen($string) > $length)
 		{
 			$string = substr($string, 0, $length-3).'...';
