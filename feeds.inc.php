@@ -1036,14 +1036,14 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
 }
 $lifestream->register_feed('LifeStream_StumbleUponFeed');
 
-class LifeStream_TumblrFeed extends LifeStream_BlogFeed
+class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
 {
 	const ID	= 'tumblr';
 	const NAME	= 'Tumblr';
 	const URL	= 'http://www.tumblr.com/';
 	
 	// http://media.tumblr.com/ck3ATKEVYd6ay62wLAzqtEkX_500.jpg
-	private $image_match_regexp = '/src="(http:\/\/media\.tumblr\.com\/[a-zA-Z0-9_-]+\.jpg)"/i';
+	private $image_match_regexp = '/src="(http:\/\/(?:[a-z0-9\.]+\.)?media\.tumblr\.com\/[a-zA-Z0-9_-]+\.jpg)"/i';
 	
 	function get_options()
 	{		
@@ -1073,8 +1073,11 @@ class LifeStream_TumblrFeed extends LifeStream_BlogFeed
 			'link'	=>  html_entity_decode($row->get_link()),
 			'title'	=>  html_entity_decode($row->get_title()),
 			'description'	=> html_entity_decode($row->get_description()),
-			'key'	=>  'note',
 		);
+		if ($data['title'] == strip_tags($data['description']))
+		{
+			$data['key'] = 'note';
+		}
 		if ($match)
 		{
 			$data['thumbnail'] = $match[1];
@@ -1090,16 +1093,21 @@ class LifeStream_TumblrFeed extends LifeStream_BlogFeed
 		{
 			return LifeStream_PhotoFeed::render_item($event, $item);
 		}
-		else
+		elseif ($event->key == 'note')
 		{
 			return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+		}
+		else
+		{
+			return parent::render_item($event, $item);
 		}
 	}
 	
 	function get_label($event, $options)
 	{
 		if ($event->key == 'image') $cls = LifeStream_PhotoFeed::LABEL;
-		else $cls = $this->get_constant('LABEL');
+		elseif ($event->key == 'note') $cls = LifeStream_TwitterFeed::LABEL;
+		else $cls = LifeStream_BlogFeed::LABEL;
 		return new $cls($this, $event, $options);
 	}
 }
