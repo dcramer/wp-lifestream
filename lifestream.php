@@ -91,6 +91,11 @@ class LifeStream_Event
 		return $this->data['title'];
 	}
 	
+	function get_event_display()
+	{
+		return $this->feed->get_event_display($this, $this->data);
+	}
+	
 	function get_date()
 	{
 		return $this->date + LIFESTREAM_DATE_OFFSET*60*60;
@@ -133,6 +138,12 @@ class LifeStream_EventGroup extends LifeStream_Event
 		$this->total = $row->total ? $row->total : 1;
 		$this->is_grouped = true;
 	}
+	
+	function get_event_display($bit)
+	{
+		return $this->feed->get_event_display($this, $bit);
+	}
+	
 }
 
 class Lifestream
@@ -1370,6 +1381,11 @@ abstract class LifeStream_Extension
 	function __toString()
 	{
 		return $this->get_url();
+	}
+	
+	function get_event_display($event, $bit)
+	{
+		return $bit['title'];
 	}
 	
 	function get_feed_display()

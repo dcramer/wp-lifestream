@@ -248,6 +248,11 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
 	{
 		return $this->options['username'];
 	}
+	
+	function get_event_display($event, $bit)
+	{
+		return $bit['name'] . ' - ' . $bit['artist'];
+	}
 		
 	function get_options()
 	{		
