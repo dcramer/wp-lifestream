@@ -2,6 +2,7 @@
 
 * Added get_event_display($event, $bit) method to extensions.
 * Updated all labels to use get_event_display instead of $bit['title'].
+* Fixed mouseover timestamp on event times.
 
 0.97a
 
