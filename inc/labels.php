@@ -169,9 +169,15 @@ class LifeStream_MessageLabel extends LifeStream_Label
 
 class LifeStream_ReviewLabel extends LifeStream_Label
 {
+	function get_template()
+	{
+		return 'basic';
+	}
+	
 	function get_label_single()
 	{
-		return $this->lifestream->__('Reviewed an item.', $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Reviewed %2$s', $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural()
@@ -181,7 +187,8 @@ class LifeStream_ReviewLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%s reviewed an item.', $this->_get_user_label(), $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s reviewed %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural_user()
@@ -192,9 +199,15 @@ class LifeStream_ReviewLabel extends LifeStream_Label
 
 class LifeStream_PurchaseLabel extends LifeStream_Label
 {
+	function get_template()
+	{
+		return 'basic';
+	}
+	
 	function get_label_single()
 	{
-		return $this->lifestream->__('Purchased an item.', $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Purchased %2$s', $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural()
@@ -204,7 +217,8 @@ class LifeStream_PurchaseLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%s purchased an item.', $this->_get_user_label(), $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s purchased %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural_user()
@@ -238,6 +252,11 @@ class LifeStream_CommitLabel extends LifeStream_Label
 
 class LifeStream_BookLabel extends LifeStream_Label
 {
+	function get_template()
+	{
+		return 'basic';
+	}
+	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -321,9 +340,15 @@ class LifeStream_LikeStoryLabel extends LifeStream_Label
 
 class LifeStream_BusinessReviewLabel extends LifeStream_Label
 {
+	function get_template()
+	{
+		return 'basic';
+	}
+	
 	function get_label_single()
 	{
-		return $this->lifestream->__('Reviewed a business.', $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Reviewed %2$s', $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural()
@@ -333,7 +358,8 @@ class LifeStream_BusinessReviewLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%s reviewed a business.', $this->_get_user_label(), $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s reviewed %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural_user()
