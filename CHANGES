@@ -3,6 +3,7 @@
 * All strings should now be localized.
 * Fixed an issue where feeds were default to version 1, version 2 is GUID keys.
 * Added an option for the length to truncate blog/comment blurbs.
+* Website URL option will now also be used for the link in BlogFeed's.
 
 0.96c
 
