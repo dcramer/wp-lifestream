@@ -1589,8 +1589,7 @@ class LifeStream_Extension
 		return array(true, $total);
 	}
 	
-	abstract function fetch() { }
-	
+	abstract function fetch();
 	
 	function render_item($row, $item)
 	{
