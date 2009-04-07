@@ -1045,6 +1045,13 @@ class LifeStream_TumblrFeed extends LifeStream_BlogFeed
 	// http://media.tumblr.com/ck3ATKEVYd6ay62wLAzqtEkX_500.jpg
 	private $image_match_regexp = '/src="(http:\/\/media\.tumblr\.com\/[a-zA-Z0-9_-]+\.jpg)"/i';
 	
+	function get_options()
+	{		
+		return array(
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+		);
+	}
+	
 	# TODO: initialization import
 	# http://twitter.com/statuses/user_timeline/zeeg.xml
 	function get_url()
@@ -1061,11 +1068,12 @@ class LifeStream_TumblrFeed extends LifeStream_BlogFeed
 	{
 		preg_match($this->image_match_regexp, $row->get_description(), $match);
 		$data = array(
-			'guid'	  =>  $row->get_id(),
-			'date'	  =>  $row->get_date('U'),
-			'link'	  =>  html_entity_decode($row->get_link()),
-			'title'	 =>  html_entity_decode($row->get_title()),
-			'key'	   =>  'note',
+			'guid'	=>  $row->get_id(),
+			'date'	=>  $row->get_date('U'),
+			'link'	=>  html_entity_decode($row->get_link()),
+			'title'	=>  html_entity_decode($row->get_title()),
+			'description'	=> html_entity_decode($row->get_description());
+			'key'	=>  'note',
 		);
 		if ($match)
 		{
@@ -1075,19 +1083,7 @@ class LifeStream_TumblrFeed extends LifeStream_BlogFeed
 		}
 		return $data;
 	}
-	
-	function render_group_items($id, $output, $event)
-	{
-		if ($event->key == 'image')
-		{
-			return LifeStream_PhotoFeed::render_group_items($id, $output, $event);
-		}
-		else
-		{
-			return parent::render_group_items($id, $output, $event);
-		}
-	}
-	
+
 	function render_item($event, $item)
 	{
 		if ($event->key == 'image')
