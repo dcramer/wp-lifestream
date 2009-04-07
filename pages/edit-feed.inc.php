@@ -2,11 +2,11 @@
 $authors = get_users_of_blog();
 
 ?>
-<h2><?php $lifestream->_e('Edit Feed'); ?> <small><?php printf(__('(<a href="%s">Back to LifeStream Feeds</a>)', 'lifestream'), '?page=lifestream.php'); ?></small></h2>
+<h2><?php $lifestream->_e('Edit Feed'); ?> <small><?php $lifestream->_e('(<a href="%s">Back to LifeStream Feeds</a>)', '?page=lifestream.php'); ?></small></h2>
 
 <?php if ($instance) { ?>
     <form action="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $instance->id; ?>" method="post">
-        <h3><?php printf(__('%s Feed Settings', 'lifestream'), $instance->get_constant('NAME')); ?></h3>
+        <h3><?php $lifestream->_e('%s Feed Settings', $instance->get_constant('NAME')); ?></h3>
         <?php if ($description = $instance->get_constant('DESCRIPTION')) { ?>
         <p><?php echo nl2br($description); ?></p>
         <?php } ?>
@@ -21,32 +21,32 @@ $authors = get_users_of_blog();
                 <?php $current_value = (isset($_POST[$option]) ? stripslashes($_POST[$option]) : $instance->options[$option]); ?>
                 <tr>
                     <?php if (is_array($option_meta[3])) { ?>
-                        <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></th>
+                        <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars($option_meta[0]);?></label></th>
                         <td><select name="<?php echo $option;?>">
                         <?php foreach ($option_meta[3] as $choice=>$label) { ?>
-                            <option value="<?php echo $choice;?>"<?php if ($current_value == $choice) echo ' selected="selected"'; ?>><?php echo htmlspecialchars(__($label, 'lifestream'));?></option>
+                            <option value="<?php echo $choice;?>"<?php if ($current_value == $choice) echo ' selected="selected"'; ?>><?php echo htmlspecialchars($label);?></option>
                         <?php } ?>
                         </select>
                         <?php if ($option_meta[4]) { ?>
-                        <div class="helptext"><?php echo __($option_meta[4], 'lifestream'); ?></div>
+                        <div class="helptext"><?php echo $option_meta[4]; ?></div>
                         <?php } ?></td>
                     <?php } elseif (is_bool($option_meta[3])) { ?>
                         <th>&nbsp;</th>
-                        <td><label<?php if ($option_meta[1]) echo ' class="required"'; ?>><input type="checkbox" value="1"<?php if ($current_value == 1) echo ' checked="checked"'; ?> name="<?php echo $option;?>" /> <?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label>
+                        <td><label<?php if ($option_meta[1]) echo ' class="required"'; ?>><input type="checkbox" value="1"<?php if ($current_value == 1) echo ' checked="checked"'; ?> name="<?php echo $option;?>" /> <?php echo htmlspecialchars($option_meta[0]);?></label>
                         <?php if ($option_meta[4]) { ?>
-                        <div class="helptext"><?php echo __($option_meta[4], 'lifestream'); ?></div>
+                        <div class="helptext"><?php echo $option_meta[4]; ?></div>
                         <?php } ?></td>
                     <?php } else { ?>
-                        <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars(__($option_meta[0], 'lifestream'));?></label></th>
+                        <th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars($option_meta[0]);?></label></th>
                         <td><input name="<?php echo $option;?>" type="text" size="40" value="<?php echo htmlspecialchars($current_value); ?>">
                         <?php if ($option_meta[4]) { ?>
-                        <div class="helptext"><?php echo __($option_meta[4], 'lifestream'); ?></div>
+                        <div class="helptext"><?php echo $option_meta[4]; ?></div>
                         <?php } ?></td>
                     <?php } ?>
                 </tr>
             <?php } ?>
             <tr>
-                <th><label>Feed Label:</label><br /><small>(<?php _e('Optional'); ?>)</small></th>
+                <th><label>Feed Label:</label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
                 <td>
                     <?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : $instance->options['feed_label']); ?>
                     <input type="text" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
@@ -54,7 +54,7 @@ $authors = get_users_of_blog();
                 </td>
             </tr>
             <tr>
-                <th><label>Icon URL:</label><br /><small>(<?php _e('Optional'); ?>)</small></th>
+                <th><label>Icon URL:</label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
                 <td>
                     <?php $current_value = (isset($_POST['icon_url']) ? stripslashes($_POST['icon_url']) : $instance->options['icon_url']); ?>
                     <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/>
@@ -74,7 +74,7 @@ $authors = get_users_of_blog();
                     <th>&nbsp;</th>
                     <td>
                         <label><input type="checkbox" name="grouped" value="1"<?php if (isset($_POST['grouped']) ? $_POST['grouped'] : $instance->options['grouped']) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Group events from the same day together.'); ?></label>
-                        <div class="helptext"><?php _e('This will not affect any event\'s already listed.', 'lifestream'); ?></div>
+                        <div class="helptext"><?php $lifestream->_e('This will not affect any event\'s already listed.'); ?></div>
                     </td>
                 </tr>
             <?php } ?>
@@ -100,7 +100,7 @@ $authors = get_users_of_blog();
             </tbody>
         </table>
         <?php if ($url = $instance->get_constant('URL')) { ?>
-            <p><?php printf(__('Find more information about %s by visiting <a href="%s">%s</a>.', 'lifestream'), htmlspecialchars($instance->get_constant('NAME')), htmlspecialchars($url), htmlspecialchars($url)); ?></p>
+            <p><?php $lifestream->_e('Find more information about %s by visiting <a href="%s">%s</a>.', htmlspecialchars($instance->get_constant('NAME')), htmlspecialchars($url), htmlspecialchars($url)); ?></p>
         <?php } ?>
         <p class="submit">
             <input type="submit" name="save" value="<?php $lifestream->_e('Save Feed');?>" />

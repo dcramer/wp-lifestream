@@ -18,7 +18,7 @@ if (count($results))
         ?>
         <div class="alignleft">
             <input type="submit" value="<?php $lifestream->_e('Refresh'); ?>" name="op" class="button-secondary refresh" />
-            <input type="submit" value="<?php _e('Delete'); ?>" name="op" class="button-secondary delete" />
+            <input type="submit" value="<?php $lifestream->_e('Delete'); ?>" name="op" class="button-secondary delete" />
         </div>
         <br class="clear" />
     </div>
@@ -72,7 +72,7 @@ if (count($results))
         ?>
         <div class="alignleft">
             <input type="submit" value="<?php $lifestream->_e('Refresh'); ?>" name="op" class="button-secondary refresh" />
-            <input type="submit" value="<?php _e('Delete'); ?>" name="op" class="button-secondary delete" />
+            <input type="submit" value="<?php $lifestream->_e('Delete'); ?>" name="op" class="button-secondary delete" />
         </div>
         <br class="clear" />
     </div>

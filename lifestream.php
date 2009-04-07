@@ -160,6 +160,7 @@ class Lifestream
 		'hide_details_default' => '1',
 		'url_handler'		=> 'auto',
 		'feed_items'		=> '10',
+		'truncate_length'	=> '128',
 	);
 	
 	function __construct()
@@ -324,12 +325,12 @@ class Lifestream
 	{
 		$cron['lifestream'] = array(
 			'interval' => $this->get_option('update_interval') * 60,
-			'display' => __('On LifeStream update', 'lifestream')
+			'display' => $this->__('On LifeStream update')
 		);
 
 		$cron['lifestream_digest'] = array(
 			'interval' => $this->get_digest_interval(),
-			'display' => __('On LifeStream daily digest update', 'lifestream')
+			'display' => $this->__('On LifeStream daily digest update')
 		);
 		return $cron;
 	}
@@ -406,12 +407,12 @@ class Lifestream
 			$errors = $results[0]->count;
 
 			add_menu_page('LifeStream', 'LifeStream', 'edit_posts', $basename, array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 'edit_posts', $basename, array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 'edit_posts', 'lifestream-events.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Settings', 'lifestream'), __('Settings', 'lifestream'), 'manage_options', 'lifestream-settings.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Change Log', 'lifestream'), __('Change Log', 'lifestream'), 'manage_options', 'lifestream-changelog.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Errors', 'lifestream'), sprintf(__('Errors (%d)', 'lifestream'), $errors), 'manage_options', 'lifestream-errors.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Support Forums', 'lifestream'), __('Support Forums', 'lifestream'), 'manage_options', 'lifestream-forums.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Feeds'), $this->__('Feeds'), 'edit_posts', $basename, array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Events'), $this->__('Events'), 'edit_posts', 'lifestream-events.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Settings'), $this->__('Settings'), 'manage_options', 'lifestream-settings.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Change Log'), $this->__('Change Log'), 'manage_options', 'lifestream-changelog.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Errors'), $this->__('Errors (%d)', $errors), 'manage_options', 'lifestream-errors.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Support Forums'), $this->__('Support Forums'), 'manage_options', 'lifestream-forums.php', array(&$this, 'options_page'));
 		}
 	}
 	
@@ -762,9 +763,9 @@ class Lifestream
 				break;
 				case 'lifestream-settings.php':
 					$lifestream_digest_intervals = array(
-						'weekly'	=> __('Weekly', 'lifestream'),
-						'daily'	 => __('Daily', 'lifestream'),
-						'hourly'	=> __('Hourly', 'lifestream'),
+						'weekly'	=> $this->__('Weekly'),
+						'daily'		=> $this->__('Daily'),
+						'hourly'	=> $this->__('Hourly'),
 					);
 					include(dirname(__FILE__) . '/pages/settings.inc.php');
 				break;
@@ -1056,7 +1057,7 @@ class Lifestream
 			}
 			else
 			{
-				$reason = __('Unknown SQL Error', 'lifestream');
+				$reason = $this->__('Unknown SQL Error');
 			}
 			$this->log_error($reason);
 			throw new LifeStream_Error($reason);
@@ -1443,7 +1444,7 @@ class LifeStream_Feed
 	{		
 		return array(
 			// key => array(label, required, default value, choices)
-			'url' => array('Feed URL:', true, '', ''),
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
 		);
 	}
 	
@@ -1508,7 +1509,7 @@ class LifeStream_Feed
 		
 		date_default_timezone_set('UTC');
 
-		if (!$this->id) return array(false, __('Feed has not yet been saved.', 'lifestream'));
+		if (!$this->id) return array(false, $this->__('Feed has not yet been saved.'));
 
 		$inserted = array();
 		$total = 0;
@@ -1521,7 +1522,7 @@ class LifeStream_Feed
 			$this->lifestream->log_error($ex, $this->id);
 			return array(false, $ex);
 		}
-		if (!$items) return array(false, __('Feed result was empty.', 'lifestream'));
+		if (!$items) return array(false, $this->__('Feed result was empty.'));
 		foreach ($items as $item_key=>$item)
 		{
 			$link = array_key_pop($item, 'link');
@@ -1805,7 +1806,7 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
 	function get_options()
 	{		
 		return array(
-			'url' => array('Feed URL:', true, '', ''),
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
 		);
 	}
 
