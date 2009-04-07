@@ -1,3 +1,9 @@
+0.97
+
+* All strings should now be localized.
+* Fixed an issue where feeds were default to version 1, version 2 is GUID keys.
+* Added an option for the length to truncate blog/comment blurbs.
+
 0.96c
 
 * Fix for RSS feed labels and rendering.
