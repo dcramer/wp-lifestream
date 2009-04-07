@@ -312,11 +312,12 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
 }
 $lifestream->register_feed('LifeStream_LastFMFeed');
 
-class LifeStream_BlogFeed extends LifeStream_Feed
+class LifeStream_BlogFeed extends LifeStream_GenericFeed
 {
 	const ID			= 'blog';
 	const NAME			= 'Blog';
 	const LABEL			= 'LifeStream_BlogLabel';
+	const DESCRIPTION	= '';
 	
 	function get_options()
 	{		
