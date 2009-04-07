@@ -179,7 +179,7 @@ function lifestream_widget_register()
 	$widget_ops = array('classname' => 'widget_lifestream', 'description' => $lifestream->__('Displays your activity from your lifestream'));
 	// 'width' => 250, 'height' => 350,
 	$control_ops = array('id_base' => 'lifestream', 'width' => 400);
-	$name = $this->__('Lifestream');
+	$name = $lifestream->__('Lifestream');
 
 	$registered = false;
 	foreach (array_keys($options) as $o)
