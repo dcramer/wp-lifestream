@@ -25,13 +25,12 @@ function lifestream_widget($args, $widget_args=1)
 
 	echo $before_widget;
 
-	echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : __('LifeStream', 'lifestream')) . $after_title;
+	echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : $lifestream->__('LifeStream')) . $after_title;
 
 	lifestream_sidebar_widget(array(
 		'limit'=>$options['amount'],
 		'feed_ids'=>$options['feeds'],
 		'break_groups'=>$options['break_groups'] ? true : false,
-		'hide_labels'=>$options['hide_labels'] ? true : false,
 		'event_total_max'=>-1,
 		'date_interval'=>-1,
 	));
@@ -151,10 +150,6 @@ function lifestream_widget_control($widget_args=1)
 			<input type="checkbox" name="lifestream[<?php echo $number; ?>][break_groups]" value="1"<?php if ($current_options['break_groups']) echo ' checked = "checked"'; ?>/>
 			<?php $lifestream->_e('Break up grouped events.'); ?>
 		</label><br />
-		<label>
-			<input type="checkbox" name="lifestream[<?php echo $number; ?>][hide_labels]" value="1"<?php if ($current_options['hide_labels']) echo ' checked = "checked"'; ?>/>
-			<?php $lifestream->_e('Hide labels for events.'); ?>
-		</label>
 	</p>
 	<p>
 		<?php $lifestream->_e('Feeds to show (optional):'); ?> <small>(<a href="javascript:void(0);" onclick="lifestreamClearSelection(this.parentNode.parentNode.getElementsByTagName('select')[0]);"><?php $lifestream->_e('Clear Selection'); ?></a>)</small><br />
@@ -176,10 +171,10 @@ function lifestream_widget_register()
 	if (!$options = $lifestream->get_option('widget'))
 		$options = array();
 
-	$widget_ops = array('classname' => 'widget_lifestream', 'description' => __('Displays your activity from your lifestream'));
+	$widget_ops = array('classname' => 'widget_lifestream', 'description' => $lifestream->__('Displays your activity from your lifestream'));
 	// 'width' => 250, 'height' => 350,
 	$control_ops = array('id_base' => 'lifestream', 'width' => 400);
-	$name = __('Lifestream');
+	$name = $lifestream->__('Lifestream');
 
 	$registered = false;
 	foreach (array_keys($options) as $o)

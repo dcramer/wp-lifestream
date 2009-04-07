@@ -13,7 +13,7 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
@@ -31,7 +31,6 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	const NAME		= 'Twitter';
 	const URL		= 'http://www.twitter.com/';
 	const LABEL		= 'LifeStream_MessageLabel';
-	const CAN_LABEL	= false;
 	const CAN_GROUP	= false;
 	
 	function __toString()
@@ -42,8 +41,8 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'hide_replies' => array('Hide Replies', false, true, false),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'hide_replies' => array($this->lifestream->__('Hide Replies'), false, true, false),
 		);
 	}
 	
@@ -201,10 +200,10 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'filter_tag' => array('Limit items to tag:', false, '', ''),
-			'show_tags' => array('Show tags with links.', false, false, true),
-			'display_description' => array('Display descriptions of links.', false, false, true),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'filter_tag' => array($this->lifestream->__('Limit items to tag:'), false, '', ''),
+			'show_tags' => array($this->lifestream->__('Show tags with links.'), false, false, true),
+			'display_description' => array($this->lifestream->__('Display descriptions of links.'), false, false, true),
 		);
 	}
 
@@ -249,12 +248,17 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
 	{
 		return $this->options['username'];
 	}
+	
+	function get_event_display($event, $bit)
+	{
+		return $bit['name'] . ' - ' . $bit['artist'];
+	}
 		
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'loved' => array('Only show loved tracks.', false, true, true),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'loved' => array($this->lifestream->__('Only show loved tracks.'), false, true, true),
 		);
 	}
 	
@@ -313,17 +317,27 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
 }
 $lifestream->register_feed('LifeStream_LastFMFeed');
 
-class LifeStream_BlogFeed extends LifeStream_Feed
+class LifeStream_BlogFeed extends LifeStream_GenericFeed
 {
 	const ID			= 'blog';
 	const NAME			= 'Blog';
 	const LABEL			= 'LifeStream_BlogLabel';
-
+	const DESCRIPTION	= '';
+	
 	function get_options()
 	{		
 		return array(
-			'url' => array('Feed URL:', true, '', ''),
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
+			'permalink_url' => array($this->lifestream->__('Website URL:'), false, '', ''),
 		);
+	}
+	
+	function _get_domain()
+	{
+		if ($this->options['permalink_url']) $url = $this->options['permalink_url'];
+		else $url = $this->options['url'];
+		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $url, $matches);
+		return $matches[3];
 	}
 	
 	function get_public_name()
@@ -332,10 +346,14 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 		{
 			return $this->options['feed_label'];
 		}
-		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $this->options['url'], $matches);
-		return $matches[3];
-		return $this->get_constant('NAME');
+		return $this->_get_domain();
+	}
+	
+	function get_public_url()
+	{
+		if ($this->options['permalink_url']) return $this->options['permalink_url'];
 		
+		return 'http://'.$this->_get_domain();
 	}
 
 	function yield($row)
@@ -343,12 +361,12 @@ class LifeStream_BlogFeed extends LifeStream_Feed
 		$author =& $row->get_item_tags(SIMPLEPIE_NAMESPACE_DC_11, 'creator');
 
 		return array(
-			'guid'	  =>  $row->get_id(),
-			'date'	  =>  $row->get_date('U'),
+			'guid'		=>  $row->get_id(),
+			'date'		=>  $row->get_date('U'),
 			'description' => html_entity_decode($row->get_description()),
-			'link'	  =>  html_entity_decode($row->get_link()),
-			'title'	 =>  html_entity_decode($row->get_title()),
-			'author'	=>  $author[0]['data'],
+			'link'		=>  html_entity_decode($row->get_link()),
+			'title'		=>  html_entity_decode($row->get_title()),
+			'author'	=>  html_entity_decode($author[0]['data']),
 		);
 	}
 }
@@ -357,14 +375,14 @@ $lifestream->register_feed('LifeStream_BlogFeed');
 class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
 {
 	const ID			= 'flickr';
-	const NAME		  = 'Flickr';
-	const URL		   = 'http://www.flickr.com/';
-	const DESCRIPTION   = 'You can find your User ID by using <a href="http://idgettr.com/" target="_blank">idGettr</a>.';
+	const NAME			= 'Flickr';
+	const URL			= 'http://www.flickr.com/';
+	const DESCRIPTION	= 'You can find your User ID by using <a href="http://idgettr.com/" target="_blank">idGettr</a>.';
 	 
 	function get_options()
 	{		
 		return array(
-			'user_id' => array('User ID:', true, '', ''),
+			'user_id' => array($this->lifestream->__('User ID:'), true, '', ''),
 		);
 	}
 	
@@ -402,7 +420,6 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
 	const URL			= 'http://www.facebook.com/';
 	const DESCRIPTION	= 'To obtain your Facebook feed URL visit the very hard to find <a href="http://www.facebook.com/minifeed.php?filter=11" target="_blank">Your Mini-Feed</a> page. On the right hand side towards the bottom you will the "My Status" RSS feed link.';
 	const CAN_GROUP		= false;
-	const CAN_LABEL		= false; 
 	
 	function render_item($row, $item)
 	{
@@ -424,10 +441,10 @@ $lifestream->register_feed('LifeStream_FacebookFeed');
 
 class LifeStream_DiggFeed extends LifeStream_Feed
 {
-	const ID			= 'digg';
-	const NAME		  = 'Digg';
-	const URL		   = 'http://www.digg.com/';
-	const LABEL			= 'LifeStream_LikeStoryLabel';
+	const ID	= 'digg';
+	const NAME	= 'Digg';
+	const URL	= 'http://www.digg.com/';
+	const LABEL	= 'LifeStream_LikeStoryLabel';
 	
 	function __toString()
 	{
@@ -437,7 +454,7 @@ class LifeStream_DiggFeed extends LifeStream_Feed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -456,9 +473,9 @@ $lifestream->register_feed('LifeStream_DiggFeed');
 class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
 {
 	const ID			= 'youtube';
-	const NAME		  = 'YouTube';
-	const URL		   = 'http://www.youtube.com/';
-	const DESCRIPTION   = '';
+	const NAME			= 'YouTube';
+	const URL			= 'http://www.youtube.com/';
+	const DESCRIPTION	= '';
 	
 	function __toString()
 	{
@@ -468,8 +485,8 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'show_favorites' => array('Include favorites in this feed.', false, true, false),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'show_favorites' => array($this->lifestream->__('Include favorites in this feed.'), false, true, false),
 		);
 	}
 	
@@ -542,7 +559,7 @@ class LifeStream_RedditFeed extends LifeStream_DiggFeed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -577,19 +594,19 @@ $lifestream->register_feed('LifeStream_RedditFeed');
 class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 {
 	const ID			= 'googlereader';
-	const NAME		  = 'Google Reader';
-	const URL		   = 'http://www.google.com/reader/';
-	const DESCRIPTION   = 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". On this page your feed URL will be available in any browser which shows you RSS feeds. It should look something like this: http://www.google.com/reader/public/atom/user/14317428968164573500/state/com.google/broadcast';
-	const LABEL = 'LifeStream_BookmarkLabel';
+	const NAME			= 'Google Reader';
+	const URL			= 'http://www.google.com/reader/';
+	const DESCRIPTION	= 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". On this page your feed URL will be available in any browser which shows you RSS feeds. It should look something like this: http://www.google.com/reader/public/atom/user/14317428968164573500/state/com.google/broadcast';
+	const LABEL			= 'LifeStream_BookmarkLabel';
 }
 $lifestream->register_feed('LifeStream_GoogleReaderFeed');
 
 class LifeStream_YelpFeed extends LifeStream_Feed
 {
 	const ID			= 'yelp';
-	const NAME		  = 'Yelp';
-	const URL		   = 'http://www.yelp.com/';
-	const DESCRIPTION   = 'You can obtain your Yelp RSS feed url from your profile page. It should look something like this: http://www.yelp.com/syndicate/user/ctwwsl5_DSCzwPxtjzdl2A/rss.xml';
+	const NAME			= 'Yelp';
+	const URL			= 'http://www.yelp.com/';
+	const DESCRIPTION	= 'You can obtain your Yelp RSS feed url from your profile page. It should look something like this: http://www.yelp.com/syndicate/user/ctwwsl5_DSCzwPxtjzdl2A/rss.xml';
 	const LABEL			= 'LifeStream_BusinessReviewLabel';
 	
 	function yield($row)
@@ -613,9 +630,9 @@ $lifestream->register_feed('LifeStream_YelpFeed');
 class LifeStream_MySpaceFeed extends LifeStream_BlogFeed
 {
 	const ID			= 'myspace';
-	const NAME		  = 'MySpace';
-	const URL		   = 'http://www.myspace.com/';
-	const DESCRIPTION   = 'To retrieve your MySpace blog URL, visit your profile and click "View all entries" under your blog. From there, you will see an "rss" link on the top right of the page.';
+	const NAME			= 'MySpace';
+	const URL			= 'http://www.myspace.com/';
+	const DESCRIPTION	= 'To retrieve your MySpace blog URL, visit your profile and click "View all entries" under your blog. From there, you will see an "rss" link on the top right of the page.';
 	
 }
 $lifestream->register_feed('LifeStream_MySpaceFeed');
@@ -623,9 +640,9 @@ $lifestream->register_feed('LifeStream_MySpaceFeed');
 class LifeStream_SkitchFeed extends LifeStream_FlickrFeed
 {
 	const ID			= 'skitch';
-	const NAME		  = 'Skitch';
-	const URL		   = 'http://www.skitch.com/';
-	const DESCRIPTION   = '';
+	const NAME			= 'Skitch';
+	const URL			= 'http://www.skitch.com/';
+	const DESCRIPTION	= '';
 	
 	private $image_match_regexp = '/src="(http\:\/\/img+\.skitch\.com\/[^"]+\.jpg)"/i';
 	
@@ -637,7 +654,7 @@ class LifeStream_SkitchFeed extends LifeStream_FlickrFeed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -668,9 +685,9 @@ $lifestream->register_feed('LifeStream_SkitchFeed');
 
 class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 {
-	const ID			= 'identica';
-	const NAME		  = 'Identi.ca';
-	const URL		   = 'http://www.identi.ca/';
+	const ID	= 'identica';
+	const NAME	= 'Identi.ca';
+	const URL	= 'http://www.identi.ca/';
 
 	function get_user_url($user)
 	{
@@ -679,7 +696,7 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 
 	function render_item($row, $item)
 	{
-		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
+		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
 	}
 
 	function get_url()
@@ -709,10 +726,10 @@ $lifestream->register_feed('LifeStream_IdenticaFeed');
 class LifeStream_PandoraFeed extends LifeStream_Feed
 {
 	const ID			= 'pandora';
-	const NAME		  = 'Pandora';
-	const URL		   = 'http://www.pandora.com/';
+	const NAME			= 'Pandora';
+	const URL			= 'http://www.pandora.com/';
 	const NS_PANDORA	= 'http://musicbrainz.org/mm/mm-2.1#';
-	const DESCRIPTION   = 'Your username is available from your profile page. For example, if your profile page has a url of http://www.pandora.com/people/foobar32 then your username is foobar32.';
+	const DESCRIPTION	= 'Your username is available from your profile page. For example, if your profile page has a url of http://www.pandora.com/people/foobar32 then your username is foobar32.';
 	
 	function __toString()
 	{
@@ -722,10 +739,10 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'show_stations' => array('Include stations in this feed.', false, true, true),
-			'show_bookmarked_artists' => array('Include bookmarked artists in this feed.', false, true, true),
-			'show_bookmarked_songs' => array('Include bookmarked songs in this feed.', false, true, true),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'show_stations' => array($this->lifestream->__('Include stations in this feed.'), false, true, true),
+			'show_bookmarked_artists' => array($this->lifestream->__('Include bookmarked artists in this feed.'), false, true, true),
+			'show_bookmarked_songs' => array($this->lifestream->__('Include bookmarked songs in this feed.'), false, true, true),
 		);
 	}
 
@@ -800,7 +817,7 @@ $lifestream->register_feed('LifeStream_PandoraFeed');
 //	 function get_options()
 //	 {		
 //		 return array(
-//			 'username' => array('Username:', true, '', ''),
+//			 'username' => array($this->lifestream->__('Username:'), true, '', ''),
 //		 );
 //	 }
 // 
@@ -828,9 +845,9 @@ $lifestream->register_feed('LifeStream_PandoraFeed');
 class LifeStream_HuluFeed extends LifeStream_Feed
 {
 	const ID			= 'hulu';
-	const NAME		  = 'Hulu';
-	const URL		   = 'http://www.hulu.com/';
-	const DESCRIPTION   = 'You can obtain your history feed by visiting <a href="http://www.hulu.com/users/history">here</a> and clicking the RSS icon at the top of the page. You may first need to change your privacy settings for the feed to be viewable.';
+	const NAME			= 'Hulu';
+	const URL			= 'http://www.hulu.com/';
+	const DESCRIPTION	= 'You can obtain your history feed by visiting <a href="http://www.hulu.com/users/history">here</a> and clicking the RSS icon at the top of the page. You may first need to change your privacy settings for the feed to be viewable.';
 	const LABEL			= 'LifeStream_WatchVideoLabel';
 }
 $lifestream->register_feed('LifeStream_HuluFeed');
@@ -844,7 +861,7 @@ class LifeStream_TwitPicFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -879,9 +896,9 @@ $lifestream->register_feed('LifeStream_TwitPicFeed');
 class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
 {
 	const ID			= 'vimeo';
-	const NAME		  = 'Vimeo';
-	const URL		   = 'http://www.vimeo.com/';
-	const DESCRIPTION   = 'Your user ID is the digits at the end of your profile URL. For example, if your profile is <strong>http://www.vimeo.com/user406516</strong> then your user ID is <strong>406516</strong>.';
+	const NAME			= 'Vimeo';
+	const URL			= 'http://www.vimeo.com/';
+	const DESCRIPTION	= 'Your user ID is the digits at the end of your profile URL. For example, if your profile is <strong>http://www.vimeo.com/user406516</strong> then your user ID is <strong>406516</strong>.';
 	
 	private $image_match_regexp = '/src="(http\:\/\/[a-z0-9]+\.vimeo\.com\/[^"]+)"/i';
 	
@@ -893,9 +910,9 @@ class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{
 		return array(
-			'user_id' => array('User ID:', true, '', ''),
-			'show_videos' => array('Include videos posted in this feed.', false, true, true),
-			'show_likes' => array('Include liked videos in this feed.', false, true, true),
+			'user_id' => array($this->lifestream->__('User ID:'), true, '', ''),
+			'show_videos' => array($this->lifestream->__('Include videos posted in this feed.'), false, true, true),
+			'show_likes' => array($this->lifestream->__('Include liked videos in this feed.'), false, true, true),
 		);
 	}
 	
@@ -951,9 +968,9 @@ $lifestream->register_feed('LifeStream_VimeoFeed');
 
 class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
 {
-	const ID			= 'stumbleupon';
-	const NAME		  = 'StumbleUpon';
-	const URL		   = 'http://www.stumbleupon.com/';
+	const ID	= 'stumbleupon';
+	const NAME	= 'StumbleUpon';
+	const URL	= 'http://www.stumbleupon.com/';
 	
 	function __toString()
 	{
@@ -963,9 +980,9 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'show_reviews' => array('Include reviews in this feed.', false, true, true),
-			'show_favorites' => array('Include favorites in this feed.', false, true, false),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'show_reviews' => array($this->lifestream->__('Include reviews in this feed.'), false, true, true),
+			'show_favorites' => array($this->lifestream->__('Include favorites in this feed.'), false, true, false),
 		);
 	}
 	
@@ -1087,6 +1104,7 @@ class LifeStream_TumblrFeed extends LifeStream_BlogFeed
 	{
 		if ($event->key == 'image') $cls = LifeStream_PhotoFeed::LABEL;
 		else $cls = $this->get_constant('LABEL');
+		return new $cls($this, $event, $options);
 	}
 }
 $lifestream->register_feed('LifeStream_TumblrFeed');
@@ -1131,7 +1149,7 @@ class LifeStream_MagnoliaFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
@@ -1179,8 +1197,8 @@ class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
 	function get_options()
 	{
 		return array(
-			'url' => array('Feed URL:', true, '', ''),
-			'username' => array('Username:', true, '', ''),
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1256,7 +1274,7 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1338,9 +1356,9 @@ $lifestream->register_feed('LifeStream_BrightkiteFeed');
 class LifeStream_PicasaFeed extends LifeStream_FlickrFeed
 {
 	const ID			= 'picasa';
-	const NAME		  = 'Picasa';
-	const URL		   = 'http://picasaweb.google.com/';
-	const DESCRIPTION   = '';
+	const NAME			= 'Picasa';
+	const URL			= 'http://picasaweb.google.com/';
+	const DESCRIPTION	= '';
 	
 	function __toString()
 	{
@@ -1350,7 +1368,7 @@ class LifeStream_PicasaFeed extends LifeStream_FlickrFeed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1395,7 +1413,7 @@ class LifeStream_KongregateFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1414,9 +1432,9 @@ $lifestream->register_feed('LifeStream_KongregateFeed');
 class LifeStream_ViddlerFeed extends LifeStream_YouTubeFeed
 {
 	const ID			= 'viddler';
-	const NAME		  = 'Viddler';
-	const URL		   = 'http://www.viddler.com/';
-	const DESCRIPTION   = '';
+	const NAME			= 'Viddler';
+	const URL			= 'http://www.viddler.com/';
+	const DESCRIPTION	= '';
 	
 	function __toString()
 	{
@@ -1426,7 +1444,7 @@ class LifeStream_ViddlerFeed extends LifeStream_YouTubeFeed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1469,7 +1487,7 @@ class LifeStream_CoCommentsFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1501,7 +1519,7 @@ class LifeStream_FoodFeedFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1549,8 +1567,8 @@ class LifeStream_MyEpisodesFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'url' => array('Feed URL:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
 		);
 	}
 }
@@ -1570,10 +1588,10 @@ class LifeStream_MixxFeed extends LifeStream_Feed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'show_comments' => array('Show Comments', false, true, false),
-			'show_favorites' => array('Show Favorites', false, true, true),
-			'show_submissions' => array('Show Submissions', false, true, true),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'show_comments' => array($this->lifestream->__('Show Comments.'), false, true, false),
+			'show_favorites' => array($this->lifestream->__('Show Favorites.'), false, true, true),
+			'show_submissions' => array($this->lifestream->__('Show Submissions.'), false, true, true),
 		);
 	}
 	
@@ -1635,10 +1653,10 @@ $lifestream->register_feed('LifeStream_MixxFeed');
 
 class LifeStream_IMDBFeed extends LifeStream_Feed
 {
-	const ID	= 'imdb';
-	const NAME	= 'IMDB (My Movies)';
-	const URL   = 'http://www.imdb.com/';
-	const LABEL	= 'LifeStream_LikeMovieLabel';
+	const ID			= 'imdb';
+	const NAME			= 'IMDB (My Movies)';
+	const URL			= 'http://www.imdb.com/';
+	const LABEL			= 'LifeStream_LikeMovieLabel';
 	const DESCRIPTION   = 'You can obtain your IMDB feed\'s URL by visiting your <a href="http://www.imdb.com/mymovies/list">My Movies</a> page, and copying the url for the RSS feed from your address bar. You will need to check the "Public" box on the Pending page.';
 }
 $lifestream->register_feed('LifeStream_IMDBFeed');
@@ -1658,7 +1676,7 @@ class LifeStream_SlideShareFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1689,7 +1707,7 @@ class LifeStream_BlipTVFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 	
@@ -1721,7 +1739,7 @@ class LifeStream_SteamFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Steam ID:', true, '', ''),
+			'username' => array($this->lifestream->__('Steam ID:'), true, '', ''),
 		);
 	}
 	
@@ -1752,7 +1770,7 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
 	function get_options()
 	{
 		return array(
-			'username' => array('Xbox Live ID:', true, '', ''),
+			'username' => array($this->lifestream->__('Xbox Live ID:'), true, '', ''),
 		);
 	}
 	
@@ -1804,9 +1822,9 @@ $lifestream->register_feed('LifeStream_XboxLiveFeed');
 class LifeStream_iTunesFeed extends LifeStream_Feed
 {
 	const ID			= 'itunes';
-	const NAME		  = 'iTunes';
-	const URL		   = '';
-	const DESCRIPTION   = 'To obtain your iTunes feed URL you must first go to your account in the iTunes Store. Once there, follow the "Enable My iTunes" link at the bottom. Follow the instructions to enable any feeds you wish to use (it\'s easiest just to enable them all).
+	const NAME			= 'iTunes';
+	const URL			= '';
+	const DESCRIPTION	= 'To obtain your iTunes feed URL you must first go to your account in the iTunes Store. Once there, follow the "Enable My iTunes" link at the bottom. Follow the instructions to enable any feeds you wish to use (it\'s easiest just to enable them all).
 
 Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On this page, click "Copy Feed URL", and you should now have the URL for your feed. Lifestream just needs one feed url, it doesn\'t matter which, to process any of the feeds.
 
@@ -1820,10 +1838,10 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	function get_options()
 	{		
 		return array(
-			'url' => array('Feed URL:', true, '', ''),
-			'user_id' => array('User ID:', null, '', ''),
-			'show_purchases' => array('Show Purchases', false, true, true),
-			'show_reviews' => array('Show Reviews', false, true, true),
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
+			'user_id' => array($this->lifestream->__('User ID:'), null, '', ''),
+			'show_purchases' => array($this->lifestream->__('Show Purchases.'), false, true, true),
+			'show_reviews' => array($this->lifestream->__('Show Reviews.'), false, true, true),
 		);
 	}
 	
@@ -1905,9 +1923,9 @@ $lifestream->register_feed('LifeStream_GithubFeed');
 class LifeStream_ReadernautFeed extends LifeStream_Feed
 {
 	const ID			= 'readernaut';
-	const NAME		  = 'Readernaut';
-	const URL		   = 'http://www.readernaut.com/';
-	const DESCRIPTION   = 'Readernaut is my library, my notebook, my book club.';
+	const NAME			= 'Readernaut';
+	const URL			= 'http://www.readernaut.com/';
+	const DESCRIPTION	= 'Readernaut is my library, my notebook, my book club.';
 	const LABEL			= 'LifeStream_BookLabel';
 	
 	function __toString()
@@ -1918,7 +1936,7 @@ class LifeStream_ReadernautFeed extends LifeStream_Feed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
@@ -1949,7 +1967,7 @@ class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
@@ -1998,7 +2016,7 @@ class LifeStream_MobypictureFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
@@ -2017,8 +2035,8 @@ $lifestream->register_feed('LifeStream_MobypictureFeed');
 class LifeStream_SmugMugFeed extends LifeStream_PhotoFeed
 {
 	const ID			= 'smugmug';
-	const NAME		  = 'SmugMug';
-	const URL		   = 'http://www.smugmug.com/';
+	const NAME			= 'SmugMug';
+	const URL			= 'http://www.smugmug.com/';
 
 	function __toString()
 	{
@@ -2028,7 +2046,7 @@ class LifeStream_SmugMugFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
@@ -2059,8 +2077,8 @@ class LifeStream_GoodReadsFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{		
 		return array(
-			'url' => array('Profile URL:', true, '', ''),
-			'user_id' => array('User ID:', null, '', ''),
+			'url' => array($this->lifestream->__('Profile URL:'), true, '', ''),
+			'user_id' => array($this->lifestream->__('User ID:'), null, '', ''),
 		);
 	}
 	
@@ -2135,7 +2153,7 @@ class LifeStream_DeviantArtFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{
 		return array(
-			'username' => array('Username:', true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
@@ -2159,11 +2177,12 @@ class LifeStream_BackTypeFeed extends LifeStream_Feed
 	const LABEL		= 'LifeStream_CommentLabel';
 	# grouping doesnt support what we'd need for backtype
 	const CAN_GROUP	= false;
+
 	function get_options()
 	{		
 		return array(
-			'username' => array('Username:', true, '', ''),
-			'filter' => array('Sites to filter out:', false, '', '' ,'Sites as named by BackType, usually the title of the RSS Feed, separate with comma\'s.'),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'filter' => array($this->lifestream->__('Sites to filter out:'), false, '', '' , $this->lifestream->__('Sites as named by BackType, usually the title of the RSS Feed, separate with comma\'s.')),
 		);
 	}
 	
@@ -2203,12 +2222,14 @@ class LifeStream_BackTypeFeed extends LifeStream_Feed
 				exit;
 			}
 		}
+		$description = strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->options['username']).'">Read more comments by '.strtolower($this->options['username']).'</a></p>', '' , html_entity_decode($row->get_description())));
+		
 	   	return array(
 			'guid'			=>  $row->get_id(),
 			'date'			=>  $row->get_date('U'),
 			'link'			=>  html_entity_decode($row->get_link()),
 			'title'	 		=>  html_entity_decode($row->get_title()),
-			'description'	=>  '"<em>'.strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->options['username']).'">Read more comments by '.strtolower($this->options['username']).'</a></p>','',html_entity_decode($row->get_description()))).'</em>"',
+			'description'	=>  $description,
 		);
 	}
 }
@@ -2229,7 +2250,7 @@ class LifeStream_LibraryThingFeed extends LifeStream_PhotoFeed
 	function get_options()
 	{
 		return array(
-			'member_name' => array('Username:', true, '', ''),
+			'member_name' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
