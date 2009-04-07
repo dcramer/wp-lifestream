@@ -41,28 +41,28 @@ $authors = get_users_of_blog();
             <tr>
                 <th><label for="id_update_interval"><?php $lifestream->_e('Update Interval:'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_update_interval" id="id_update_interval" value="<?php echo htmlspecialchars($lifestream->get_option('update_interval')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->options['update_interval']); ?>
+                    <input type="text" class="text" name="lifestream_update_interval" id="id_update_interval" value="<?php echo htmlspecialchars($lifestream->get_option('update_interval')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->_options['update_interval']); ?>
                     <div class="helptext"><?php $lifestream->_e('The number of minutes between updates to your feeds. Value is in minutes.'); ?></div></p>
                 </td>
             </tr>
             <tr>
                 <th><label for="id_number_of_items"><?php $lifestream->_e('Number of Items:'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_number_of_items" id="id_number_of_items" value="<?php echo htmlspecialchars($lifestream->get_option('number_of_items')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->options['number_of_items']); ?>
+                    <input type="text" class="text" name="lifestream_number_of_items" id="id_number_of_items" value="<?php echo htmlspecialchars($lifestream->get_option('number_of_items')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->_options['number_of_items']); ?>
                     <div class="helptext"><?php $lifestream->_e('The number of items to display in the default lifestream call.'); ?></div></p>
                 </td>
             </tr>
             <tr>
                 <th><label for="id_date_interval"><?php $lifestream->_e('Date Cutoff:'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_date_interval" id="id_date_interval" value="<?php echo htmlspecialchars($lifestream->get_option('date_interval')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->options['date_interval']); ?>
+                    <input type="text" class="text" name="lifestream_date_interval" id="id_date_interval" value="<?php echo htmlspecialchars($lifestream->get_option('date_interval')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->_options['date_interval']); ?>
                     <div class="helptext"><?php $lifestream->_e('The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>'); ?></div></p>
                 </td>
             </tr>
             <tr>
                 <th><label for="id_truncate_length"><?php $lifestream->_e('Description Cutoff:'); ?></label></th>
                 <td>
-                    <input type="text" class="text" name="lifestream_truncate_length" id="id_truncate_length" value="<?php echo htmlspecialchars($lifestream->get_option('truncate_length')); ?>"/> <?php $lifestream->_e('(Default: %s)', '1 month'); ?>
+                    <input type="text" class="text" name="lifestream_truncate_length" id="id_truncate_length" value="<?php echo htmlspecialchars($lifestream->get_option('truncate_length')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->_options['truncate_length']); ?>
                     <div class="helptext"><?php $lifestream->_e('Some extensions will show a preview of the text (such as blogs and comments). Set this to the length, in characters, for the cutoff, or -1 to disable truncating posts.'); ?></div></p>
                 </td>
             </tr>
