@@ -57,7 +57,7 @@ $authors = get_users_of_blog();
                 <th><label>Icon URL:</label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
                 <td>
                     <?php $current_value = (isset($_POST['icon_url']) ? stripslashes($_POST['icon_url']) : $instance->options['icon_url']); ?>
-                    <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/>
+                    <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/> <input type="checkbox" name="auto_icon" value="1"<?php if(empty($current_value)) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Use websites default favicon.'); ?>
                     <div class="helptext"><?php $lifestream->_e('An icon to use for this feed instead of the default.'); ?></div>
                 </td>
             </tr>

@@ -610,6 +610,7 @@ class Lifestream
 								}
 								$values['feed_label'] = $_POST['feed_label'];
 								$values['icon_url'] = $_POST['icon_url'];
+								$values['auto_icon'] = $_POST['auto_icon'];
 								if ($_POST['owner'] != $instance->owner_id && current_user_can('manage_options'))
 								{
 									$instance->owner_id = $_POST['owner'];
@@ -655,6 +656,7 @@ class Lifestream
 							}
 							$values['feed_label'] = $_POST['feed_label'];
 							$values['icon_url'] = $_POST['icon_url'];
+							$values['auto_icon'] = $_POST['auto_icon'];
 							if (current_user_can('manage_options'))
 							{
 								$feed->owner_id = $_POST['owner'];
@@ -1814,7 +1816,7 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
 		$feed->force_feed(true); 
 		$success = $feed->init();
 		
-		if (empty($this->options['icon_url']))
+		if ($this->options['auto_icon'])
 		{
 			$this->options['icon_url'] = $feed->get_favicon();
 		}
