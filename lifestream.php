@@ -1296,7 +1296,7 @@ function lifestream_get_single_event($feed_type)
 
 require_once('inc/labels.php');
 
-class LifeStream_Extension
+abstract class LifeStream_Extension
 {
 	/**
 	 * Represents a feed object in the database.
