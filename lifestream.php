@@ -1751,7 +1751,6 @@ class LifeStream_Feed
 		$hour_format = $this->lifestream->get_option('hour_format');
 		if (count($event->data) == 1) $visible = true;
 		else $visible = $options['show_details'];
-		
 		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
 
 		include('templates/'.$label_inst->get_template().'.inc.php');
@@ -1838,6 +1837,9 @@ function lifestream($args=array())
 
 	$_ = func_get_args();
 
+	$defaults = array(
+	);
+
 	if (!is_array($_[0]))
 	{
 		// old style
@@ -1884,6 +1886,7 @@ function lifestream_sidebar_widget($_=array())
 	
 	$defaults = array(
 		'limit'			=> 10,
+		'hide_labels'	=> false,
 		'break_groups'	=> true,
 		'show_details'	=> false,
 	);
