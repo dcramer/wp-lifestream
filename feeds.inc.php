@@ -1832,7 +1832,7 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	{		
 		return array(
 			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
-			'user_id' => array($this->lifestream->__('User ID:', null, '', ''),
+			'user_id' => array($this->lifestream->__('User ID:'), null, '', ''),
 			'show_purchases' => array($this->lifestream->__('Show Purchases.'), false, true, true),
 			'show_reviews' => array($this->lifestream->__('Show Reviews.'), false, true, true),
 		);
