@@ -7,7 +7,7 @@
 * Hide label option has been removed and is only used on a per-feed basis if it's valid.
 * CAN_LABEL and MUST_LABEL are obsolete. There is no more option to hide labels (since labels are now data).
 * Moved most logic from LifeStream_Feed into LifeStream_Extension.
-* Added default favicon support to GenericFeed extension.
+* Added default favicon support to all feed extensions.
 
 0.96c
 
