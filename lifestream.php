@@ -1494,7 +1494,7 @@ abstract class LifeStream_Extension
 		
 		date_default_timezone_set('UTC');
 
-		if (!$this->id) return array(false, $this->__('Feed has not yet been saved.'));
+		if (!$this->id) return array(false, $this->lifestream->__('Feed has not yet been saved.'));
 
 		$inserted = array();
 		$total = 0;
@@ -1507,7 +1507,7 @@ abstract class LifeStream_Extension
 			$this->lifestream->log_error($ex, $this->id);
 			return array(false, $ex);
 		}
-		if (!$items) return array(false, $this->__('Feed result was empty.'));
+		if (!$items) return array(false, $this->lifestream->__('Feed result was empty.'));
 		foreach ($items as $item_key=>$item)
 		{
 			$link = array_key_pop($item, 'link');
