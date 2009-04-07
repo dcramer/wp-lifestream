@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your social activity in a lifestream. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.96b
+Version: 0.97a
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,8 +14,8 @@ if (phpversion() < 5)
 	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
 	return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.96b');
-define(LIFESTREAM_VERSION, 0.96);
+define(LIFESTREAM_BUILD_VERSION, '0.97a');
+define(LIFESTREAM_VERSION, 0.97);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
 define(LIFESTREAM_FEEDS_PER_PAGE, 20);
@@ -24,7 +24,7 @@ define(LIFESTREAM_ERRORS_PER_PAGE, 50);
 
 if (!class_exists('SimplePie'))
 {
-	require_once(dirname(__FILE__) . '/lib/simplepie.inc');
+	require_once(dirname(__FILE__) . '/lib/simplepie.inc.php');
 }
 
 global $wpdb, $userdata;
@@ -160,6 +160,7 @@ class Lifestream
 		'hide_details_default' => '1',
 		'url_handler'		=> 'auto',
 		'feed_items'		=> '10',
+		'truncate_length'	=> '128',
 	);
 	
 	function __construct()
@@ -180,6 +181,16 @@ class Lifestream
 		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
+	}
+	
+	function truncate($string, $length=128)
+	{
+		if (!($length > 0)) return $string;
+		if (strlen($string) > $length)
+		{
+			$string = substr($string, 0, $length-3).'...';
+		}
+		return $string;
 	}
 	
 	// To be quite honest, WordPress should be doing this kind of magic itself.
@@ -315,12 +326,12 @@ class Lifestream
 	{
 		$cron['lifestream'] = array(
 			'interval' => $this->get_option('update_interval') * 60,
-			'display' => __('On LifeStream update', 'lifestream')
+			'display' => $this->__('On LifeStream update')
 		);
 
 		$cron['lifestream_digest'] = array(
 			'interval' => $this->get_digest_interval(),
-			'display' => __('On LifeStream daily digest update', 'lifestream')
+			'display' => $this->__('On LifeStream daily digest update')
 		);
 		return $cron;
 	}
@@ -397,12 +408,12 @@ class Lifestream
 			$errors = $results[0]->count;
 
 			add_menu_page('LifeStream', 'LifeStream', 'edit_posts', $basename, array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Feeds', 'lifestream'), __('Feeds', 'lifestream'), 'edit_posts', $basename, array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Events', 'lifestream'), __('Events', 'lifestream'), 'edit_posts', 'lifestream-events.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Settings', 'lifestream'), __('Settings', 'lifestream'), 'manage_options', 'lifestream-settings.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Change Log', 'lifestream'), __('Change Log', 'lifestream'), 'manage_options', 'lifestream-changelog.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Errors', 'lifestream'), sprintf(__('Errors (%d)', 'lifestream'), $errors), 'manage_options', 'lifestream-errors.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, __('LifeStream Support Forums', 'lifestream'), __('Support Forums', 'lifestream'), 'manage_options', 'lifestream-forums.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Feeds'), $this->__('Feeds'), 'edit_posts', $basename, array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Events'), $this->__('Events'), 'edit_posts', 'lifestream-events.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Settings'), $this->__('Settings'), 'manage_options', 'lifestream-settings.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Change Log'), $this->__('Change Log'), 'manage_options', 'lifestream-changelog.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Errors'), $this->__('Errors (%d)', $errors), 'manage_options', 'lifestream-errors.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('LifeStream Support Forums'), $this->__('Support Forums'), 'manage_options', 'lifestream-forums.php', array(&$this, 'options_page'));
 		}
 	}
 	
@@ -599,6 +610,7 @@ class Lifestream
 								}
 								$values['feed_label'] = $_POST['feed_label'];
 								$values['icon_url'] = $_POST['icon_url'];
+								$values['auto_icon'] = $_POST['auto_icon'];
 								if ($_POST['owner'] != $instance->owner_id && current_user_can('manage_options'))
 								{
 									$instance->owner_id = $_POST['owner'];
@@ -606,18 +618,11 @@ class Lifestream
 									$owner = $usero->data;
 									$instance->owner = $owner->display_name;
 								}
-								if ($instance->get_constant('MUST_LABEL'))
-								{
-									$values['show_label'] = 1;
-								}
-								elseif ($instance->get_constant('CAN_LABEL'))
-								{
-									$values['show_label'] = $_POST['show_label'];
-								}
 								if (!count($errors))
 								{
 									$instance->options = $values;
 									$instance->save();
+									unset($_POST);
 								}
 							}
 						}
@@ -651,6 +656,7 @@ class Lifestream
 							}
 							$values['feed_label'] = $_POST['feed_label'];
 							$values['icon_url'] = $_POST['icon_url'];
+							$values['auto_icon'] = $_POST['auto_icon'];
 							if (current_user_can('manage_options'))
 							{
 								$feed->owner_id = $_POST['owner'];
@@ -662,14 +668,6 @@ class Lifestream
 							{
 								$feed->owner_id = $userdata->ID;
 								$feed->owner = $userdata->display_name;
-							}
-							if ($feed->get_constant('MUST_LABEL'))
-							{
-								$values['show_label'] = 1;
-							}
-							elseif ($feed->get_constant('CAN_LABEL'))
-							{
-								$values['show_label'] = $_POST['show_label'];
 							}
 							$feed->options = $values;
 							if (!count($errors))
@@ -686,6 +684,7 @@ class Lifestream
 										{
 											$message = $this->__('A new %s feed was added to your LifeStream.', $feed->get_constant('NAME'));
 											$feedmsgs[$feed->id] = $msg_arr[1];
+											unset($_POST);
 										}
 									}
 								}
@@ -753,9 +752,9 @@ class Lifestream
 				break;
 				case 'lifestream-settings.php':
 					$lifestream_digest_intervals = array(
-						'weekly'	=> __('Weekly', 'lifestream'),
-						'daily'	 => __('Daily', 'lifestream'),
-						'hourly'	=> __('Hourly', 'lifestream'),
+						'weekly'	=> $this->__('Weekly'),
+						'daily'		=> $this->__('Daily'),
+						'hourly'	=> $this->__('Hourly'),
 					);
 					include(dirname(__FILE__) . '/pages/settings.inc.php');
 				break;
@@ -1047,7 +1046,7 @@ class Lifestream
 			}
 			else
 			{
-				$reason = __('Unknown SQL Error', 'lifestream');
+				$reason = $this->__('Unknown SQL Error');
 			}
 			$this->log_error($reason);
 			throw new LifeStream_Error($reason);
@@ -1301,7 +1300,7 @@ function lifestream_get_single_event($feed_type)
 
 require_once('inc/labels.php');
 
-class LifeStream_Feed
+abstract class LifeStream_Extension
 {
 	/**
 	 * Represents a feed object in the database.
@@ -1318,16 +1317,14 @@ class LifeStream_Feed
 	// Can this feed be grouped?
 	const CAN_GROUP		= true;
 	// Can this feed have a label?
-	const CAN_LABEL		= true;
 	const MUST_GROUP	= false;
-	const MUST_LABEL	= false;
 	// Labels used in rendering each event
 	// params: feed name, event descriptor
 	const LABEL			= 'LifeStream_Label';
 	// The version is so you can manage data in the database for old versions.
-	const VERSION		= 1;
+	const VERSION		= 2;
 	const MEDIA			= 'automatic';
-	
+
 	/**
 	 * Instantiates this object through a feed database object.
 	 */
@@ -1346,8 +1343,6 @@ class LifeStream_Feed
 		}
 		return $instance;
 	}
-	
-	// End of Static Methods
 
 	function __construct(&$lifestream, $options=array(), $id=null, $row=null)
 	{
@@ -1434,7 +1429,7 @@ class LifeStream_Feed
 	{		
 		return array(
 			// key => array(label, required, default value, choices)
-			'url' => array('Feed URL:', true, '', ''),
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
 		);
 	}
 	
@@ -1499,7 +1494,7 @@ class LifeStream_Feed
 		
 		date_default_timezone_set('UTC');
 
-		if (!$this->id) return array(false, __('Feed has not yet been saved.', 'lifestream'));
+		if (!$this->id) return array(false, $this->__('Feed has not yet been saved.'));
 
 		$inserted = array();
 		$total = 0;
@@ -1512,7 +1507,7 @@ class LifeStream_Feed
 			$this->lifestream->log_error($ex, $this->id);
 			return array(false, $ex);
 		}
-		if (!$items) return array(false, __('Feed result was empty.', 'lifestream'));
+		if (!$items) return array(false, $this->__('Feed result was empty.'));
 		foreach ($items as $item_key=>$item)
 		{
 			$link = array_key_pop($item, 'link');
@@ -1598,6 +1593,119 @@ class LifeStream_Feed
 		return array(true, $total);
 	}
 	
+	abstract function fetch();
+	
+	function render_item($row, $item)
+	{
+		$thumbnail = $this->get_thumbnail_url($row, $item);
+		
+		if (!empty($thumbnail) && $this->get_constant('MEDIA') == 'automatic')
+		{
+			$image = $this->get_image_url($row, $item);
+			
+			if ($this->lifestream->get_option('use_ibox') == '1' && !empty($image))
+			{
+				// change it to be large size images
+				$ibox = ' rel="ibox&target=\''.htmlspecialchars($image).'\'"';
+			}
+			else $ibox = '';
+			
+			return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50" alt="%s"/></a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']), htmlspecialchars($thumbnail), htmlspecialchars($item['title']));
+		}
+		return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
+	}
+	
+	function get_label($event, $options=array())
+	{
+		$cls = $this->get_constant('LABEL');
+		return new $cls($this, $event, $options);
+	}
+	
+	function render($event, $options)
+	{
+		$lifestream = $this->lifestream;
+		$id = 'ls_'.microtime().'_';
+		$options['id'] = $id;
+
+		$label_inst = $this->get_label($event, $options);
+		
+		if (count($event->data) > 1)
+		{
+			if ($this->lifestream->get_option('show_owners'))
+			{
+				$label = $label_inst->get_label_plural_user();
+			}
+			else
+			{
+				$label = $label_inst->get_label_plural();
+			}
+		}
+		else
+		{
+			if ($this->lifestream->get_option('show_owners'))
+			{
+				$label = $label_inst->get_label_single_user();
+			}
+			else
+			{
+				$label = $label_inst->get_label_single();
+			}
+		}
+		
+		$feed_label = $label_inst->get_feed_label();
+		
+		$hour_format = $this->lifestream->get_option('hour_format');
+		if (count($event->data) == 1 && $this->get_constant('MUST_GROUP')) $visible = true;
+		else $visible = $options['show_details'];
+		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
+
+		include('templates/'.$label_inst->get_template().'.inc.php');
+	}
+	
+	function get_events($limit=50, $offset=0)
+	{
+		global $wpdb;
+
+		if (!$this->id) return false;
+		
+		if (!($limit > 0) || !($offset >= 0)) return false;
+
+		$results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`feed_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $this->id, $offset, $limit));
+		$events = array();
+		foreach ($results as &$result)
+		{
+			$events[] = new LifeStream_EventGroup($this->lifestream, $result);
+		}
+		return $events;
+	}
+}
+/**
+ * Generic RSS/Atom feed extension.
+ */
+class LifeStream_Feed extends LifeStream_Extension
+{
+	function save_options()
+	{
+		$urls = $this->get_url();
+		if (!is_array($urls)) $urls = array($urls);
+		
+		$url = $urls[0];
+		
+		$feed = new SimplePie();
+		$feed->enable_cache(false);
+		$data = $this->lifestream->file_get_contents($url);
+		$feed->set_raw_data($data);
+		$feed->enable_order_by_date(false);
+		$feed->force_feed(true); 
+		$success = $feed->init();
+		
+		if ($this->options['auto_icon'])
+		{
+			$this->options['icon_url'] = $feed->get_favicon();
+		}
+		parent::save_options();
+	}
+	
 	function fetch($urls=null)
 	{
 		// kind of an ugly hack for now so we can extend twitter
@@ -1678,73 +1786,7 @@ class LifeStream_Feed
 		}
 		return $data;
 	}
-	
-	function render_item($row, $item)
-	{
-		$thumbnail = $this->get_thumbnail_url($row, $item);
-		
-		if (!empty($thumbnail) && $this->get_constant('MEDIA') == 'automatic')
-		{
-			$image = $this->get_image_url($row, $item);
-			
-			if ($this->lifestream->get_option('use_ibox') == '1' && !empty($image))
-			{
-				// change it to be large size images
-				$ibox = ' rel="ibox&target=\''.htmlspecialchars($image).'\'"';
-			}
-			else $ibox = '';
-			
-			return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50" alt="%s"/></a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']), htmlspecialchars($thumbnail), htmlspecialchars($item['title']));
-		}
-		return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
-	}
-	
-	function get_label($event, $options=array())
-	{
-		$cls = $this->get_constant('LABEL');
-		return new $cls($this, $event, $options);
-	}
-	
-	function render($event, $options)
-	{
-		$id = 'ls_'.microtime().'_';
-		$options['id'] = $id;
 
-		$label_inst = $this->get_label($event, $options);
-		
-		if (count($event->data) > 1)
-		{
-			if ($this->lifestream->get_option('show_owners'))
-			{
-				$label = $label_inst->get_label_plural_user();
-			}
-			else
-			{
-				$label = $label_inst->get_label_plural();
-			}
-		}
-		else
-		{
-			if ($this->lifestream->get_option('show_owners'))
-			{
-				$label = $label_inst->get_label_single_user();
-			}
-			else
-			{
-				$label = $label_inst->get_label_single();
-			}
-		}
-		
-		$feed_label = $label_inst->get_feed_label();
-		
-		$hour_format = $this->lifestream->get_option('hour_format');
-		if (count($event->data) == 1) $visible = true;
-		else $visible = $options['show_details'];
-		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
-
-		include('templates/'.$label_inst->get_template().'.inc.php');
-	}
-	
 	function get_url()
 	{
 		return $this->options['url'];
@@ -1760,24 +1802,6 @@ class LifeStream_Feed
 		$text = preg_replace('/\b([A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4})\b/i', '<a href="mailto:$1">$1</a>', $text);
 		return $text;
 	}
-	
-	function get_events($limit=50, $offset=0)
-	{
-		global $wpdb;
-
-		if (!$this->id) return false;
-		
-		if (!($limit > 0) || !($offset >= 0)) return false;
-
-		$results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`feed_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $this->id, $offset, $limit));
-		$events = array();
-		foreach ($results as &$result)
-		{
-			$events[] = new LifeStream_EventGroup($this->lifestream, $result);
-		}
-		return $events;
-	}
-	
 }
 
 /**
@@ -1795,7 +1819,7 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
 	function get_options()
 	{		
 		return array(
-			'url' => array('Feed URL:', true, '', ''),
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
 		);
 	}
 
@@ -1827,7 +1851,6 @@ function lifestream($args=array())
 	$_ = func_get_args();
 
 	$defaults = array(
-		'hide_labels'	   => false,
 	);
 
 	if (!is_array($_[0]))
@@ -1876,7 +1899,6 @@ function lifestream_sidebar_widget($_=array())
 	
 	$defaults = array(
 		'limit'			=> 10,
-		'hide_labels'	=> false,
 		'break_groups'	=> true,
 		'show_details'	=> false,
 	);
