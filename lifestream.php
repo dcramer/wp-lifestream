@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your social activity in a lifestream. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.97b
+Version: 0.97c
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,7 +14,7 @@ if (phpversion() < 5)
 	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
 	return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.97b');
+define(LIFESTREAM_BUILD_VERSION, '0.97c');
 define(LIFESTREAM_VERSION, 0.97);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -149,6 +149,55 @@ class LifeStream_EventGroup extends LifeStream_Event
 class Lifestream
 {
 	public $feeds = array();
+
+	protected $valid_image_types = array('image/gif' => 'gif',  
+		'image/jpeg' => 'jpeg',  
+		'image/png' => 'png',  
+		'image/gif' => 'gif',
+		'image/bmp' => 'bmp',  
+		'image/vnd.microsoft.icon' => 'ico'
+	);
+
+	protected $valid_image_extensions = array(
+		'gif', 'jpg', 'jpeg', 'gif', 'png', 'ico'
+	);
+
+	function validate_image($url)
+	{
+		// // Check the extension
+		// $bits = explode('.', basename($url));
+		// if (count($bits) > 1)
+		// {
+		// 	$ext = $bits[count($bits)-1];
+		// 	return (in_array($ext, $this->valid_image_extensions));
+		// }
+
+		$handler = $this->get_option('url_handler');
+
+		$use_fsock = true;
+		if (($handler == 'auto' && function_exists('curl_init')) || $handler == 'curl')
+		{
+			$use_fsock = false;
+		}
+
+		$file = new SimplePie_File($url, 10, 5, null, SIMPLEPIE_USERAGENT, $use_fsock);
+		if (!$file->success)
+		{
+			return false;
+		}
+		// Attempt to check content type
+		if (!empty($file->headers['content-type']))
+		{
+			return (in_array($file->headers['content-type'], $this->valid_image_types));
+		}
+		// Use GD if we can
+		if (function_exists('imagecreatefromstring'))
+		{
+			return (imagecreatefromstring($file->body) !== false);
+		}
+		// Everything has failed, we'll just let it pass
+		return true;
+	}
 
 	// options and their default values
 	protected $_options = array(
@@ -1717,7 +1766,22 @@ class LifeStream_Feed extends LifeStream_Extension
 		
 		if ($this->options['auto_icon'])
 		{
-			$this->options['icon_url'] = $feed->get_favicon();
+			$url = $feed->get_favicon();
+			if ($this->lifestream->validate_image($url))
+			{
+				$this->options['icon_url'] = $url;
+			}
+			else
+			{
+				$this->options['icon_url'] = '';
+			}
+		}
+		elseif ($this->options['icon_url'])
+		{
+			if (!$this->lifestream->validate_image($this->options['icon_url']))
+			{
+				throw new LifeStream_Error($this->lifestream->__('The icon url is not a valid image.'));
+			}
 		}
 		parent::save_options();
 	}

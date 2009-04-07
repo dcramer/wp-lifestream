@@ -1,3 +1,8 @@
+0.97c
+
+* Tweaked the default website icon logic to verify it's an image.
+* Added Lifestream::validate_image($url).
+
 0.97b
 
 * Added get_event_display($event, $bit) method to extensions.
