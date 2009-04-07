@@ -1,3 +1,8 @@
+0.97b
+
+* Added get_event_display($event, $bit) method to extensions.
+* Updated all labels to use get_event_display instead of $bit['title'].
+
 0.97a
 
 * Added an option for automatic favicon fetching.

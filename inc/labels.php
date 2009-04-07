@@ -55,7 +55,7 @@ class LifeStream_BlogLabel extends LifeStream_Label
 {
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Published %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -66,7 +66,7 @@ class LifeStream_BlogLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s published %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -118,7 +118,7 @@ class LifeStream_BookmarkLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Shared %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -129,7 +129,7 @@ class LifeStream_BookmarkLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s shared %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -240,7 +240,7 @@ class LifeStream_BookLabel extends LifeStream_Label
 {
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Shared %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -251,7 +251,7 @@ class LifeStream_BookLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s shared %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -298,7 +298,7 @@ class LifeStream_LikeStoryLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Liked %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -309,7 +309,7 @@ class LifeStream_LikeStoryLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s liked %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -351,7 +351,7 @@ class LifeStream_ListenLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s - %s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['artist']), htmlspecialchars($this->event->data[0]['name']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Listened to %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -362,7 +362,6 @@ class LifeStream_ListenLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s - %s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['artist']), htmlspecialchars($this->event->data[0]['name']));
 		return $this->lifestream->__('%1$s listened to %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -436,7 +435,7 @@ class LifeStream_LikeSongLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Liked %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -447,7 +446,7 @@ class LifeStream_LikeSongLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s liked %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -466,7 +465,7 @@ class LifeStream_LikeArtistLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Liked %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -477,7 +476,7 @@ class LifeStream_LikeArtistLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s liked %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -496,7 +495,7 @@ class LifeStream_CreateStationLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Created %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -507,7 +506,7 @@ class LifeStream_CreateStationLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s created %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -526,7 +525,7 @@ class LifeStream_WatchVideoLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Watched %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -537,7 +536,7 @@ class LifeStream_WatchVideoLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s watched %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -556,7 +555,7 @@ class LifeStream_ReviewWebsiteLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Reviewed %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -567,7 +566,7 @@ class LifeStream_ReviewWebsiteLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s reviewed %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -586,7 +585,7 @@ class LifeStream_LikeWebsiteLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Liked %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -597,7 +596,7 @@ class LifeStream_LikeWebsiteLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s liked %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -616,7 +615,7 @@ class LifeStream_WantLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Wants %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -627,7 +626,7 @@ class LifeStream_WantLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s wants %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -646,7 +645,7 @@ class LifeStream_LocationLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Checked in at %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -657,7 +656,7 @@ class LifeStream_LocationLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s checked in at %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -676,7 +675,7 @@ class LifeStream_ReceiveBadgeLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Received %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -687,7 +686,7 @@ class LifeStream_ReceiveBadgeLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s received %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -706,7 +705,7 @@ class LifeStream_EatLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Ate %2$s.', $this->get_feed_label(), $post);
 	}
 	
@@ -717,7 +716,7 @@ class LifeStream_EatLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s ate %3$s.', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -736,7 +735,7 @@ class LifeStream_WatchEpisodeLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Watched %2$s.', $this->get_feed_label(), $post);
 	}
 	
@@ -747,7 +746,7 @@ class LifeStream_WatchEpisodeLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s watched %3$s.', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -766,7 +765,7 @@ class LifeStream_ShareStoryLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Shared %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -777,7 +776,7 @@ class LifeStream_ShareStoryLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s shared %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -796,7 +795,7 @@ class LifeStream_LikeMovieLabel extends LifeStream_VideoLabel
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Liked %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -807,7 +806,7 @@ class LifeStream_LikeMovieLabel extends LifeStream_VideoLabel
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s liked %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -821,7 +820,7 @@ class LifeStream_ShareSlideLabel extends LifeStream_Label
 {
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Shared %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -832,7 +831,7 @@ class LifeStream_ShareSlideLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s shared %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -851,7 +850,7 @@ class LifeStream_UnlockAchievementLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Unlocked %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -862,7 +861,7 @@ class LifeStream_UnlockAchievementLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->data[0]['title']));
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s unlocked %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
@@ -881,7 +880,7 @@ class LifeStream_PlayGameLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', $this->event->data[0]['link'], $this->event->data[0]['name']);
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('Played %2$s', $this->get_feed_label(), $post);
 	}
 	
@@ -892,7 +891,7 @@ class LifeStream_PlayGameLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		$post = sprintf('<a href="%s">%s</a>', $this->event->data[0]['link'], $this->event->data[0]['name']);
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($data[0])));
 		return $this->lifestream->__('%1$s played %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
