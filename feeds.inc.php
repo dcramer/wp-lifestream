@@ -2195,4 +2195,73 @@ function lifestream_facebook_status($links=true)
 		echo $event->data['title'];
 	}
 }
+
+class LifeStream_NetflixFeed extends LifeStream_Feed
+{
+	const ID			= 'netflix';
+	const NAME			= 'Netflix';
+	const URL			= 'http://www.netflix.com/';
+	const DESCRIPTION	= 'You can find your User ID by logging into your Netflix account and clicking on RSS at the very bottom of the page.';
+
+	function __toString()
+	{
+		return $this->options['user_id'];
+	}
+
+	function get_options()
+	{		
+		return array(
+			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
+			'user_id' => array($this->lifestream->__('User ID:'), null, '', ''),
+			'show_queue' => array($this->lifestream->__('Include queued videos in this feed.'), true, true, false),
+			'show_reviews' => array($this->lifestream->__('Include reviewed videos in this feed.'), true, true, false),
+		);
+	}
+	
+	function get_url() {
+		$urls = array();
+		if ($this->options(['show_queue']))
+		{
+			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->options['user_id'], 'queue');
+			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->options['user_id'], 'queue');
+		}
+		if ($this->options(['show_reviews']))
+		{
+			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->options['user_id'], 'review');
+		}
+		return $urls
+	}
+	
+	function save_options()
+	{
+		if (preg_match('/id=([A-Z0-9]+)/i', $this->options['url'], $match))
+		{
+			$this->options['user_id'] = $match[1];
+		}
+		else
+		{
+			throw new LifeStream_Error("Invalid feed URL.");
+		}
+		parent::save_options();
+	}
+	
+	function get_label($event, $options)
+	{
+		if ($event->key == 'review') $cls = 'LifeStream_ReviewVideoLabel';
+		elseif ($event->key == 'queue') $cls = 'LifeStream_QueueVideoLabel';
+		return new $cls($this, $event, $options);
+	}
+	
+	function yield($row, $url, $key)
+	{
+		$data = parent::yield($row, $url, $key);
+		if ($data['title'] == 'Your Queue is empty.') return;
+		if ($key == 'queue')
+		{
+			$data['title'] = substr($data['title'], 5);
+		}
+		return $data;
+	}
+}
+$lifestream->register_feed('LifeStream_NetflixFeed');
 ?>

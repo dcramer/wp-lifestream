@@ -932,4 +932,64 @@ class LifeStream_PlayGameLabel extends LifeStream_Label
 		return $this->lifestream->__('%s played %s games.', $this->_get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
 	}
 }
+class LifeStream_QueueVideoLabel extends LifeStream_Label
+{
+	function get_template()
+	{
+		return 'basic';
+	}
+  
+	function get_label_single()
+	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Queued %2$s', $this->get_feed_label(), $post);
+	}
+
+	function get_label_plural()
+	{
+		return $this->lifestream->__('Queued %s videos.', $this->_get_show_details_link(), $this->get_feed_label());
+	}
+	
+	function get_label_single_user()
+	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s queued %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
+	}
+	
+	function get_label_plural_user()
+	{
+		return $this->lifestream->__('%s queued %s videos.', $this->_get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
+	}
+}
+
+class LifeStream_ReviewVideoLabel extends LifeStream_Label
+{
+	function get_template()
+	{
+		return 'basic';
+	}
+  
+	function get_label_single()
+	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Reviewed %2$s', $this->get_feed_label(), $post);
+	}
+
+	function get_label_plural()
+	{
+		return $this->lifestream->__('Reviewed %s videos.', $this->_get_show_details_link(), $this->get_feed_label());
+	}
+	
+	function get_label_single_user()
+	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s reviewed %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
+	}
+	
+	function get_label_plural_user()
+	{
+		return $this->lifestream->__('%s reviewed %s videos.', $this->_get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
+	}
+}
+
 ?>
