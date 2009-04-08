@@ -1663,13 +1663,18 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
 		return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.urlencode($this->options['username']);
 	}
 	
+	function get_event_display($event, $bit)
+	{
+		return $bit['title'] ? $bit['title'] : $bit['name'];
+	}
+	
 	function yield($row)
 	{
 		return array(
 			'guid'	  =>  $this->lifestream->html_entity_decode($row->DetailsURL),
 			'date'	  =>  strtotime($row->LastPlayed),
 			'link'	  =>  $this->lifestream->html_entity_decode($row->DetailsURL),
-			'name'	  =>  $this->lifestream->html_entity_decode($row->Game->Name),
+			'title'	  =>  $this->lifestream->html_entity_decode($row->Game->Name),
 		);
 	}
 	
