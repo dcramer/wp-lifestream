@@ -2229,7 +2229,7 @@ class LifeStream_NetflixFeed extends LifeStream_Feed
 		{
 			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->options['user_id'], 'review');
 		}
-		return $urls
+		return $urls;
 	}
 	
 	function save_options()
