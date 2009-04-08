@@ -748,7 +748,7 @@ class Lifestream
 									{
 										unset($_POST);
 										unset($_REQUEST['op']);
-										$msg_arr = $feed->refresh();
+										$msg_arr = $feed->refresh(null, true);
 										if ($msg_arr[0] !== false)
 										{
 											$message = $this->__('A new %s feed was added to your LifeStream.', $feed->get_constant('NAME'));
@@ -1047,7 +1047,7 @@ class Lifestream
 			$feed->owner = 'admin';
 			$feed->owner_id = 1;
 			$feed->save();
-			$feed->refresh();
+			$feed->refresh(null, true);
 		}
 		else
 		{
@@ -1562,7 +1562,7 @@ abstract class LifeStream_Extension
 		}
 	}
 	
-	function refresh($urls=null)
+	function refresh($urls=null, $initial=false)
 	{
 		global $wpdb;
 		
@@ -1574,7 +1574,7 @@ abstract class LifeStream_Extension
 		$total = 0;
 		try
 		{
-			$items = $this->fetch($urls);
+			$items = $this->fetch($urls, $initial);
 		}
 		catch (LifeStream_Error $ex)
 		{
@@ -1797,7 +1797,7 @@ class LifeStream_Feed extends LifeStream_Extension
 		parent::save_options();
 	}
 	
-	function fetch($urls=null)
+	function fetch($urls=null, $initial=false)
 	{
 		// kind of an ugly hack for now so we can extend twitter
 		if (!$urls) $urls = $this->get_url();
@@ -1828,13 +1828,17 @@ class LifeStream_Feed extends LifeStream_Extension
 				$sample = substr($data, 0, 150);
 				throw new LifeStream_FeedFetchError("Error fetching feed from {$url} ({$feed->error()})....\n\n{$sample}");
 			}
+			// We need to set the default timestamp if no dates are set
+			if (!$initial) $default_timestamp = time();
+			else $default_timestmap = 0;
+			
 			$feed->handle_content_type();
 			foreach ($feed->get_items() as $row)
 			{
 				$row =& $this->yield($row, $url, $key);
 				if (!$row) continue;
 				if (!$row['key']) $row['key'] = $key;
-				if (!($row['date'] > 0)) $row['date'] = time();
+				if (!($row['date'] > 0)) $row['date'] = $default_timestamp;
 				if (count($row)) $items[] = $row;
 			}
 			$feed->__destruct();
