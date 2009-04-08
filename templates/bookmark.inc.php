@@ -5,4 +5,8 @@
 		<li><?php echo $this->render_item($event, $chunk); ?></li>
 	<?php } ?>
 </ul>
+<?php } elseif ($visible && $event->data[0]['comment']) { ?>
+<blockquote class="lifestream_blogpost">
+	<?php echo htmlspecialchars(strip_tags($lifestream->truncate($event->data[0]['comment'], $lifestream->get_option('truncate_length')))); ?>
+</blockquote>
 <?php } ?>

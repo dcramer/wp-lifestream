@@ -90,7 +90,8 @@ class LifeStream_PhotoLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		return $this->lifestream->__('Shared a photo.', $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Shared %2$s', $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural()
@@ -100,7 +101,8 @@ class LifeStream_PhotoLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%s shared a photo.', $this->_get_user_label(), $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s shared %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural_user()
@@ -406,7 +408,8 @@ class LifeStream_VideoLabel extends LifeStream_Label
 	
 	function get_label_single()
 	{
-		return $this->lifestream->__('Shared a video.', $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Shared %2$s', $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural()
@@ -416,7 +419,8 @@ class LifeStream_VideoLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%s shared a video.', $this->_get_user_label(), $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s shared %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural_user()
@@ -433,7 +437,8 @@ class LifeStream_LikeVideoLabel extends LifeStream_VideoLabel
 	
 	function get_label_single()
 	{
-		return $this->lifestream->__('Liked a video.', $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Liked %2$s', $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural()
@@ -443,7 +448,8 @@ class LifeStream_LikeVideoLabel extends LifeStream_VideoLabel
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%s liked a video.', $this->_get_user_label(), $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s liked %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural_user()

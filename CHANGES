@@ -1,3 +1,9 @@
+0.98
+
+* Google Reader now displays comments if they are available.
+* Photo and Video labels will now show the event title if it's not grouped.
+* Cleaned up a lot of feeds and issues with storage.
+
 0.97d
 
 * Updatd Readernaut, Yelp, and iTunes feeds to be more in-line with the new style.
