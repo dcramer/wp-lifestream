@@ -1785,6 +1785,7 @@ class LifeStream_Feed extends LifeStream_Extension
 				throw new LifeStream_Error($this->lifestream->__('The icon url is not a valid image.'));
 			}
 		}
+		
 		parent::save_options();
 	}
 	

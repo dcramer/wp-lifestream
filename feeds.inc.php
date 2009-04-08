@@ -575,11 +575,11 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 		parent::save_options();
 	}
 	
-	function yield($row)
+	function yield($row, $url, $key)
 	{
 		//<gr:annotation><content type="html">Just testing some stuff in Lifestream</content>
 		
-		$data = parent::fetch($row);
+		$data = parent::fetch($row, $url, $key);
 		$annotation =& $row->get_item_tags(self::NAMESPACE, 'annotation');
 		$data['comment'] = $annotation[0];
 		return $data;
