@@ -122,6 +122,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 			return false;
 		}
 		$data['title'] = $title;
+		return $data;
 	}
 }
 $lifestream->register_feed('LifeStream_TwitterFeed');
