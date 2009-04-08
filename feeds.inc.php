@@ -2220,12 +2220,12 @@ class LifeStream_NetflixFeed extends LifeStream_Feed
 	
 	function get_url() {
 		$urls = array();
-		if ($this->options(['show_queue']))
+		if ($this->options['show_queue'])
 		{
 			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->options['user_id'], 'queue');
 			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->options['user_id'], 'queue');
 		}
-		if ($this->options(['show_reviews']))
+		if ($this->options['show_reviews'])
 		{
 			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->options['user_id'], 'review');
 		}
