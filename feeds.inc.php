@@ -564,7 +564,7 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 	
 	function save_options()
 	{
-		if (preg_match('/\/\/reader\/shared\/([0-9]+)\//i', $this->options['url'], $match))
+		if (preg_match('/\/reader\/shared\/([0-9]+)\/?/i', $this->options['url'], $match))
 		{
 			$this->options['user_id'] = $match[1];
 		}
@@ -575,7 +575,7 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 		parent::save_options();
 	}
 	
-	function fetch($row)
+	function yield($row)
 	{
 		//<gr:annotation><content type="html">Just testing some stuff in Lifestream</content>
 		
