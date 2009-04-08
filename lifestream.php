@@ -1756,6 +1756,8 @@ class LifeStream_Feed extends LifeStream_Extension
 		
 		$url = $urls[0];
 		
+		if (is_array($url)) $url = $url[0];
+		
 		$feed = new SimplePie();
 		$feed->enable_cache(false);
 		$data = $this->lifestream->file_get_contents($url);
