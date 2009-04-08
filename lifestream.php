@@ -1847,7 +1847,7 @@ class LifeStream_Feed extends LifeStream_Extension
 			'date'	=> $row->get_date('U'),
 			'link'	=> html_entity_decode($row->get_link()),
 			'title'	=> html_entity_decode($title),
-			'title'	=> html_entity_decode($row->get_description()),
+			'description'	=> html_entity_decode($row->get_description()),
 			'key'	=> $key,
 			'guid'	=> $row->get_id(),
 		);
