@@ -580,7 +580,7 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 		//<gr:annotation><content type="html">Just testing some stuff in Lifestream</content>
 		$data = parent::yield($row, $url, $key);
 		$annotation =& $row->get_item_tags(self::NAMESPACE, 'annotation');
-		$data['comment'] = $annotation[0]['child']['http://www.w3.org/2005/Atom'][0]['data'];
+		$data['comment'] = $annotation[0]['child']['http://www.w3.org/2005/Atom']['content'][0]['data'];
 		var_dump($data);
 		die;
 		return $data;
