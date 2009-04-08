@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.97e
+Version: 0.98
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,8 +14,8 @@ if (phpversion() < 5)
 	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
 	return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.97e');
-define(LIFESTREAM_VERSION, 0.97);
+define(LIFESTREAM_BUILD_VERSION, '0.98');
+define(LIFESTREAM_VERSION, 0.98);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
 define(LIFESTREAM_FEEDS_PER_PAGE, 20);
@@ -181,7 +181,6 @@ class Lifestream
 		// 	$ext = $bits[count($bits)-1];
 		// 	return (in_array($ext, $this->valid_image_extensions));
 		// }
-
 		$handler = $this->get_option('url_handler');
 
 		$use_fsock = true;
@@ -1776,9 +1775,8 @@ class LifeStream_Feed extends LifeStream_Extension
 		$feed->force_feed(true); 
 		$success = $feed->init();
 		
-		if ($this->options['auto_icon'])
+		if ($this->options['auto_icon'] && ($url = $feed->get_favicon()))
 		{
-			$url = $feed->get_favicon();
 			if ($this->lifestream->validate_image($url))
 			{
 				$this->options['icon_url'] = $url;
