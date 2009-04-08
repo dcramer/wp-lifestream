@@ -112,7 +112,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	{
 		$data = parent::yield($row, $url, $key);
 		$string = $this->options['username'] . ': ';
-		$title = html_entity_decode($row->get_description());
+		$title = $this->lifestream->html_entity_decode($row->get_description());
 		if (str_startswith(strtolower($title), strtolower($string)))
 		{
 			$title = substr($title, strlen($string));
@@ -268,11 +268,11 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
 	function yield($track, $url)
 	{
 		return array(
-			'guid'	  =>  html_entity_decode($track->url),
+			'guid'	  =>  $this->lifestream->html_entity_decode($track->url),
 			'date'	  =>  strtotime($track->date),
-			'link'	  =>  html_entity_decode($track->url),
-			'name'	  =>  html_entity_decode($track->name),
-			'artist'	=>  html_entity_decode($track->artist),
+			'link'	  =>  $this->lifestream->html_entity_decode($track->url),
+			'name'	  =>  $this->lifestream->html_entity_decode($track->name),
+			'artist'	=>  $this->lifestream->html_entity_decode($track->artist),
 		);
 	}
 	
@@ -344,7 +344,7 @@ class LifeStream_BlogFeed extends LifeStream_GenericFeed
 	{
 		$data = parent::yield($row, $url, $key);
 		$author =& $row->get_item_tags(SIMPLEPIE_NAMESPACE_DC_11, 'creator');
-		$data['author'] = html_entity_decode($author[0]['data']);
+		$data['author'] = $this->lifestream->html_entity_decode($author[0]['data']);
 		return $data;
 	}
 }
@@ -549,6 +549,11 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 	const LABEL			= 'LifeStream_BookmarkLabel';
 	const NAMESPACE		= 'http://www.google.com/schemas/reader/atom/';
 	
+	function __toString()
+	{
+		return $this->options['user_id'] ? $this->options['user_id'] : $this->options['url'];
+	}
+	
 	function get_options()
 	{		
 		return array(
@@ -581,7 +586,7 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 		//<gr:annotation><content type="html">Just testing some stuff in Lifestream</content>
 		$data = parent::yield($row, $url, $key);
 		$annotation =& $row->get_item_tags(self::NAMESPACE, 'annotation');
-		$data['comment'] = $annotation[0]['child']['http://www.w3.org/2005/Atom']['content'][0]['data'];
+		$data['comment'] = $this->lifestream->html_entity_decode($annotation[0]['child']['http://www.w3.org/2005/Atom']['content'][0]['data']);
 		return $data;
 	}
 	
@@ -688,7 +693,7 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 	function yield($row, $url, $key)
 	{
 		$string = $this->options['username'] . ': ';
-		$title = html_entity_decode($row->get_title());
+		$title = $this->lifestream->html_entity_decode($row->get_title());
 		if (str_startswith($title, $string))
 		{
 			$title = substr($title, strlen($string));
@@ -696,7 +701,7 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 		return array(
 			'guid'	  =>  $row->get_id(),
 			'date'	  =>  $row->get_date('U'),
-			'link'	  =>  html_entity_decode($row->get_link()),
+			'link'	  =>  $this->lifestream->html_entity_decode($row->get_link()),
 			'title'	 =>  $title,
 		);
 	}
@@ -1173,19 +1178,8 @@ class LifeStream_BlipFMFeed extends LifeStream_LastFMFeed
 	
 	function render_item($row, $item)
 	{
-		return $this->parse_users($item['text']).' &#9835; <span class="song_link"><a href="'.htmlspecialchars($item['link']).'">'.htmlspecialchars($item['song']).'</a></span>';
+		return $this->parse_users($item['text']).' &#9835; <span class="song_link"><a href="'.htmlspecialchars($item['link']).'">'.htmlspecialchars($item['song'] ? $item['song'] : $item['title']).'</a></span>';
 	}
-	
-	function yield($row)
-	{
-		return array(
-			'guid'	=> $row->get_id(),
-			'date'	=> $row->get_date('U'),
-			'link'	=> html_entity_decode($row->get_link()),
-			'text'	=> html_entity_decode($row->get_description()),
-			'song'	=> html_entity_decode($row->get_title()),
-		);
-	}  
 }
 
 $lifestream->register_feed('LifeStream_BlipFMFeed');
@@ -1497,7 +1491,7 @@ class LifeStream_MixxFeed extends LifeStream_Feed
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
-		$title = html_entity_decode($row->get_title());
+		$title = $this->lifestream->html_entity_decode($row->get_title());
 		if (str_startswith($title, 'Comment on: '))
 		{
 			if (!$this->options['show_comments']) return;
@@ -1672,10 +1666,10 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
 	function yield($row)
 	{
 		return array(
-			'guid'	  =>  html_entity_decode($row->DetailsURL),
+			'guid'	  =>  $this->lifestream->html_entity_decode($row->DetailsURL),
 			'date'	  =>  strtotime($row->LastPlayed),
-			'link'	  =>  html_entity_decode($row->DetailsURL),
-			'name'	  =>  html_entity_decode($row->Game->Name),
+			'link'	  =>  $this->lifestream->html_entity_decode($row->DetailsURL),
+			'name'	  =>  $this->lifestream->html_entity_decode($row->Game->Name),
 		);
 	}
 	
@@ -1793,7 +1787,7 @@ class LifeStream_GitHubFeed extends LifeStream_Feed
 			return null;
 		} else {
 			$data = parent::yield($row, $url, $key);
-			$description = html_entity_decode($row->get_description());
+			$description = $this->lifestream->html_entity_decode($row->get_description());
 			$message = $this->parse_message($description);
 			$data['title'] = $message;
 			return $data;
@@ -1874,7 +1868,7 @@ class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
 		$large = preg_replace('/.*src=([\'"])((?:(?!\1).)*)\1.*/si','$2',$src);
 		$small = str_replace('large','med_rect',$large);
 	
-		$data['title'] = html_entity_decode($row->get_description());
+		$data['title'] = $this->lifestream->html_entity_decode($row->get_description());
 		$data['thumbnail'] = $small;
 		$data['image'] = $large;
 		return $data;
@@ -1990,14 +1984,14 @@ class LifeStream_GoodReadsFeed extends LifeStream_PhotoFeed
 	function yield($item, $url)
 	{
 		return array(
-			'guid'	  =>  html_entity_decode($item->guid),
+			'guid'	  =>  $this->lifestream->html_entity_decode($item->guid),
 			'date'	  =>  strtotime($item->pubDate),
-			'link'	  =>  html_entity_decode($item->link),
-			'title'	 =>  html_entity_decode($item->title),
-			'author'	=>  html_entity_decode($item->author_name),
-			'description'	=>  html_entity_decode($item->book_description),
-			'image'	 =>  html_entity_decode($item->book_large_image_url),
-			'thumbnail' =>  html_entity_decode($item->book_small_image_url),
+			'link'	  =>  $this->lifestream->html_entity_decode($item->link),
+			'title'	 =>  $this->lifestream->html_entity_decode($item->title),
+			'author'	=>  $this->lifestream->html_entity_decode($item->author_name),
+			'description'	=>  $this->lifestream->html_entity_decode($item->book_description),
+			'image'	 =>  $this->lifestream->html_entity_decode($item->book_large_image_url),
+			'thumbnail' =>  $this->lifestream->html_entity_decode($item->book_small_image_url),
 		);
 	}
 	
@@ -2104,7 +2098,7 @@ class LifeStream_BackTypeFeed extends LifeStream_Feed
 				exit;
 			}
 		}
-		$description = strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->options['username']).'">Read more comments by '.strtolower($this->options['username']).'</a></p>', '' , html_entity_decode($row->get_description())));
+		$description = strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->options['username']).'">Read more comments by '.strtolower($this->options['username']).'</a></p>', '' , $this->lifestream->html_entity_decode($row->get_description())));
 		
 		$data['description'] = $description;
 		return $data;

@@ -161,6 +161,16 @@ class Lifestream
 	protected $valid_image_extensions = array(
 		'gif', 'jpg', 'jpeg', 'gif', 'png', 'ico'
 	);
+	
+	function html_entity_decode($string)
+	{
+		$string = html_entity_decode($string);
+		
+		$string = preg_replace('~&#x0*([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
+		$string = preg_replace('~&#0*([0-9]+);~e', 'chr(\\1)', $string);
+
+ 		return $string;
+	}
 
 	function validate_image($url)
 	{
@@ -1845,9 +1855,9 @@ class LifeStream_Feed extends LifeStream_Extension
 		if (!$title) return false;
 		$data = array(
 			'date'	=> $row->get_date('U'),
-			'link'	=> html_entity_decode($row->get_link()),
-			'title'	=> html_entity_decode($title),
-			'description'	=> html_entity_decode($row->get_description()),
+			'link'	=> $this->lifestream->html_entity_decode($row->get_link()),
+			'title'	=> $this->lifestream->html_entity_decode($title),
+			'description'	=> $this->lifestream->html_entity_decode($row->get_description()),
 			'key'	=> $key,
 			'guid'	=> $row->get_id(),
 		);

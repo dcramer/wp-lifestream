@@ -8,6 +8,6 @@
 <?php } elseif ($visible && $event->data[0]['description']) { ?>
 <blockquote class="lifestream_blogpost">
 	<strong><a href="<?php echo $event->data[0]['link']; ?>"><?php echo htmlspecialchars($event->data[0]['title']); ?></a></strong><br/>
-	<?php echo htmlspecialchars(strip_tags($lifestream->truncate($event->data[0]['description'], $lifestream->get_option('truncate_length')))); ?>
+	<?php echo strip_tags($lifestream->truncate($event->data[0]['description'], $lifestream->get_option('truncate_length'))); ?>
 </blockquote>
 <?php } ?>
