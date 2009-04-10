@@ -54,13 +54,25 @@ $authors = get_users_of_blog();
                 </td>
             </tr>
             <tr>
+                <?php $current_value = (isset($_POST['auto_icon']) ? $_POST['auto_icon'] : $instance->options['auto_icon']); ?>
+                <th>&nbsp;</th>
+                <td><input type="checkbox" id="id_auto_icon"name="auto_icon" onclick="checkAutoIcon" value="1"<?php if($current_value) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Use websites default favicon.'); ?></td>
+            </tr>
+            <tr id="id_icon_url_row">
                 <th><label>Icon URL:</label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
                 <td>
                     <?php $current_value = (isset($_POST['icon_url']) ? stripslashes($_POST['icon_url']) : $instance->options['icon_url']); ?>
-                    <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/> <input type="checkbox" name="auto_icon" value="1"<?php if(empty($current_value)) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Use websites default favicon.'); ?>
+                    <input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/>
                     <div class="helptext"><?php $lifestream->_e('An icon to use for this feed instead of the default.'); ?></div>
                 </td>
             </tr>
+            <script type="text/javascript">
+            function checkAutoIcon() {
+                var obj = document.getElementById('id_auto_icon');
+                document.getElementById('id_icon_url_row').style.display = (obj.checked ? 'none': '');
+            }
+            checkAutoIcon();
+            </script>
             <?php if ($instance->get_constant('CAN_GROUP') && !$instance->get_constant('MUST_GROUP')) { ?>
                 <tr>
                     <th>&nbsp;</th>
