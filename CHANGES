@@ -1,3 +1,8 @@
+0.982
+
+* Fixed issues with .ico images being invalid.
+* Tweaked add/edit feed templates and default icon usage.
+
 0.98b
 
 * Added Netflix extension (Queue and Reviews).

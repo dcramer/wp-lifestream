@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.98b
+Version: 0.982
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,8 +14,8 @@ if (phpversion() < 5)
 	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
 	return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.98b');
-define(LIFESTREAM_VERSION, 0.98);
+define(LIFESTREAM_VERSION, 0.982);
+define(LIFESTREAM_BUILD_VERSION, (string)LIFESTREAM_VERSION);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
 define(LIFESTREAM_FEEDS_PER_PAGE, 20);
@@ -61,6 +61,7 @@ if (!function_exists('get_class_constant'))
 }
 
 class LifeStream_Error extends Exception { }
+class LifeStream_ValidationError extends Exception { }
 class LifeStream_FeedFetchError extends LifeStream_Error { }
 
 class LifeStream_Event
@@ -154,7 +155,7 @@ class Lifestream
 		'image/jpeg' => 'jpeg',  
 		'image/png' => 'png',  
 		'image/gif' => 'gif',
-		'image/ico' => 'ico',
+		'image/x-icon' => 'ico',
 		'image/bmp' => 'bmp',  
 		'image/vnd.microsoft.icon' => 'ico'
 	);
