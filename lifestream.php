@@ -154,6 +154,7 @@ class Lifestream
 		'image/jpeg' => 'jpeg',  
 		'image/png' => 'png',  
 		'image/gif' => 'gif',
+		'image/ico' => 'ico',
 		'image/bmp' => 'bmp',  
 		'image/vnd.microsoft.icon' => 'ico'
 	);
