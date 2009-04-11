@@ -3,12 +3,12 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.98e
+Version: 0.98f
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_BUILD_VERSION, '0.98e');
+define(LIFESTREAM_BUILD_VERSION, '0.98f');
 define(LIFESTREAM_VERSION, 0.98);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -21,7 +21,7 @@ if (!class_exists('SimplePie'))
 	require_once(dirname(__FILE__) . '/lib/simplepie.inc.php');
 }
 
-global $wpdb, $userdata;
+global $wpdb, $userdata, $lifestream;
 
 if (!function_exists('array_key_pop'))
 {
