@@ -1,3 +1,8 @@
+0.98d
+
+* Fixed Tumblr feed showing HTML.
+* Twitter feed now stores its data in description properly.
+
 0.98c
 
 * Fixed issues with .ico images being invalid.

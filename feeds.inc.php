@@ -105,23 +105,23 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	
 	function render_item($row, $item)
 	{
-		return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title'])))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+		return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description'])))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
 	}
 	
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
 		$string = $this->options['username'] . ': ';
-		$title = $this->lifestream->html_entity_decode($row->get_description());
-		if (str_startswith(strtolower($title), strtolower($string)))
+		$description = $this->lifestream->html_entity_decode($row->get_description());
+		if (str_startswith(strtolower($description), strtolower($string)))
 		{
-			$title = substr($title, strlen($string));
+			$description = substr($description, strlen($string));
 		}
-		if ($this->options['hide_replies'] && str_startswith($title, '@'))
+		if ($this->options['hide_replies'] && str_startswith($description, '@'))
 		{
 			return false;
 		}
-		$data['title'] = $title;
+		$data['description'] = $description;
 		return $data;
 	}
 }
@@ -996,7 +996,7 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
 }
 $lifestream->register_feed('LifeStream_StumbleUponFeed');
 
-class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
+class LifeStream_TumblrFeed extends LifeStream_Feed
 {
 	const ID	= 'tumblr';
 	const NAME	= 'Tumblr';
@@ -1028,7 +1028,7 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
 	{
 		$data = parent::yield($row, $url, $key);
 		preg_match($this->image_match_regexp, $row->get_description(), $match);
-		if ($data['title'] == strip_tags($data['description']))
+		if (strip_tags($data['title']) == strip_tags($data['description']))
 		{
 			$data['key'] = 'note';
 		}
@@ -1040,6 +1040,16 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
 		}
 		return $data;
 	}
+	
+	function parse_users($text)
+	{
+		return preg_replace_callback('/([^\w]*)@([a-z0-9_-]+)\b/i', array($this, '_get_user_link'), $text);
+	}
+	
+	function _get_user_link($match)
+	{
+		return $match[1].$this->get_user_link($match[2]);
+	}
 
 	function render_item($event, $item)
 	{
@@ -1049,7 +1059,7 @@ class LifeStream_TumblrFeed extends LifeStream_TwitterFeed
 		}
 		elseif ($event->key == 'note')
 		{
-			return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+			return LifeStream_TwitterFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
 		}
 		else
 		{
