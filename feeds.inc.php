@@ -385,9 +385,9 @@ $lifestream->register_feed('LifeStream_FlickrFeed');
 
 class LifeStream_PhotoBucketFeed extends LifeStream_PhotoFeed
 {
-	const ID			= 'photobucket';
-	const NAME		  = 'Photobucket';
-	const URL		   = 'http://www.photobucket.com/';
+	const ID	= 'photobucket';
+	const NAME	= 'Photobucket';
+	const URL	= 'http://www.photobucket.com/';
 }
 $lifestream->register_feed('LifeStream_PhotoBucketFeed');
 

@@ -8,12 +8,6 @@ Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-// since so many people miss the installation requirements
-if (phpversion() < 5)
-{
-	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
-	exit;
-}
 define(LIFESTREAM_BUILD_VERSION, '0.98e');
 define(LIFESTREAM_VERSION, 0.98);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
@@ -1030,6 +1024,12 @@ class Lifestream
 	 */
 	function activate()
 	{
+		if (version_compare(PHP_VERSION, '5.0', '<'))
+		{
+			deactivate_plugins(LIFESTREAM_PLUGIN_FILE);
+			return;
+		}
+		
 		global $wpdb;
 
 		// Options/database install
@@ -1050,10 +1050,6 @@ class Lifestream
 			$feed->owner_id = 1;
 			$feed->save();
 			$feed->refresh(null, true);
-		}
-		else
-		{
-			$this->update();
 		}
 	}
 
@@ -1366,10 +1362,12 @@ $lifestream = new Lifestream();
 
 function lifestream_get_single_event($feed_type)
 {
+	global $lifestream;
+	
 	return $lifestream->get_single_event($feed_type);
 }
 
-require_once('inc/labels.php');
+require_once(dirname(__FILE__) . '/inc/labels.php');
 
 abstract class LifeStream_Extension
 {
@@ -1937,7 +1935,6 @@ class LifeStream_GenericFeed extends LifeStream_Feed {
 	}
 }
 $lifestream->register_feed('LifeStream_GenericFeed');
-
 
 /**
  * Outputs the recent lifestream events.
