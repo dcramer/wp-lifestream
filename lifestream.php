@@ -897,7 +897,6 @@ class Lifestream
 	 */
 	function update()
 	{
-	    die('<h1 style="position: absolute;z-index:100000;left:0;top:0;color:red;">UPDATING</h1>');
 		$event_arr = $this->update_all();
 		$events = 0;
 		foreach ($event_arr as $instance=>$result)
@@ -1035,7 +1034,7 @@ class Lifestream
 
 		// Options/database install
 		$this->install();
-
+		
 		// Cron job for the update
 		$this->reschedule_cron();
 
