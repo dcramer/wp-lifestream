@@ -1696,6 +1696,8 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
 		{
 			$xml = new SimpleXMLElement($response);
 			
+			if ($xml[0] == 'Service Unavailable') return;
+			
 			$items = array();
 			foreach ($xml->RecentGames->XboxUserGameInfo as $row)
 			{
