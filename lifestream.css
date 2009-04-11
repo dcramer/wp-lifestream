@@ -5,8 +5,7 @@
 .lifestream_text a { padding: 0 !important; background-image: none !important; display: inline !important; }
 .lifestream_icon a { text-decoration: none !important; }
 .lifestream_icon { width: 16px; }
-.lifestream_hour { color: #aaa; }
-.lifestream_label .lifestream_meta { margin-left: 10px; color: #aaa; }
+.lifestream .lifestream_meta { color: #aaa; font-size:x-small; }
 .lifestream_text { padding: 0 0.5em; text-align: left; }
 .lifestream img { border: 0; vertical-align: middle; }
 .lifestream_blogpost { font-size: 93%; margin-top: 5px; padding-left: 5px; font-style: italic; }
@@ -24,7 +23,7 @@ table.lifestream td { vertical-align: top; padding: 3px 0; }
 
 /* list specific css */
 #sidebar ul.lifestream, ul.lifestream { list-style-type: none; margin: 0 0; padding: 0 5px; }
-#sidebar ul.lifestream li, ul.lifestream li { padding: 0 0 0 24px; margin: 2px 0; background-repeat: no-repeat; background-position: 0 0; }
+#sidebar ul.lifestream li, ul.lifestream li { padding: 0 0 0 24px; margin: 5px 0; background-repeat: no-repeat; background-position: 0 0; }
 #sidebar ul.lifestream li a, ul.lifestream li a { display: inline; }
 #sidebar ul.lifestream li li { font-size: 85%; margin-left: 0; padding-left: 0; }
 #sidebar ul.lifestream ul { margin-left: 0; padding-left: 0; }

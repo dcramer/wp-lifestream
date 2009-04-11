@@ -2,9 +2,9 @@
 /*
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
-Description: Displays your activity from various social networks. (Requires PHP/MySQL 5)
-Author: David Cramer
-Version: 0.98d
+Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
+Version: 0.98e
+Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
@@ -12,9 +12,9 @@ Author URI: http://www.davidcramer.net
 if (phpversion() < 5)
 {
 	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
-	return;
+	exit;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.98d');
+define(LIFESTREAM_BUILD_VERSION, '0.98e');
 define(LIFESTREAM_VERSION, 0.98);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -1735,6 +1735,9 @@ abstract class LifeStream_Extension
 		else $visible = $options['show_details'];
 		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
 
+		if ($options['hide_metadata']) $show_metadata = false;
+		else $show_metadata = true;
+		
 		include('templates/'.$label_inst->get_template().'.inc.php');
 	}
 	
@@ -2009,7 +2012,6 @@ function lifestream_sidebar_widget($_=array())
 	$day_format = $lifestream->get_option('day_format');
 	
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
-	
 	
 	include(dirname(__FILE__) . '/pages/lifestream-list.inc.php');
 }
