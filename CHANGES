@@ -2,6 +2,7 @@
 
 * Fixed Tumblr feed showing HTML.
 * Twitter feed now stores its data in description properly.
+* Xbox Live feed will no longer error when it's unavailable.
 
 0.98c
 
