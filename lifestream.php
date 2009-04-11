@@ -4,7 +4,7 @@ Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP/MySQL 5)
 Author: David Cramer
-Version: 0.98c
+Version: 0.98d
 Author URI: http://www.davidcramer.net
 */
 
@@ -14,7 +14,7 @@ if (phpversion() < 5)
 	echo '<p style="font-weight: bold; font-size: 20px; padding: 10px; color: red;">LifeStream will not function under PHP 4. You need to upgrade to PHP 5 and reactivate the plugin.</p>';
 	return;
 }
-define(LIFESTREAM_BUILD_VERSION, '0.98c');
+define(LIFESTREAM_BUILD_VERSION, '0.98d');
 define(LIFESTREAM_VERSION, 0.98);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -897,6 +897,7 @@ class Lifestream
 	 */
 	function update()
 	{
+	    die('<h1 style="position: absolute;z-index:100000;left:0;top:0;color:red;">UPDATING</h1>');
 		$event_arr = $this->update_all();
 		$events = 0;
 		foreach ($event_arr as $instance=>$result)
