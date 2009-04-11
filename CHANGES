@@ -1,3 +1,8 @@
+0.98e
+
+* Sidebar now hides metadata.
+* Tweaked metadata to fall in line with new service concept.
+
 0.98d
 
 * Fixed Tumblr feed showing HTML.

@@ -1,5 +1,5 @@
 === Lifestream ===
-Tags: lifestream, rss, social, miniblogging, twitter, flickr, pownce, delicious, last.fm, facebook, digg, atom
+Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom
 Requires at least: 2.5
 Tested up to: 2.7.1
 Stable tag: 0.98d

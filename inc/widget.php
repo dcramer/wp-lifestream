@@ -30,6 +30,7 @@ function lifestream_widget($args, $widget_args=1)
 	lifestream_sidebar_widget(array(
 		'limit'=>$options['amount'],
 		'feed_ids'=>$options['feeds'],
+		'hide_metadata'=>true,
 		'break_groups'=>$options['break_groups'] ? true : false,
 		'event_total_max'=>-1,
 		'date_interval'=>-1,
