@@ -169,7 +169,7 @@ function lifestream_widget_register()
 {
 	global $lifestream;
 	
-	if (!$options = $lifestream->get_option('widget'))
+	if (!($options = $lifestream->get_option('widget')))
 		$options = array();
 
 	$widget_ops = array('classname' => 'widget_lifestream', 'description' => $lifestream->__('Displays your activity from your lifestream'));
