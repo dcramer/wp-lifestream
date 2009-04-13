@@ -1,3 +1,8 @@
+0.98f
+
+* Facebook now uses MessageLabel.
+* Generic feed now uses basic label template.
+
 0.98e
 
 * Sidebar now hides metadata.

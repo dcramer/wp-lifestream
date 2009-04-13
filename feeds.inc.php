@@ -163,9 +163,9 @@ $lifestream->register_feed('LifeStream_JaikuFeed');
 
 class LifeStream_DeliciousFeed extends LifeStream_Feed
 {
-	const ID			= 'delicious';
-	const NAME		  = 'Delicious';
-	const URL		   = 'http://www.delicious.com/';
+	const ID	= 'delicious';
+	const NAME	= 'Delicious';
+	const URL	= 'http://www.delicious.com/';
 	const LABEL = 'LifeStream_BookmarkLabel';
 
 	function __toString()
@@ -185,7 +185,6 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
 			$output .= '<div class="description">'.htmlspecialchars($item['description']).'</div>';
 		}
 		return $output;
-		
 	}
 	
 	function get_options()
@@ -397,6 +396,7 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
 	const NAME			= 'Facebook';
 	const URL			= 'http://www.facebook.com/';
 	const DESCRIPTION	= 'To obtain your Facebook feed URL visit the very hard to find <a href="http://www.facebook.com/minifeed.php?filter=11" target="_blank">Your Mini-Feed</a> page. On the right hand side towards the bottom you will the "My Status" RSS feed link.';
+	const LABEL			= 'LifeStream_MessageLabel';
 	const CAN_GROUP		= false;
 	
 	function render_item($row, $item)
