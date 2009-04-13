@@ -27,12 +27,13 @@ class LifeStream_Label
 	
 	function get_template()
 	{
-		return 'generic';
+		return 'basic';
 	}
 	
 	function get_label_single()
 	{
-		return $this->lifestream->__('Posted an item.', $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Posted %2$s', $this->get_feed_label(), $post);
 	}
 	
 	function get_label_plural()
@@ -42,7 +43,9 @@ class LifeStream_Label
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%s posted an item.', $this->_get_user_label(), $this->get_feed_label());
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s posted %3$s', $this->_get_user_label(), $this->get_feed_label(), $post);
+
 	}
 	
 	function get_label_plural_user()
