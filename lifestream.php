@@ -3,18 +3,18 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.98f
+Version: 0.98g
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_BUILD_VERSION, '0.98f');
+define(LIFESTREAM_BUILD_VERSION, '0.98g');
 define(LIFESTREAM_VERSION, 0.98);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
-define(LIFESTREAM_FEEDS_PER_PAGE, 20);
-define(LIFESTREAM_EVENTS_PER_PAGE, 50);
-define(LIFESTREAM_ERRORS_PER_PAGE, 50);
+define(LIFESTREAM_FEEDS_PER_PAGE, 10);
+define(LIFESTREAM_EVENTS_PER_PAGE, 25);
+define(LIFESTREAM_ERRORS_PER_PAGE, 25);
 
 if (!class_exists('SimplePie'))
 {
@@ -830,16 +830,23 @@ class Lifestream
 
 					if (!current_user_can('manage_options'))
 					{
-						$results =& $wpdb->get_results($wpdb->prepare("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_event` WHERE `owner_id` = %d", $userdata->ID));
-						$number_of_pages = ceil($results[0]->count/LIFESTREAM_EVENTS_PER_PAGE);
-						$results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`owner_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $userdata->ID, $start, $end));
+						$rows =& $wpdb->get_row($wpdb->prepare("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_event` WHERE `owner_id` = %d", $userdata->ID));
+						$number_of_pages = ceil($rows->count/LIFESTREAM_EVENTS_PER_PAGE);
+						$rows =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`owner_id` = %d ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $userdata->ID, $start, $end));
 					}
 					else
 					{
-						$results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_event`");
-						$number_of_pages = ceil($results[0]->count/LIFESTREAM_EVENTS_PER_PAGE);
-						$results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $start, $end));
+						$rows =& $wpdb->get_row("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_event`");
+						$number_of_pages = ceil($rows->count/LIFESTREAM_EVENTS_PER_PAGE);
+						$rows =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_event` as t1 JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $start, $end));
 					}
+					$results = array();
+					foreach ($rows as $result)
+					{
+						$results[] = new LifeStream_Event($lifestream, $result);
+					}
+					unset($rows);
+					
 					include(dirname(__FILE__) . '/pages/events.inc.php');
 				break;
 				default:
@@ -862,15 +869,20 @@ class Lifestream
 							$end = $page*LIFESTREAM_FEEDS_PER_PAGE;
 							if (!current_user_can('manage_options'))
 							{
-								$results =& $wpdb->get_results($wpdb->prepare("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds` WHERE `owner_id` = %d", $userdata->ID));
-								$number_of_pages = ceil($results[0]->count/LIFESTREAM_FEEDS_PER_PAGE);
-								$results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 WHERE t1.`owner_id` = %d ORDER BY `id` LIMIT %d, %d", $userdata->ID, $start, $end));
+								$rows =& $wpdb->get_row($wpdb->prepare("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds` WHERE `owner_id` = %d", $userdata->ID));
+								$number_of_pages = ceil($rows->count/LIFESTREAM_FEEDS_PER_PAGE);
+								$rows =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 WHERE t1.`owner_id` = %d ORDER BY `id` LIMIT %d, %d", $userdata->ID, $start, $end));
 							}
 							else
 							{
-								$results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds`");
-								$number_of_pages = ceil($results[0]->count/LIFESTREAM_FEEDS_PER_PAGE);
-								$results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 ORDER BY `id` LIMIT %d, %d", $start, $end));
+								$rows =& $wpdb->get_row("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds`");
+								$number_of_pages = ceil($rows->count/LIFESTREAM_FEEDS_PER_PAGE);
+								$rows =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, (SELECT COUNT(1) FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = t1.`id`) as `events` FROM `".$wpdb->prefix."lifestream_feeds` as t1 ORDER BY `id` LIMIT %d, %d", $start, $end));
+							}
+							$results = array();
+							foreach ($rows as $result)
+							{
+								$results[] = LifeStream_Feed::construct_from_query_result($this, $result);
 							}
 							if ($results !== false)
 							{
@@ -1406,6 +1418,7 @@ abstract class LifeStream_Extension
 		else $options = null;
 		
 		$instance = new $class($lifestream, $options, $row->id, $row);
+		$instance->date = $row->timestamp;
 		if ($row->feed != $instance->get_constant('ID'))
 		{
 			throw new Exception('This shouldnt be happening...');
@@ -1751,7 +1764,7 @@ abstract class LifeStream_Extension
 		$events = array();
 		foreach ($results as &$result)
 		{
-			$events[] = new LifeStream_EventGroup($this->lifestream, $result);
+			$events[] = new LifeStream_Event($this->lifestream, $result);
 		}
 		return $events;
 	}
