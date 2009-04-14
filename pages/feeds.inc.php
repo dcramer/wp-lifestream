@@ -46,19 +46,18 @@ if (count($results))
         </thead>
         <tbody>
             <?php foreach ($results as $result) { ?>
-            <?php $instance = LifeStream_Feed::construct_from_query_result($lifestream, $result); ?>
                 <tr valign="top">
                     <th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
                     <td class="num"><?php echo $result->id; ?></td>
-                    <td class="icon"><img src="<?php echo $instance->get_icon_url(); ?>"/></td>
-                    <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo htmlspecialchars($instance->get_feed_display()); ?></a></strong><?php
+                    <td class="icon"><img src="<?php echo $result->get_icon_url(); ?>"/></td>
+                    <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo $result->get_public_name(); ?></a></strong><br /><small><?php echo htmlspecialchars($lifestream->truncate($result->get_feed_display(), 100)); ?></small><?php
                     if (isset($feedmsgs[$result->id]) && !empty($feedmsgs[$result->id]))
                     {
                         $msg = $feedmsgs[$result->id];
                         if (is_int($msg)) echo '<div class="success">'.$msg.' new event(s).</div>';
                     }
                     ?></td>
-                    <td class="date"><?php echo date('F j, Y', $result->timestamp).'<br/>'.date('g:ia', $result->timestamp); ?></td>
+                    <td class="date"><?php echo date('F j, Y', $result->date).'<br/>'.date('g:ia', $result->date); ?></td>
                     <td class="num"><?php echo $result->events; ?></td>
                     <td><?php echo $result->owner; ?></td>
                 </tr>

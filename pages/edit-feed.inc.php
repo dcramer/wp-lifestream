@@ -124,14 +124,14 @@ $authors = get_users_of_blog();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($events as $result) { ?>
-                    <tr valign="top">
-                        <td class="num"><?php echo $result->id; ?></td>
-                        <td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->link); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo $result->link; ?></a></strong></td>
-                        <td><?php echo date($date_format, $result->timestamp); ?></td>
-                        <td><a href="?page=lifestream-events.php&amp;op=delete&amp;id=<?php echo $result->id; ?>"><?php $lifestream->_e('Delete'); ?></a></td>
-                    </tr>
-                <?php } ?>
+				<?php foreach ($events as $result) { ?>
+					<tr valign="top">
+						<td class="num"><?php echo $result->id; ?></td>
+						<td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->data['link']); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo htmlspecialchars($result->get_event_display()); ?></a></strong><br/><small><?php echo htmlspecialchars($result->feed->get_public_name()); ?> &ndash; <?php echo htmlspecialchars($result->data['link']); ?></small></td>
+						<td><?php echo date($date_format, $result->date); ?></td>
+						<td><?php echo $result->owner; ?></td>
+					</tr>
+				<?php } ?>
             </tbody>
         </table>
     <?php } else { ?>
