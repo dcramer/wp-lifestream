@@ -1711,7 +1711,7 @@ abstract class LifeStream_Extension
 	function render($event, $options)
 	{
 		$lifestream = $this->lifestream;
-		$id = 'ls_'.microtime().'_';
+		$id = uniqid('ls_', true);
 		$options['id'] = $id;
 
 		$label_inst = $this->get_label($event, $options);
