@@ -1,3 +1,7 @@
+0.98e
+
+* Downgraded SimplePie in an attempt to solve some issues with reading feeds.
+
 0.98g
 
 * Tweaked feed and event displays to more informative in the admin.
