@@ -30,7 +30,7 @@ function lifestream_widget($args, $widget_args=1)
 	lifestream_sidebar_widget(array(
 		'limit'=>$options['amount'],
 		'feed_ids'=>$options['feeds'],
-		'hide_metadata'=>true,
+		'hide_metadata'=>$options['hide_metadata'],
 		'break_groups'=>$options['break_groups'] ? true : false,
 		'event_total_max'=>-1,
 		'date_interval'=>-1,
@@ -143,13 +143,19 @@ function lifestream_widget_control($widget_args=1)
 	<p>
 		<label>
 			<?php $lifestream->_e('Number of events to show:'); ?>
-			<input style="width: 25px; text-align: center;" name="lifestream[<?php echo $number; ?>][amount]" type="text" value="<?php echo $current_options['amount']; ?>" />
+			<input style="width: 35px; text-align: center;" name="lifestream[<?php echo $number; ?>][amount]" type="text" value="<?php echo $current_options['amount']; ?>" />
 		</label>
 	</p>
 	<p>
 		<label>
 			<input type="checkbox" name="lifestream[<?php echo $number; ?>][break_groups]" value="1"<?php if ($current_options['break_groups']) echo ' checked = "checked"'; ?>/>
 			<?php $lifestream->_e('Break up grouped events.'); ?>
+		</label><br />
+	</p>
+	<p>
+		<label>
+			<input type="checkbox" name="lifestream[<?php echo $number; ?>][hide_metadata]" value="1"<?php if ($current_options['hide_metadata']) echo ' checked = "checked"'; ?>/>
+			<?php $lifestream->_e('Hide meta data, such as the time.'); ?>
 		</label><br />
 	</p>
 	<p>

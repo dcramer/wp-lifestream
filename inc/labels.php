@@ -22,7 +22,7 @@ class LifeStream_Label
 	
 	function _get_user_label()
 	{
-		return $this->event->owner_name;
+		return $this->event->owner;
 	}
 	
 	function get_template()

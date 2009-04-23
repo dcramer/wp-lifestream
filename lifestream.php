@@ -3,12 +3,12 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99
+Version: 0.99.1
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_BUILD_VERSION, '0.99');
+define(LIFESTREAM_BUILD_VERSION, '0.99.1');
 define(LIFESTREAM_VERSION, 0.99);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -67,7 +67,7 @@ class LifeStream_Event
 	{
 		$this->lifestream = $lifestream;
 		$this->date = $row->timestamp;
-		$this->data = unserialize($row->data);
+		$this->data = array(unserialize($row->data));
 		$this->id = $row->id;
 		$this->timestamp = $row->timestamp;
 		$this->total = 1;
@@ -83,12 +83,12 @@ class LifeStream_Event
 	
 	function __toString()
 	{
-		return $this->data['title'];
+		return $this->data[0]['title'];
 	}
 	
 	function get_event_display()
 	{
-		return $this->feed->get_event_display($this, $this->data);
+		return $this->feed->get_event_display($this, $this->data[0]);
 	}
 	
 	function get_date()
@@ -131,6 +131,7 @@ class LifeStream_EventGroup extends LifeStream_Event
 	{
 		parent::__construct($lifestream, $row);
 		$this->total = $row->total ? $row->total : 1;
+		$this->data = unserialize($row->data);
 		$this->is_grouped = true;
 	}
 	
@@ -1454,7 +1455,7 @@ abstract class LifeStream_Extension
 		return $this->get_url();
 	}
 	
-	function get_event_display($event, $bit)
+	function get_event_display(&$event, &$bit)
 	{
 		return $bit['title'];
 	}
@@ -1742,7 +1743,7 @@ abstract class LifeStream_Extension
 		$feed_label = $label_inst->get_feed_label();
 		
 		$hour_format = $this->lifestream->get_option('hour_format');
-		if (count($event->data) == 1 && $this->get_constant('MUST_GROUP')) $visible = true;
+		if ($event->is_grouped && count($event->data) == 1 && $this->get_constant('MUST_GROUP')) $visible = true;
 		else $visible = $options['show_details'];
 		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
 
@@ -1802,13 +1803,13 @@ class LifeStream_Feed extends LifeStream_Extension
 				$this->options['icon_url'] = '';
 			}
 		}
-		elseif ($this->options['icon_url'])
-		{
-			if (!$this->lifestream->validate_image($this->options['icon_url']))
-			{
-				throw new LifeStream_Error($this->lifestream->__('The icon url is not a valid image.'));
-			}
-		}
+        // elseif ($this->options['icon_url'])
+        // {
+        //  if (!$this->lifestream->validate_image($this->options['icon_url']))
+        //  {
+        //      throw new LifeStream_Error($this->lifestream->__('The icon url is not a valid image.'));
+        //  }
+        // }
 		
 		parent::save_options();
 	}
