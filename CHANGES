@@ -1,3 +1,11 @@
+0.99.1
+
+* Show owners works again.
+* Sidebar widget now has an option to hide/show metadata.
+* Icon validation is now only used for automatic favicons.
+* Fixed the RSS feed having strange titles.
+* break_groups works right again on lifestream calls.
+
 0.98h / 0.99
 
 * Downgraded SimplePie in an attempt to solve some issues with reading feeds.
