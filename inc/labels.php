@@ -396,6 +396,7 @@ class LifeStream_ListenLabel extends LifeStream_Label
 	
 	function get_label_single_user()
 	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
 		return $this->lifestream->__('%1$s listened to %3$s', $this->get_user_label(), $this->get_feed_label(), $post);
 	}
 	
