@@ -1878,14 +1878,13 @@ class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
 	{
 		$data = parent::yield($row, $url, $key);
 
-		$description = $row->get_description();
+		$description = $data['description'];
 		$title = strip_tags($description);
 		$img = strip_tags($description,'<img>');
 		$src = str_replace($title,'',$img);
 		$large = preg_replace('/.*src=([\'"])((?:(?!\1).)*)\1.*/si','$2',$src);
 		$small = str_replace('large','med_rect',$large);
-	
-		$data['title'] = $this->lifestream->html_entity_decode($row->get_description());
+
 		$data['thumbnail'] = $small;
 		$data['image'] = $large;
 		return $data;
