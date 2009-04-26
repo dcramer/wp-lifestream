@@ -1,6 +1,13 @@
 0.99.3
 
+* Added HAS_EXCERPTS flag to extensions.
+* Excerpts can now be configured per-extension.
+* Delicious and similar feeds will now all show excerpts properly.
+* Added Upcoming extension.
 * Fixed Scrnshots titles.
+* Fixed a serious issue with feed keys (many feeds weren't properly identifying new events).
+* Fixed an issue where some feeds were not setting dates properly.
+* Added Wikipedia extension.
 
 0.99.2
 

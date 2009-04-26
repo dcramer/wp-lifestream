@@ -674,6 +674,10 @@ class Lifestream
 								{
 									$values['grouped'] = $_POST['grouped'];
 								}
+								if ($feed->get_constant('HAS_EXCERPTS'))
+								{
+									$values['excerpt'] = $_POST['excerpt'];
+								}
 								$values['feed_label'] = $_POST['feed_label'];
 								$values['icon_url'] = $_POST['icon_url'];
 								$values['auto_icon'] = $_POST['auto_icon'];
@@ -719,6 +723,10 @@ class Lifestream
 							elseif ($feed->get_constant('CAN_GROUP'))
 							{
 								$values['grouped'] = $_POST['grouped'];
+							}
+							if ($feed->get_constant('HAS_EXCERPTS'))
+							{
+								$values['excerpt'] = $_POST['excerpt'];
 							}
 							$values['feed_label'] = $_POST['feed_label'];
 							$values['icon_url'] = $_POST['icon_url'];
@@ -1406,6 +1414,7 @@ abstract class LifeStream_Extension
 	// The version is so you can manage data in the database for old versions.
 	const VERSION		= 2;
 	const MEDIA			= 'automatic';
+	const HAS_EXCERPTS	= false;
 
 	/**
 	 * Instantiates this object through a feed database object.
@@ -1438,6 +1447,7 @@ abstract class LifeStream_Extension
 			$this->owner_id = $row->owner_id;
 			$this->_owner_id = $row->owner_id;
 			$this->version = $row->version;
+			$this->events = $row->events;
 		}
 		else
 		{
@@ -1453,6 +1463,44 @@ abstract class LifeStream_Extension
 	function __toString()
 	{
 		return $this->get_url();
+	}
+	
+	function get_event_excerpt(&$event, &$bit)
+	{
+		if (!isset($this->option['excerpts']))
+		{
+			// default legacy value
+			$this->options['excerpt'] = 1;
+		}
+		if ($this->options['excerpt'] > 0)
+		{
+			$excerpt = $this->get_event_description($event, $bit);
+		}
+		if ($this->options['excerpt'] == 1)
+		{
+			$excerpt = $this->lifestream->truncate($excerpt, $this->lifestream->get_option('truncate_length'));
+		}
+		return $excerpt;
+	}
+
+	function has_excerpt(&$event, &$bit)
+	{
+		if (!isset($this->option['excerpts']))
+		{
+			// default legacy value
+			$this->options['excerpt'] = 1;
+		}
+		return ($this->options['excerpt'] > 0 && $this->get_event_description($event, $bit));
+	}
+	
+	/**
+	 * Returns the description (also used in excerpts) for this
+	 * event.
+	 * @return {String} event description
+	 */
+	function get_event_description(&$event, &$bit)
+	{
+		return $bit['description'];
 	}
 	
 	function get_event_display(&$event, &$bit)
@@ -1596,16 +1644,22 @@ abstract class LifeStream_Extension
 			return array(false, $ex);
 		}
 		if (!$items) return array(false, $this->lifestream->__('Feed result was empty.'));
+
+		if (!$initial) $default_timestamp = time();
+		else $default_timestamp = 0;
+
 		foreach ($items as $item_key=>$item)
 		{
+			// We need to set the default timestamp if no dates are set
 			$link = array_key_pop($item, 'link');
 			$date = array_key_pop($item, 'date');
 			$key = array_key_pop($item, 'key');
+			if (!($date > 0)) $date = $default_timestamp;
 			
 			if ($this->version == 2)
 			{
 				if ($item['guid']) $link_key = md5(array_key_pop($item, 'guid'));
-				$link_key = md5($item['link'] . $item['title']);
+				else $link_key = md5($item['link'] . $item['title']);
 			}
 			elseif ($this->version == 1)
 			{
@@ -1845,9 +1899,6 @@ class LifeStream_Feed extends LifeStream_Extension
 				$sample = substr($data, 0, 150);
 				throw new LifeStream_FeedFetchError("Error fetching feed from {$url} ({$feed->error()})....\n\n{$sample}");
 			}
-			// We need to set the default timestamp if no dates are set
-			if (!$initial) $default_timestamp = time();
-			else $default_timestmap = 0;
 			
 			$feed->handle_content_type();
 			foreach ($feed->get_items() as $row)
@@ -1855,7 +1906,6 @@ class LifeStream_Feed extends LifeStream_Extension
 				$row =& $this->yield($row, $url, $key);
 				if (!$row) continue;
 				if (!$row['key']) $row['key'] = $key;
-				if (!($row['date'] > 0)) $row['date'] = $default_timestamp;
 				if (count($row)) $items[] = $row;
 			}
 			$feed->__destruct();
