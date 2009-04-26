@@ -8,8 +8,8 @@
 		<li><?php echo $this->render_item($event, $chunk); ?></li>
 	<?php } ?>
 </ul>
-<?php } elseif ($visible && $event->data[0]['comment']) { ?>
+<?php } elseif ($visible && $this->has_excerpt($event, $event->data[0])) { ?>
 <blockquote class="lifestream_blogpost">
-	<?php echo htmlspecialchars(strip_tags($lifestream->truncate($event->data[0]['comment'], $lifestream->get_option('truncate_length')))); ?>
+	<?php echo htmlspecialchars(strip_tags($this->get_event_excerpt($event, $event->data[0]))); ?>
 </blockquote>
 <?php } ?>

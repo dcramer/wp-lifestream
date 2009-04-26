@@ -167,24 +167,11 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
 	const NAME	= 'Delicious';
 	const URL	= 'http://www.delicious.com/';
 	const LABEL = 'LifeStream_BookmarkLabel';
+	const HAS_EXCERPTS	= true;
 
 	function __toString()
 	{
 		return $this->options['username'];
-	}
-	
-	function render_item($row, $item)
-	{
-		$output = sprintf('%s', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
-		if ($this->options['show_tags'])
-		{
-			$output .= '<div class="tags">Tags: '.htmlspecialchars(implode(', ', $item['tags'])).'</div>';
-		}
-		if ($this->options['display_description'])
-		{
-			$output .= '<div class="description">'.htmlspecialchars($item['description']).'</div>';
-		}
-		return $output;
 	}
 	
 	function get_options()
@@ -192,8 +179,6 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
 		return array(
 			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 			'filter_tag' => array($this->lifestream->__('Limit items to tag:'), false, '', ''),
-			'show_tags' => array($this->lifestream->__('Show tags with links.'), false, false, true),
-			'display_description' => array($this->lifestream->__('Display descriptions of links.'), false, false, true),
 		);
 	}
 
@@ -306,6 +291,7 @@ class LifeStream_BlogFeed extends LifeStream_GenericFeed
 	const NAME			= 'Blog';
 	const LABEL			= 'LifeStream_BlogLabel';
 	const DESCRIPTION	= '';
+	const HAS_EXCERPTS	= true;
 	
 	function get_options()
 	{		
@@ -548,10 +534,16 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 	const DESCRIPTION	= 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". It should look something like this: http://www.google.com/reader/shared/14285665327310657206';
 	const LABEL			= 'LifeStream_BookmarkLabel';
 	const NAMESPACE		= 'http://www.google.com/schemas/reader/atom/';
+	const HAS_EXCERPTS	= true;
 	
 	function __toString()
 	{
 		return $this->options['user_id'] ? $this->options['user_id'] : $this->options['url'];
+	}
+	
+	function get_event_description(&$event, &$bit)
+	{
+		return $bit['comment'];
 	}
 	
 	function get_options()
@@ -1001,6 +993,7 @@ class LifeStream_TumblrFeed extends LifeStream_Feed
 	const ID	= 'tumblr';
 	const NAME	= 'Tumblr';
 	const URL	= 'http://www.tumblr.com/';
+	const HAS_EXCERPTS	= true;
 	
 	// http://media.tumblr.com/ck3ATKEVYd6ay62wLAzqtEkX_500.jpg
 	private $image_match_regexp = '/src="(http:\/\/(?:[a-z0-9\.]+\.)?media\.tumblr\.com\/[a-zA-Z0-9_-]+\.jpg)"/i';
@@ -1382,6 +1375,7 @@ class LifeStream_CoCommentsFeed extends LifeStream_Feed
 	const NAME			= 'coComment';
 	const URL			= 'http://www.cocomment.com/';
 	const LABEL			= 'LifeStream_CommentLabel';
+	const HAS_EXCERPTS	= true;
 	
 	function __toString()
 	{
@@ -1410,10 +1404,10 @@ $lifestream->register_feed('LifeStream_CoCommentsFeed');
 
 class LifeStream_FoodFeedFeed extends LifeStream_Feed
 {
-	const ID			= 'foodfeed';
-	const NAME			= 'FoodFeed';
-	const URL			= 'http://www.foodfeed.us/';
-	const LABEL			= 'LifeStream_EatLabel';
+	const ID	= 'foodfeed';
+	const NAME	= 'FoodFeed';
+	const URL	= 'http://www.foodfeed.us/';
+	const LABEL	= 'LifeStream_EatLabel';
 	
 	function __toString()
 	{
@@ -2067,6 +2061,7 @@ class LifeStream_BackTypeFeed extends LifeStream_Feed
 	const LABEL		= 'LifeStream_CommentLabel';
 	# grouping doesnt support what we'd need for backtype
 	const CAN_GROUP	= false;
+	const HAS_EXCERPTS	= true;
 
 	function get_options()
 	{		
@@ -2275,4 +2270,126 @@ class LifeStream_NetflixFeed extends LifeStream_Feed
 	}
 }
 $lifestream->register_feed('LifeStream_NetflixFeed');
+
+class LifeStream_UpcomingFeed extends LifeStream_Feed
+{
+	const ID	= 'upcoming';
+	const NAME	= 'Upcoming';
+	const URL	= 'http://upcomming.yahoo.com/';
+	const LABEL	= 'LifeStream_AttendEventLabel';
+	const DESCRIPTION = 'You can get your API key <a href="http://upcoming.yahoo.com/services/api/keygen.php">here</a>. Please note, this feed will only show events you mark as attending.';
+
+	function __toString()
+	{
+		return $this->options['user_id'];
+	}
+
+	function get_options()
+	{		
+		return array(
+			'url' => array($this->lifestream->__('Profile URL:'), true, '', ''),
+			'user_id' => array($this->lifestream->__('User ID:'), null, '', ''),
+			'api_key' => array($this->lifestream->__('API Key:'), true, '', ''),
+		);
+	}
+	
+	function save_options()
+	{
+		if (preg_match('/\/user\/([0-9]+)\//i', $this->options['url'], $match))
+		{
+			$this->options['user_id'] = $match[1];
+		}
+		else
+		{
+			throw new LifeStream_Error("Invalid feed URL.");
+		}
+		parent::save_options();
+	}
+
+	function get_public_url()
+	{
+		return 'http://upcoming.yahoo.com/user/'.$this->options['user_id'].'/';
+	}
+
+	function get_url()
+	{
+		return 'http://upcoming.yahooapis.com/services/rest/?api_key='.$this->options['api_key'].'&method=user.getWatchlist&user_id='.$this->options['user_id'].'&show=all';
+	}
+	
+	function get_event_display(&$event, &$bit)
+	{
+		return $bit['name'];
+	}
+	
+	function yield(&$event, &$url)
+	{
+		if (!$event->status != 'attend') return;
+		return array(
+			'guid'		=> $this->lifestream->html_entity_decode($event['id']),
+			'link'		=> $this->lifestream->html_entity_decode($event['venue_url']),
+			'name'		=> $this->lifestream->html_entity_decode($event['name']),
+			'description'	=> $this->lifestream->html_entity_decode($event['description']),
+			'venue_city'	=> $this->lifestream->html_entity_decode($event['venue_city']),
+			'venue_state'	=> $this->lifestream->html_entity_decode($event['venue_state_name']),
+		);
+	}
+	
+	function fetch()
+	{
+		$response = $this->lifestream->file_get_contents($this->get_url());
+		if ($response)
+		{
+			$xml = new SimpleXMLElement($response);
+			
+			$feed = $xml->event;
+			$items = array();
+			foreach ($feed as $event)
+			{
+				$items[] = $this->yield($event, $url);
+			}
+			return $items;
+		}
+	}
+}
+$lifestream->register_feed('LifeStream_UpcomingFeed');
+
+class LifeStream_WikipediaFeed extends LifeStream_PhotoFeed
+{
+	const ID	= 'wikipedia';
+	const NAME	= 'Wikipedia';
+	const URL	= 'http://www.wikipedia.org/';
+	const LABEL	= 'LifeStream_ContributionLabel';
+
+	function __toString()
+	{
+		return $this->options['username'];
+	}
+
+	function get_options()
+	{
+		return array(
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+		);
+	}
+
+	function get_public_url()
+	{
+		return 'http://en.wikipedia.org/wiki/User:'.urlencode($this->options['username']);
+	}
+
+	function get_url()
+	{
+		return 'http://en.wikipedia.org/w/index.php?title=Special:Contributions&feed=rss&target='.urlencode($this->options['username']);
+	}
+
+	function yield($row, $url, $key)
+	{
+		$data = parent::yield($row, $url, $key);
+		if (str_startswith(strtolower($data['title']), 'talk:')) return;
+		// we dont need huge descriptions stored in the db, its bloat
+		unset($data['description']);
+		return $data;
+	}
+}
+$lifestream->register_feed('LifeStream_WikipediaFeed');
 ?>

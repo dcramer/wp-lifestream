@@ -8,9 +8,9 @@
 		<li><?php echo $this->render_item($event, $chunk); ?></li>
 	<?php } ?>
 </ul>
-<?php } elseif ($visible && $event->data[0]['description']) { ?>
+<?php } elseif ($visible && $this->has_excerpt($event, $event->data[0])) { ?>
 <blockquote class="lifestream_blogpost">
 	<strong><a href="<?php echo $event->data[0]['link']; ?>"><?php echo htmlspecialchars($event->data[0]['title']); ?></a></strong><br/>
-	<?php echo strip_tags($lifestream->truncate($event->data[0]['description'], $lifestream->get_option('truncate_length'))); ?>
+	<?php echo htmlspecialchars(strip_tags($this->get_event_excerpt($event, $event->data[0]))); ?>
 </blockquote>
 <?php } ?>

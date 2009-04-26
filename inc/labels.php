@@ -999,4 +999,63 @@ class LifeStream_ReviewVideoLabel extends LifeStream_Label
 	}
 }
 
+class LifeStream_AttendEventLabel extends LifeStream_Label
+{
+	function get_template()
+	{
+		return 'basic';
+	}
+  
+	function get_label_single()
+	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Attending %2$s', $this->get_feed_label(), $post);
+	}
+
+	function get_label_plural()
+	{
+		return $this->lifestream->__('Attending %s events.', $this->_get_show_details_link(), $this->get_feed_label());
+	}
+	
+	function get_label_single_user()
+	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s is attending %3$s', $this->get_user_label(), $this->get_feed_label(), $post);
+	}
+	
+	function get_label_plural_user()
+	{
+		return $this->lifestream->__('%s is attending %s events.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
+	}
+}
+
+class LifeStream_ContributionLabel extends LifeStream_Label
+{
+	function get_template()
+	{
+		return 'basic';
+	}
+  
+	function get_label_single()
+	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('Contributed to %2$s', $this->get_feed_label(), $post);
+	}
+
+	function get_label_plural()
+	{
+		return $this->lifestream->__('Contributed to %s pages.', $this->_get_show_details_link(), $this->get_feed_label());
+	}
+	
+	function get_label_single_user()
+	{
+		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
+		return $this->lifestream->__('%1$s contributed to %3$s', $this->get_user_label(), $this->get_feed_label(), $post);
+	}
+	
+	function get_label_plural_user()
+	{
+		return $this->lifestream->__('%s contributed to %s pages.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
+	}
+}
 ?>
