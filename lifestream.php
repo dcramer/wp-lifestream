@@ -3,7 +3,7 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.3
+Version: 0.99.4
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
@@ -674,7 +674,7 @@ class Lifestream
 								{
 									$values['grouped'] = $_POST['grouped'];
 								}
-								if ($feed->get_constant('HAS_EXCERPTS'))
+								if ($instance->get_constant('HAS_EXCERPTS'))
 								{
 									$values['excerpt'] = $_POST['excerpt'];
 								}
