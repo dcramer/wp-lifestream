@@ -1,3 +1,7 @@
+0.99.4
+
+* Fix for bug introduced into edit-feed in 0.99.3
+
 0.99.3
 
 * Added HAS_EXCERPTS flag to extensions.
