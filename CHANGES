@@ -1,3 +1,9 @@
+0.99.5
+
+* Removed hardcoded wp-content directories.
+* Updated Japanese translation.
+* Twitter will no longer import your entire history.
+
 0.99.4
 
 * Fix for bug introduced into edit-feed in 0.99.3
