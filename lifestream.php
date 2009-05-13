@@ -3,12 +3,12 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.5
+Version: 0.99.5.1
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_BUILD_VERSION, '0.99.5');
+define(LIFESTREAM_BUILD_VERSION, '0.99.5.1');
 define(LIFESTREAM_VERSION, 0.99);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -342,7 +342,7 @@ class Lifestream
 		$offset = $this->get_option('timezone');
 		define(LIFESTREAM_DATE_OFFSET, $offset);
 
-		load_plugin_textdomain('lifestream', WP_CONTENT_DIR . '/plugins/lifestream/locales');
+		load_plugin_textdomain('lifestream', false, 'lifestream/locales');
 
 		if (is_admin() && str_startswith($_GET['page'], 'lifestream'))
 		{
@@ -1260,8 +1260,6 @@ class Lifestream
 	function get_events($_=array())
 	{
 		global $wpdb;
-
-		setlocale(LC_ALL, WPLANG);
 
 		$defaults = array(
 			 // number of events

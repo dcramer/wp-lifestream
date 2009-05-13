@@ -1,3 +1,7 @@
+0.99.5.1
+
+* Fixed an issue introduced in 0.99.5 with the locales directory.
+
 0.99.5
 
 * Removed hardcoded wp-content directories.
