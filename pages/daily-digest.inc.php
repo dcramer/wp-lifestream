@@ -2,7 +2,6 @@
 <?php
 foreach ($events as $result)
 {
-    $timestamp = $result->get_date();
     ?>
     <tr class="lifestream_feedid_<?php echo $result->feed->id; ?> lifestream_feed_<?php echo $result->feed->get_constant('ID'); ?>">
            <td class="lifestream_icon">
