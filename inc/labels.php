@@ -17,6 +17,11 @@ class LifeStream_Label
 	
 	// backwards compatibility
 	function _get_user_label() { return $this->get_user_label(); }
+
+	function can_group()
+	{
+		return true;
+	}
 	
 	function get_feed_label()
 	{
@@ -152,6 +157,11 @@ class LifeStream_MessageLabel extends LifeStream_Label
 	function get_template()
 	{
 		return 'message';
+	}
+	
+	function can_group()
+	{
+		return false;
 	}
 	
 	function get_label_single()
@@ -295,6 +305,11 @@ class LifeStream_CommentLabel extends LifeStream_Label
 		return 'comment';
 	}
 	
+	function can_group()
+	{
+		return false;
+	}
+
 	function get_label_single()
 	{
 		return $this->lifestream->__('Posted a comment.', $this->get_feed_label());
