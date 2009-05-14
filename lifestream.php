@@ -3,12 +3,12 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.5.1
+Version: 0.99.5.2
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_BUILD_VERSION, '0.99.5.1');
+define(LIFESTREAM_BUILD_VERSION, '0.99.5.2');
 define(LIFESTREAM_VERSION, 0.99);
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
@@ -1630,7 +1630,8 @@ abstract class LifeStream_Extension
 
 		if (!$this->id) return array(false, $this->lifestream->__('Feed has not yet been saved.'));
 
-		$inserted = array();
+		$grouped = array();
+		$ungrouped = array();
 		$total = 0;
 		try
 		{
@@ -1646,10 +1647,9 @@ abstract class LifeStream_Extension
 		if (!$initial) $default_timestamp = time();
 		else $default_timestamp = 0;
 
-		foreach ($items as $item_key=>$item)
+		foreach ($items as $item_key=>&$item)
 		{
 			// We need to set the default timestamp if no dates are set
-			$link = array_key_pop($item, 'link');
 			$date = array_key_pop($item, 'date');
 			$key = array_key_pop($item, 'key');
 			if (!($date > 0)) $date = $default_timestamp;
@@ -1672,62 +1672,62 @@ abstract class LifeStream_Extension
 			if ($affected)
 			{
 				$item['id'] = $wpdb->insert_id;
-				$items[$item_key] = $item;
-				if (!array_key_exists($key, $inserted)) $inserted[$key] = array();
+				$item['date'] = $date;
+				$item['key'] = $key;
+
 				$total += 1;
-				$inserted[$key][date('m d Y', $date)] = $date;
+
+				$label = $this->get_label_by_key($key);
+				if ($this->options['grouped'] && $this->get_constant('CAN_GROUP') && $label->can_group())
+				{
+					if (!array_key_exists($key, $grouped)) $grouped[$key] = array();
+					$grouped[$key][date('m d Y', $date)] = $date;
+				}
+				else
+				{
+					$ungrouped[] = $item;
+				}
 			}
 			else
 			{
 				unset($items[$item_key]);
 			}
 		}
-		if (count($inserted))
+		// Grouping them by key
+		foreach ($grouped as $key=>$dates)
 		{
-			// Rows were inserted so we need to handle the grouped events
-			
-			if ($this->options['grouped'] && $this->get_constant('CAN_GROUP'))
+			// Grouping them by date
+			foreach ($dates as $date_key=>$date)
 			{
-				// Grouping them by key
-				foreach ($inserted as $key=>$dates)
+				// Get all of the current events for this date
+				// (including the one we affected just now)
+				$results =& $wpdb->get_results($wpdb->prepare("SELECT `data`, `link` FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = %s", $this->id, $date, $key));
+				$events = array();
+				foreach ($results as &$result)
 				{
-					// Grouping them by date
-					foreach ($dates as $date_key=>$date)
-					{
-						// Get all of the current events for this date
-						// (including the one we affected just now)
-						$results =& $wpdb->get_results($wpdb->prepare("SELECT `data`, `link` FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = %s", $this->id, $date, $key));
-						$events = array();
-						foreach ($results as &$result)
-						{
-							$result->data = unserialize($result->data);
-							if (!$result->data['link']) $result->data['link'] = $result->link;
-							$events[] = $result->data;
-						}
+					$result->data = unserialize($result->data);
+					if (!$result->data['link']) $result->data['link'] = $result->link;
+					$events[] = $result->data;
+				}
 
-						// First let's see if the group already exists in the database
-						$group =& $wpdb->get_results($wpdb->prepare("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = %s LIMIT 0, 1", $this->id, $date, $key));
-						if (count($group) == 1)
-						{
-							$group =& $group[0];
-							$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `data` = %s, `total` = %d, `updated` = 1, `timestamp` = %d WHERE `id` = %d", serialize($events), count($events), $date, $group->id));
-						}
-						else
-						{
-							$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, %s, %s, %d, %d, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), serialize($events), count($events), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
-						}
-					}
-				}
-			}
-			else
-			{
-				foreach ($items as $item)
+				// First let's see if the group already exists in the database
+				$group =& $wpdb->get_results($wpdb->prepare("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = %s LIMIT 0, 1", $this->id, $date, $key));
+				if (count($group) == 1)
 				{
-					$date = array_key_pop($item, 'date');
-					$key = array_key_pop($item, 'key');
-					$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, %s, %d, %s, %d, 1, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), $item['id'], serialize(array($item)), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
+					$group =& $group[0];
+					$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `data` = %s, `total` = %d, `updated` = 1, `timestamp` = %d WHERE `id` = %d", serialize($events), count($events), $date, $group->id));
+				}
+				else
+				{
+					$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, %s, %s, %d, %d, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), serialize($events), count($events), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
 				}
 			}
+		}
+		foreach ($ungrouped as &$item)
+		{
+			$date = array_key_pop($item, 'date');
+			$key = array_key_pop($item, 'key');
+			$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, %s, %d, %s, %d, 1, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), $item['id'], serialize(array($item)), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
 		}
 		$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `timestamp` = UNIX_TIMESTAMP() WHERE `id` = %d", $this->id));
 		return array(true, $total);
@@ -1753,6 +1753,12 @@ abstract class LifeStream_Extension
 			return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50" alt="%s"/></a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']), htmlspecialchars($thumbnail), htmlspecialchars($item['title']));
 		}
 		return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
+	}
+	
+	function get_label_by_key($key)
+	{
+		$cls = $this->get_constant('LABEL');
+		return new $cls($this);
 	}
 	
 	function get_label($event, $options=array())
@@ -1868,7 +1874,6 @@ class LifeStream_Feed extends LifeStream_Extension
 	
 	function fetch($urls=null, $initial=false)
 	{
-		// kind of an ugly hack for now so we can extend twitter
 		if (!$urls) $urls = $this->get_url();
 		if (!is_array($urls)) $urls = array($urls);
 		$items = array();

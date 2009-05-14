@@ -5,6 +5,8 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
 	const NAME	= 'Plurk';
 	const URL	= 'http://www.plurk.com/';
 
+	private $image_match_regexp = '/src="(http\:\/\/images+\.plurk\.com\/[^"]+)"/i';
+
 	function __toString()
 	{
 		return $this->options['username'];
@@ -16,14 +18,46 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
 			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
+	
+	function get_public_url()
+	{
+		return 'http://www.plurk.com/'.$this->options['username'];
+	}
 
 	function get_url()
 	{
-		return 'http://www.plurk.com/user/'.$this->options['username'].'.xml';
+		return 'http://www.plurk.com/'.$this->options['username'].'.xml';
+	}
+	
+	function get_label($event, $options)
+	{
+		if ($event->key == 'photo') $cls = 'LifeStream_PhotoLabel';
+		else $cls = 'LifeStream_MessageLabel';
+		return new $cls($this, $event, $options);
+	}
+	
+	function yield($row, $url, $key)
+	{
+		$data = parent::yield($row, $url, $key);
+		$string = $this->options['username'] . ': ';
+		$description = $this->lifestream->html_entity_decode($row->get_description());
+		if (str_startswith(strtolower($description), strtolower($string)))
+		{
+			$full_desc = substr($description, strlen($string));
+		}
+		$bits = explode(' ', $full_desc);
+		if ($bits[0] == 'shares')
+		{
+			if (preg_match($this->image_match_regexp, $row->get_description(), $match))
+			{
+				$data['thumbnail'] = $match[1];
+				$data['key'] = 'photo';
+			}
+		}
+		return $data;
 	}
 }
-// Need to test this
-//$lifestream->register_feed('LifeStream_PlurkFeed');
+$lifestream->register_feed('LifeStream_PlurkFeed');
 
 class LifeStream_TwitterFeed extends LifeStream_Feed
 {
