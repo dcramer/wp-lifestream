@@ -10,6 +10,6 @@
 </ul>
 <?php } elseif ($visible && $this->has_excerpt($event, $event->data[0])) { ?>
 <blockquote class="lifestream_blogpost">
-	<?php echo htmlspecialchars(strip_tags($this->get_event_excerpt($event, $event->data[0]))); ?>
+	<?php echo nl2br(htmlspecialchars(strip_tags($this->get_event_excerpt($event, $event->data[0])))); ?>
 </blockquote>
 <?php } ?>

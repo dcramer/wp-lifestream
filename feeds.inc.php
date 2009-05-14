@@ -5,7 +5,7 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
 	const NAME	= 'Plurk';
 	const URL	= 'http://www.plurk.com/';
 
-	private $image_match_regexp = '/src="(http\:\/\/images+\.plurk\.com\/[^"]+)"/i';
+	private $image_match_regexp = '/img src="(http\:\/\/images\.plurk\.com\/[^"]+)" alt="http\:\/\/images\.plurk\.com\/[^"]+"/i';
 
 	function __toString()
 	{
@@ -28,34 +28,52 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
 	{
 		return 'http://www.plurk.com/'.$this->options['username'].'.xml';
 	}
-	
-	function get_label($event, $options)
+
+	function get_label_class($key)
 	{
-		if ($event->key == 'photo') $cls = 'LifeStream_PhotoLabel';
+		if ($key == 'photo') $cls = 'LifeStream_PhotoLabel';
 		else $cls = 'LifeStream_MessageLabel';
-		return new $cls($this, $event, $options);
+		return $cls;
 	}
 	
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
-		$string = $this->options['username'] . ': ';
-		$description = $this->lifestream->html_entity_decode($row->get_description());
-		if (str_startswith(strtolower($description), strtolower($string)))
+		$string = $this->options['username'] . ' ';
+		$title = $data['title'];
+		if (str_startswith(strtolower($title), strtolower($string)))
 		{
-			$full_desc = substr($description, strlen($string));
+			$title = substr($title, strlen($string));
 		}
-		$bits = explode(' ', $full_desc);
+		$bits = explode(' ', $title);
 		if ($bits[0] == 'shares')
 		{
-			if (preg_match($this->image_match_regexp, $row->get_description(), $match))
+			if (preg_match($this->image_match_regexp, $data['description'], $match))
 			{
 				$data['thumbnail'] = $match[1];
 				$data['key'] = 'photo';
 			}
 		}
+		else
+		{
+			$data['key'] = 'message';
+		}
+		$data['title'] = implode(' ', array_slice($bits, 1));
 		return $data;
 	}
+	
+	function render_item($row, $item)
+	{
+		if ($row->key == 'message')
+		{
+			return $this->parse_urls(htmlspecialchars($item['title'])) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+		}
+		else
+		{
+			return parent::render_item($row, $item);
+		}
+	}
+	
 }
 $lifestream->register_feed('LifeStream_PlurkFeed');
 
@@ -482,11 +500,11 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
 		return 'http://www.youtube.com/user/'.$this->options['username'];
 	}
 	
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'favorite') $cls = 'LifeStream_LikeVideoLabel';
+		if ($key == 'favorite') $cls = 'LifeStream_LikeVideoLabel';
 		else $cls = 'LifeStream_VideoLabel';
-		return new $cls($this, $event, $options);
+		return $cls;
 	}
 
 	function get_posted_url() {
@@ -758,12 +776,12 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
 		);
 	}
 
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'bookmarksong') $cls = 'LifeStream_LikeSongLabel';
-		if ($event->key == 'bookmarkartist') $cls = 'LifeStream_LikeArtistLabel';
+		if ($key == 'bookmarksong') $cls = 'LifeStream_LikeSongLabel';
+		if ($key == 'bookmarkartist') $cls = 'LifeStream_LikeArtistLabel';
 		else $cls = 'LifeStream_CreateStationLabel';
-		return new $cls($this, $event, $options);
+		return $cls;
 	}
 	
 	function get_stations_url()
@@ -918,11 +936,11 @@ class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
 		);
 	}
 	
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'like') $cls = 'LifeStream_LikeVideoLabel';
+		if ($key == 'like') $cls = 'LifeStream_LikeVideoLabel';
 		else $cls = 'LifeStream_VideoLabel';
-		return new $cls($this, $event, $options);
+		return $cls;
 	}
 	
 	function get_videos_url()
@@ -984,11 +1002,11 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
 		);
 	}
 	
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'review') $cls = 'LifeStream_ReviewWebsiteLabel';
+		if ($key == 'review') $cls = 'LifeStream_ReviewWebsiteLabel';
 		else $cls = 'LifeStream_LikeWebsiteLabel';
-		return new $cls($this, $event, $options);
+		return $cls;
 	}
 	
 	function get_favorites_url()
@@ -1094,12 +1112,12 @@ class LifeStream_TumblrFeed extends LifeStream_Feed
 		}
 	}
 	
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'image') $cls = LifeStream_PhotoFeed::LABEL;
-		elseif ($event->key == 'note') $cls = LifeStream_TwitterFeed::LABEL;
+		if ($key == 'image') $cls = LifeStream_PhotoFeed::LABEL;
+		elseif ($key == 'note') $cls = LifeStream_TwitterFeed::LABEL;
 		else $cls = LifeStream_BlogFeed::LABEL;
-		return new $cls($this, $event, $options);
+		return $cls;
 	}
 }
 $lifestream->register_feed('LifeStream_TumblrFeed');
@@ -1276,12 +1294,12 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
 		}
 	}
 	
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'photo') $cls = LifeStream_PhotoFeed::LABEL;
+		if ($key == 'photo') $cls = LifeStream_PhotoFeed::LABEL;
 		elseif ($key == 'checkin') $cls = 'LifeStream_LocationLabel';
 		else $cls = $this->get_constant('LABEL');
-		return new $cls($this, $event, $options);
+		return $cls;
 	}
 	
 	function yield($row, $url, $key)
@@ -1558,12 +1576,12 @@ class LifeStream_MixxFeed extends LifeStream_Feed
 		return $data;
 	}
 	
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'favorite') $cls = 'LifeStream_LikeStoryLabel';
-		elseif ($event->key == 'comment') $cls = 'LifeStream_CommentLabel';
-		elseif ($event->key == 'submit') $cls = 'LifeStream_ShareStoryLabel';
-		return new $cls($this, $event, $options);
+		if ($key == 'favorite') $cls = 'LifeStream_LikeStoryLabel';
+		elseif ($key == 'comment') $cls = 'LifeStream_CommentLabel';
+		elseif ($key == 'submit') $cls = 'LifeStream_ShareStoryLabel';
+		return $cls;
 	}
 }
 $lifestream->register_feed('LifeStream_MixxFeed');
@@ -1802,11 +1820,11 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	# http://phobos.apple.com/rss
 	# <im:contentType term="Music" label="Music"><im:contentType term="Track" label="Track"/></im:contentType>
 	# <im:image height="170">http://a1.phobos.apple.com/us/r1000/022/Music/c4/ae/6e/mzi.qpurndic.170x170-75.jpg</im:image>
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'review') $cls = 'LifeStream_ReviewLabel';
-		elseif ($event->key == 'purchase') $cls = 'LifeStream_PurchaseLabel';
-		return new $cls($this, $event, $options);
+		if ($key == 'review') $cls = 'LifeStream_ReviewLabel';
+		elseif ($key == 'purchase') $cls = 'LifeStream_PurchaseLabel';
+		return $cls;
 	}
 }
 $lifestream->register_feed('LifeStream_iTunesFeed');
@@ -2285,11 +2303,11 @@ class LifeStream_NetflixFeed extends LifeStream_Feed
 		parent::save_options();
 	}
 	
-	function get_label($event, $options)
+	function get_label_class($key)
 	{
-		if ($event->key == 'review') $cls = 'LifeStream_ReviewVideoLabel';
-		elseif ($event->key == 'queue') $cls = 'LifeStream_QueueVideoLabel';
-		return new $cls($this, $event, $options);
+		if ($key == 'review') $cls = 'LifeStream_ReviewVideoLabel';
+		elseif ($key == 'queue') $cls = 'LifeStream_QueueVideoLabel';
+		return $cls;
 	}
 	
 	function yield($row, $url, $key)
