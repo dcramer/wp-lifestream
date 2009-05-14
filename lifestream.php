@@ -1677,8 +1677,8 @@ abstract class LifeStream_Extension
 
 				$total += 1;
 
-				$label = $this->get_label_by_key($key);
-				if ($this->options['grouped'] && $this->get_constant('CAN_GROUP') && $label->can_group())
+				$label = $this->get_label_class($key);
+				if ($this->options['grouped'] && $this->get_constant('CAN_GROUP') && constant($label, 'CAN_GROUP'))
 				{
 					if (!array_key_exists($key, $grouped)) $grouped[$key] = array();
 					$grouped[$key][date('m d Y', $date)] = $date;
@@ -1755,15 +1755,14 @@ abstract class LifeStream_Extension
 		return sprintf('<a href="%s">%s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['title']));
 	}
 	
-	function get_label_by_key($key)
+	function get_label_class($key)
 	{
-		$cls = $this->get_constant('LABEL');
-		return new $cls($this);
+		return $this->get_constant('LABEL');
 	}
 	
 	function get_label($event, $options=array())
 	{
-		$cls = $this->get_constant('LABEL');
+		$cls = $this->get_label_class($event->key);
 		return new $cls($this, $event, $options);
 	}
 	

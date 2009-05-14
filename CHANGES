@@ -1,9 +1,12 @@
 0.99.5.2
 
 * Added Belorussian translation from Fat Cowest (fatcow.com).
-* Added can_group() to Labels.
 * Cleaned up some code in the refresh() method.
 * Plurk feed has been readded.
+* Fixed an issue with BrightKite check-ins.
+* get_label_class should now be defined rather than get_label on feeds.
+* Fixed a bug with LikeSongLabel.
+* Labels now utilize CAN_GROUP and TEMPLATE constants.
 
 0.99.5.1
 

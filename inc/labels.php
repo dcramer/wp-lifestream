@@ -2,6 +2,8 @@
 
 class LifeStream_Label
 {
+	const CAN_GROUP = true;
+	const TEMPLATE = 'basic';
 	function __construct(&$feed, &$event, &$options)
 	{
 		$this->lifestream = $feed->lifestream;
@@ -17,11 +19,6 @@ class LifeStream_Label
 	
 	// backwards compatibility
 	function _get_user_label() { return $this->get_user_label(); }
-
-	function can_group()
-	{
-		return true;
-	}
 	
 	function get_feed_label()
 	{
@@ -35,7 +32,7 @@ class LifeStream_Label
 	
 	function get_template()
 	{
-		return 'basic';
+		return constant(sprintf('%s::TEMPLATE', get_class($this)));
 	}
 	
 	function get_label_single()
@@ -64,6 +61,8 @@ class LifeStream_Label
 
 class LifeStream_BlogLabel extends LifeStream_Label
 {
+	const TEMPLATE = 'post';
+	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -85,19 +84,11 @@ class LifeStream_BlogLabel extends LifeStream_Label
 	{
 		return $this->lifestream->__('%s published %s.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
 	}
-	
-	function get_template()
-	{
-		return 'post';
-	}
 }
 
 class LifeStream_PhotoLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'photo';
-	}
+	const TEMPLATE = 'photo';
 	
 	function get_label_single()
 	{
@@ -124,10 +115,7 @@ class LifeStream_PhotoLabel extends LifeStream_Label
 
 class LifeStream_BookmarkLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'bookmark';
-	}
+	const TEMPLATE = 'bookmark';
 	
 	function get_label_single()
 	{
@@ -154,16 +142,9 @@ class LifeStream_BookmarkLabel extends LifeStream_Label
 
 class LifeStream_MessageLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'message';
-	}
-	
-	function can_group()
-	{
-		return false;
-	}
-	
+	const CAN_GROUP = false;
+	const TEMPLATE = 'message';
+
 	function get_label_single()
 	{
 		return $this->lifestream->__('Posted a message.', $this->get_feed_label());
@@ -187,11 +168,6 @@ class LifeStream_MessageLabel extends LifeStream_Label
 
 class LifeStream_ReviewLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -217,11 +193,6 @@ class LifeStream_ReviewLabel extends LifeStream_Label
 
 class LifeStream_PurchaseLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -270,11 +241,6 @@ class LifeStream_CommitLabel extends LifeStream_Label
 
 class LifeStream_BookLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -300,15 +266,8 @@ class LifeStream_BookLabel extends LifeStream_Label
 
 class LifeStream_CommentLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'comment';
-	}
-	
-	function can_group()
-	{
-		return false;
-	}
+	const CAN_GROUP = false;
+	const TEMPLATE = 'comment';
 
 	function get_label_single()
 	{
@@ -333,11 +292,6 @@ class LifeStream_CommentLabel extends LifeStream_Label
 
 class LifeStream_LikeStoryLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -363,11 +317,6 @@ class LifeStream_LikeStoryLabel extends LifeStream_Label
 
 class LifeStream_BusinessReviewLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -393,11 +342,6 @@ class LifeStream_BusinessReviewLabel extends LifeStream_Label
 
 class LifeStream_ListenLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -423,10 +367,7 @@ class LifeStream_ListenLabel extends LifeStream_Label
 
 class LifeStream_VideoLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'photo';
-	}
+	const TEMPLATE = 'photo';
 	
 	function get_label_single()
 	{
@@ -452,10 +393,7 @@ class LifeStream_VideoLabel extends LifeStream_Label
 }
 class LifeStream_LikeVideoLabel extends LifeStream_VideoLabel
 {
-	function get_template()
-	{
-		return 'photo';
-	}
+	const TEMPLATE = 'photo';
 	
 	function get_label_single()
 	{
@@ -482,11 +420,6 @@ class LifeStream_LikeVideoLabel extends LifeStream_VideoLabel
 
 class LifeStream_LikeSongLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'like';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -512,11 +445,6 @@ class LifeStream_LikeSongLabel extends LifeStream_Label
 
 class LifeStream_LikeArtistLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -542,11 +470,6 @@ class LifeStream_LikeArtistLabel extends LifeStream_Label
 
 class LifeStream_CreateStationLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -572,11 +495,6 @@ class LifeStream_CreateStationLabel extends LifeStream_Label
 
 class LifeStream_WatchVideoLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -602,11 +520,6 @@ class LifeStream_WatchVideoLabel extends LifeStream_Label
 
 class LifeStream_ReviewWebsiteLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -632,11 +545,6 @@ class LifeStream_ReviewWebsiteLabel extends LifeStream_Label
 
 class LifeStream_LikeWebsiteLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -662,11 +570,6 @@ class LifeStream_LikeWebsiteLabel extends LifeStream_Label
 
 class LifeStream_WantLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -692,11 +595,6 @@ class LifeStream_WantLabel extends LifeStream_Label
 
 class LifeStream_LocationLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -722,11 +620,6 @@ class LifeStream_LocationLabel extends LifeStream_Label
 
 class LifeStream_ReceiveBadgeLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -752,11 +645,6 @@ class LifeStream_ReceiveBadgeLabel extends LifeStream_Label
 
 class LifeStream_EatLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -782,11 +670,6 @@ class LifeStream_EatLabel extends LifeStream_Label
 
 class LifeStream_WatchEpisodeLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -812,11 +695,6 @@ class LifeStream_WatchEpisodeLabel extends LifeStream_Label
 
 class LifeStream_ShareStoryLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -842,10 +720,7 @@ class LifeStream_ShareStoryLabel extends LifeStream_Label
 
 class LifeStream_LikeMovieLabel extends LifeStream_VideoLabel
 {
-	function get_template()
-	{
-		return 'photo';
-	}
+	const TEMPLATE = 'photo';
 	
 	function get_label_single()
 	{
@@ -897,11 +772,6 @@ class LifeStream_ShareSlideLabel extends LifeStream_Label
 
 class LifeStream_UnlockAchievementLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -927,11 +797,6 @@ class LifeStream_UnlockAchievementLabel extends LifeStream_Label
 
 class LifeStream_PlayGameLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-	
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -956,11 +821,6 @@ class LifeStream_PlayGameLabel extends LifeStream_Label
 }
 class LifeStream_QueueVideoLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-  
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -986,11 +846,6 @@ class LifeStream_QueueVideoLabel extends LifeStream_Label
 
 class LifeStream_ReviewVideoLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-  
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -1016,11 +871,6 @@ class LifeStream_ReviewVideoLabel extends LifeStream_Label
 
 class LifeStream_AttendEventLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-  
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
@@ -1046,11 +896,6 @@ class LifeStream_AttendEventLabel extends LifeStream_Label
 
 class LifeStream_ContributionLabel extends LifeStream_Label
 {
-	function get_template()
-	{
-		return 'basic';
-	}
-  
 	function get_label_single()
 	{
 		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
