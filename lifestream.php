@@ -3,7 +3,7 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.5.2
+Version: 0.99.6
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
@@ -1192,6 +1192,7 @@ class Lifestream
 		  `feed` varchar(32) NOT NULL,
 		  `options` text default NULL,
 		  `timestamp` int(11) NOT NULL,
+		  `active` tinyint(1) default 1 NOT NULL,
 		  `owner` varchar(128) NOT NULL,
 		  `owner_id` int(11) NOT NULL,
 		  `version` int(11) default 0 NOT NULL,
@@ -1249,6 +1250,10 @@ class Lifestream
 		if ($version < 0.90)
 		{
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `version` int(11) default 0 NOT NULL AFTER `owner_id`");
+		}
+		if ($version < 0.96)
+		{
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `active` tinyint(1) default 1 NOT NULL AFTER `timestamp`");
 		}
 	}
 	
@@ -1420,17 +1425,15 @@ abstract class LifeStream_Extension
 	public static function construct_from_query_result(&$lifestream, $row)
 	{
 		$class = $lifestream->get_feed($row->feed);
-		if (!$class) return false;
-		
+		if (!$class)
+		{
+			$class = 'LifeStream_InvalidExtension';
+		}
 		if (!empty($row->options)) $options = unserialize($row->options);
 		else $options = null;
 		
 		$instance = new $class($lifestream, $options, $row->id, $row);
 		$instance->date = $row->timestamp;
-		if ($row->feed != $instance->get_constant('ID'))
-		{
-			throw new Exception('This shouldnt be happening...');
-		}
 		return $instance;
 	}
 
@@ -1446,6 +1449,7 @@ abstract class LifeStream_Extension
 			$this->_owner_id = $row->owner_id;
 			$this->version = $row->version;
 			$this->events = $row->events;
+			$this->feed = $row->feed;
 		}
 		else
 		{
@@ -1827,6 +1831,21 @@ abstract class LifeStream_Extension
 		return $events;
 	}
 }
+class LifeStream_InvalidExtension extends LifeStream_Extension
+{
+	const NAME = '(The extension could not be found)';
+	
+	function get_url()
+	{
+		return $this->feed;
+	}
+	
+	function fetch()
+	{
+		return;
+	}
+}
+
 /**
  * Generic RSS/Atom feed extension.
  */
