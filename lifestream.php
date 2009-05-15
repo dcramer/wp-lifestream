@@ -1092,7 +1092,7 @@ class Lifestream
 			$this->install_database($version);
 		}
 
-		if (version_compare($version, 0.95, '<'))
+		if (version_compare($version, '0.95', '<'))
 		{
 			foreach ($this->_options as $key=>$value)
 			{
@@ -1109,7 +1109,7 @@ class Lifestream
 			}
 		}
 		
-		if (version_compare($version, LIFESTREAM_VERSION)) return;
+		if (version_compare($version, LIFESTREAM_VERSION, '=')) return;
 
 		// default options and their values
 		foreach ($this->_options as $key=>$value)
@@ -1219,7 +1219,7 @@ class Lifestream
 
 		// URGENT TODO: we need to solve alters when the column already exists due to WP issues
 
-		if (version_compare($version, 0.5, '<'))
+		if (version_compare($version, '0.5', '<'))
 		{
 			// Old wp-cron built-in stuff
 			wp_clear_scheduled_hook('LifeStream_Hourly');
@@ -1228,7 +1228,7 @@ class Lifestream
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `version` INT(11) NOT NULL DEFAULT '0' AFTER `timestamp`, ADD `key` CHAR( 16 ) NOT NULL AFTER `version`;");
 		}
-		if (version_compare($version, 0.6, '<'))
+		if (version_compare($version, '0.6', '<'))
 		{
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
@@ -1240,17 +1240,17 @@ class Lifestream
 			$this->safe_query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_event` SET `owner` = %s, `owner_id` = %d", $userdata->display_name, $userdata->ID));
 			$this->safe_query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `owner` = %s, `owner_id` = %d", $userdata->display_name, $userdata->ID));
 		}
-		if (version_compare($version, 0.81, '<'))
+		if (version_compare($version, '0.81', '<'))
 		{
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `feed` VARCHAR(32) NOT NULL AFTER `feed_id`");
 			$this->safe_query("UPDATE IGNORE `".$wpdb->prefix."lifestream_event` as t1 set t1.`feed` = (SELECT t2.`feed` FROM `".$wpdb->prefix."lifestream_feeds` as t2 WHERE t1.`feed_id` = t2.`id`)");
 		}
-		if (version_compare($version, 0.84, '<'))
+		if (version_compare($version, '0.84', '<'))
 		{
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD INDEX ( `feed` )");
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD INDEX ( `feed` )");
 		}
-		if (version_compare($version, 0.90, '<'))
+		if (version_compare($version, '0.90', '<'))
 		{
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `version` int(11) default 0 NOT NULL AFTER `owner_id`");
 		}
