@@ -1,6 +1,7 @@
 0.99.6
 
 * Implemented a solution for missing extensions.
+* Changed how versions are handled in Lifestream.
 
 0.99.5.2
 

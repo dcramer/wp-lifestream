@@ -1760,7 +1760,6 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
 }
 $lifestream->register_feed('LifeStream_XboxLiveFeed');
 
-
 class LifeStream_iTunesFeed extends LifeStream_Feed
 {
 	const ID			= 'itunes';
