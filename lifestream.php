@@ -1089,7 +1089,7 @@ class Lifestream
 
 		if ($allow_database_install) $this->install_database($version);
 
-		if ($version < 0.95)
+		if (version_compare($version, 0.95, '<'))
 		{
 			foreach ($this->_options as $key=>$value)
 			{
