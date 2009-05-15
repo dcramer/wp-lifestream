@@ -1083,11 +1083,14 @@ class Lifestream
 	 */
 	function install($allow_database_install=true)
 	{
-		$version = $this->get_option('_version');
+		$version = (string)$this->get_option('_version');
 
 		if (!$version) $version = 0;
 
-		if ($allow_database_install) $this->install_database($version);
+		if ($allow_database_install)
+		{
+			$this->install_database($version);
+		}
 
 		if (version_compare($version, 0.95, '<'))
 		{
@@ -1105,16 +1108,17 @@ class Lifestream
 				$this->add_option($key, $value);
 			}
 		}
-
-		if ($version == LIFESTREAM_VERSION) return;
+		
+		if (version_compare($version, LIFESTREAM_VERSION)) return;
 
 		// default options and their values
 		foreach ($this->_options as $key=>$value)
 		{
 			$this->add_option($key, $value);
 		}
-		
+				
 		$this->update_option('_version', LIFESTREAM_VERSION);
+
 	}
 
 	/**
