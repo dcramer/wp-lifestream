@@ -1,3 +1,7 @@
+0.99.6.4
+
+* Added WordPress Codex extension.
+
 0.99.6.3
 
 * Fix for cron schedules not posting correctly.
