@@ -2451,7 +2451,6 @@ class LifeStream_WordPressCodexFeed extends LifeStream_WikipediaFeed
 	const URL	= 'http://codex.wordpress.org/';
 	const LABEL	= 'LifeStream_ContributionLabel';
 
-
 	function get_public_url()
 	{
 		return 'http://codex.wordpress.org/index.php?title=User:'.urlencode($this->options['username']);
