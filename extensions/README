@@ -1,0 +1,13 @@
+Please see the included wpcodex extension for an example of how to create a custom extension and include it.
+
+Extensions should in the following format:
+
+	extensions/<name>/
+	extensions/<name>/extension.inc.php -- define your extension class here
+	extensions/<name>/icon.png -- 16x16 identifying image
+
+You may include multiple classes in extension.inc.php, but without overriding get_icon_url they will all try to use icon.png.
+
+Your class must still be registered using the following line of code:
+
+	$lifestream->register_feed('ClassName');
