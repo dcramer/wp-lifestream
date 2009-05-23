@@ -3,12 +3,12 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.6.5
+Version: 0.99.7
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_VERSION, '0.99.6.5');
+define(LIFESTREAM_VERSION, '0.99.7');
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
 define(LIFESTREAM_FEEDS_PER_PAGE, 10);
@@ -144,6 +144,8 @@ class LifeStream_EventGroup extends LifeStream_Event
 class Lifestream
 {
 	public $feeds = array();
+	
+	public $theme = 'default';
 
 	protected $valid_image_types = array('image/gif' => 'gif',  
 		'image/jpeg' => 'jpeg',  
@@ -166,6 +168,37 @@ class Lifestream
 		$string = preg_replace('~&#0*([0-9]+);~e', 'chr(\\1)', $string);
 
  		return $string;
+	}
+	
+	/**
+	 * Find each extension/name/extension.inc.php file.
+	 */
+	function detect_extensions()
+	{
+		$base_dir = dirname(__FILE__) . '/extensions/';
+		$handler = opendir($base_dir);
+		while ($file = readdir($handler))
+		{
+			// ignore hidden files
+			if (str_startswith($file, '.')) continue;
+			// if its not a directory we dont care
+			if (!is_dir($file)) continue;
+			// check for extension.inc.php
+			$ext_file = $base_dir . $file . '/extension.inc.php';
+			if (is_file($ext_file))
+			{
+				include($ext_file);
+			}
+		}
+	}
+	
+	function get_theme_filepath($filename)
+	{
+		if (strpos('/', $this->theme))
+		{
+			throw new Exception('LifeStream::theme contains an invalid character.');
+		}
+		return dirname(__FILE__) . '/themes/'.$this->theme.'/'.$filename;
 	}
 
 	function validate_image($url)
@@ -945,9 +978,13 @@ class Lifestream
 	/**
 	 * Registers a feed class with LifeStream.
 	 */
-	function register_feed($class_name)
+	function register_feed($class_name, $builtin=false)
 	{
 		$this->feeds[get_class_constant($class_name, 'ID')] = $class_name;
+		if ($builtin)
+		{
+			$class_name::builtin = true;
+		}
 
 		ksort($this->feeds);
 	}
@@ -1524,7 +1561,15 @@ abstract class LifeStream_Extension
 		{
 			return $this->options['icon_url'];
 		}
-		return $this->lifestream->path . '/images/' . $this->get_constant('ID') . '.png';
+		if ($this->builtin === true)
+		{
+			return $this->lifestream->path . '/images/' . $this->get_constant('ID') . '.png';
+		}
+		else
+		{
+			// use icon.png in the extension directory
+			return dirname(__FILE__) . '/icon.png';
+		}
 	}
 
 	function get_public_url()
@@ -1814,7 +1859,8 @@ abstract class LifeStream_Extension
 		if ($options['hide_metadata']) $show_metadata = false;
 		else $show_metadata = true;
 		
-		include('templates/'.$label_inst->get_template().'.inc.php');
+		$filename = $label_inst->get_template();
+		require($this->lifestream->get_theme_filepath('templates/'.$filename.'.inc.php'));
 	}
 	
 	function get_events($limit=50, $offset=0)
@@ -2067,7 +2113,7 @@ function lifestream($args=array())
 	
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
 	
-	include(dirname(__FILE__) . '/pages/lifestream-table.inc.php');
+	require($lifestream->get_theme_filepath('main.inc.php'));
 
 	echo '<!-- Powered by iBegin LifeStream '.LIFESTREAM_VERSION.' -->';
 
@@ -2098,7 +2144,7 @@ function lifestream_sidebar_widget($_=array())
 	
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
 	
-	include(dirname(__FILE__) . '/pages/lifestream-list.inc.php');
+	require($lifestream->get_theme_filepath('sidebar.inc.php'));
 }
 
 function lifestream_register_feed($class_name)
@@ -2109,7 +2155,9 @@ function lifestream_register_feed($class_name)
 }
 
 include(dirname(__FILE__) . '/feeds.inc.php');
-@include(dirname(__FILE__). '/local_feeds.inc.php');
+// legacy local_feeds
+@include(dirname(__FILE__) . '/local_feeds.inc.php');
+$lifestream->detect_extensions();
 
 // Require more of the codebase
 require_once(dirname(__FILE__) . '/inc/widget.php');

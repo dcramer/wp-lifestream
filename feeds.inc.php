@@ -75,7 +75,7 @@ class LifeStream_PlurkFeed extends LifeStream_Feed
 	}
 	
 }
-$lifestream->register_feed('LifeStream_PlurkFeed');
+$lifestream->register_feed('LifeStream_PlurkFeed', $builtin=true);
 
 class LifeStream_TwitterFeed extends LifeStream_Feed
 {
@@ -177,7 +177,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_TwitterFeed');
+$lifestream->register_feed('LifeStream_TwitterFeed', $builtin=true);
 
 class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
 {
@@ -211,7 +211,7 @@ class LifeStream_JaikuFeed extends LifeStream_TwitterFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_JaikuFeed');
+$lifestream->register_feed('LifeStream_JaikuFeed', $builtin=true);
 
 class LifeStream_DeliciousFeed extends LifeStream_Feed
 {
@@ -255,7 +255,7 @@ class LifeStream_DeliciousFeed extends LifeStream_Feed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_DeliciousFeed');
+$lifestream->register_feed('LifeStream_DeliciousFeed', $builtin=true);
 
 class LifeStream_LastFMFeed extends LifeStream_Feed
 {
@@ -335,7 +335,7 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
 	}
 	
 }
-$lifestream->register_feed('LifeStream_LastFMFeed');
+$lifestream->register_feed('LifeStream_LastFMFeed', $builtin=true);
 
 class LifeStream_BlogFeed extends LifeStream_GenericFeed
 {
@@ -385,7 +385,7 @@ class LifeStream_BlogFeed extends LifeStream_GenericFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_BlogFeed');
+$lifestream->register_feed('LifeStream_BlogFeed', $builtin=true);
 
 class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
 {
@@ -418,7 +418,7 @@ class LifeStream_FlickrFeed extends LifeStream_PhotoFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_FlickrFeed');
+$lifestream->register_feed('LifeStream_FlickrFeed', $builtin=true);
 
 class LifeStream_PhotoBucketFeed extends LifeStream_PhotoFeed
 {
@@ -426,7 +426,7 @@ class LifeStream_PhotoBucketFeed extends LifeStream_PhotoFeed
 	const NAME	= 'Photobucket';
 	const URL	= 'http://www.photobucket.com/';
 }
-$lifestream->register_feed('LifeStream_PhotoBucketFeed');
+$lifestream->register_feed('LifeStream_PhotoBucketFeed', $builtin=true);
 
 class LifeStream_FacebookFeed extends LifeStream_Feed
 {
@@ -442,7 +442,7 @@ class LifeStream_FacebookFeed extends LifeStream_Feed
 		return htmlspecialchars($item['title']);
 	}
 }
-$lifestream->register_feed('LifeStream_FacebookFeed');
+$lifestream->register_feed('LifeStream_FacebookFeed', $builtin=true);
 
 class LifeStream_DiggFeed extends LifeStream_Feed
 {
@@ -473,7 +473,7 @@ class LifeStream_DiggFeed extends LifeStream_Feed
 		return 'http://www.digg.com/users/'.$this->options['username'].'/history.rss';
 	}
 }
-$lifestream->register_feed('LifeStream_DiggFeed');
+$lifestream->register_feed('LifeStream_DiggFeed', $builtin=true);
 
 class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
 {
@@ -532,7 +532,7 @@ class LifeStream_YouTubeFeed extends LifeStream_FlickrFeed
 		return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
 	}
 }
-$lifestream->register_feed('LifeStream_YouTubeFeed');
+$lifestream->register_feed('LifeStream_YouTubeFeed', $builtin=true);
 
 class LifeStream_RedditFeed extends LifeStream_DiggFeed
 {
@@ -576,7 +576,7 @@ class LifeStream_RedditFeed extends LifeStream_DiggFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_RedditFeed');
+$lifestream->register_feed('LifeStream_RedditFeed', $builtin=true);
 
 class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 {
@@ -635,7 +635,7 @@ class LifeStream_GoogleReaderFeed extends LifeStream_Feed
 	}
 	
 }
-$lifestream->register_feed('LifeStream_GoogleReaderFeed');
+$lifestream->register_feed('LifeStream_GoogleReaderFeed', $builtin=true);
 
 class LifeStream_YelpFeed extends LifeStream_Feed
 {
@@ -659,7 +659,7 @@ class LifeStream_YelpFeed extends LifeStream_Feed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_YelpFeed');
+$lifestream->register_feed('LifeStream_YelpFeed', $builtin=true);
 
 class LifeStream_MySpaceFeed extends LifeStream_BlogFeed
 {
@@ -669,7 +669,7 @@ class LifeStream_MySpaceFeed extends LifeStream_BlogFeed
 	const DESCRIPTION	= 'To retrieve your MySpace blog URL, visit your profile and click "View all entries" under your blog. From there, you will see an "rss" link on the top right of the page.';
 	
 }
-$lifestream->register_feed('LifeStream_MySpaceFeed');
+$lifestream->register_feed('LifeStream_MySpaceFeed', $builtin=true);
 
 class LifeStream_SkitchFeed extends LifeStream_FlickrFeed
 {
@@ -711,7 +711,7 @@ class LifeStream_SkitchFeed extends LifeStream_FlickrFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_SkitchFeed');
+$lifestream->register_feed('LifeStream_SkitchFeed', $builtin=true);
 
 class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 {
@@ -750,7 +750,7 @@ class LifeStream_IdenticaFeed extends LifeStream_TwitterFeed
 		);
 	}
 }
-$lifestream->register_feed('LifeStream_IdenticaFeed');
+$lifestream->register_feed('LifeStream_IdenticaFeed', $builtin=true);
 
 
 class LifeStream_PandoraFeed extends LifeStream_Feed
@@ -828,7 +828,7 @@ class LifeStream_PandoraFeed extends LifeStream_Feed
 		return parent::yield($row, $url, $key);
 	}
 }
-$lifestream->register_feed('LifeStream_PandoraFeed');
+$lifestream->register_feed('LifeStream_PandoraFeed', $builtin=true);
 
 // class LifeStream_HuluFeed extends LifeStream_PhotoFeed
 // {
@@ -880,7 +880,7 @@ class LifeStream_HuluFeed extends LifeStream_Feed
 	const DESCRIPTION	= 'You can obtain your history feed by visiting <a href="http://www.hulu.com/users/history">here</a> and clicking the RSS icon at the top of the page. You may first need to change your privacy settings for the feed to be viewable.';
 	const LABEL			= 'LifeStream_WatchVideoLabel';
 }
-$lifestream->register_feed('LifeStream_HuluFeed');
+$lifestream->register_feed('LifeStream_HuluFeed', $builtin=true);
 
 class LifeStream_TwitPicFeed extends LifeStream_PhotoFeed
 {
@@ -911,7 +911,7 @@ class LifeStream_TwitPicFeed extends LifeStream_PhotoFeed
 		return 'http://www.twitpic.com/show/thumb/'.$matches[1].'.jpg';
 	}
 }
-$lifestream->register_feed('LifeStream_TwitPicFeed');
+$lifestream->register_feed('LifeStream_TwitPicFeed', $builtin=true);
 
 class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
 {
@@ -980,7 +980,7 @@ class LifeStream_VimeoFeed extends LifeStream_PhotoFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_VimeoFeed');
+$lifestream->register_feed('LifeStream_VimeoFeed', $builtin=true);
 
 class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
 {
@@ -1038,7 +1038,7 @@ class LifeStream_StumbleUponFeed extends LifeStream_PhotoFeed
 		return $urls;
 	}
 }
-$lifestream->register_feed('LifeStream_StumbleUponFeed');
+$lifestream->register_feed('LifeStream_StumbleUponFeed', $builtin=true);
 
 class LifeStream_TumblrFeed extends LifeStream_Feed
 {
@@ -1120,7 +1120,7 @@ class LifeStream_TumblrFeed extends LifeStream_Feed
 		return $cls;
 	}
 }
-$lifestream->register_feed('LifeStream_TumblrFeed');
+$lifestream->register_feed('LifeStream_TumblrFeed', $builtin=true);
 
 class LifeStream_AmazonFeed extends LifeStream_PhotoFeed
 {
@@ -1139,7 +1139,7 @@ class LifeStream_AmazonFeed extends LifeStream_PhotoFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_AmazonFeed');
+$lifestream->register_feed('LifeStream_AmazonFeed', $builtin=true);
 
 class LifeStream_MagnoliaFeed extends LifeStream_PhotoFeed
 {
@@ -1180,7 +1180,7 @@ class LifeStream_MagnoliaFeed extends LifeStream_PhotoFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_MagnoliaFeed');
+$lifestream->register_feed('LifeStream_MagnoliaFeed', $builtin=true);
 
 class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
 {
@@ -1212,7 +1212,7 @@ class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
 		return 'http://www.zooomr.com/photos/'.$this->options['username'].'/';
 	}
 }
-$lifestream->register_feed('LifeStream_ZooomrFeed');
+$lifestream->register_feed('LifeStream_ZooomrFeed', $builtin=true);
 
 class LifeStream_BlipFMFeed extends LifeStream_LastFMFeed
 {
@@ -1237,7 +1237,7 @@ class LifeStream_BlipFMFeed extends LifeStream_LastFMFeed
 	}
 }
 
-$lifestream->register_feed('LifeStream_BlipFMFeed');
+$lifestream->register_feed('LifeStream_BlipFMFeed', $builtin=true);
 
 class LifeStream_BrightkiteFeed extends LifeStream_Feed
 {
@@ -1325,7 +1325,7 @@ class LifeStream_BrightkiteFeed extends LifeStream_Feed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_BrightkiteFeed');
+$lifestream->register_feed('LifeStream_BrightkiteFeed', $builtin=true);
 
 class LifeStream_PicasaFeed extends LifeStream_FlickrFeed
 {
@@ -1356,7 +1356,7 @@ class LifeStream_PicasaFeed extends LifeStream_FlickrFeed
 		return 'http://picasaweb.google.com/'.$this->options['username'];
 	}
 }
-$lifestream->register_feed('LifeStream_PicasaFeed');
+$lifestream->register_feed('LifeStream_PicasaFeed', $builtin=true);
 
 class LifeStream_KongregateFeed extends LifeStream_Feed
 {
@@ -1388,7 +1388,7 @@ class LifeStream_KongregateFeed extends LifeStream_Feed
 		return 'http://www.kongregate.com/accounts/'.$this->options['username'];
 	}
 }
-$lifestream->register_feed('LifeStream_KongregateFeed');
+$lifestream->register_feed('LifeStream_KongregateFeed', $builtin=true);
 
 class LifeStream_ViddlerFeed extends LifeStream_YouTubeFeed
 {
@@ -1419,7 +1419,7 @@ class LifeStream_ViddlerFeed extends LifeStream_YouTubeFeed
 		return 'http://www.viddler.com/explore/'.$this->options['username'].'/videos/feed/';
 	}
 }
-$lifestream->register_feed('LifeStream_ViddlerFeed');
+$lifestream->register_feed('LifeStream_ViddlerFeed', $builtin=true);
 
 class LifeStream_CoCommentsFeed extends LifeStream_Feed
 {
@@ -1452,7 +1452,7 @@ class LifeStream_CoCommentsFeed extends LifeStream_Feed
 	}
 
 }
-$lifestream->register_feed('LifeStream_CoCommentsFeed');
+$lifestream->register_feed('LifeStream_CoCommentsFeed', $builtin=true);
 
 class LifeStream_FoodFeedFeed extends LifeStream_Feed
 {
@@ -1488,7 +1488,7 @@ class LifeStream_FoodFeedFeed extends LifeStream_Feed
 		return htmlspecialchars($item['title']);
 	}
 }
-$lifestream->register_feed('LifeStream_FoodFeedFeed');
+$lifestream->register_feed('LifeStream_FoodFeedFeed', $builtin=true);
 
 class LifeStream_MyEpisodesFeed extends LifeStream_Feed
 {
@@ -1511,7 +1511,7 @@ class LifeStream_MyEpisodesFeed extends LifeStream_Feed
 		);
 	}
 }
-$lifestream->register_feed('LifeStream_MyEpisodesFeed');
+$lifestream->register_feed('LifeStream_MyEpisodesFeed', $builtin=true);
 
 class LifeStream_MixxFeed extends LifeStream_Feed
 {
@@ -1584,7 +1584,7 @@ class LifeStream_MixxFeed extends LifeStream_Feed
 		return $cls;
 	}
 }
-$lifestream->register_feed('LifeStream_MixxFeed');
+$lifestream->register_feed('LifeStream_MixxFeed', $builtin=true);
 
 class LifeStream_IMDBFeed extends LifeStream_Feed
 {
@@ -1594,7 +1594,7 @@ class LifeStream_IMDBFeed extends LifeStream_Feed
 	const LABEL			= 'LifeStream_LikeMovieLabel';
 	const DESCRIPTION   = 'You can obtain your IMDB feed\'s URL by visiting your <a href="http://www.imdb.com/mymovies/list">My Movies</a> page, and copying the url for the RSS feed from your address bar. You will need to check the "Public" box on the Pending page.';
 }
-$lifestream->register_feed('LifeStream_IMDBFeed');
+$lifestream->register_feed('LifeStream_IMDBFeed', $builtin=true);
 
 class LifeStream_SlideShareFeed extends LifeStream_Feed
 {
@@ -1625,7 +1625,7 @@ class LifeStream_SlideShareFeed extends LifeStream_Feed
 		return 'http://www.slideshare.net/rss/user/'.$this->options['username'];
 	}
 }
-$lifestream->register_feed('LifeStream_SlideShareFeed');
+$lifestream->register_feed('LifeStream_SlideShareFeed', $builtin=true);
 
 class LifeStream_BlipTVFeed extends LifeStream_Feed
 {
@@ -1656,7 +1656,7 @@ class LifeStream_BlipTVFeed extends LifeStream_Feed
 		return $this->get_public_url().'rss';
 	}
 }
-$lifestream->register_feed('LifeStream_BlipTVFeed');
+$lifestream->register_feed('LifeStream_BlipTVFeed', $builtin=true);
 
 class LifeStream_SteamFeed extends LifeStream_Feed
 {
@@ -1688,7 +1688,7 @@ class LifeStream_SteamFeed extends LifeStream_Feed
 		return 'http://pipes.yahoo.com/pipes/pipe.run?_id=6d87c178f6f6a0b941fe7269c9415c32&_render=rss&steamid='.$this->options['username'];
 	}
 }
-$lifestream->register_feed('LifeStream_SteamFeed');
+$lifestream->register_feed('LifeStream_SteamFeed', $builtin=true);
 
 class LifeStream_XboxLiveFeed extends LifeStream_Feed
 {
@@ -1758,7 +1758,7 @@ class LifeStream_XboxLiveFeed extends LifeStream_Feed
 		return sprintf('%s', htmlspecialchars($item['link']), htmlspecialchars($item['name']));
 	}
 }
-$lifestream->register_feed('LifeStream_XboxLiveFeed');
+$lifestream->register_feed('LifeStream_XboxLiveFeed', $builtin=true);
 
 class LifeStream_iTunesFeed extends LifeStream_Feed
 {
@@ -1826,7 +1826,7 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 		return $cls;
 	}
 }
-$lifestream->register_feed('LifeStream_iTunesFeed');
+$lifestream->register_feed('LifeStream_iTunesFeed', $builtin=true);
 
 class LifeStream_GitHubFeed extends LifeStream_Feed
 {
@@ -1856,7 +1856,7 @@ class LifeStream_GitHubFeed extends LifeStream_Feed
 		}
 	}
 }
-$lifestream->register_feed('LifeStream_GithubFeed');
+$lifestream->register_feed('LifeStream_GithubFeed', $builtin=true);
 
 class LifeStream_ReadernautFeed extends LifeStream_Feed
 {
@@ -1888,7 +1888,7 @@ class LifeStream_ReadernautFeed extends LifeStream_Feed
 		return 'http://readernaut.com/'.$this->options['username'];
 	}
 }
-$lifestream->register_feed('LifeStream_ReadernautFeed');
+$lifestream->register_feed('LifeStream_ReadernautFeed', $builtin=true);
 
 class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
 {
@@ -1935,7 +1935,7 @@ class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_ScrnshotsFeed');
+$lifestream->register_feed('LifeStream_ScrnshotsFeed', $builtin=true);
 
 class LifeStream_MobypictureFeed extends LifeStream_PhotoFeed
 {
@@ -1965,7 +1965,7 @@ class LifeStream_MobypictureFeed extends LifeStream_PhotoFeed
 		return 'http://www.mobypicture.com/rss/'.$this->options['username'].'/user.rss';
 	}
 }
-$lifestream->register_feed('LifeStream_MobypictureFeed');
+$lifestream->register_feed('LifeStream_MobypictureFeed', $builtin=true);
 
 class LifeStream_SmugMugFeed extends LifeStream_PhotoFeed
 {
@@ -1995,7 +1995,7 @@ class LifeStream_SmugMugFeed extends LifeStream_PhotoFeed
 		return 'http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data='.$this->options['username'].'&format=atom10';
 	}
 }
-$lifestream->register_feed('LifeStream_SmugMugFeed');
+$lifestream->register_feed('LifeStream_SmugMugFeed', $builtin=true);
 
 class LifeStream_GoodReadsFeed extends LifeStream_PhotoFeed
 {
@@ -2072,7 +2072,7 @@ class LifeStream_GoodReadsFeed extends LifeStream_PhotoFeed
 			return $items;
 		}
 	}}
-$lifestream->register_feed('LifeStream_GoodReadsFeed');
+$lifestream->register_feed('LifeStream_GoodReadsFeed', $builtin=true);
 
 class LifeStream_DeviantArtFeed extends LifeStream_PhotoFeed
 {
@@ -2102,7 +2102,7 @@ class LifeStream_DeviantArtFeed extends LifeStream_PhotoFeed
 		return 'http://backend.deviantart.com/rss.xml?q=gallery%3A'.urlencode($this->options['username']).'&type=deviation&offset=0';
 	}
 }
-$lifestream->register_feed('LifeStream_DeviantArtFeed');
+$lifestream->register_feed('LifeStream_DeviantArtFeed', $builtin=true);
 
 class LifeStream_BackTypeFeed extends LifeStream_Feed
 {
@@ -2166,7 +2166,7 @@ class LifeStream_BackTypeFeed extends LifeStream_Feed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_BackTypeFeed');
+$lifestream->register_feed('LifeStream_BackTypeFeed', $builtin=true);
 
 class LifeStream_LibraryThingFeed extends LifeStream_PhotoFeed
 {
@@ -2207,7 +2207,7 @@ class LifeStream_LibraryThingFeed extends LifeStream_PhotoFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_LibraryThingFeed');
+$lifestream->register_feed('LifeStream_LibraryThingFeed', $builtin=true);
 
 /**
  * Displays your latest Twitter status.
@@ -2320,7 +2320,7 @@ class LifeStream_NetflixFeed extends LifeStream_Feed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_NetflixFeed');
+$lifestream->register_feed('LifeStream_NetflixFeed', $builtin=true);
 
 class LifeStream_UpcomingFeed extends LifeStream_Feed
 {
@@ -2402,7 +2402,7 @@ class LifeStream_UpcomingFeed extends LifeStream_Feed
 		}
 	}
 }
-$lifestream->register_feed('LifeStream_UpcomingFeed');
+$lifestream->register_feed('LifeStream_UpcomingFeed', $builtin=true);
 
 class LifeStream_WikipediaFeed extends LifeStream_PhotoFeed
 {
@@ -2442,24 +2442,5 @@ class LifeStream_WikipediaFeed extends LifeStream_PhotoFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_WikipediaFeed');
-
-class LifeStream_WordPressCodexFeed extends LifeStream_WikipediaFeed
-{
-	const ID	= 'wpcodex';
-	const NAME	= 'WordPress Codex';
-	const URL	= 'http://codex.wordpress.org/';
-	const LABEL	= 'LifeStream_ContributionLabel';
-
-	function get_public_url()
-	{
-		return 'http://codex.wordpress.org/index.php?title=User:'.urlencode($this->options['username']);
-	}
-
-	function get_url()
-	{
-		return 'http://codex.wordpress.org/index.php?title=Special:Contributions&feed=rss&target='.urlencode($this->options['username']);
-	}
-}
-$lifestream->register_feed('LifeStream_WordPressCodexFeed');
+$lifestream->register_feed('LifeStream_WikipediaFeed', $builtin=true);
 ?>
