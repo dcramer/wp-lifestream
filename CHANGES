@@ -1,3 +1,16 @@
+0.99.6.4
+
+* Added WordPress Codex extension.
+
+0.99.6.3
+
+* Fix for cron schedules not posting correctly.
+
+0.99.6.2
+
+* Fixed an issue which was causing grouping to fail on certain feeds.
+* Fixed an issue which was causing the database alter errors in the admin.
+
 0.99.6
 
 * Implemented a solution for missing extensions.
