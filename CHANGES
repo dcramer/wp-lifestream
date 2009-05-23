@@ -1,3 +1,7 @@
+0.99.6.3
+
+* Fix for cron schedules not posting correctly.
+
 0.99.6.2
 
 * Fixed an issue which was causing grouping to fail on certain feeds.
