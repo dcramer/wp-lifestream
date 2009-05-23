@@ -3,12 +3,12 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.6.2
+Version: 0.99.6.3
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_VERSION, '0.99.6.2');
+define(LIFESTREAM_VERSION, '0.99.6.3');
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
 define(LIFESTREAM_FEEDS_PER_PAGE, 10);
@@ -234,13 +234,13 @@ class Lifestream
 		
 		$this->_optioncache = null;
 		
-		add_filter('cron_schedules', array(&$this, 'get_cron_schedules'));
 
 		add_action('admin_menu', array(&$this, 'options_menu'));
 		add_action('wp_head', array(&$this, 'header'));
 		add_filter('the_content', array(&$this, 'embed_callback'));
 		add_action('init', array(&$this, 'init'));
 
+		add_filter('cron_schedules', array(&$this, 'get_cron_schedules'));
 		add_action('lifestream_digest_cron', array(&$this, 'digest_update'));
 		add_action('lifestream_cron', array(&$this, 'update'));
 		
@@ -387,7 +387,7 @@ class Lifestream
 		}
 	}
 	
-	function get_cron_schedules()
+	function get_cron_schedules($cron)
 	{
 		$cron['lifestream'] = array(
 			'interval' => $this->get_option('update_interval') * 60,
