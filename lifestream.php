@@ -3,12 +3,12 @@
 Plugin Name: LifeStream
 Plugin URI: http://www.ibegin.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.6.4
+Version: 0.99.6.5
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_VERSION, '0.99.6.4');
+define(LIFESTREAM_VERSION, '0.99.6.5');
 //define(LIFESTREAM_PLUGIN_FILE, 'lifestream/lifestream.php');
 define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
 define(LIFESTREAM_FEEDS_PER_PAGE, 10);
@@ -1685,7 +1685,7 @@ abstract class LifeStream_Extension
 				$total += 1;
 
 				$label = $this->get_label_class($key);
-				if ($this->options['grouped'] && $this->get_constant('CAN_GROUP') && constant(sprintf('%s::%s', get_class($label), 'CAN_GROUP')))
+				if ($this->options['grouped'] && $this->get_constant('CAN_GROUP') && constant(sprintf('%s::%s', $label, 'CAN_GROUP')))
 				{
 					if (!array_key_exists($key, $grouped)) $grouped[$key] = array();
 					$grouped[$key][date('m d Y', $date)] = $date;
