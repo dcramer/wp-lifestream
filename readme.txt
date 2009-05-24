@@ -103,7 +103,7 @@ And
 
 == Built-in Feeds ==
 
-The plugin includes most of the major social networking feeds available. You may add your own, as well as send me ideas for new feeds at dcramer@gmail.com. If you wish to add custom extensions, you may do so by creating a local_feeds.inc.php file in the lifestream directory.
+The plugin includes most of the major social networking feeds available. You may add your own, as well as send me ideas for new feeds at dcramer@gmail.com. If you wish to add custom extensions, please see extensions/README.
 
 * Facebook
 * Digg
