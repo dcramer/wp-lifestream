@@ -4,6 +4,7 @@
 * Created themes/ directory (see themes/README for more information).
 * Added get_icon_name() for custom extensions.
 * Paging on the feeds page will now work properly under all cases.
+* Updated YouTube submissions to use the YouTube API.
 
 0.99.6.5
 
