@@ -259,10 +259,10 @@ $lifestream->register_feed('LifeStream_DeliciousFeed');
 
 class LifeStream_LastFMFeed extends LifeStream_Feed
 {
-	const ID			= 'lastfm';
-	const NAME		  = 'Last.fm';
-	const URL		   = 'http://www.last.fm/';
-	const LABEL			= 'LifeStream_ListenLabel';
+	const ID	= 'lastfm';
+	const NAME	= 'Last.fm';
+	const URL	= 'http://www.last.fm/';
+	const LABEL	= 'LifeStream_ListenLabel';
 	
 	function __toString()
 	{
@@ -333,7 +333,6 @@ class LifeStream_LastFMFeed extends LifeStream_Feed
 	{
 		return sprintf('<a href="%s">%s - %s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['artist']), htmlspecialchars($item['name']));
 	}
-	
 }
 $lifestream->register_feed('LifeStream_LastFMFeed');
 
@@ -1214,12 +1213,12 @@ class LifeStream_ZooomrFeed extends LifeStream_FlickrFeed
 }
 $lifestream->register_feed('LifeStream_ZooomrFeed');
 
-class LifeStream_BlipFMFeed extends LifeStream_LastFMFeed
+class LifeStream_BlipFMFeed extends LifeStream_TwitterFeed
 {
-	const ID			= 'blipfm';
-	const NAME			= 'Blip.fm';
-	const URL			= 'http://blip.fm/';
-	const DESCRIPTION	= '';
+	const ID	= 'blipfm';
+	const NAME	= 'Blip.fm';
+	const URL	= 'http://blip.fm/';
+	const LABEL	= 'LifeStream_MessageLabel';
 	
 	function get_user_url($user)
 	{
@@ -1230,10 +1229,18 @@ class LifeStream_BlipFMFeed extends LifeStream_LastFMFeed
 	{
 		return 'http://blip.fm/feed/'.$this->options['username'];
 	}
-	
+
 	function render_item($row, $item)
 	{
-		return $this->parse_users($item['text']).' &#9835; <span class="song_link"><a href="'.htmlspecialchars($item['link']).'">'.htmlspecialchars($item['song'] ? $item['song'] : $item['title']).'</a></span>';
+		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
+	}
+
+	function yield($row, $url, $key)
+	{
+		$data = parent::yield($row, $url, $key);
+		$data['track'] = $data['title'];
+		$data['title'] = $data['description'];
+		return $data;
 	}
 }
 

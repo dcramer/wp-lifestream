@@ -7,7 +7,7 @@ if (count($results))
     <div class="tablenav">
         <?php
         $page_links = paginate_links( array(
-            'base' => add_query_arg( 'paged', '%#%' ),
+            'base' => add_query_arg( 'paged', '%#%' , $_SERVER['SCRIPT_NAME'] . '?page=lifestream.php' ),
             'format' => '',
             'total' => $number_of_pages,
             'current' => $page,
