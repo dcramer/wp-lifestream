@@ -2,6 +2,7 @@
 
 * Created extensions/ directory (see extensions/README for more information).
 * Created themes/ directory (see themes/README for more information).
+* Added get_icon_name() for custom extensions.
 
 0.99.6.5
 
