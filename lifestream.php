@@ -20,7 +20,7 @@ if (!class_exists('SimplePie'))
 	require_once(dirname(__FILE__) . '/lib/simplepie.inc.php');
 }
 
-global $wpdb, $userdata, $lifestream;
+global $wpdb, $userdata, $lifestream, $CURRENT_FILE_PATH;
 
 if (!function_exists('array_key_pop'))
 {
@@ -143,7 +143,10 @@ class LifeStream_EventGroup extends LifeStream_Event
 
 class Lifestream
 {
+	// stores all registered feeds
 	public $feeds = array();
+	// stores file locations to feed classes
+	public $paths = array();
 	
 	public $theme = 'default';
 
@@ -175,6 +178,10 @@ class Lifestream
 	 */
 	function detect_extensions()
 	{
+		global $CURRENT_FILE_PATH;
+		
+		$lifestream =& $this;
+
 		$base_dir = dirname(__FILE__) . '/extensions/';
 		$handler = opendir($base_dir);
 		while ($file = readdir($handler))
@@ -182,14 +189,16 @@ class Lifestream
 			// ignore hidden files
 			if (str_startswith($file, '.')) continue;
 			// if its not a directory we dont care
-			if (!is_dir($file)) continue;
+			if (!is_dir($base_dir . $file)) continue;
 			// check for extension.inc.php
 			$ext_file = $base_dir . $file . '/extension.inc.php';
+			$CURRENT_FILE_PATH = $ext_file;
 			if (is_file($ext_file))
 			{
 				include($ext_file);
 			}
 		}
+		$CURRENT_FILE_PATH = null;
 	}
 	
 	function get_theme_filepath($filename)
@@ -977,16 +986,16 @@ class Lifestream
 	}
 	/**
 	 * Registers a feed class with LifeStream.
+	 * @param $class_name {Class} Should extend LifeStream_Extension.
 	 */
-	function register_feed($class_name, $builtin=false)
+	function register_feed($class_name)
 	{
+		global $CURRENT_FILE_PATH;
 		$this->feeds[get_class_constant($class_name, 'ID')] = $class_name;
-		if ($builtin)
-		{
-			$class_name::builtin = true;
-		}
-
-		ksort($this->feeds);
+		// this may be the ugliest thing ever written in PHP, thank you developers!
+		$rcl = new ReflectionClass($class_name);
+		$this->paths[$class_name] = dirname($rcl->getFileName());
+		unset($rcl);
 	}
 	
 	function get_feed($class_name)
@@ -1440,6 +1449,8 @@ abstract class LifeStream_Extension
 	 */
 	
 	public $options;
+	public static $builtin = false;
+	public static $absolute_path = __FILE__;
 	
 	// The ID must be a-z, 0-9, _, and - characters. It also must be unique.
 	const ID			= 'generic';
@@ -1561,14 +1572,16 @@ abstract class LifeStream_Extension
 		{
 			return $this->options['icon_url'];
 		}
-		if ($this->builtin === true)
+		$path = $this->lifestream->paths[get_class($this)];
+		$root = dirname(__FILE__);
+		if ($path == $root)
 		{
 			return $this->lifestream->path . '/images/' . $this->get_constant('ID') . '.png';
 		}
 		else
 		{
 			// use icon.png in the extension directory
-			return dirname(__FILE__) . '/icon.png';
+			return $this->lifestream->path . str_replace($root, '', $path) . '/icon.png';
 		}
 	}
 
@@ -2154,12 +2167,22 @@ function lifestream_register_feed($class_name)
 	$lifestream->register_feed($class_name);
 }
 
-include(dirname(__FILE__) . '/feeds.inc.php');
+// built-in feeds
+$CURRENT_FILE_PATH = dirname(__FILE__) . '/feeds.inc.php';
+include($CURRENT_FILE_PATH);
+
 // legacy local_feeds
-@include(dirname(__FILE__) . '/local_feeds.inc.php');
+$CURRENT_FILE_PATH = dirname(__FILE__) . '/local_feeds.inc.php';
+@include($CURRENT_FILE_PATH);
+
+// detect external extensions in extensions/
 $lifestream->detect_extensions();
+
+// sort once
+ksort($lifestream->feeds);
 
 // Require more of the codebase
 require_once(dirname(__FILE__) . '/inc/widget.php');
 require_once(dirname(__FILE__) . '/inc/syndicate.php');
+
 ?>

@@ -87,7 +87,8 @@ if (count($results))
     <?php
     foreach ($lifestream->feeds as $identifier=>$class_name)
     {
-        ?><li><a href="?page=lifestream.php&amp;op=add&amp;feed=<?php echo urlencode($identifier); ?>" title="<?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?>"><img src="<?php echo $lifestream->path; ?>/images/<?php echo $identifier; ?>.png"/> <?php echo htmlspecialchars(get_class_constant($class_name, 'NAME')); ?></a></li><?php
+        $result = new $class_name($lifestream);
+        ?><li><a href="?page=lifestream.php&amp;op=add&amp;feed=<?php echo urlencode($identifier); ?>" title="<?php echo htmlspecialchars($result->get_constant('NAME')); ?>"><img src="<?php echo $result->get_icon_url(); ?>"/> <?php echo htmlspecialchars($result->get_constant('NAME')); ?></a></li><?php
     }
     ?>
 </ul>
