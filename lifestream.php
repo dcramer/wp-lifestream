@@ -20,7 +20,7 @@ if (!class_exists('SimplePie'))
 	require_once(dirname(__FILE__) . '/lib/simplepie.inc.php');
 }
 
-global $wpdb, $userdata, $lifestream, $CURRENT_FILE_PATH;
+global $wpdb, $userdata, $lifestream;
 
 if (!function_exists('array_key_pop'))
 {
@@ -183,8 +183,6 @@ class Lifestream
 	 */
 	function detect_extensions()
 	{
-		global $CURRENT_FILE_PATH;
-		
 		$lifestream =& $this;
 
 		$base_dir = dirname(__FILE__) . '/extensions/';
@@ -197,13 +195,11 @@ class Lifestream
 			if (!is_dir($base_dir . $file)) continue;
 			// check for extension.inc.php
 			$ext_file = $base_dir . $file . '/extension.inc.php';
-			$CURRENT_FILE_PATH = $ext_file;
 			if (is_file($ext_file))
 			{
 				include($ext_file);
 			}
 		}
-		$CURRENT_FILE_PATH = null;
 	}
 	
 	/**
@@ -1018,7 +1014,6 @@ class Lifestream
 	 */
 	function register_feed($class_name)
 	{
-		global $CURRENT_FILE_PATH;
 		$this->feeds[get_class_constant($class_name, 'ID')] = $class_name;
 		// this may be the ugliest thing ever written in PHP, thank you developers!
 		$rcl = new ReflectionClass($class_name);
@@ -1594,6 +1589,11 @@ abstract class LifeStream_Extension
 		return $this->__toString();
 	}
 	
+	function get_icon_name()
+	{
+		return 'icon.png';
+	}
+	
 	function get_icon_url()
 	{
 		if (!empty($this->options['icon_url']))
@@ -1609,7 +1609,7 @@ abstract class LifeStream_Extension
 		else
 		{
 			// use icon.png in the extension directory
-			return $this->lifestream->path . str_replace($root, '', $path) . '/icon.png';
+			return $this->lifestream->path . str_replace($root, '', $path) . '/' . $this->get_icon_name();
 		}
 	}
 
@@ -2196,12 +2196,10 @@ function lifestream_register_feed($class_name)
 }
 
 // built-in feeds
-$CURRENT_FILE_PATH = dirname(__FILE__) . '/feeds.inc.php';
-include($CURRENT_FILE_PATH);
+include(dirname(__FILE__) . '/feeds.inc.php');
 
 // legacy local_feeds
-$CURRENT_FILE_PATH = dirname(__FILE__) . '/local_feeds.inc.php';
-@include($CURRENT_FILE_PATH);
+@include(dirname(__FILE__) . '/local_feeds.inc.php');
 
 // detect external extensions in extensions/
 $lifestream->detect_extensions();

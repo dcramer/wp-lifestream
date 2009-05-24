@@ -1856,7 +1856,7 @@ class LifeStream_GitHubFeed extends LifeStream_Feed
 		}
 	}
 }
-$lifestream->register_feed('LifeStream_GithubFeed');
+$lifestream->register_feed('LifeStream_GitHubFeed');
 
 class LifeStream_ReadernautFeed extends LifeStream_Feed
 {
@@ -1935,7 +1935,7 @@ class LifeStream_ScrnShotsFeed extends LifeStream_PhotoFeed
 		return $data;
 	}
 }
-$lifestream->register_feed('LifeStream_ScrnshotsFeed');
+$lifestream->register_feed('LifeStream_ScrnShotsFeed');
 
 class LifeStream_MobypictureFeed extends LifeStream_PhotoFeed
 {
