@@ -3,6 +3,7 @@
 * Created extensions/ directory (see extensions/README for more information).
 * Created themes/ directory (see themes/README for more information).
 * Added get_icon_name() for custom extensions.
+* Paging on the feeds page will now work properly under all cases.
 
 0.99.6.5
 

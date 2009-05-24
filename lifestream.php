@@ -823,7 +823,6 @@ class Lifestream
 										{
 											$message = $this->__('A new %s feed was added to your LifeStream.', $feed->get_constant('NAME'));
 											$feedmsgs[$feed->id] = $msg_arr[1];
-											unset($_POST);
 										}
 									}
 								}
