@@ -145,9 +145,14 @@ class Lifestream
 {
 	// stores all registered feeds
 	public $feeds = array();
+
 	// stores file locations to feed classes
 	public $paths = array();
 	
+	// stores theme folder names
+	public $themes = array();
+	
+	// current theme
 	public $theme = 'default';
 
 	protected $valid_image_types = array('image/gif' => 'gif',  
@@ -199,6 +204,28 @@ class Lifestream
 			}
 		}
 		$CURRENT_FILE_PATH = null;
+	}
+	
+	/**
+	 * Find each extension/name/extension.inc.php file.
+	 */
+	function detect_themes()
+	{
+		$base_dir = dirname(__FILE__) . '/themes/';
+		$handler = opendir($base_dir);
+		while ($file = readdir($handler))
+		{
+			// ignore hidden files
+			if (str_startswith($file, '.')) continue;
+			// if its not a directory we dont care
+			if (!is_dir($base_dir . $file)) continue;
+			// check for main.inc.php
+			$ext_file = $base_dir . $file . '/main.inc.php';
+			if (is_file($ext_file))
+			{
+				$this->themes[] = $file;
+			}
+		}
 	}
 	
 	function get_theme_filepath($filename)
@@ -268,6 +295,7 @@ class Lifestream
 		'url_handler'		=> 'auto',
 		'feed_items'		=> '10',
 		'truncate_length'	=> '128',
+		'theme'				=> 'default',
 	);
 	
 	function __construct()
@@ -2177,6 +2205,8 @@ $CURRENT_FILE_PATH = dirname(__FILE__) . '/local_feeds.inc.php';
 
 // detect external extensions in extensions/
 $lifestream->detect_extensions();
+
+$lifestream->detect_themes();
 
 // sort once
 ksort($lifestream->feeds);

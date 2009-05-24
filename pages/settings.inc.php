@@ -92,6 +92,17 @@ $authors = get_users_of_blog();
                 </td>
             </tr>
             <tr>
+                <th><label for="id_theme"><?php $lifestream->_e('Theme:'); ?></label></th>
+                <td>
+                    <select name="lifestream_theme" id="id_theme">
+                        <?php foreach ($lifestream->themes as &$theme) {?>
+                            <option value="<?php echo htmlspecialchars($theme); ?>"<?php if ($lifestream->get_option('theme') == $theme) echo ' selected="selected"'; ?>><?php echo htmlspecialchars($theme); ?></option>
+                        <?php } ?>
+                    </select>
+                    <div class="helptext"><?php $lifestream->_e('Please see the included themes/README for information on creating your own theme.'); ?>
+                </td>
+            </tr>
+            <tr>
                 <th><?php $lifestream->_e('Show Credits:'); ?></th>
                 <td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if ($lifestream->get_option('show_credits')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Give credit to LifeStream when it\'s embedded.'); ?></label>
                     <div class="helptext">e.g. <?php echo $lifestream->credits(); ?></div>
@@ -99,6 +110,9 @@ $authors = get_users_of_blog();
             </tr>
         </tbody>
     </table>
+    <p class="submit">
+        <input type="submit" name="save" value="<?php $lifestream->_e('Save Changes');?>" />
+    </p>
     <br />
     <h2><?php $lifestream->_e('Feed'); ?></h2>
     <?php $url = trailingslashit(get_bloginfo('wpurl')) . 'wp-rss2.php?feed=lifestream-feed'; ?>
@@ -116,6 +130,9 @@ $authors = get_users_of_blog();
             </td>
         </tr>
     </table>
+    <p class="submit">
+        <input type="submit" name="save" value="<?php $lifestream->_e('Save Changes');?>" />
+    </p>
     <br />
     <h2><?php $lifestream->_e('Digest'); ?></h2>
     <p><?php $lifestream->_e('LifeStream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period.'); ?></p>
