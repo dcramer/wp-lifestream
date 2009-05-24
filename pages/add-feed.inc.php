@@ -2,7 +2,7 @@
 $authors = get_users_of_blog();
 
 ?>
-<h2><?php $lifestream->_e('Add a Feed');?> <small><?php $lifestream->_e('(<a href="%s">Back to LifeStream Feeds</a>)', '?page=lifestream.php'); ?></small></h2>
+<h2><?php $lifestream->_e('Add a Feed');?> <small><?php $lifestream->_e('(<a href="%s">Back to LifeStream Feeds</a>)', '?page='.$_GET['page']); ?></small></h2>
 
 <form action="?page=lifestream.php&amp;op=add&amp;feed=<?php echo urlencode($identifier); ?>" method="post" id="feed_options_<?php echo htmlspecialchars($identifier); ?>">
 	<h3><?php $lifestream->_e('%s Feed Settings', $feed->get_constant('NAME')) ;?></h3>
