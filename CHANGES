@@ -1,3 +1,10 @@
+0.99.7.1
+
+* Updated localization with some missing values.
+* Fixed lifestream_twitter_status() and lifestream_facebook_status() functions.
+* Updated French localization.
+* Updated Spanish localization.
+
 0.99.7
 
 * Created extensions/ directory (see extensions/README for more information).

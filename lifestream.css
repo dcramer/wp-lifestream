@@ -23,7 +23,7 @@ table.lifestream td { vertical-align: top; padding: 3px 0; }
 
 /* list specific css */
 #sidebar ul.lifestream, ul.lifestream { list-style-type: none; margin: 0 0; padding: 0 5px; }
-#sidebar ul.lifestream li, ul.lifestream li { padding: 0 0 0 24px; margin: 5px 0; background-repeat: no-repeat; background-position: 0 0; }
+#sidebar ul.lifestream li, ul.lifestream li { padding: 0 0 0 24px; margin: 5px 0; background-repeat: no-repeat !important; background-position: 0 0; }
 #sidebar ul.lifestream li a, ul.lifestream li a { display: inline; }
 #sidebar ul.lifestream li li { font-size: 85%; margin-left: 0; padding-left: 0; }
 #sidebar ul.lifestream ul { margin-left: 0; padding-left: 0; }
