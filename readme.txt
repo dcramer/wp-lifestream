@@ -2,7 +2,7 @@
 Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom
 Requires at least: 2.5
 Tested up to: 2.7.1
-Stable tag: 0.99.6.5
+Stable tag: 0.99.7.1
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
