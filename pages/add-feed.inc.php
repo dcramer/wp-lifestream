@@ -47,10 +47,10 @@ $authors = get_users_of_blog();
 		<?php } ?>
 		
 		<tr>
-			<th><label>Feed Label:</label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
+			<th><label for="id_feed_label"><?php _e('Feed Label:'); ?></label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
 			<td>
 				<?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : ''); ?>
-				<input type="text" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
+				<input type="text" id="id_feed_label" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
 				<div class="helptext"><?php $lifestream->_e('A label to use for this feed instead of the default.'); ?></div>
 			</td>
 		</tr>
@@ -60,7 +60,7 @@ $authors = get_users_of_blog();
 			<td><input type="checkbox" id="id_auto_icon" name="auto_icon" onclick="checkAutoIcon();" value="1"<?php if($current_value) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Use websites default favicon.'); ?></td>
 		</tr>
 		<tr id="id_icon_url_row">
-			<th><label>Icon URL:</label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
+			<th><label><?php $lifestream->_e('Icon URL:'); ?></label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
 			<td>
 				<?php $current_value = (isset($_POST['icon_url']) ? stripslashes($_POST['icon_url']) : ''); ?>
 				<input type="text" name="icon_url" value="<?php echo htmlspecialchars($current_value); ?>"/>

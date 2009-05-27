@@ -10,8 +10,8 @@ if (count($events))
     foreach ($events as $result)
     {
         $timestamp = $result->get_date();
-        if ($today == date('m d Y', $timestamp)) $this_day = 'Today';
-        else if ($yesterday == date('m d Y', $timestamp)) $this_day = 'Yesterday';
+        if ($today == date('m d Y', $timestamp)) $this_day = $lifestream->_('Today');
+        else if ($yesterday == date('m d Y', $timestamp)) $this_day = $lifestream->_('Yesterday');
         else $this_day = ucfirst(htmlentities(date($day_format, $timestamp)));
         if ($day != $this_day)
         {
