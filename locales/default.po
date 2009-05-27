@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lifestream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-04 21:01-0600\n"
+"POT-Creation-Date: 2009-05-27 12:40-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Cramer <dcramer@gmail.com>\n"
 "Language-Team: \n"
@@ -13,881 +13,881 @@ msgstr ""
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: feeds.inc.php:16
-#: feeds.inc.php:44
-#: feeds.inc.php:180
-#: feeds.inc.php:228
-#: feeds.inc.php:410
-#: feeds.inc.php:441
-#: feeds.inc.php:499
-#: feeds.inc.php:639
-#: feeds.inc.php:720
-#: feeds.inc.php:842
-#: feeds.inc.php:947
-#: feeds.inc.php:1004
-#: feeds.inc.php:1109
-#: feeds.inc.php:1154
-#: feeds.inc.php:1206
-#: feeds.inc.php:1293
-#: feeds.inc.php:1325
-#: feeds.inc.php:1356
-#: feeds.inc.php:1388
-#: feeds.inc.php:1420
-#: feeds.inc.php:1457
-#: feeds.inc.php:1478
-#: feeds.inc.php:1562
-#: feeds.inc.php:1593
-#: feeds.inc.php:1826
-#: feeds.inc.php:1857
-#: feeds.inc.php:1903
-#: feeds.inc.php:1933
-#: feeds.inc.php:2040
-#: feeds.inc.php:2069
-#: feeds.inc.php:2135
-#: feeds.inc.php:2371
+#: feeds.inc.php:18
+#: feeds.inc.php:96
+#: feeds.inc.php:232
+#: feeds.inc.php:280
+#: feeds.inc.php:461
+#: feeds.inc.php:492
+#: feeds.inc.php:550
+#: feeds.inc.php:690
+#: feeds.inc.php:771
+#: feeds.inc.php:893
+#: feeds.inc.php:998
+#: feeds.inc.php:1055
+#: feeds.inc.php:1160
+#: feeds.inc.php:1205
+#: feeds.inc.php:1265
+#: feeds.inc.php:1352
+#: feeds.inc.php:1384
+#: feeds.inc.php:1415
+#: feeds.inc.php:1447
+#: feeds.inc.php:1479
+#: feeds.inc.php:1516
+#: feeds.inc.php:1537
+#: feeds.inc.php:1621
+#: feeds.inc.php:1652
+#: feeds.inc.php:1884
+#: feeds.inc.php:1915
+#: feeds.inc.php:1961
+#: feeds.inc.php:1991
+#: feeds.inc.php:2098
+#: feeds.inc.php:2127
+#: feeds.inc.php:2193
+#: feeds.inc.php:2429
 msgid "Username:"
 msgstr ""
 
-#: feeds.inc.php:45
+#: feeds.inc.php:97
 msgid "Hide Replies"
 msgstr ""
 
-#: feeds.inc.php:181
+#: feeds.inc.php:233
 msgid "Limit items to tag:"
 msgstr ""
 
-#: feeds.inc.php:229
+#: feeds.inc.php:281
 msgid "Only show loved tracks."
 msgstr ""
 
-#: feeds.inc.php:299
-#: feeds.inc.php:1153
-#: feeds.inc.php:1458
-#: feeds.inc.php:1731
-#: feeds.inc.php:2220
-#: lifestream.php:1568
-#: lifestream.php:1985
+#: feeds.inc.php:350
+#: feeds.inc.php:1204
+#: feeds.inc.php:1517
+#: feeds.inc.php:1789
+#: feeds.inc.php:2278
+#: lifestream.php:1658
+#: lifestream.php:2095
 msgid "Feed URL:"
 msgstr ""
 
-#: feeds.inc.php:300
-#: feeds.inc.php:552
+#: feeds.inc.php:351
+#: feeds.inc.php:603
 msgid "Website URL:"
 msgstr ""
 
-#: feeds.inc.php:348
-#: feeds.inc.php:553
-#: feeds.inc.php:881
-#: feeds.inc.php:1732
-#: feeds.inc.php:1965
-#: feeds.inc.php:2221
-#: feeds.inc.php:2291
+#: feeds.inc.php:399
+#: feeds.inc.php:604
+#: feeds.inc.php:932
+#: feeds.inc.php:1790
+#: feeds.inc.php:2023
+#: feeds.inc.php:2279
+#: feeds.inc.php:2349
 msgid "User ID:"
 msgstr ""
 
-#: feeds.inc.php:442
-#: feeds.inc.php:949
+#: feeds.inc.php:493
+#: feeds.inc.php:1000
 msgid "Include favorites in this feed."
 msgstr ""
 
-#: feeds.inc.php:721
+#: feeds.inc.php:772
 msgid "Include stations in this feed."
 msgstr ""
 
-#: feeds.inc.php:722
+#: feeds.inc.php:773
 msgid "Include bookmarked artists in this feed."
 msgstr ""
 
-#: feeds.inc.php:723
+#: feeds.inc.php:774
 msgid "Include bookmarked songs in this feed."
 msgstr ""
 
-#: feeds.inc.php:882
+#: feeds.inc.php:933
 msgid "Include videos posted in this feed."
 msgstr ""
 
-#: feeds.inc.php:883
+#: feeds.inc.php:934
 msgid "Include liked videos in this feed."
 msgstr ""
 
-#: feeds.inc.php:948
+#: feeds.inc.php:999
 msgid "Include reviews in this feed."
 msgstr ""
 
-#: feeds.inc.php:1479
+#: feeds.inc.php:1538
 msgid "Show Comments."
 msgstr ""
 
-#: feeds.inc.php:1480
+#: feeds.inc.php:1539
 msgid "Show Favorites."
 msgstr ""
 
-#: feeds.inc.php:1481
+#: feeds.inc.php:1540
 msgid "Show Submissions."
 msgstr ""
 
-#: feeds.inc.php:1625
+#: feeds.inc.php:1684
 msgid "Steam ID:"
 msgstr ""
 
-#: feeds.inc.php:1656
+#: feeds.inc.php:1715
 msgid "Xbox Live ID:"
 msgstr ""
 
-#: feeds.inc.php:1733
+#: feeds.inc.php:1791
 msgid "Show Purchases."
 msgstr ""
 
-#: feeds.inc.php:1734
+#: feeds.inc.php:1792
 msgid "Show Reviews."
 msgstr ""
 
-#: feeds.inc.php:1964
-#: feeds.inc.php:2290
+#: feeds.inc.php:2022
+#: feeds.inc.php:2348
 msgid "Profile URL:"
 msgstr ""
 
-#: feeds.inc.php:2070
+#: feeds.inc.php:2128
 msgid "Sites to filter out:"
 msgstr ""
 
-#: feeds.inc.php:2070
+#: feeds.inc.php:2128
 msgid "Sites as named by BackType, usually the title of the RSS Feed, separate with comma's."
 msgstr ""
 
-#: feeds.inc.php:2222
+#: feeds.inc.php:2280
 msgid "Include queued videos in this feed."
 msgstr ""
 
-#: feeds.inc.php:2223
+#: feeds.inc.php:2281
 msgid "Include reviewed videos in this feed."
 msgstr ""
 
-#: feeds.inc.php:2292
+#: feeds.inc.php:2350
 msgid "API Key:"
 msgstr ""
 
-#: lifestream.php:395
+#: lifestream.php:460
 msgid "On LifeStream update"
 msgstr ""
 
-#: lifestream.php:400
+#: lifestream.php:465
 msgid "On LifeStream daily digest update"
 msgstr ""
 
-#: lifestream.php:477
+#: lifestream.php:542
 #: pages/feeds.inc.php:1
 msgid "LifeStream Feeds"
 msgstr ""
 
-#: lifestream.php:477
+#: lifestream.php:542
 msgid "Feeds"
 msgstr ""
 
-#: lifestream.php:478
+#: lifestream.php:543
 #: pages/events.inc.php:1
 msgid "LifeStream Events"
 msgstr ""
 
-#: lifestream.php:478
+#: lifestream.php:543
 #: pages/feeds.inc.php:43
 msgid "Events"
 msgstr ""
 
-#: lifestream.php:479
+#: lifestream.php:544
 msgid "LifeStream Settings"
 msgstr ""
 
-#: lifestream.php:479
+#: lifestream.php:544
 msgid "Settings"
 msgstr ""
 
-#: lifestream.php:480
+#: lifestream.php:545
 #: pages/changelog.inc.php:1
 msgid "LifeStream Change Log"
 msgstr ""
 
-#: lifestream.php:480
+#: lifestream.php:545
 msgid "Change Log"
 msgstr ""
 
-#: lifestream.php:481
+#: lifestream.php:546
 #: pages/errors.inc.php:1
 msgid "LifeStream Errors"
 msgstr ""
 
-#: lifestream.php:481
+#: lifestream.php:546
 #, php-format
 msgid "Errors (%d)"
 msgstr ""
 
-#: lifestream.php:482
+#: lifestream.php:547
 #: pages/forums.inc.php:1
 msgid "LifeStream Support Forums"
 msgstr ""
 
-#: lifestream.php:482
+#: lifestream.php:547
 msgid "Support Forums"
 msgstr ""
 
-#: lifestream.php:521
-#: lifestream.php:596
-#: lifestream.php:625
-#: lifestream.php:643
+#: lifestream.php:586
+#: lifestream.php:661
+#: lifestream.php:690
+#: lifestream.php:708
 msgid "The selected feed was not found."
 msgstr ""
 
-#: lifestream.php:525
-#: lifestream.php:600
-#: lifestream.php:629
-#: lifestream.php:647
+#: lifestream.php:590
+#: lifestream.php:665
+#: lifestream.php:694
+#: lifestream.php:712
 msgid "You do not have permission to do that."
 msgstr ""
 
-#: lifestream.php:560
+#: lifestream.php:625
 msgid "The selected events were hidden."
 msgstr ""
 
-#: lifestream.php:585
-#: lifestream.php:613
+#: lifestream.php:650
+#: lifestream.php:678
 #, php-format
 msgid "There was an error refreshing the selected feed: ID %s"
 msgstr ""
 
-#: lifestream.php:587
+#: lifestream.php:652
 msgid "All of your feeds have been refreshed."
 msgstr ""
 
-#: lifestream.php:608
+#: lifestream.php:673
 msgid "The selected feeds and their events have been refreshed."
 msgstr ""
 
-#: lifestream.php:635
+#: lifestream.php:700
 msgid "The selected feeds and all related events has been removed."
 msgstr ""
 
-#: lifestream.php:759
+#: lifestream.php:824
 #, php-format
 msgid "A new %s feed was added to your LifeStream."
 msgstr ""
 
-#: lifestream.php:790
+#: lifestream.php:854
 msgid "There were errors with your request:"
 msgstr ""
 
-#: lifestream.php:829
+#: lifestream.php:893
 msgid "Weekly"
 msgstr ""
 
-#: lifestream.php:830
+#: lifestream.php:894
 msgid "Daily"
 msgstr ""
 
-#: lifestream.php:831
+#: lifestream.php:895
 msgid "Hourly"
 msgstr ""
 
-#: lifestream.php:1137
+#: lifestream.php:1208
 msgid "Unknown SQL Error"
 msgstr ""
 
-#: lifestream.php:1633
+#: lifestream.php:1723
 msgid "Feed has not yet been saved."
 msgstr ""
 
-#: lifestream.php:1646
+#: lifestream.php:1737
 msgid "Feed result was empty."
 msgstr ""
 
-#: inc/labels.php:39
+#: inc/labels.php:41
 #, php-format
 msgid "Posted %2$s"
 msgstr ""
 
-#: inc/labels.php:44
+#: inc/labels.php:46
 #, php-format
 msgid "Posted %s items."
 msgstr ""
 
-#: inc/labels.php:50
+#: inc/labels.php:52
 #, php-format
 msgid "%1$s posted %3$s"
 msgstr ""
 
-#: inc/labels.php:56
+#: inc/labels.php:58
 #, php-format
 msgid "%s posted %s items."
 msgstr ""
 
-#: inc/labels.php:65
+#: inc/labels.php:69
 #, php-format
 msgid "Published %2$s"
 msgstr ""
 
-#: inc/labels.php:70
+#: inc/labels.php:74
 #, php-format
 msgid "Published %s posts."
 msgstr ""
 
-#: inc/labels.php:76
+#: inc/labels.php:80
 #, php-format
 msgid "%1$s published %3$s"
 msgstr ""
 
-#: inc/labels.php:81
+#: inc/labels.php:85
 #, php-format
 msgid "%s published %s."
 msgstr ""
 
-#: inc/labels.php:100
-#: inc/labels.php:130
-#: inc/labels.php:271
-#: inc/labels.php:419
-#: inc/labels.php:808
-#: inc/labels.php:863
+#: inc/labels.php:96
+#: inc/labels.php:123
+#: inc/labels.php:247
+#: inc/labels.php:375
+#: inc/labels.php:701
+#: inc/labels.php:753
 #, php-format
 msgid "Shared %2$s"
 msgstr ""
 
-#: inc/labels.php:105
+#: inc/labels.php:101
 #, php-format
 msgid "Shared %s photos."
 msgstr ""
 
-#: inc/labels.php:111
-#: inc/labels.php:141
-#: inc/labels.php:282
-#: inc/labels.php:430
-#: inc/labels.php:819
-#: inc/labels.php:874
+#: inc/labels.php:107
+#: inc/labels.php:134
+#: inc/labels.php:258
+#: inc/labels.php:386
+#: inc/labels.php:712
+#: inc/labels.php:764
 #, php-format
 msgid "%1$s shared %3$s"
 msgstr ""
 
-#: inc/labels.php:116
+#: inc/labels.php:112
 #, php-format
 msgid "%s shared %s photos."
 msgstr ""
 
-#: inc/labels.php:135
+#: inc/labels.php:128
 #, php-format
 msgid "Shared %s links."
 msgstr ""
 
-#: inc/labels.php:146
+#: inc/labels.php:139
 #, php-format
 msgid "%s shared %s links."
 msgstr ""
 
-#: inc/labels.php:159
+#: inc/labels.php:150
 msgid "Posted a message."
 msgstr ""
 
-#: inc/labels.php:164
+#: inc/labels.php:155
 #, php-format
 msgid "Posted %s messages."
 msgstr ""
 
-#: inc/labels.php:169
+#: inc/labels.php:160
 #, php-format
 msgid "%s posted a message."
 msgstr ""
 
-#: inc/labels.php:174
+#: inc/labels.php:165
 #, php-format
 msgid "%s posted %s messages."
 msgstr ""
 
-#: inc/labels.php:188
-#: inc/labels.php:359
-#: inc/labels.php:598
-#: inc/labels.php:982
+#: inc/labels.php:174
+#: inc/labels.php:323
+#: inc/labels.php:526
+#: inc/labels.php:852
 #, php-format
 msgid "Reviewed %2$s"
 msgstr ""
 
-#: inc/labels.php:193
+#: inc/labels.php:179
 #, php-format
 msgid "Reviewed %s items."
 msgstr ""
 
-#: inc/labels.php:199
-#: inc/labels.php:370
-#: inc/labels.php:609
-#: inc/labels.php:993
+#: inc/labels.php:185
+#: inc/labels.php:334
+#: inc/labels.php:537
+#: inc/labels.php:863
 #, php-format
 msgid "%1$s reviewed %3$s"
 msgstr ""
 
-#: inc/labels.php:204
+#: inc/labels.php:190
 #, php-format
 msgid "%s reviewed %s items."
 msgstr ""
 
-#: inc/labels.php:218
+#: inc/labels.php:199
 #, php-format
 msgid "Purchased %2$s"
 msgstr ""
 
-#: inc/labels.php:223
+#: inc/labels.php:204
 #, php-format
 msgid "Purchased %s items."
 msgstr ""
 
-#: inc/labels.php:229
+#: inc/labels.php:210
 #, php-format
 msgid "%1$s purchased %3$s"
 msgstr ""
 
-#: inc/labels.php:234
+#: inc/labels.php:215
 #, php-format
 msgid "%s purchased %s items."
 msgstr ""
 
-#: inc/labels.php:242
+#: inc/labels.php:223
 msgid "Commited code."
 msgstr ""
 
-#: inc/labels.php:247
+#: inc/labels.php:228
 #, php-format
 msgid "Made %s commits."
 msgstr ""
 
-#: inc/labels.php:252
+#: inc/labels.php:233
 #, php-format
 msgid "%s commited code."
 msgstr ""
 
-#: inc/labels.php:257
+#: inc/labels.php:238
 #, php-format
 msgid "%s made %s commits."
 msgstr ""
 
-#: inc/labels.php:276
+#: inc/labels.php:252
 #, php-format
 msgid "Shared %s books."
 msgstr ""
 
-#: inc/labels.php:287
+#: inc/labels.php:263
 #, php-format
 msgid "%s shared %s books."
 msgstr ""
 
-#: inc/labels.php:300
+#: inc/labels.php:274
 msgid "Posted a comment."
 msgstr ""
 
-#: inc/labels.php:305
+#: inc/labels.php:279
 #, php-format
 msgid "Posted %s comments."
 msgstr ""
 
-#: inc/labels.php:310
+#: inc/labels.php:284
 #, php-format
 msgid "%s posted a comment."
 msgstr ""
 
-#: inc/labels.php:315
+#: inc/labels.php:289
 #, php-format
 msgid "%s posted %s comments."
 msgstr ""
 
-#: inc/labels.php:329
-#: inc/labels.php:448
-#: inc/labels.php:478
-#: inc/labels.php:508
-#: inc/labels.php:628
-#: inc/labels.php:838
+#: inc/labels.php:298
+#: inc/labels.php:401
+#: inc/labels.php:426
+#: inc/labels.php:451
+#: inc/labels.php:551
+#: inc/labels.php:728
 #, php-format
 msgid "Liked %2$s"
 msgstr ""
 
-#: inc/labels.php:334
+#: inc/labels.php:303
 #, php-format
 msgid "Liked %s stories."
 msgstr ""
 
-#: inc/labels.php:340
-#: inc/labels.php:459
-#: inc/labels.php:489
-#: inc/labels.php:519
-#: inc/labels.php:639
-#: inc/labels.php:849
+#: inc/labels.php:309
+#: inc/labels.php:412
+#: inc/labels.php:437
+#: inc/labels.php:462
+#: inc/labels.php:562
+#: inc/labels.php:739
 #, php-format
 msgid "%1$s liked %3$s"
 msgstr ""
 
-#: inc/labels.php:345
+#: inc/labels.php:314
 #, php-format
 msgid "%s liked %s stories."
 msgstr ""
 
-#: inc/labels.php:364
+#: inc/labels.php:328
 #, php-format
 msgid "Reviewed %s businesses."
 msgstr ""
 
-#: inc/labels.php:375
+#: inc/labels.php:339
 #, php-format
 msgid "%s reviewed %s businesses."
 msgstr ""
 
-#: inc/labels.php:389
+#: inc/labels.php:348
 #, php-format
 msgid "Listened to %2$s"
 msgstr ""
 
-#: inc/labels.php:394
+#: inc/labels.php:353
 #, php-format
 msgid "Listened to %s songs."
 msgstr ""
 
-#: inc/labels.php:400
+#: inc/labels.php:359
 #, php-format
 msgid "%1$s listened to %3$s"
 msgstr ""
 
-#: inc/labels.php:405
+#: inc/labels.php:364
 #, php-format
 msgid "%s listened to %s songs."
 msgstr ""
 
-#: inc/labels.php:424
+#: inc/labels.php:380
 #, php-format
 msgid "Shared %s videos."
 msgstr ""
 
-#: inc/labels.php:435
+#: inc/labels.php:391
 #, php-format
 msgid "%s shared %s videos."
 msgstr ""
 
-#: inc/labels.php:453
+#: inc/labels.php:406
 #, php-format
 msgid "Liked %s videos."
 msgstr ""
 
-#: inc/labels.php:464
+#: inc/labels.php:417
 #, php-format
 msgid "%s liked %s videos."
 msgstr ""
 
-#: inc/labels.php:483
+#: inc/labels.php:431
 #, php-format
 msgid "Liked %s songs."
 msgstr ""
 
-#: inc/labels.php:494
+#: inc/labels.php:442
 #, php-format
 msgid "%s liked %s songs."
 msgstr ""
 
-#: inc/labels.php:513
+#: inc/labels.php:456
 #, php-format
 msgid "Liked %s artists."
 msgstr ""
 
-#: inc/labels.php:524
+#: inc/labels.php:467
 #, php-format
 msgid "%s liked %s artists."
 msgstr ""
 
-#: inc/labels.php:538
+#: inc/labels.php:476
 #, php-format
 msgid "Created %2$s"
 msgstr ""
 
-#: inc/labels.php:543
+#: inc/labels.php:481
 #, php-format
 msgid "Created %s stations."
 msgstr ""
 
-#: inc/labels.php:549
+#: inc/labels.php:487
 #, php-format
 msgid "%1$s created %3$s"
 msgstr ""
 
-#: inc/labels.php:554
+#: inc/labels.php:492
 #, php-format
 msgid "%s created %s stations."
 msgstr ""
 
-#: inc/labels.php:568
+#: inc/labels.php:501
 #, php-format
 msgid "Watched %2$s"
 msgstr ""
 
-#: inc/labels.php:573
+#: inc/labels.php:506
 #, php-format
 msgid "Watched %s videos."
 msgstr ""
 
-#: inc/labels.php:579
+#: inc/labels.php:512
 #, php-format
 msgid "%1$s watched %3$s"
 msgstr ""
 
-#: inc/labels.php:584
+#: inc/labels.php:517
 #, php-format
 msgid "%s watched %s videos."
 msgstr ""
 
-#: inc/labels.php:603
+#: inc/labels.php:531
 #, php-format
 msgid "Reviewed %s websites."
 msgstr ""
 
-#: inc/labels.php:614
+#: inc/labels.php:542
 #, php-format
 msgid "%s reviewed %s websites."
 msgstr ""
 
-#: inc/labels.php:633
+#: inc/labels.php:556
 #, php-format
 msgid "Liked %s websites."
 msgstr ""
 
-#: inc/labels.php:644
+#: inc/labels.php:567
 #, php-format
 msgid "%s liked %s websites."
 msgstr ""
 
-#: inc/labels.php:658
+#: inc/labels.php:576
 #, php-format
 msgid "Wants %2$s"
 msgstr ""
 
-#: inc/labels.php:663
+#: inc/labels.php:581
 #, php-format
 msgid "Wants %s items."
 msgstr ""
 
-#: inc/labels.php:669
+#: inc/labels.php:587
 #, php-format
 msgid "%1$s wants %3$s"
 msgstr ""
 
-#: inc/labels.php:674
+#: inc/labels.php:592
 #, php-format
 msgid "%s wants %s items."
 msgstr ""
 
-#: inc/labels.php:688
+#: inc/labels.php:601
 #, php-format
 msgid "Checked in at %2$s"
 msgstr ""
 
-#: inc/labels.php:693
+#: inc/labels.php:606
 #, php-format
 msgid "Checked in %s times."
 msgstr ""
 
-#: inc/labels.php:699
+#: inc/labels.php:612
 #, php-format
 msgid "%1$s checked in at %3$s"
 msgstr ""
 
-#: inc/labels.php:704
+#: inc/labels.php:617
 #, php-format
 msgid "%s checked in %s times."
 msgstr ""
 
-#: inc/labels.php:718
+#: inc/labels.php:626
 #, php-format
 msgid "Received %2$s"
 msgstr ""
 
-#: inc/labels.php:723
+#: inc/labels.php:631
 #, php-format
 msgid "Received %s badges."
 msgstr ""
 
-#: inc/labels.php:729
+#: inc/labels.php:637
 #, php-format
 msgid "%1$s received %3$s"
 msgstr ""
 
-#: inc/labels.php:734
+#: inc/labels.php:642
 #, php-format
 msgid "%s received %s badges."
 msgstr ""
 
-#: inc/labels.php:748
+#: inc/labels.php:651
 #, php-format
 msgid "Ate %2$s."
 msgstr ""
 
-#: inc/labels.php:753
+#: inc/labels.php:656
 #, php-format
 msgid "Ate %s meals."
 msgstr ""
 
-#: inc/labels.php:759
+#: inc/labels.php:662
 #, php-format
 msgid "%1$s ate %3$s."
 msgstr ""
 
-#: inc/labels.php:764
+#: inc/labels.php:667
 #, php-format
 msgid "%s ate %s."
 msgstr ""
 
-#: inc/labels.php:778
+#: inc/labels.php:676
 #, php-format
 msgid "Watched %2$s."
 msgstr ""
 
-#: inc/labels.php:783
+#: inc/labels.php:681
 #, php-format
 msgid "Watched %s episodes."
 msgstr ""
 
-#: inc/labels.php:789
+#: inc/labels.php:687
 #, php-format
 msgid "%1$s watched %3$s."
 msgstr ""
 
-#: inc/labels.php:794
+#: inc/labels.php:692
 #, php-format
 msgid "%s watched %s episodes."
 msgstr ""
 
-#: inc/labels.php:813
+#: inc/labels.php:706
 #, php-format
 msgid "Shared %s stories."
 msgstr ""
 
-#: inc/labels.php:824
+#: inc/labels.php:717
 #, php-format
 msgid "%s shared %s stories."
 msgstr ""
 
-#: inc/labels.php:843
+#: inc/labels.php:733
 #, php-format
 msgid "Liked %s movies."
 msgstr ""
 
-#: inc/labels.php:854
+#: inc/labels.php:744
 #, php-format
 msgid "%s liked %s movies."
 msgstr ""
 
-#: inc/labels.php:868
+#: inc/labels.php:758
 #, php-format
 msgid "Shared %s presentations."
 msgstr ""
 
-#: inc/labels.php:879
+#: inc/labels.php:769
 #, php-format
 msgid "%s shared %s presentations."
 msgstr ""
 
-#: inc/labels.php:893
+#: inc/labels.php:778
 #, php-format
 msgid "Unlocked %2$s"
 msgstr ""
 
-#: inc/labels.php:898
+#: inc/labels.php:783
 #, php-format
 msgid "Unlocked %s achievements."
 msgstr ""
 
-#: inc/labels.php:904
+#: inc/labels.php:789
 #, php-format
 msgid "%1$s unlocked %3$s"
 msgstr ""
 
-#: inc/labels.php:909
+#: inc/labels.php:794
 #, php-format
 msgid "%s unlocked %s achievements."
 msgstr ""
 
-#: inc/labels.php:923
+#: inc/labels.php:803
 #, php-format
 msgid "Played %2$s"
 msgstr ""
 
-#: inc/labels.php:928
+#: inc/labels.php:808
 #, php-format
 msgid "Played %s games."
 msgstr ""
 
-#: inc/labels.php:934
+#: inc/labels.php:814
 #, php-format
 msgid "%1$s played %3$s"
 msgstr ""
 
-#: inc/labels.php:939
+#: inc/labels.php:819
 #, php-format
 msgid "%s played %s games."
 msgstr ""
 
-#: inc/labels.php:952
+#: inc/labels.php:827
 #, php-format
 msgid "Queued %2$s"
 msgstr ""
 
-#: inc/labels.php:957
+#: inc/labels.php:832
 #, php-format
 msgid "Queued %s videos."
 msgstr ""
 
-#: inc/labels.php:963
+#: inc/labels.php:838
 #, php-format
 msgid "%1$s queued %3$s"
 msgstr ""
 
-#: inc/labels.php:968
+#: inc/labels.php:843
 #, php-format
 msgid "%s queued %s videos."
 msgstr ""
 
-#: inc/labels.php:987
+#: inc/labels.php:857
 #, php-format
 msgid "Reviewed %s videos."
 msgstr ""
 
-#: inc/labels.php:998
+#: inc/labels.php:868
 #, php-format
 msgid "%s reviewed %s videos."
 msgstr ""
 
-#: inc/labels.php:1012
+#: inc/labels.php:877
 #, php-format
 msgid "Attending %2$s"
 msgstr ""
 
-#: inc/labels.php:1017
+#: inc/labels.php:882
 #, php-format
 msgid "Attending %s events."
 msgstr ""
 
-#: inc/labels.php:1023
+#: inc/labels.php:888
 #, php-format
 msgid "%1$s is attending %3$s"
 msgstr ""
 
-#: inc/labels.php:1028
+#: inc/labels.php:893
 #, php-format
 msgid "%s is attending %s events."
 msgstr ""
 
-#: inc/labels.php:1042
+#: inc/labels.php:902
 #, php-format
 msgid "Contributed to %2$s"
 msgstr ""
 
-#: inc/labels.php:1047
+#: inc/labels.php:907
 #, php-format
 msgid "Contributed to %s pages."
 msgstr ""
 
-#: inc/labels.php:1053
+#: inc/labels.php:913
 #, php-format
 msgid "%1$s contributed to %3$s"
 msgstr ""
 
-#: inc/labels.php:1058
+#: inc/labels.php:918
 #, php-format
 msgid "%s contributed to %s pages."
 msgstr ""
@@ -946,6 +946,11 @@ msgid "%s Feed Settings"
 msgstr ""
 
 #: pages/add-feed.inc.php:50
+#: pages/edit-feed.inc.php:49
+msgid "Feed Label:"
+msgstr ""
+
+#: pages/add-feed.inc.php:50
 #: pages/add-feed.inc.php:63
 #: pages/edit-feed.inc.php:49
 #: pages/edit-feed.inc.php:62
@@ -960,6 +965,11 @@ msgstr ""
 #: pages/add-feed.inc.php:60
 #: pages/edit-feed.inc.php:59
 msgid "Use websites default favicon."
+msgstr ""
+
+#: pages/add-feed.inc.php:63
+#: pages/edit-feed.inc.php:62
+msgid "Icon URL:"
 msgstr ""
 
 #: pages/add-feed.inc.php:67
@@ -1065,6 +1075,7 @@ msgstr ""
 
 #: pages/errors.inc.php:25
 #: pages/events.inc.php:31
+#: pages/settings.inc.php:117
 msgid "Feed"
 msgstr ""
 
@@ -1121,11 +1132,6 @@ msgstr ""
 msgid "You may direct questions, feedback, and problems to us by posting in the forums below."
 msgstr ""
 
-#: pages/lifestream-list.inc.php:23
-#: pages/lifestream-table.inc.php:45
-msgid "There are no events to show at this time."
-msgstr ""
-
 #: pages/settings.inc.php:7
 msgid "LifeStream Configuration"
 msgstr ""
@@ -1164,7 +1170,7 @@ msgstr ""
 #: pages/settings.inc.php:51
 #: pages/settings.inc.php:58
 #: pages/settings.inc.php:65
-#: pages/settings.inc.php:114
+#: pages/settings.inc.php:128
 #, php-format
 msgid "(Default: %s)"
 msgstr ""
@@ -1174,7 +1180,7 @@ msgid "The number of minutes between updates to your feeds. Value is in minutes.
 msgstr ""
 
 #: pages/settings.inc.php:49
-#: pages/settings.inc.php:112
+#: pages/settings.inc.php:126
 msgid "Number of Items:"
 msgstr ""
 
@@ -1206,12 +1212,22 @@ msgstr ""
 msgid "Show the owner of the feed in the display."
 msgstr ""
 
+#: pages/settings.inc.php:72
+#, php-format
+msgid "e.g. %s posted a new photo on %s"
+msgstr ""
+
 #: pages/settings.inc.php:76
 msgid "Enable iBox:"
 msgstr ""
 
 #: pages/settings.inc.php:77
 msgid "Enable iBox on plugins that support it."
+msgstr ""
+
+#: pages/settings.inc.php:78
+#, php-format
+msgid "Requires the %s plugin."
 msgstr ""
 
 #: pages/settings.inc.php:82
@@ -1239,73 +1255,100 @@ msgid "fopen"
 msgstr ""
 
 #: pages/settings.inc.php:95
+msgid "Theme:"
+msgstr ""
+
+#: pages/settings.inc.php:102
+msgid "Please see the included themes/README for information on creating your own theme."
+msgstr ""
+
+#: pages/settings.inc.php:106
 msgid "Show Credits:"
 msgstr ""
 
-#: pages/settings.inc.php:96
+#: pages/settings.inc.php:107
 msgid "Give credit to LifeStream when it's embedded."
 msgstr ""
 
-#: pages/settings.inc.php:105
+#: pages/settings.inc.php:108
+msgid "e.g."
+msgstr ""
+
+#: pages/settings.inc.php:114
+#: pages/settings.inc.php:134
+#: pages/settings.inc.php:224
+msgid "Save Changes"
+msgstr ""
+
+#: pages/settings.inc.php:119
 #, php-format
 msgid "You can access your feed URL at <a href=\"%s\">%s</a>."
 msgstr ""
 
-#: pages/settings.inc.php:115
+#: pages/settings.inc.php:129
 msgid "The number of items to display in the default lifestream feed call."
 msgstr ""
 
-#: pages/settings.inc.php:120
+#: pages/settings.inc.php:137
 msgid "Digest"
 msgstr ""
 
-#: pages/settings.inc.php:121
+#: pages/settings.inc.php:138
 msgid "LifeStream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period."
 msgstr ""
 
-#: pages/settings.inc.php:128
+#: pages/settings.inc.php:145
 msgid "Show Digest:"
 msgstr ""
 
-#: pages/settings.inc.php:129
+#: pages/settings.inc.php:146
 msgid "Post a summary of my lifestream."
 msgstr ""
 
-#: pages/settings.inc.php:133
+#: pages/settings.inc.php:150
 msgid "Post Interval:"
 msgstr ""
 
-#: pages/settings.inc.php:156
+#: pages/settings.inc.php:173
 msgid "This determines the approximate time when your digest should be posted."
 msgstr ""
 
-#: pages/settings.inc.php:160
+#: pages/settings.inc.php:177
 msgid "Summary Post Title:"
 msgstr ""
 
-#: pages/settings.inc.php:163
+#: pages/settings.inc.php:180
 #, php-format
 msgid "You may use <code>%%1$s</code> for the current date, and <code>%%2$s</code> for the current time."
 msgstr ""
 
-#: pages/settings.inc.php:167
+#: pages/settings.inc.php:184
 msgid "Summary Post Body:"
 msgstr ""
 
-#: pages/settings.inc.php:170
+#: pages/settings.inc.php:187
 #, php-format
 msgid "You may use <code>%%1$s</code> for the list of events, <code>%%2$s</code> for the day, and <code>%%3$d</code> for the number of events."
 msgstr ""
 
-#: pages/settings.inc.php:174
+#: pages/settings.inc.php:191
 msgid "Summary Author:"
 msgstr ""
 
-#: pages/settings.inc.php:192
+#: pages/settings.inc.php:209
 msgid "Summary Category:"
 msgstr ""
 
-#: pages/settings.inc.php:207
-msgid "Save Changes"
+#: themes/default/main.inc.php:13
+msgid "Today"
+msgstr ""
+
+#: themes/default/main.inc.php:14
+msgid "Yesterday"
+msgstr ""
+
+#: themes/default/main.inc.php:45
+#: themes/default/sidebar.inc.php:23
+msgid "There are no events to show at this time."
 msgstr ""
 

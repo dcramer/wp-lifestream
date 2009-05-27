@@ -69,13 +69,13 @@ $authors = get_users_of_blog();
             <tr>
                 <th><?php $lifestream->_e('Show Owners:'); ?></th>
                 <td><label for="id_show_owners"><input type="checkbox" name="lifestream_show_owners" id="id_show_owners" value="1"<?php if ($lifestream->get_option('show_owners')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Show the owner of the feed in the display.'); ?></label>
-                    <div class="helptext">e.g. <a href="#">admin</a> posted a new photo on <a href="http://www.flickr.com/">Flickr</a></div>
+                    <div class="helptext"><?php $lifestream->_e('e.g. %s posted a new photo on %s', '<a href="#">admin</a>', '<a href="http://www.flickr.com/">Flickr</a>'); ?></div>
                 </td>
             </tr>
             <tr>
                 <th><?php $lifestream->_e('Enable iBox:'); ?></th>
                 <td><label for="id_use_ibox"><input type="checkbox" name="lifestream_use_ibox" id="id_use_ibox" value="1"<?php if ($lifestream->get_option('use_ibox')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Enable iBox on plugins that support it.'); ?></label>
-                    <div class="helptext">Requires the <a href="http://www.ibegin.com/labs/ibox/">iBox</a> plugin.</div>
+                    <div class="helptext"><?php $lifestream->_e('Requires the %s plugin.', '<a href="http://www.ibegin.com/labs/ibox/">iBox</a>'); ?></div>
                 </td>
             </tr>
             <tr>
@@ -105,7 +105,7 @@ $authors = get_users_of_blog();
             <tr>
                 <th><?php $lifestream->_e('Show Credits:'); ?></th>
                 <td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if ($lifestream->get_option('show_credits')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Give credit to LifeStream when it\'s embedded.'); ?></label>
-                    <div class="helptext">e.g. <?php echo $lifestream->credits(); ?></div>
+                    <div class="helptext"><?php $lifestream->_e('e.g.'); ?> <?php echo $lifestream->credits(); ?></div>
                 </td>
             </tr>
         </tbody>
