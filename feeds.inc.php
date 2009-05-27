@@ -2229,12 +2229,12 @@ function lifestream_twitter_status($links=true)
 	if ($links)
 	{
 		// to render it with links
-		echo $event->feed->render_item($event, $event->data);
+		echo $event->feed->render_item($event, $event->data[0]);
 	}
 	else
 	{
 		// or render just the text
-		echo $event->data['title'];
+		echo $event->data[0]['title'];
 	}
 }
 
@@ -2251,12 +2251,12 @@ function lifestream_facebook_status($links=true)
 	if ($links)
 	{
 		// to render it with links
-		echo $event->feed->render_item($event, $event->data);
+		echo $event->feed->render_item($event, $event->data[0]);
 	}
 	else
 	{
 		// or render just the text
-		echo $event->data['title'];
+		echo $event->data[0]['title'];
 	}
 }
 
