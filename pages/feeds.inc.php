@@ -49,7 +49,7 @@ if (count($results))
                 <tr valign="top">
                     <th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
                     <td class="num"><?php echo $result->id; ?></td>
-                    <td class="icon"><img src="<?php echo $result->get_icon_url(); ?>"/></td>
+                    <td class="icon"><img src="<?php echo $result->get_icon_url(); ?>" alt="icon"/></td>
                     <td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo $result->get_public_name(); ?></a></strong><br /><small><?php echo htmlspecialchars($lifestream->truncate($result->get_feed_display(), 100)); ?></small><?php
                     if (isset($feedmsgs[$result->id]) && !empty($feedmsgs[$result->id]))
                     {
