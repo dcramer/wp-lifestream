@@ -47,7 +47,7 @@ $authors = get_users_of_blog();
 		<?php } ?>
 		
 		<tr>
-			<th><label for="id_feed_label"><?php _e('Feed Label:'); ?></label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
+			<th><label for="id_feed_label"><?php $lifestream->_e('Feed Label:'); ?></label><br /><small>(<?php $lifestream->_e('Optional'); ?>)</small></th>
 			<td>
 				<?php $current_value = (isset($_POST['feed_label']) ? stripslashes($_POST['feed_label']) : ''); ?>
 				<input type="text" id="id_feed_label" name="feed_label" value="<?php echo htmlspecialchars($current_value); ?>"/>
