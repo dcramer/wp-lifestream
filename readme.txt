@@ -2,16 +2,15 @@
 Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom
 Requires at least: 2.5
 Tested up to: 2.7.1
-Stable tag: 0.99.7.1
+Stable tag: 0.99.7.2
 
-Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
+Streams your activity from over 50 different sources to your blog.
 
 == Description ==
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
-For more information please visit the homepage: http://www.ibegin.com/labs/wp-lifestream/
-
+Homepage and Support: http://www.ibegin.com/labs/wp-lifestream/
 Follow us on Twitter: http://www.twitter.com/wplifestream
 
 Requirements:
@@ -145,6 +144,18 @@ The plugin includes most of the major social networking feeds available. You may
 * Steam
 * Xbox Live
 * iTunes
+* Github
+* Readernaut
+* ScrnShots
+* Mobypicture
+* SmugMug
+* DeviantArt
+* BackType
+* LibraryThing
+* Netflix
+* Wikipedia
+* Upcoming.org
+* WordPress Codex
 
 == Localization ==
 

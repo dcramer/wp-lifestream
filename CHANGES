@@ -1,6 +1,8 @@
 0.99.7.2
 
 * Changing the owner of a feed now correctly sets all past and future events to the proper owner.
+* Moved digest template in themes/<name>/digest.inc.php.
+* PHP4 should no longer cause fatal errors, but fail with an error message.
 
 0.99.7.1
 
