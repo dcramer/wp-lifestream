@@ -1,3 +1,7 @@
+0.99.7.2
+
+* Changing the owner of a feed now correctly sets all past and future events to the proper owner.
+
 0.99.7.1
 
 * Updated localization with some missing values.
