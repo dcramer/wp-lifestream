@@ -84,6 +84,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	const URL		= 'http://www.twitter.com/';
 	const LABEL		= 'LifeStream_MessageLabel';
 	const CAN_GROUP	= false;
+	const DESCRIPTION = 'Specifying your password will allow Lifestream to pull in protected updates from your profile. Your password is stored in plaintext in the database, so only do this is you have no other option.';
 	
 	function __toString()
 	{
@@ -94,6 +95,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	{		
 		return array(
 			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+			'password' => array($this->lifestream->__('Password:'), false, '', ''),
 			'hide_replies' => array($this->lifestream->__('Hide Replies'), false, true, false),
 		);
 	}
@@ -105,7 +107,7 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 	
 	function _get_search_term_link($match)
 	{
-		return $match[1].'<a href="http://search.twitter.com/search?q='.urlencode($match[2]).'">'.htmlspecialchars($match[2]).'</a>';
+		return $match[1].'<a href="https://search.twitter.com/search?q='.urlencode($match[2]).'">'.htmlspecialchars($match[2]).'</a>';
 	}
 
 	function get_user_link($user)
@@ -135,7 +137,15 @@ class LifeStream_TwitterFeed extends LifeStream_Feed
 
 	function get_url($page=1, $count=20)
 	{
-		return 'http://twitter.com/statuses/user_timeline/'.$this->options['username'].'.rss?page='.$page.'&count='.$count;
+		if ($this->options['password'])
+		{
+			$url_base = 'http://'.$this->options['username'].':'.$this->options['password'].'@twitter.com';
+		}
+		else
+		{
+			$url_base = 'http://twitter.com';
+		}
+		return $url_base . '/statuses/user_timeline/'.$this->options['username'].'.rss?page='.$page.'&count='.$count;
 	}
 	
 	function save()

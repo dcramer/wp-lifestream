@@ -1,3 +1,8 @@
+0.99.7.3
+
+* lifestream.css has been moved into the theme.
+* Twitter can now use HTTP Auth (if you specify a password) to fetch updates.
+
 0.99.7.2
 
 * Changing the owner of a feed now correctly sets all past and future events to the proper owner.
