@@ -535,8 +535,8 @@ class Lifestream
 	
 	function header()
 	{
-		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$this->path.'/lifestream.css"/>';
 		echo '<script type="text/javascript" src="'.$this->path.'/lifestream.js"></script>';
+		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$this->path.'/themes/'.$this->theme.'/media/lifestream.css"/>';
 	}
 	
 	function options_page()
