@@ -215,7 +215,7 @@ class Lifestream
 		{
 			throw new Exception('LifeStream::theme contains an invalid character.');
 		}
-		return LIFESTREAM_PATH . '/themes/'.$this->theme.'/'.$filename;
+		return LIFESTREAM_PATH . '/themes/'.$this->get_option('theme', 'default').'/'.$filename;
 	}
 
 	function validate_image($url)
@@ -536,7 +536,7 @@ class Lifestream
 	function header()
 	{
 		echo '<script type="text/javascript" src="'.$this->path.'/lifestream.js"></script>';
-		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$this->path.'/themes/'.$this->theme.'/media/lifestream.css"/>';
+		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$this->path.'/themes/'.$this->get_option('theme', 'default').'/media/lifestream.css"/>';
 	}
 	
 	function options_page()
