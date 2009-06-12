@@ -2,7 +2,7 @@
 $authors = get_users_of_blog();
 
 ?>
-<h2><?php $lifestream->_e('Edit Feed'); ?> <small><?php $lifestream->_e('(<a href="%s">Back to LifeStream Feeds</a>)', '?page=lifestream.php'); ?></small></h2>
+<h2><?php $lifestream->_e('Edit Feed'); ?> <small><?php $lifestream->_e('(<a href="%s">Back to Lifestream Feeds</a>)', '?page=lifestream.php'); ?></small></h2>
 
 <?php if ($instance) { ?>
 	<form action="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $instance->id; ?>" method="post">

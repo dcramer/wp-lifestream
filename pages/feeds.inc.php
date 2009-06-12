@@ -1,4 +1,4 @@
-<h2><?php $lifestream->_e('LifeStream Feeds'); ?> <small>(<a href="?page=lifestream.php&amp;op=refreshall"><?php $lifestream->_e('Refresh All Feeds'); ?></a>)</small></h2>
+<h2><?php $lifestream->_e('Lifestream Feeds'); ?> <small>(<a href="?page=lifestream.php&amp;op=refreshall"><?php $lifestream->_e('Refresh All Feeds'); ?></a>)</small></h2>
 <?php
 
 if (count($results))

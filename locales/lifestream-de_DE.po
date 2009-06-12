@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: LifeStream v0.75\n"
+"Project-Id-Version: Lifestream v0.75\n"
 "PO-Revision-Date: 2008-10-17 11:10+0200\n"
 "Last-Translator: Robert Mekwinski <info@soma3.de>\n"
 "MIME-Version: 1.0\n"
@@ -56,8 +56,8 @@ msgstr "Die ausgewählten Feeds und alle damit verbundenen Einträge wurde entfe
 
 #: _lifestream.php:1125
 #, php-format
-msgid "Selected feed was added to your LifeStream with %d event(s)."
-msgstr "Der ausgewählte Feed wurde mit %d Einträgen zu deinem LifeStream hinzugefügt."
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "Der ausgewählte Feed wurde mit %d Einträgen zu deinem Lifestream hinzugefügt."
 
 #: _lifestream.php:1151
 msgid "Please correct the following errors:"
@@ -65,8 +65,8 @@ msgstr "Bitte korrigiere die folgenden Fehler:"
 
 #: _lifestream.php:1231
 #: pages/feeds.inc.php:1
-msgid "LifeStream Feeds"
-msgstr "LifeStream Feeds"
+msgid "Lifestream Feeds"
+msgstr "Lifestream Feeds"
 
 #: _lifestream.php:1231
 msgid "Feeds"
@@ -74,8 +74,8 @@ msgstr "Feeds"
 
 #: _lifestream.php:1232
 #: pages/events.inc.php:1
-msgid "LifeStream Events"
-msgstr "LifeStream Einträge"
+msgid "Lifestream Events"
+msgstr "Lifestream Einträge"
 
 #: _lifestream.php:1232
 #: pages/feeds.inc.php:41
@@ -83,8 +83,8 @@ msgid "Events"
 msgstr "Einträge"
 
 #: _lifestream.php:1233
-msgid "LifeStream Settings"
-msgstr "LifeStream Einstellungen"
+msgid "Lifestream Settings"
+msgstr "Lifestream Einstellungen"
 
 #: _lifestream.php:1233
 msgid "Settings"
@@ -92,8 +92,8 @@ msgstr "Einstellungen"
 
 #: _lifestream.php:1234
 #: pages/forums.inc.php:1
-msgid "LifeStream Support Forums"
-msgstr "LifeStream Support Foren"
+msgid "Lifestream Support Forums"
+msgstr "Lifestream Support Foren"
 
 #: _lifestream.php:1234
 msgid "Support Forums"
@@ -147,8 +147,8 @@ msgstr "Feed bearbeiten"
 
 #: pages/edit-feed.inc.php:5
 #, php-format
-msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
-msgstr "(<a href=\"%s\">Zurück zu den LifeStream Feeds</a>)"
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Zurück zu den Lifestream Feeds</a>)"
 
 #: pages/edit-feed.inc.php:51
 msgid "Show labels for events in this feed. This will not effect grouped events."
@@ -235,8 +235,8 @@ msgid "There are no events to show at this time."
 msgstr "Es gibt derzeit keine Einträge."
 
 #: pages/settings.inc.php:7
-msgid "LifeStream Configuration"
-msgstr "LifeStream Konfiguration"
+msgid "Lifestream Configuration"
+msgstr "Lifestream Konfiguration"
 
 #: pages/settings.inc.php:8
 #, php-format
@@ -281,7 +281,7 @@ msgstr "Anzahl der Artikel:"
 
 #: pages/settings.inc.php:51
 msgid "The number of items to display in the default lifestream feed call."
-msgstr "Die Anzahl der Einträge die im Standard LifeStream Feed abgerufen werden."
+msgstr "Die Anzahl der Einträge die im Standard Lifestream Feed abgerufen werden."
 
 #: pages/settings.inc.php:55
 msgid "Date Cutoff:"
@@ -300,20 +300,20 @@ msgid "Enable iBox on plugins that support it."
 msgstr "Aktiviere IBox über Plugins zur Unterstützung."
 
 #: pages/settings.inc.php:75
-msgid "Give credit to LifeStream when it's embedded."
-msgstr "Zeige LifeStream Homepage Link wenn es eingefügt wird."
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Zeige Lifestream Homepage Link wenn es eingefügt wird."
 
 #: pages/settings.inc.php:82
 msgid "Daily Digest"
 msgstr "Daily Digest"
 
 #: pages/settings.inc.php:83
-msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
-msgstr "Mit LifeStream hast du die Möglichkeit jeden Tag einen neuen Blogpost zu erstellen, der von deinen Aktivitäten und Events am Tag erzählt."
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Mit Lifestream hast du die Möglichkeit jeden Tag einen neuen Blogpost zu erstellen, der von deinen Aktivitäten und Events am Tag erzählt."
 
 #: pages/settings.inc.php:91
 msgid "Post a daily summary of my lifestream."
-msgstr "Poste eine tägliche Zusammenfassung meines LifeStreams."
+msgstr "Poste eine tägliche Zusammenfassung meines Lifestreams."
 
 #: pages/settings.inc.php:95
 msgid "Summary Post Title:"

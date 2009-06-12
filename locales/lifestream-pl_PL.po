@@ -55,8 +55,8 @@ msgstr "Wybrane kanały i wszystkie związane z nim wydarzenia została usunięt
 
 #: _lifestream.php:1113
 #, php-format
-msgid "Selected feed was added to your LifeStream with %d event(s)."
-msgstr "Wybrane kanał został dodany do Twojego LifeStream z %d wydarzeniami."
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "Wybrane kanał został dodany do Twojego Lifestream z %d wydarzeniami."
 
 #: _lifestream.php:1134
 msgid "Please correct the following errors:"
@@ -64,8 +64,8 @@ msgstr "Proszę poprawić następujące błędy:"
 
 #: _lifestream.php:1214
 #: pages/feeds.inc.php:1
-msgid "LifeStream Feeds"
-msgstr "Kanały LifeStreams"
+msgid "Lifestream Feeds"
+msgstr "Kanały Lifestreams"
 
 #: _lifestream.php:1214
 msgid "Feeds"
@@ -73,8 +73,8 @@ msgstr "Kanały"
 
 #: _lifestream.php:1215
 #: pages/events.inc.php:1
-msgid "LifeStream Events"
-msgstr "Wydarzenia LifeStream"
+msgid "Lifestream Events"
+msgstr "Wydarzenia Lifestream"
 
 #: _lifestream.php:1215
 #: pages/feeds.inc.php:34
@@ -82,8 +82,8 @@ msgid "Events"
 msgstr "Wydarzenia"
 
 #: _lifestream.php:1216
-msgid "LifeStream Settings"
-msgstr "Ustawienia LifeStream:"
+msgid "Lifestream Settings"
+msgstr "Ustawienia Lifestream:"
 
 #: _lifestream.php:1216
 msgid "Settings"
@@ -91,8 +91,8 @@ msgstr "Ustawienia"
 
 #: _lifestream.php:1217
 #: pages/forums.inc.php:1
-msgid "LifeStream Support Forums"
-msgstr "Forum Pomocy LifeStream"
+msgid "Lifestream Support Forums"
+msgstr "Forum Pomocy Lifestream"
 
 #: _lifestream.php:1217
 msgid "Support Forums"
@@ -146,8 +146,8 @@ msgstr "Edytuj kanał"
 
 #: pages/edit-feed.inc.php:5
 #, php-format
-msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
-msgstr "(<a href=\"%s\">Wróć do kanałów LifeStream</a>)"
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Wróć do kanałów Lifestream</a>)"
 
 #: pages/edit-feed.inc.php:51
 msgid "Show labels for events in this feed. This will not effect grouped events."
@@ -239,8 +239,8 @@ msgid "There are no events to show at this time."
 msgstr "Nie ma żadnych wydarzeń, aby pokazać w tej chwili."
 
 #: pages/settings.inc.php:7
-msgid "LifeStream Configuration"
-msgstr "Konfiguracacja LifeStream"
+msgid "Lifestream Configuration"
+msgstr "Konfiguracacja Lifestream"
 
 #: pages/settings.inc.php:8
 #, php-format
@@ -304,16 +304,16 @@ msgid "Enable iBox on plugins that support it."
 msgstr "Włącz iBox dla wtyczek, które go popierają."
 
 #: pages/settings.inc.php:75
-msgid "Give credit to LifeStream when it's embedded."
-msgstr "Wyświetl stopkę autora LifeStream."
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Wyświetl stopkę autora Lifestream."
 
 #: pages/settings.inc.php:82
 msgid "Daily Digest"
 msgstr "Dzienne podsumowanie"
 
 #: pages/settings.inc.php:83
-msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
-msgstr "LifeStream daje możliwość tworzenia nowego wpisu każdego dnia, zawierającego wszystkie wydarzenia, które miały miejsce w tym dniu."
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Lifestream daje możliwość tworzenia nowego wpisu każdego dnia, zawierającego wszystkie wydarzenia, które miały miejsce w tym dniu."
 
 #: pages/settings.inc.php:91
 msgid "Post a daily summary of my lifestream."

@@ -25,7 +25,7 @@ function lifestream_widget($args, $widget_args=1)
 
 	echo $before_widget;
 
-	echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : $lifestream->__('LifeStream')) . $after_title;
+	echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : $lifestream->__('Lifestream')) . $after_title;
 
 	lifestream_sidebar_widget(array(
 		'limit'=>$options['amount'],
@@ -120,7 +120,7 @@ function lifestream_widget_control($widget_args=1)
 	$feeds = array();
 	foreach ($results as &$result)
 	{
-		$feeds[] = LifeStream_Feed::construct_from_query_result($lifestream, $result);
+		$feeds[] = Lifestream_Feed::construct_from_query_result($lifestream, $result);
 	}
 
 	// The form has inputs with names like widget-many[$number][something] so that all data for that instance of

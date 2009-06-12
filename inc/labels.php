@@ -1,6 +1,6 @@
 <?php
 
-class LifeStream_Label
+class Lifestream_Label
 {
 	const CAN_GROUP = true;
 	const TEMPLATE = 'basic';
@@ -59,7 +59,7 @@ class LifeStream_Label
 	}
 }
 
-class LifeStream_BlogLabel extends LifeStream_Label
+class Lifestream_BlogLabel extends Lifestream_Label
 {
 	const TEMPLATE = 'post';
 	
@@ -86,7 +86,7 @@ class LifeStream_BlogLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_PhotoLabel extends LifeStream_Label
+class Lifestream_PhotoLabel extends Lifestream_Label
 {
 	const TEMPLATE = 'photo';
 	
@@ -113,7 +113,7 @@ class LifeStream_PhotoLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_BookmarkLabel extends LifeStream_Label
+class Lifestream_BookmarkLabel extends Lifestream_Label
 {
 	const TEMPLATE = 'bookmark';
 	
@@ -140,7 +140,7 @@ class LifeStream_BookmarkLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_MessageLabel extends LifeStream_Label
+class Lifestream_MessageLabel extends Lifestream_Label
 {
 	const CAN_GROUP = false;
 	const TEMPLATE = 'message';
@@ -166,7 +166,7 @@ class LifeStream_MessageLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_ReviewLabel extends LifeStream_Label
+class Lifestream_ReviewLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -191,7 +191,7 @@ class LifeStream_ReviewLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_PurchaseLabel extends LifeStream_Label
+class Lifestream_PurchaseLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -216,7 +216,7 @@ class LifeStream_PurchaseLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_CommitLabel extends LifeStream_Label
+class Lifestream_CommitLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -239,7 +239,7 @@ class LifeStream_CommitLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_BookLabel extends LifeStream_Label
+class Lifestream_BookLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -264,7 +264,7 @@ class LifeStream_BookLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_CommentLabel extends LifeStream_Label
+class Lifestream_CommentLabel extends Lifestream_Label
 {
 	const CAN_GROUP = false;
 	const TEMPLATE = 'comment';
@@ -290,7 +290,7 @@ class LifeStream_CommentLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_LikeStoryLabel extends LifeStream_Label
+class Lifestream_LikeStoryLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -315,7 +315,7 @@ class LifeStream_LikeStoryLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_BusinessReviewLabel extends LifeStream_Label
+class Lifestream_BusinessReviewLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -340,7 +340,7 @@ class LifeStream_BusinessReviewLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_ListenLabel extends LifeStream_Label
+class Lifestream_ListenLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -365,7 +365,7 @@ class LifeStream_ListenLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_VideoLabel extends LifeStream_Label
+class Lifestream_VideoLabel extends Lifestream_Label
 {
 	const TEMPLATE = 'photo';
 	
@@ -391,7 +391,7 @@ class LifeStream_VideoLabel extends LifeStream_Label
 		return $this->lifestream->__('%s shared %s videos.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
 	}
 }
-class LifeStream_LikeVideoLabel extends LifeStream_VideoLabel
+class Lifestream_LikeVideoLabel extends Lifestream_VideoLabel
 {
 	const TEMPLATE = 'photo';
 	
@@ -418,7 +418,7 @@ class LifeStream_LikeVideoLabel extends LifeStream_VideoLabel
 	}
 }
 
-class LifeStream_LikeSongLabel extends LifeStream_Label
+class Lifestream_LikeSongLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -443,7 +443,7 @@ class LifeStream_LikeSongLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_LikeArtistLabel extends LifeStream_Label
+class Lifestream_LikeArtistLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -468,7 +468,7 @@ class LifeStream_LikeArtistLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_CreateStationLabel extends LifeStream_Label
+class Lifestream_CreateStationLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -493,7 +493,7 @@ class LifeStream_CreateStationLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_WatchVideoLabel extends LifeStream_Label
+class Lifestream_WatchVideoLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -518,7 +518,7 @@ class LifeStream_WatchVideoLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_ReviewWebsiteLabel extends LifeStream_Label
+class Lifestream_ReviewWebsiteLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -543,7 +543,7 @@ class LifeStream_ReviewWebsiteLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_LikeWebsiteLabel extends LifeStream_Label
+class Lifestream_LikeWebsiteLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -568,7 +568,7 @@ class LifeStream_LikeWebsiteLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_WantLabel extends LifeStream_Label
+class Lifestream_WantLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -593,7 +593,7 @@ class LifeStream_WantLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_LocationLabel extends LifeStream_Label
+class Lifestream_LocationLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -618,7 +618,7 @@ class LifeStream_LocationLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_ReceiveBadgeLabel extends LifeStream_Label
+class Lifestream_ReceiveBadgeLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -643,7 +643,7 @@ class LifeStream_ReceiveBadgeLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_EatLabel extends LifeStream_Label
+class Lifestream_EatLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -668,7 +668,7 @@ class LifeStream_EatLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_WatchEpisodeLabel extends LifeStream_Label
+class Lifestream_WatchEpisodeLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -693,7 +693,7 @@ class LifeStream_WatchEpisodeLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_ShareStoryLabel extends LifeStream_Label
+class Lifestream_ShareStoryLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -718,7 +718,7 @@ class LifeStream_ShareStoryLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_LikeMovieLabel extends LifeStream_VideoLabel
+class Lifestream_LikeMovieLabel extends Lifestream_VideoLabel
 {
 	const TEMPLATE = 'photo';
 	
@@ -745,7 +745,7 @@ class LifeStream_LikeMovieLabel extends LifeStream_VideoLabel
 	}
 }
 
-class LifeStream_ShareSlideLabel extends LifeStream_Label
+class Lifestream_ShareSlideLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -770,7 +770,7 @@ class LifeStream_ShareSlideLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_UnlockAchievementLabel extends LifeStream_Label
+class Lifestream_UnlockAchievementLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -795,7 +795,7 @@ class LifeStream_UnlockAchievementLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_PlayGameLabel extends LifeStream_Label
+class Lifestream_PlayGameLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -819,7 +819,7 @@ class LifeStream_PlayGameLabel extends LifeStream_Label
 		return $this->lifestream->__('%s played %s games.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
 	}
 }
-class LifeStream_QueueVideoLabel extends LifeStream_Label
+class Lifestream_QueueVideoLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -844,7 +844,7 @@ class LifeStream_QueueVideoLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_ReviewVideoLabel extends LifeStream_Label
+class Lifestream_ReviewVideoLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -869,7 +869,7 @@ class LifeStream_ReviewVideoLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_AttendEventLabel extends LifeStream_Label
+class Lifestream_AttendEventLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
@@ -894,7 +894,7 @@ class LifeStream_AttendEventLabel extends LifeStream_Label
 	}
 }
 
-class LifeStream_ContributionLabel extends LifeStream_Label
+class Lifestream_ContributionLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{

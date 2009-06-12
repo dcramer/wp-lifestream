@@ -4,7 +4,7 @@ $categories = get_categories('hide_empty=0');
 $authors = get_users_of_blog();
 
 ?>
-<h2><?php $lifestream->_e('LifeStream Configuration');?></h2>
+<h2><?php $lifestream->_e('Lifestream Configuration');?></h2>
 <p><?php $lifestream->_e('The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href="%s">Feed Management page</a>.', '?page=lifestream.php'); ?></p>
 <form method="post" action="">
     <table class="form-table">
@@ -35,7 +35,7 @@ $authors = get_users_of_blog();
                             <option value="<?php echo $i; ?>"<?php if ($lifestream->get_option('timezone') == $i) echo ' selected="selected"'; ?>><?php echo date('g:ia', time()+(3600*$i)); ?></option>
                         <?php } ?>
                     </select>
-                    <div class="helptext"><?php $lifestream->_e('This will adjust the timezone offset for your LifeStream.'); ?>
+                    <div class="helptext"><?php $lifestream->_e('This will adjust the timezone offset for your Lifestream.'); ?>
                 </td>
             </tr>
             <tr>
@@ -104,7 +104,7 @@ $authors = get_users_of_blog();
             </tr>
             <tr>
                 <th><?php $lifestream->_e('Show Credits:'); ?></th>
-                <td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if ($lifestream->get_option('show_credits')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Give credit to LifeStream when it\'s embedded.'); ?></label>
+                <td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if ($lifestream->get_option('show_credits')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Give credit to Lifestream when it\'s embedded.'); ?></label>
                     <div class="helptext"><?php $lifestream->_e('e.g.'); ?> <?php echo $lifestream->credits(); ?></div>
                 </td>
             </tr>
@@ -135,7 +135,7 @@ $authors = get_users_of_blog();
     </p>
     <br />
     <h2><?php $lifestream->_e('Digest'); ?></h2>
-    <p><?php $lifestream->_e('LifeStream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period.'); ?></p>
+    <p><?php $lifestream->_e('Lifestream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period.'); ?></p>
     <table class="form-table">
         <colgroup>
             <col style="width: 150px;"/>
