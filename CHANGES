@@ -3,6 +3,7 @@
 * lifestream.css has been moved into the theme.
 * Twitter can now use HTTP Auth (if you specify a password) to fetch updates.
 * If an option field's name ends with password it will show as a password field.
+* Changing themes really works now.
 
 0.99.7.2
 
