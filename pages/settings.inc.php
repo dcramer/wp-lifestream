@@ -28,17 +28,6 @@ $authors = get_users_of_blog();
                 </td>
             </tr>
             <tr>
-                <th><label for="id_timezone"><?php $lifestream->_e('Current Time:'); ?></label></th>
-                <td>
-                    <select name="lifestream_timezone" id="id_timezone">
-                        <?php for ($i=-12; $i<12; $i++) {?>
-                            <option value="<?php echo $i; ?>"<?php if ($lifestream->get_option('timezone') == $i) echo ' selected="selected"'; ?>><?php echo date('g:ia', time()+(3600*$i)); ?></option>
-                        <?php } ?>
-                    </select>
-                    <div class="helptext"><?php $lifestream->_e('This will adjust the timezone offset for your Lifestream.'); ?>
-                </td>
-            </tr>
-            <tr>
                 <th><label for="id_update_interval"><?php $lifestream->_e('Update Interval:'); ?></label></th>
                 <td>
                     <input type="text" class="text" name="lifestream_update_interval" id="id_update_interval" value="<?php echo htmlspecialchars($lifestream->get_option('update_interval')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->_options['update_interval']); ?>
