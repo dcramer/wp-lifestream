@@ -1,4 +1,4 @@
-<h2><?php $lifestream->_e('LifeStream Errors'); ?> <small>(<a href="?page=lifestream-errors.php&amp;op=clear"><?php $lifestream->_e('Clear Log'); ?></a>)</small></h2><?php
+<h2><?php $lifestream->_e('Lifestream Errors'); ?> <small>(<a href="?page=lifestream-errors.php&amp;op=clear"><?php $lifestream->_e('Clear Log'); ?></a>)</small></h2><?php
 
 if (count($results))
 {
@@ -55,11 +55,11 @@ if (count($results))
                         }
                         if ($result->has_viewed)
                         {
-                            ?><strong><?php echo LifeStream_Feed::parse_urls(htmlspecialchars($result->message)); ?></strong><?php
+                            ?><strong><?php echo Lifestream_Feed::parse_urls(htmlspecialchars($result->message)); ?></strong><?php
                         }
                         else
                         {
-                            echo LifeStream_Feed::parse_urls(htmlspecialchars($result->message));
+                            echo Lifestream_Feed::parse_urls(htmlspecialchars($result->message));
                         }
                         ?>
                     </td>

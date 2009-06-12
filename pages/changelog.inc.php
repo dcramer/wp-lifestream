@@ -1,4 +1,4 @@
-<h2><?php $lifestream->_e('LifeStream Change Log'); ?></h2>
+<h2><?php $lifestream->_e('Lifestream Change Log'); ?></h2>
 
 <p><?php $lifestream->_e('You are using <strong>wp-lifestream %s</strong>.', LIFESTREAM_VERSION); ?></p>
 

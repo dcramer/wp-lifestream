@@ -59,7 +59,7 @@ msgstr "De valgte feeds og alle relaterede events er blevet fjernet."
 
 #: _lifestream.php:1222
 #, php-format
-msgid "Selected feed was added to your LifeStream with %d event(s)."
+msgid "Selected feed was added to your Lifestream with %d event(s)."
 msgstr "Det valgte feed blev tilføjet din Lifestream med %d event(s)."
 
 #: _lifestream.php:1253
@@ -68,8 +68,8 @@ msgstr "Ret venligst følgende fejl:"
 
 #: _lifestream.php:1362
 #: pages/feeds.inc.php:1
-msgid "LifeStream Feeds"
-msgstr "LifeStream-feeds"
+msgid "Lifestream Feeds"
+msgstr "Lifestream-feeds"
 
 #: _lifestream.php:1362
 msgid "Feeds"
@@ -77,7 +77,7 @@ msgstr "Feeds"
 
 #: _lifestream.php:1363
 #: pages/events.inc.php:1
-msgid "LifeStream Events"
+msgid "Lifestream Events"
 msgstr "Lifestream-events"
 
 #: _lifestream.php:1363
@@ -86,7 +86,7 @@ msgid "Events"
 msgstr "Events"
 
 #: _lifestream.php:1364
-msgid "LifeStream Settings"
+msgid "Lifestream Settings"
 msgstr "Lifestream-indstillinger"
 
 #: _lifestream.php:1364
@@ -95,8 +95,8 @@ msgstr "Indstillinger"
 
 #: _lifestream.php:1365
 #: pages/changelog.inc.php:1
-msgid "LifeStream Change Log"
-msgstr "LifeStream ændringslog"
+msgid "Lifestream Change Log"
+msgstr "Lifestream ændringslog"
 
 #: _lifestream.php:1365
 msgid "Change Log"
@@ -104,7 +104,7 @@ msgstr "Ændringslog"
 
 #: _lifestream.php:1366
 #: pages/errors.inc.php:1
-msgid "LifeStream Errors"
+msgid "Lifestream Errors"
 msgstr "Lifestream-fejl"
 
 #: _lifestream.php:1366
@@ -114,7 +114,7 @@ msgstr "Fejl (%d)"
 
 #: _lifestream.php:1367
 #: pages/forums.inc.php:1
-msgid "LifeStream Support Forums"
+msgid "Lifestream Support Forums"
 msgstr "Lifestream-supportforums (engelsk)"
 
 #: _lifestream.php:1367
@@ -129,8 +129,8 @@ msgstr "Tilføj et feed"
 #: pages/add-feed.inc.php:5
 #: pages/edit-feed.inc.php:5
 #, php-format
-msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
-msgstr "(<a href=\"%s\">Tilbage til LifeStream-feeds</a>)"
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Tilbage til Lifestream-feeds</a>)"
 
 #: pages/add-feed.inc.php:8
 #: pages/edit-feed.inc.php:9
@@ -266,7 +266,7 @@ msgid "There are no events to show at this time."
 msgstr "Der er ingen events i øjeblikket."
 
 #: pages/settings.inc.php:7
-msgid "LifeStream Configuration"
+msgid "Lifestream Configuration"
 msgstr "Lifestream-indstillinger"
 
 #: pages/settings.inc.php:8
@@ -339,15 +339,15 @@ msgid "Show Credits:"
 msgstr "Vis credits:"
 
 #: pages/settings.inc.php:75
-msgid "Give credit to LifeStream when it's embedded."
-msgstr "Vis credit til LifeStream når det er embeddet."
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Vis credit til Lifestream når det er embeddet."
 
 #: pages/settings.inc.php:82
 msgid "Daily Digest"
 msgstr "Daglig opdatering"
 
 #: pages/settings.inc.php:83
-msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
 msgstr "Lifestream giver dig mulighed for at oprette et nyt blogindlæg hver dag, som indeholder alle de events, der fandt sted den pågældende dag."
 
 #: pages/settings.inc.php:90

@@ -53,16 +53,16 @@ msgstr "所选的Feed及其所有的项都已移除"
 
 #: _lifestream.php:792
 #, php-format
-msgid "Selected feed was added to your LifeStream with %d event(s)."
-msgstr "所选的Feed已经增加了 %d 个项的您的LifeStream中。"
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "所选的Feed已经增加了 %d 个项的您的Lifestream中。"
 
 #: _lifestream.php:822
 msgid "Please correct the following errors:"
 msgstr "请更正下面的错误"
 
 #: _lifestream.php:873
-msgid "LifeStream Settings"
-msgstr "LifeStream设置"
+msgid "Lifestream Settings"
+msgstr "Lifestream设置"
 
 #: _lifestream.php:873
 msgid "Settings"
@@ -70,8 +70,8 @@ msgstr "设置"
 
 #: _lifestream.php:874
 #: pages/feeds.inc.php:1
-msgid "LifeStream Feeds"
-msgstr "LifeStream Feeds"
+msgid "Lifestream Feeds"
+msgstr "Lifestream Feeds"
 
 #: _lifestream.php:874
 msgid "Feeds"
@@ -79,8 +79,8 @@ msgstr "种子(Feeds)"
 
 #: _lifestream.php:875
 #: pages/events.inc.php:1
-msgid "LifeStream Events"
-msgstr "LifeStream 项"
+msgid "Lifestream Events"
+msgstr "Lifestream 项"
 
 #: _lifestream.php:875
 #: pages/feeds.inc.php:12
@@ -130,8 +130,8 @@ msgstr "编辑Feed"
 
 #: pages/edit-feed.inc.php:1
 #, php-format
-msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
-msgstr "(<a href=\"%s\">返回到 LifeStream Feeds</a>)"
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">返回到 Lifestream Feeds</a>)"
 
 #: pages/edit-feed.inc.php:46
 msgid "Show labels for events in this feed. This will not effect grouped events."
@@ -198,8 +198,8 @@ msgid "There are no events to show at this time."
 msgstr "当前时间没有项"
 
 #: pages/settings.inc.php:7
-msgid "LifeStream Configuration"
-msgstr "LifeStream配置"
+msgid "Lifestream Configuration"
+msgstr "Lifestream配置"
 
 #: pages/settings.inc.php:8
 #, php-format
@@ -237,7 +237,7 @@ msgstr "项的数目"
 
 #: pages/settings.inc.php:51
 msgid "The number of items to display in the default lifestream feed call."
-msgstr "默认的LifeStream Feed调用时显示的默认的项数目"
+msgstr "默认的Lifestream Feed调用时显示的默认的项数目"
 
 #: pages/settings.inc.php:55
 msgid "Date Cutoff:"
@@ -245,19 +245,19 @@ msgstr "截至日期"
 
 #: pages/settings.inc.php:58
 msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
-msgstr "默认的LifeStream Feed调用时的截至日期。可用的单位名字有：<code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "默认的Lifestream Feed调用时的截至日期。可用的单位名字有：<code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
 
 #: pages/settings.inc.php:64
 msgid "Daily Digest"
 msgstr "每日摘要"
 
 #: pages/settings.inc.php:65
-msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
-msgstr "LifeStream可以每天为您创建一个新博客文章，内容为当天所有的项的内容。"
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Lifestream可以每天为您创建一个新博客文章，内容为当天所有的项的内容。"
 
 #: pages/settings.inc.php:73
 msgid "Post a daily summary of my lifestream."
-msgstr "从LifeStream发表每日总结"
+msgstr "从Lifestream发表每日总结"
 
 #: pages/settings.inc.php:77
 msgid "Summary Post Title:"

@@ -61,8 +61,8 @@ msgstr "Избраните хранилки и техните събития б�
 
 #: _lifestream.php:1113
 #, php-format
-msgid "Selected feed was added to your LifeStream with %d event(s)."
-msgstr "Избраната хранилка беше добавена към LifeStream със %d събития."
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "Избраната хранилка беше добавена към Lifestream със %d събития."
 
 #: _lifestream.php:1134
 msgid "Please correct the following errors:"
@@ -70,8 +70,8 @@ msgstr "Моля поправете следните грешки:"
 
 #: _lifestream.php:1214
 #: pages/feeds.inc.php:1
-msgid "LifeStream Feeds"
-msgstr "LifeStream хранилки"
+msgid "Lifestream Feeds"
+msgstr "Lifestream хранилки"
 
 #: _lifestream.php:1214
 msgid "Feeds"
@@ -79,8 +79,8 @@ msgstr "Хранилки"
 
 #: _lifestream.php:1215
 #: pages/events.inc.php:1
-msgid "LifeStream Events"
-msgstr "LifeStream събития"
+msgid "Lifestream Events"
+msgstr "Lifestream събития"
 
 #: _lifestream.php:1215
 #: pages/feeds.inc.php:34
@@ -88,8 +88,8 @@ msgid "Events"
 msgstr "Събития"
 
 #: _lifestream.php:1216
-msgid "LifeStream Settings"
-msgstr "LifeStream настройки"
+msgid "Lifestream Settings"
+msgstr "Lifestream настройки"
 
 #: _lifestream.php:1216
 msgid "Settings"
@@ -97,8 +97,8 @@ msgstr "Настройки"
 
 #: _lifestream.php:1217
 #: pages/forums.inc.php:1
-msgid "LifeStream Support Forums"
-msgstr "LifeStream форуми за поддръжка"
+msgid "Lifestream Support Forums"
+msgstr "Lifestream форуми за поддръжка"
 
 #: _lifestream.php:1217
 msgid "Support Forums"
@@ -152,7 +152,7 @@ msgstr "Редактиране на хранилка"
 
 #: pages/edit-feed.inc.php:5
 #, php-format
-msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
 msgstr "(<a href=\"%s\">Обратно към хранилките</a>)"
 
 #: pages/edit-feed.inc.php:51
@@ -245,8 +245,8 @@ msgid "There are no events to show at this time."
 msgstr "Няма събития, които да бъдат показани към този момент."
 
 #: pages/settings.inc.php:7
-msgid "LifeStream Configuration"
-msgstr "LifeStream конфигурация"
+msgid "Lifestream Configuration"
+msgstr "Lifestream конфигурация"
 
 #: pages/settings.inc.php:8
 #, php-format
@@ -310,16 +310,16 @@ msgid "Enable iBox on plugins that support it."
 msgstr "Разрешаване на iBox за разширенията, които го поддържат."
 
 #: pages/settings.inc.php:75
-msgid "Give credit to LifeStream when it's embedded."
-msgstr "Отблагодарете се на LifeStream с препратка."
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Отблагодарете се на Lifestream с препратка."
 
 #: pages/settings.inc.php:82
 msgid "Daily Digest"
 msgstr "Дневен преглед"
 
 #: pages/settings.inc.php:83
-msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
-msgstr "LifeStream ви дава възможност всеки ден да създавате нова публикация с преглед на събитията, които са се случили."
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Lifestream ви дава възможност всеки ден да създавате нова публикация с преглед на събитията, които са се случили."
 
 #: pages/settings.inc.php:91
 msgid "Post a daily summary of my lifestream."

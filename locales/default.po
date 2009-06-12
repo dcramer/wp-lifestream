@@ -168,16 +168,16 @@ msgid "API Key:"
 msgstr ""
 
 #: lifestream.php:460
-msgid "On LifeStream update"
+msgid "On Lifestream update"
 msgstr ""
 
 #: lifestream.php:465
-msgid "On LifeStream daily digest update"
+msgid "On Lifestream daily digest update"
 msgstr ""
 
 #: lifestream.php:542
 #: pages/feeds.inc.php:1
-msgid "LifeStream Feeds"
+msgid "Lifestream Feeds"
 msgstr ""
 
 #: lifestream.php:542
@@ -186,7 +186,7 @@ msgstr ""
 
 #: lifestream.php:543
 #: pages/events.inc.php:1
-msgid "LifeStream Events"
+msgid "Lifestream Events"
 msgstr ""
 
 #: lifestream.php:543
@@ -195,7 +195,7 @@ msgid "Events"
 msgstr ""
 
 #: lifestream.php:544
-msgid "LifeStream Settings"
+msgid "Lifestream Settings"
 msgstr ""
 
 #: lifestream.php:544
@@ -204,7 +204,7 @@ msgstr ""
 
 #: lifestream.php:545
 #: pages/changelog.inc.php:1
-msgid "LifeStream Change Log"
+msgid "Lifestream Change Log"
 msgstr ""
 
 #: lifestream.php:545
@@ -213,7 +213,7 @@ msgstr ""
 
 #: lifestream.php:546
 #: pages/errors.inc.php:1
-msgid "LifeStream Errors"
+msgid "Lifestream Errors"
 msgstr ""
 
 #: lifestream.php:546
@@ -223,7 +223,7 @@ msgstr ""
 
 #: lifestream.php:547
 #: pages/forums.inc.php:1
-msgid "LifeStream Support Forums"
+msgid "Lifestream Support Forums"
 msgstr ""
 
 #: lifestream.php:547
@@ -268,7 +268,7 @@ msgstr ""
 
 #: lifestream.php:824
 #, php-format
-msgid "A new %s feed was added to your LifeStream."
+msgid "A new %s feed was added to your Lifestream."
 msgstr ""
 
 #: lifestream.php:854
@@ -893,7 +893,7 @@ msgid "%s contributed to %s pages."
 msgstr ""
 
 #: inc/widget.php:28
-msgid "LifeStream"
+msgid "Lifestream"
 msgstr ""
 
 #: inc/widget.php:139
@@ -936,7 +936,7 @@ msgstr ""
 #: pages/add-feed.inc.php:5
 #: pages/edit-feed.inc.php:5
 #, php-format
-msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
 msgstr ""
 
 #: pages/add-feed.inc.php:8
@@ -1133,7 +1133,7 @@ msgid "You may direct questions, feedback, and problems to us by posting in the 
 msgstr ""
 
 #: pages/settings.inc.php:7
-msgid "LifeStream Configuration"
+msgid "Lifestream Configuration"
 msgstr ""
 
 #: pages/settings.inc.php:8
@@ -1159,7 +1159,7 @@ msgid "Current Time:"
 msgstr ""
 
 #: pages/settings.inc.php:38
-msgid "This will adjust the timezone offset for your LifeStream."
+msgid "This will adjust the timezone offset for your Lifestream."
 msgstr ""
 
 #: pages/settings.inc.php:42
@@ -1267,7 +1267,7 @@ msgid "Show Credits:"
 msgstr ""
 
 #: pages/settings.inc.php:107
-msgid "Give credit to LifeStream when it's embedded."
+msgid "Give credit to Lifestream when it's embedded."
 msgstr ""
 
 #: pages/settings.inc.php:108
@@ -1294,7 +1294,7 @@ msgid "Digest"
 msgstr ""
 
 #: pages/settings.inc.php:138
-msgid "LifeStream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period."
+msgid "Lifestream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period."
 msgstr ""
 
 #: pages/settings.inc.php:145

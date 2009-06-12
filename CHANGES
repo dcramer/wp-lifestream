@@ -4,6 +4,7 @@
 * Twitter can now use HTTP Auth (if you specify a password) to fetch updates.
 * If an option field's name ends with password it will show as a password field.
 * Changing themes really works now.
+* Relabeled all occurances of "LifeStream" to "Lifestream".
 
 0.99.7.2
 
@@ -172,7 +173,7 @@
 * Website URL option will now also be used for the link in BlogFeed's.
 * Hide label option has been removed and is only used on a per-feed basis if it's valid.
 * CAN_LABEL and MUST_LABEL are obsolete. There is no more option to hide labels (since labels are now data).
-* Moved most logic from LifeStream_Feed into LifeStream_Extension.
+* Moved most logic from Lifestream_Feed into Lifestream_Extension.
 * Added default favicon support to all feed extensions.
 
 0.96c
@@ -225,7 +226,7 @@
 
 0.94
 
-* Changed LifeStream update and daily digest to use wp-cron.
+* Changed Lifestream update and daily digest to use wp-cron.
 * Changed activation hooks to use official methods.
 * Added an option to specify the URL handler. Automatic, Curl, and fopen are currently available.
 * Twitter based feeds will now show a [#] link after the message.
@@ -486,7 +487,7 @@
 * Added TwitPic feed.
 * Added Vimeo feed.
 * Fixed rendering of single non-user events with keys.
-* Added LifeStream_PhotoFeed base class.
+* Added Lifestream_PhotoFeed base class.
 * Some minor code cleanup.
 
 0.61
@@ -515,7 +516,7 @@
 
 This update mostly includes backend changes to allow much greater extensibility in the feed class.
 
-* Database changes are now handled automatically when you update LifeStream.
+* Database changes are now handled automatically when you update Lifestream.
 * Feeds can use dynamic labels.
 * Feeds can use multiple data types in a single feed.
 * Feeds can now safely update their data without losing support for old data versions.
@@ -531,7 +532,7 @@ This update mostly includes backend changes to allow much greater extensibility 
 
 0.42
 
-* Moved LifeStream management into it’s own top-level tab to further improve the usability of the interface with themes.
+* Moved Lifestream management into it’s own top-level tab to further improve the usability of the interface with themes.
 
 0.41
 

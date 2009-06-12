@@ -1,4 +1,4 @@
-<h2><?php $lifestream->_e('LifeStream Events'); ?></h2><?php
+<h2><?php $lifestream->_e('Lifestream Events'); ?></h2><?php
 
 if (count($results))
 {

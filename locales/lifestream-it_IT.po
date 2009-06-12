@@ -62,8 +62,8 @@ msgstr "I feed selezionati e tutti gli eventi ad essi relazionati sono stati can
 
 #: _lifestream.php:1222
 #, php-format
-msgid "Selected feed was added to your LifeStream with %d event(s)."
-msgstr "Il feed selezionato é stato aggiunto a LifeStream con %d evento(i)."
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "Il feed selezionato é stato aggiunto a Lifestream con %d evento(i)."
 
 #: _lifestream.php:1253
 msgid "Please correct the following errors:"
@@ -71,7 +71,7 @@ msgstr "Correggi gli errori a seguire:"
 
 #: _lifestream.php:1362
 #: pages/feeds.inc.php:1
-msgid "LifeStream Feeds"
+msgid "Lifestream Feeds"
 msgstr "Feeds Lifestream"
 
 #: _lifestream.php:1362
@@ -80,7 +80,7 @@ msgstr "Feeds"
 
 #: _lifestream.php:1363
 #: pages/events.inc.php:1
-msgid "LifeStream Events"
+msgid "Lifestream Events"
 msgstr "Eventi Lifestream"
 
 #: _lifestream.php:1363
@@ -89,7 +89,7 @@ msgid "Events"
 msgstr "Eventi"
 
 #: _lifestream.php:1364
-msgid "LifeStream Settings"
+msgid "Lifestream Settings"
 msgstr "Impostazioni Lifestream"
 
 #: _lifestream.php:1364
@@ -98,8 +98,8 @@ msgstr "Impostazioni"
 
 #: _lifestream.php:1365
 #: pages/changelog.inc.php:1
-msgid "LifeStream Change Log"
-msgstr "LifeStream - Registro delle modifiche"
+msgid "Lifestream Change Log"
+msgstr "Lifestream - Registro delle modifiche"
 
 #: _lifestream.php:1365
 msgid "Change Log"
@@ -107,8 +107,8 @@ msgstr "Registro modifiche"
 
 #: _lifestream.php:1366
 #: pages/errors.inc.php:1
-msgid "LifeStream Errors"
-msgstr "LifeStream - errori"
+msgid "Lifestream Errors"
+msgstr "Lifestream - errori"
 
 #: _lifestream.php:1366
 #, php-format
@@ -117,7 +117,7 @@ msgstr "Errori (%d)"
 
 #: _lifestream.php:1367
 #: pages/forums.inc.php:1
-msgid "LifeStream Support Forums"
+msgid "Lifestream Support Forums"
 msgstr "Forum di supporto Lifestream"
 
 #: _lifestream.php:1367
@@ -132,8 +132,8 @@ msgstr "Aggiungi un feed"
 #: pages/add-feed.inc.php:5
 #: pages/edit-feed.inc.php:5
 #, php-format
-msgid "(<a href=\"%s\">Back to LifeStream Feeds</a>)"
-msgstr "(<a href=\"%s\">Ritorna a LifeStream Feeds</a>)"
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Ritorna a Lifestream Feeds</a>)"
 
 #: pages/add-feed.inc.php:8
 #: pages/edit-feed.inc.php:9
@@ -269,7 +269,7 @@ msgid "There are no events to show at this time."
 msgstr "Non hai per il momento alcun feed da mostrare.."
 
 #: pages/settings.inc.php:7
-msgid "LifeStream Configuration"
+msgid "Lifestream Configuration"
 msgstr "Configurazione Lifestream"
 
 #: pages/settings.inc.php:8
@@ -334,20 +334,20 @@ msgid "Enable iBox on plugins that support it."
 msgstr "Attiva iBox per i plugin compatibili."
 
 #: pages/settings.inc.php:75
-msgid "Give credit to LifeStream when it's embedded."
-msgstr "Mostra i crediti di LifeStream (Link Love)."
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Mostra i crediti di Lifestream (Link Love)."
 
 #: pages/settings.inc.php:82
 msgid "Daily Digest"
 msgstr "Riassunto giornaliero"
 
 #: pages/settings.inc.php:83
-msgid "LifeStream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
-msgstr "LifeStream ti offre la possibilità di poter creare quotidianamente un nuovo articolo per il tuo blog contenente tutti gli eventi accaduti per quel dato giorno."
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Lifestream ti offre la possibilità di poter creare quotidianamente un nuovo articolo per il tuo blog contenente tutti gli eventi accaduti per quel dato giorno."
 
 #: pages/settings.inc.php:91
 msgid "Post a daily summary of my lifestream."
-msgstr "Pubblica un sommario giornaliero del tuo LifeStream."
+msgstr "Pubblica un sommario giornaliero del tuo Lifestream."
 
 #: pages/settings.inc.php:95
 msgid "Summary Post Title:"
