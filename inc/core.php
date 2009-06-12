@@ -77,7 +77,7 @@ class Lifestream_Event
 	
 	function get_date()
 	{
-		return $this->date + LIFESTREAM_DATE_OFFSET*60*60;
+		return $this->date + LIFESTREAM_DATE_OFFSET;
 	}
 	
 	/**
@@ -258,7 +258,6 @@ class Lifestream
 	protected $_options = array(
 		'day_format'		=> 'F jS',
 		'hour_format'		=> 'g:ia',
-		'timezone'			=> '6',
 		'number_of_items'	=> '50',
 		'date_interval'		=> '1 month',
 		'digest_title'		=> 'Daily Digest for %s',
@@ -389,7 +388,7 @@ class Lifestream
 	{
 		global $wpdb;
 
-		$offset = $this->get_option('timezone');
+		$offset = get_option('gmt_offset') * 3600;
 		define(LIFESTREAM_DATE_OFFSET, $offset);
 
 		load_plugin_textdomain('lifestream', false, 'lifestream/locales');
@@ -529,6 +528,7 @@ class Lifestream
 			add_submenu_page($basename, $this->__('Lifestream Settings'), $this->__('Settings'), 'manage_options', 'lifestream-settings.php', array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Change Log'), $this->__('Change Log'), 'manage_options', 'lifestream-changelog.php', array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Errors'), $this->__('Errors (%d)', $errors), 'manage_options', 'lifestream-errors.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('Lifestream Maintenance'), $this->__('Maintenance', $errors), 'manage_options', 'lifestream-maintenance.php', array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Support Forums'), $this->__('Support Forums'), 'manage_options', 'lifestream-forums.php', array(&$this, 'options_page'));
 		}
 	}
@@ -557,6 +557,18 @@ class Lifestream
 
 		switch ($_GET['page'])
 		{
+			case 'lifestream-maintenance.php':
+				if ($_POST['resetcron'])
+				{
+					$this->reschedule_cron();
+					$message = $this->__('Cron timers have been reset.');
+				}
+				elseif ($_POST['restore'])
+				{
+					$this->restore_options();
+					$message = $this->__('Default options have been restored.');
+				}
+			break;
 			case 'lifestream-events.php':
 				switch (strtolower($_REQUEST['op']))
 				{
@@ -867,6 +879,9 @@ class Lifestream
 
 					include(LIFESTREAM_PATH . '/pages/errors.inc.php');
 				break;
+				case 'lifestream-maintenance.php':
+					include(LIFESTREAM_PATH . '/pages/maintenance.inc.php');
+				break;
 				case 'lifestream-changelog.php':
 					include(LIFESTREAM_PATH . '/pages/changelog.inc.php');
 				break;
@@ -1061,11 +1076,66 @@ class Lifestream
 		lifestream($args);
 		return ob_get_clean();
 	}
+	
+	function timesince($timestamp, $granularity=2, $format='Y-m-d H:i:s')
+	{
+		$difference = time() - $timestamp;
+		if ($difference < 0) return 'just now';
+		elseif ($difference < 864000)
+		{
+			return $this->duration($difference, $granularity) + ' ago';
+		}
+		else return date($format, $timestamp);
+	}
+	
+	function duration($difference, $granularity=2)
+	{
+		{ // if difference is over 10 days show normal time form
+			$periods = array('week' => 604800,'day' => 86400,'hr' => 3600,'min' => 60,'sec' => 1);
+			$output = '';
+			foreach ($periods as $key => $value)
+			{
+				if ($difference >= $value)
+				{
+					$time = round($difference / $value);
+					$difference %= $value;
+					$output .= ($output ? ' ' : '').$time.' ';
+					$output .= (($time > 1 && $key == 'day') ? $key.'s' : $key);
+					$granularity--;
+				}
+				if ($granularity == 0) break;
+			}
+			return ($output ? $output : '0 seconds');
+		}
+	}
+	
+	function get_cron_task_description($name)
+	{
+		switch ($name)
+		{
+			case 'lifestream_cron':
+				return 'Updates all active feeds.';
+			break;
+			case 'lifestream_digest_cron':
+				return 'Creates a daily digest post if enabled.';
+			break;
+		}
+	}
+
+	function restore_options()
+	{
+		// default options and their values
+		foreach ($this->_options as $key=>$value)
+		{
+			$this->update_option($key, $value);
+		}
+	}
 
 	function reschedule_cron()
 	{
 		wp_clear_scheduled_hook('lifestream_cron');
 		wp_clear_scheduled_hook('lifestream_digest_cron');
+		
 		// First lifestream cron should not happen instantly, incase we need to reschedule
 		wp_schedule_event(time()+60, 'lifestream', 'lifestream_cron');
 		// We have to calculate the time for the first digest
@@ -1080,8 +1150,14 @@ class Lifestream
 		else
 		{
 			// If time has already passed for today, set it for tomorrow
-			if (date('H') > $digest_time) $time = strtotime('+1 day', $time);
-			$time = strtotime(date('Y-m-d '.$digest_time.':00:00', $time));
+			if (date('H') > $digest_time)
+			{
+				$time = strtotime('+1 day', $time);
+			}
+			else
+			{
+				$time = strtotime(date('Y-m-d '.$digest_time.':00:00', $time));
+			}
 		}
 		wp_schedule_event($time, 'lifestream_digest', 'lifestream_digest_cron');
 	}
@@ -1101,6 +1177,10 @@ class Lifestream
 
 		// Options/database install
 		$this->install();
+		
+		// Clean up cron
+		wp_clear_scheduled_hook('lifestream_cron');
+		wp_clear_scheduled_hook('lifestream_digest_cron');
 		
 		// Cron job for the update
 		$this->reschedule_cron();
@@ -1721,7 +1801,7 @@ abstract class Lifestream_Extension
 		foreach ($items as $item_key=>&$item)
 		{
 			// We need to set the default timestamp if no dates are set
-			$date = array_key_pop($item, 'date');
+			$date = array_key_pop($item, 'date');			
 			$key = array_key_pop($item, 'key');
 			if (!($date > 0)) $date = $default_timestamp;
 			
@@ -1947,13 +2027,13 @@ class Lifestream_Feed extends Lifestream_Extension
 				$this->options['icon_url'] = '';
 			}
 		}
-        // elseif ($this->options['icon_url'])
-        // {
-        //  if (!$this->lifestream->validate_image($this->options['icon_url']))
-        //  {
-        //      throw new Lifestream_Error($this->lifestream->__('The icon url is not a valid image.'));
-        //  }
-        // }
+		// elseif ($this->options['icon_url'])
+		// {
+		//  if (!$this->lifestream->validate_image($this->options['icon_url']))
+		//  {
+		//	  throw new Lifestream_Error($this->lifestream->__('The icon url is not a valid image.'));
+		//  }
+		// }
 		
 		parent::save_options();
 	}

@@ -5,6 +5,9 @@
 * If an option field's name ends with password it will show as a password field.
 * Changing themes really works now.
 * Relabeled all occurrences of "LifeStream" to "Lifestream".
+* Timezone offset option has been removed, and is now using the built-in gmt_offset option.
+* Added maintenance panel initially with reset default options and cron tasks.
+* Fixed an issue with cron timers being scheduled oddly.
 
 0.99.7.2
 
