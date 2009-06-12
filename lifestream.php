@@ -16,10 +16,14 @@ define(LIFESTREAM_FEEDS_PER_PAGE, 10);
 define(LIFESTREAM_EVENTS_PER_PAGE, 25);
 define(LIFESTREAM_ERRORS_PER_PAGE, 25);
 
-if (version_compare(PHP_VERSION, '5.0', '<') && $_GET['activate'] == true)
+if (version_compare(PHP_VERSION, '5.0', '<'))
 {
-	echo '<div class="updated fade error" style="font-weight:bold;color:red;"><p>Error: Lifestream requires PHP 5.0 or newer and you are running '.PHP_VERSION.'</p></div>';
+	if ($_GET['activate'] == true)
+	{
+		echo '<div class="updated fade error" style="font-weight:bold;color:red;"><p>Error: Lifestream requires PHP 5.0 or newer and you are running '.PHP_VERSION.'</p></div>';
+	}
 	function lifestream() { return ''; }
+	$lifestream = null;
 }
 else
 {
