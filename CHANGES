@@ -4,7 +4,7 @@
 * Twitter can now use HTTP Auth (if you specify a password) to fetch updates.
 * If an option field's name ends with password it will show as a password field.
 * Changing themes really works now.
-* Relabeled all occurances of "LifeStream" to "Lifestream".
+* Relabeled all occurrences of "LifeStream" to "Lifestream".
 
 0.99.7.2
 
