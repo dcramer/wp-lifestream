@@ -1,6 +1,8 @@
 0.99.7.4
 
 * Updated Vimeo feed URLs.
+* Updated YouTube feed URLs.
+* Moved metadata rendering into a separate template.
 
 0.99.7.3
 

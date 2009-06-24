@@ -517,11 +517,11 @@ class Lifestream_YouTubeFeed extends Lifestream_FlickrFeed
 	}
 
 	function get_posted_url() {
-		return 'http://gdata.youtube.com/feeds/api/users/'.$this->options['username'].'/uploads?orderby=updated';
+		return 'http://gdata.youtube.com/feeds/api/users/'.$this->options['username'].'/uploads?v=2';
 		}
 
 	function get_favorited_url() {
-		return 'http://gdata.youtube.com/feeds/api/users/'.$this->options['username'].'/favorites?orderby=updated';
+		return 'http://gdata.youtube.com/feeds/api/users/'.$this->options['username'].'/favorites?v=2';
 		}
 
 	function get_url() {

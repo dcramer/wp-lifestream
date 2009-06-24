@@ -75,6 +75,11 @@ class Lifestream_Event
 		return $this->feed->get_event_display($this, $this->data[0]);
 	}
 	
+	function get_timesince()
+	{
+		return $this->lifestream->timesince($this->timestamp);
+	}
+	
 	function get_date()
 	{
 		return $this->date + LIFESTREAM_DATE_OFFSET;
