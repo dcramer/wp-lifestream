@@ -1239,10 +1239,15 @@ class Lifestream_BlipFMFeed extends Lifestream_TwitterFeed
 	{
 		return 'http://blip.fm/feed/'.$this->options['username'];
 	}
+	
+	function get_event_display(&$event, &$bit)
+	{
+		return $bit['title'] ? $bit['title'] : $bit['track'];
+	}
 
 	function render_item($row, $item)
 	{
-		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title'])));
+		return $this->parse_users($this->parse_urls(htmlspecialchars($this->get_event_display($row, $item))));
 	}
 
 	function yield($row, $url, $key)
@@ -1736,7 +1741,7 @@ class Lifestream_XboxLiveFeed extends Lifestream_Feed
 		return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.urlencode($this->options['username']);
 	}
 	
-	function get_event_display($event, $bit)
+	function get_event_display(&$event, &$bit)
 	{
 		return $bit['title'] ? $bit['title'] : $bit['name'];
 	}

@@ -74,6 +74,11 @@ class Lifestream_Event
 	{
 		return $this->feed->get_event_display($this, $this->data[0]);
 	}
+
+	function get_event_link()
+	{
+		return $this->feed->get_event_link($this, $this->data[0]);
+	}
 	
 	function get_timesince()
 	{
@@ -91,6 +96,49 @@ class Lifestream_Event
 	function render($options=array())
 	{
 		return $this->feed->render($this, $options);
+	}
+	
+	function get_label_instance($options=array())
+	{
+		if (!$this->_label_instance)
+		{
+			$this->_label_instance = $this->feed->get_label($this, $options);
+		}
+		return $this->_label_instance;
+		
+	}
+	function get_label($options=array())
+	{
+		$label_inst = $this->get_label_instance($options);
+		if (count($event->data) > 1)
+		{
+			if ($this->lifestream->get_option('show_owners'))
+			{
+				$label = $label_inst->get_label_plural_user();
+			}
+			else
+			{
+				$label = $label_inst->get_label_plural();
+			}
+		}
+		else
+		{
+			if ($this->lifestream->get_option('show_owners'))
+			{
+				$label = $label_inst->get_label_single_user();
+			}
+			else
+			{
+				$label = $label_inst->get_label_single();
+			}
+		}
+		return $label;
+	}
+	
+	function get_feed_label($options=array())
+	{
+		$label_inst = $this->get_label_instance($options);
+		return $label_inst->get_feed_label();
 	}
 	
 	function get_url()
@@ -127,6 +175,11 @@ class Lifestream_EventGroup extends Lifestream_Event
 	function get_event_display($bit)
 	{
 		return $this->feed->get_event_display($this, $bit);
+	}
+	
+	function get_event_link($bit)
+	{
+		return $this->feed->get_event_link($this, $bit);
 	}
 	
 }
@@ -470,9 +523,6 @@ class Lifestream
 
 		if ($this->get_option('daily_digest') != '1') return;
 
-		$hour_format = $this->get_option('hour_format');
-		$day_format = $this->get_option('day_format');
-
 		$interval = $this->get_digest_interval();
 
 		$now = time();
@@ -502,7 +552,7 @@ class Lifestream
 
 			$data = array(
 				'post_content' => $wpdb->escape($content),
-				'post_title' => $wpdb->escape(sprintf($this->get_option('digest_title'), date($day_format, $now), date($hour_format, $now))),
+				'post_title' => $wpdb->escape(sprintf($this->get_option('digest_title'), date($this->get_option('day_format'), $now), date($this->get_option('hour_format'), $now))),
 				'post_date' => date('Y-m-d H:i:s', $now),
 				'post_category' => array($this->get_option('digest_category')),
 				'post_status' => 'publish',
@@ -1082,21 +1132,30 @@ class Lifestream
 		return ob_get_clean();
 	}
 	
-	function timesince($timestamp, $granularity=2, $format='Y-m-d H:i:s')
+	function timesince($timestamp, $granularity=1, $format='Y-m-d H:i:s')
 	{
 		$difference = time() - $timestamp;
 		if ($difference < 0) return 'just now';
-		elseif ($difference < 864000)
+		elseif ($difference < 86400*2)
 		{
-			return $this->duration($difference, $granularity) + ' ago';
+			return $this->duration($difference, $granularity) . ' ago';
 		}
-		else return date($format, $timestamp);
+		else
+		{
+			return date($this->get_option('day_format'), $timestamp);
+		}
 	}
 	
 	function duration($difference, $granularity=2)
 	{
 		{ // if difference is over 10 days show normal time form
-			$periods = array('week' => 604800,'day' => 86400,'hr' => 3600,'min' => 60,'sec' => 1);
+			$periods = array(
+				$this->__('w') => 604800,
+				$this->__('d') => 86400,
+				$this->__('h') => 3600,
+				$this->__('m') => 60,
+				$this->__('s') => 1
+			);
 			$output = '';
 			foreach ($periods as $key => $value)
 			{
@@ -1104,8 +1163,8 @@ class Lifestream
 				{
 					$time = round($difference / $value);
 					$difference %= $value;
-					$output .= ($output ? ' ' : '').$time.' ';
-					$output .= (($time > 1 && $key == 'day') ? $key.'s' : $key);
+					$output .= ($output ? ' ' : '').$time.$key;
+					//$output .= (($time > 1 && ($key == 'week' || $key == 'day')) ? $key.'s' : $key);
 					$granularity--;
 				}
 				if ($granularity == 0) break;
@@ -1647,6 +1706,11 @@ abstract class Lifestream_Extension
 		return $bit['title'];
 	}
 	
+	function get_event_link(&$event, &$bit)
+	{
+		return $bit['link'];
+	}
+	
 	function get_feed_display()
 	{
 		return $this->__toString();
@@ -1928,34 +1992,8 @@ abstract class Lifestream_Extension
 		$id = uniqid('ls_', true);
 		$options['id'] = $id;
 
-		$label_inst = $this->get_label($event, $options);
+		$label_inst = $event->get_label_instance($options);
 		
-		if (count($event->data) > 1)
-		{
-			if ($this->lifestream->get_option('show_owners'))
-			{
-				$label = $label_inst->get_label_plural_user();
-			}
-			else
-			{
-				$label = $label_inst->get_label_plural();
-			}
-		}
-		else
-		{
-			if ($this->lifestream->get_option('show_owners'))
-			{
-				$label = $label_inst->get_label_single_user();
-			}
-			else
-			{
-				$label = $label_inst->get_label_single();
-			}
-		}
-		
-		$feed_label = $label_inst->get_feed_label();
-		
-		$hour_format = $this->lifestream->get_option('hour_format');
 		if ($event->is_grouped && count($event->data) == 1 && $this->get_constant('MUST_GROUP')) $visible = true;
 		else $visible = $options['show_details'];
 		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
@@ -2212,10 +2250,9 @@ function lifestream($args=array())
 	
 	// TODO: offset
 	//$offset = $lifestream->get_option('lifestream_timezone');
-	$hour_format = $lifestream->get_option('hour_format');
-	$day_format = $lifestream->get_option('day_format');
-	
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
+	if ($options['hide_metadata']) $show_metadata = false;
+	else $show_metadata = true;
 	
 	require($lifestream->get_theme_filepath('main.inc.php'));
 
@@ -2243,10 +2280,9 @@ function lifestream_sidebar_widget($_=array())
 	
 	// TODO: offset
 	//$offset = $lifestream->get_option('lifestream_timezone');
-	$hour_format = $lifestream->get_option('hour_format');
-	$day_format = $lifestream->get_option('day_format');
-	
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
+	if ($options['hide_metadata']) $show_metadata = false;
+	else $show_metadata = true;
 	
 	require($lifestream->get_theme_filepath('sidebar.inc.php'));
 }
