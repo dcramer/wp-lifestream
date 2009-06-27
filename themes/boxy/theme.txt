@@ -1,0 +1,2 @@
+Name: Boxy (Sample)
+Author: David Cramer <dcramer@gmail.com>
