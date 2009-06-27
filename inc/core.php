@@ -110,7 +110,7 @@ class Lifestream_Event
 	function get_label($options=array())
 	{
 		$label_inst = $this->get_label_instance($options);
-		if (count($event->data) > 1)
+		if (count($this->data) > 1)
 		{
 			if ($this->lifestream->get_option('show_owners'))
 			{
