@@ -12,7 +12,7 @@ if (count($events))
 		$timestamp = $event->get_date();
 		if ($today == date('m d Y', $timestamp)) $this_day = $lifestream->__('Today');
 		else if ($yesterday == date('m d Y', $timestamp)) $this_day = $lifestream->__('Yesterday');
-		else $this_day = $lifestream->__(ucfirst(htmlentities(date($this->get_option('day_format'), $timestamp))));
+		else $this_day = $lifestream->__(ucfirst(htmlentities(date($lifestream->get_option('day_format'), $timestamp))));
 		if ($day != $this_day)
 		{
 			?>
