@@ -1,3 +1,12 @@
+0.99.8.0
+
+* Refactored all rendering to require a label bringing it closer in line with Lifestrm.
+* Sidebar and main templates now render timestamps differently.
+* Fixed a legacy issue with BlipFM
+* Templates should now be fully customizable.
+* Added `get_event_link()` to feeds.
+* Fixed display of Events in admin.
+
 0.99.7.4
 
 * Updated Vimeo feed URLs.
