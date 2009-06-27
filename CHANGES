@@ -6,6 +6,8 @@
 * Templates should now be fully customizable.
 * Added `get_event_link()` to feeds.
 * Fixed display of Events in admin.
+* Lifestream will now fall back on the default theme for missing files.
+* Theme structures have been changed, and now require a theme.txt.
 
 0.99.7.4
 

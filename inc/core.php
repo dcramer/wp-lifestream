@@ -246,7 +246,7 @@ class Lifestream
 	}
 	
 	/**
-	 * Find each extension/name/extension.inc.php file.
+	 * Find each themes/name/theme.txt file.
 	 */
 	function detect_themes()
 	{
@@ -259,21 +259,50 @@ class Lifestream
 			// if its not a directory we dont care
 			if (!is_dir($base_dir . $file)) continue;
 			// check for main.inc.php
-			$ext_file = $base_dir . $file . '/main.inc.php';
+			$ext_file = $base_dir . $file . '/theme.txt';
 			if (is_file($ext_file))
 			{
-				$this->themes[] = $file;
+				$theme = array();
+				$fp = file($ext_file);
+				foreach ($fp as $line)
+				{
+					if (str_startswith('#', $line)) continue;
+					list($key, $value) = explode(':', $line);
+					$theme[strtolower($key)] = trim($value);
+				}
+				if (!array_key_exists('name', $theme)) continue;
+				$this->themes[$file] = $theme;
 			}
 		}
 	}
 	
+	function get_theme_media_url($filename)
+	{
+		$path = '/themes/'.$this->get_option('theme', 'default').'/media/'.$filename;
+		if (!is_file(LIFESTREAM_PATH.$path))
+		{
+			$path = '/themes/default/media/'.$filename;
+		}
+		return $this->path.$path;
+	}
+	
 	function get_theme_filepath($filename)
 	{
-		if (strpos('/', $this->theme))
+		$path = $this->get_filepath_for_theme($filename, $this->get_option('theme', 'default'));
+		if (!is_file($path))
 		{
-			throw new Exception('Lifestream::theme contains an invalid character.');
+			$path = $this->get_filepath_for_theme($filename, 'default');
 		}
-		return LIFESTREAM_PATH . '/themes/'.$this->get_option('theme', 'default').'/'.$filename;
+		return $path;
+	}
+	
+	function get_filepath_for_theme($filename, $theme)
+	{
+		if (!array_key_exists($theme, $this->themes))
+		{
+			throw new Exception('Theme is not valid.');
+		}
+		return LIFESTREAM_PATH.'/themes/'.$theme.'/'.$filename;
 	}
 
 	function validate_image($url)
@@ -591,7 +620,7 @@ class Lifestream
 	function header()
 	{
 		echo '<script type="text/javascript" src="'.$this->path.'/lifestream.js"></script>';
-		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$this->path.'/themes/'.$this->get_option('theme', 'default').'/media/lifestream.css"/>';
+		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$this->get_theme_media_url('lifestream.css').'"/>';
 	}
 	
 	function options_page()
@@ -2256,7 +2285,7 @@ function lifestream($args=array())
 	
 	require($lifestream->get_theme_filepath('main.inc.php'));
 
-	echo '<!-- Powered by iBegin Lifestream '.LIFESTREAM_VERSION.' -->';
+	echo '<!-- Powered by iBegin Lifestream (version: '.LIFESTREAM_VERSION.'; theme: '.$lifestream->theme.') -->';
 
 	if ($lifestream->get_option('show_credits') == '1')
 	{
