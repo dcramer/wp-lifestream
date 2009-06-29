@@ -1,0 +1,354 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: lifestream\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-03 19:22-0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Илья <mrilyuha@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Language: Belarusian\n"
+"X-Poedit-Country: BELARUS\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: _lifestream.php:649
+#: pages/lifestream-list.inc.php:21
+msgid "Show Details"
+msgstr "Паказаць дэталі"
+
+#: _lifestream.php:649
+#: pages/lifestream-list.inc.php:21
+msgid "Hide Details"
+msgstr "Схавць дэталі"
+
+#: _lifestream.php:917
+#: _lifestream.php:983
+#: _lifestream.php:1003
+#: _lifestream.php:1021
+msgid "The selected feed was not found."
+msgstr "Выбраны канал не быў знойдзены"
+
+#: _lifestream.php:921
+#: _lifestream.php:987
+#: _lifestream.php:1007
+#: _lifestream.php:1025
+msgid "You do not have permission to do that."
+msgstr "У вас няма дазволу рабіць гэта."
+
+#: _lifestream.php:956
+msgid "The selected events were hidden."
+msgstr "Выбраныя падзі былі схаваны."
+
+#: _lifestream.php:975
+msgid "All of your feeds have been refreshed."
+msgstr "Усе вашы каналы былі абноўлены."
+
+#: _lifestream.php:993
+msgid "The selected feeds and their events have been refreshed."
+msgstr "Выбраныя каналы і іх падзеі былі адноўлены."
+
+#: _lifestream.php:1013
+msgid "The selected feeds and all related events has been removed."
+msgstr "Выбраныя каналы і ўсе звязаныя з імі падзеі былі выдалены."
+
+#: _lifestream.php:1113
+#, php-format
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "выбраныя каналы былі дададзены да вашай Lifestream з  %d падзеяй (падзеямі)"
+
+#: _lifestream.php:1134
+msgid "Please correct the following errors:"
+msgstr "Калі ласка, выпраўце наступныя памылкі:"
+
+#: _lifestream.php:1214
+#: pages/feeds.inc.php:1
+msgid "Lifestream Feeds"
+msgstr "Каналы  Lifestreams"
+
+#: _lifestream.php:1214
+msgid "Feeds"
+msgstr "Каналы"
+
+#: _lifestream.php:1215
+#: pages/events.inc.php:1
+msgid "Lifestream Events"
+msgstr "Падзеі  Lifestream"
+
+#: _lifestream.php:1215
+#: pages/feeds.inc.php:34
+msgid "Events"
+msgstr "Падзеі"
+
+#: _lifestream.php:1216
+msgid "Lifestream Settings"
+msgstr "Наладкі  Lifestream:"
+
+#: _lifestream.php:1216
+msgid "Settings"
+msgstr "Наладкі"
+
+#: _lifestream.php:1217
+#: pages/forums.inc.php:1
+msgid "Lifestream Support Forums"
+msgstr "Форум падтрымкі Lifestream"
+
+#: _lifestream.php:1217
+msgid "Support Forums"
+msgstr "Форум падтрымкі"
+
+#: pages/add-feed.inc.php:5
+msgid "Add a Feed"
+msgstr "Дадаць канал"
+
+#: pages/add-feed.inc.php:8
+msgid "You will need JavaScript enabled in order to add a feed."
+msgstr "Вам патрэбна ўключыць JavaScript , каб дадаць канал."
+
+#: pages/add-feed.inc.php:11
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr "Каб дадаць новы канал, спачатку выберыце тып канала:"
+
+#: pages/add-feed.inc.php:25
+#: pages/edit-feed.inc.php:9
+#, php-format
+msgid "%s Feed Settings"
+msgstr "%s Наладкі канала"
+
+#: pages/add-feed.inc.php:67
+msgid "Show labels for events in this feed. This will not affect grouped events."
+msgstr "Паказваць цэтлікі правядзення мерапрыемстваў на гэтым канале. Гэта не паўплывае на ўжо згупіраваныя мерапрыемствы. "
+
+#: pages/add-feed.inc.php:76
+#: pages/edit-feed.inc.php:59
+msgid "Group events from the same day together."
+msgstr "Групы падзей у адзін і той жа дзень."
+
+#: pages/add-feed.inc.php:82
+#: pages/edit-feed.inc.php:65
+msgid "Owner:"
+msgstr "Уладар:"
+
+#: pages/add-feed.inc.php:103
+#: pages/edit-feed.inc.php:86
+#, php-format
+msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
+msgstr "Знойдзеце больш інфармацыі пра  %s наведайце<a href=\"%s\">%s</a>."
+
+#: pages/add-feed.inc.php:106
+msgid "Add Feed"
+msgstr "Дадаць канал"
+
+#: pages/edit-feed.inc.php:5
+msgid "Edit Feed"
+msgstr "Рэдагаваць канал"
+
+#: pages/edit-feed.inc.php:5
+#, php-format
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Вярнуца да каналаў Lifestream</a>)"
+
+#: pages/edit-feed.inc.php:51
+msgid "Show labels for events in this feed. This will not effect grouped events."
+msgstr "Паказваць цэтлікі правядзення мерапрыемстваў на гэтым канале. Гэта не паўплывае на ўжо згупіраваныя мерапрыемствы. "
+
+#: pages/edit-feed.inc.php:60
+msgid "This will not affect any event's already listed."
+msgstr "Гэта не паўплывае ні на адну адзначаную падзею."
+
+#: pages/edit-feed.inc.php:89
+msgid "Save Feed"
+msgstr "Захаваць канал"
+
+#: pages/edit-feed.inc.php:93
+msgid "Recent Events"
+msgstr "Апошнія падзеі"
+
+#: pages/edit-feed.inc.php:99
+#: pages/events.inc.php:30
+#: pages/feeds.inc.php:31
+msgid "ID"
+msgstr "ID"
+
+#: pages/edit-feed.inc.php:100
+#: pages/events.inc.php:33
+msgid "Event"
+msgstr "Падзея"
+
+#: pages/edit-feed.inc.php:101
+#: pages/events.inc.php:34
+msgid "Date"
+msgstr "Дата"
+
+#: pages/edit-feed.inc.php:111
+#: pages/events.inc.php:20
+#: pages/events.inc.php:58
+#: pages/feeds.inc.php:21
+#: pages/feeds.inc.php:59
+msgid "Delete"
+msgstr "Выдаліць"
+
+#: pages/edit-feed.inc.php:117
+#: pages/events.inc.php:63
+msgid "There are no events to show."
+msgstr "Няма падзей, каб паказаць іх."
+
+#: pages/events.inc.php:31
+#: pages/feeds.inc.php:32
+msgid "Feed Type"
+msgstr "Тып канала."
+
+#: pages/events.inc.php:32
+msgid "Feed"
+msgstr "Канал"
+
+#: pages/events.inc.php:35
+#: pages/feeds.inc.php:35
+msgid "Owner"
+msgstr "Уладар"
+
+#: pages/feeds.inc.php:1
+msgid "Refresh All Feeds"
+msgstr "Аднавіць усе каналы"
+
+#: pages/feeds.inc.php:20
+#: pages/feeds.inc.php:58
+msgid "Refresh"
+msgstr "Абнавіць"
+
+#: pages/feeds.inc.php:33
+msgid "Description"
+msgstr "Апісанне"
+
+#: pages/feeds.inc.php:65
+msgid "You do not currently have ownership of any feeds."
+msgstr "У вас зараз няма свайго якога-небудзь канала."
+
+#: pages/forums.inc.php:1
+msgid "Open in a new window"
+msgstr "Адкрыць у новым акне."
+
+#: pages/forums.inc.php:3
+msgid "You may direct questions, feedback, and problems to us by posting in the forums below."
+msgstr "На форуме ніжэй вы можаце размяшчаць свае пытанні, водгукі, а таксама праблемы."
+
+#: pages/lifestream-list.inc.php:31
+#: pages/lifestream-table.inc.php:48
+msgid "There are no events to show at this time."
+msgstr "Зараз няма падзей, каб паказаць іх."
+
+#: pages/settings.inc.php:7
+msgid "Lifestream Configuration"
+msgstr "канфігурацыя Lifestream"
+
+#: pages/settings.inc.php:8
+#, php-format
+msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
+msgstr "Наступныя параметры будуць уплываць на каналы  ва ўсім міры. Калі вы жадаеце змяніць свае наладкі, гэта можна зрабіць з дапамогай <a href=\"%s\"> канала кіравання старонкай </a>."
+
+#: pages/settings.inc.php:17
+msgid "Day Format:"
+msgstr "Фармат даты:"
+
+#: pages/settings.inc.php:20
+#: pages/settings.inc.php:27
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method."
+msgstr "За больш падрбязнай інфрмацыяй звяртайцеся на PHP <a href=\"http://www.php.net/date/\">date()</a> метад."
+
+#: pages/settings.inc.php:24
+msgid "Hour Format:"
+msgstr "Фармат гадзіны:"
+
+#: pages/settings.inc.php:31
+msgid "Current Time:"
+msgstr "Бягучы час:"
+
+#: pages/settings.inc.php:41
+msgid "Update Interval:"
+msgstr "Інтэрвал абнаўлення:"
+
+#: pages/settings.inc.php:43
+#: pages/settings.inc.php:50
+#: pages/settings.inc.php:57
+#, php-format
+msgid "(Default: %s)"
+msgstr "(Па змаўчанні: %s)"
+
+#: pages/settings.inc.php:44
+msgid "The number of minutes between updates to your feeds. Value is in minutes."
+msgstr "Колькасць хвілін паміж абнаўлення вышых каналаў. Значэнне ў хвілінах."
+
+#: pages/settings.inc.php:48
+msgid "Number of Items:"
+msgstr "Колькасць пунктаўi:"
+
+#: pages/settings.inc.php:51
+msgid "The number of items to display in the default lifestream feed call."
+msgstr "Колькасць пунктаў для адлюстравання па змаўчанні на канале lifestream."
+
+#: pages/settings.inc.php:55
+msgid "Date Cutoff:"
+msgstr "Дата адсечкі :"
+
+#: pages/settings.inc.php:58
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "Адсечка часу па змаўчанні для канала lifestream. Даступныя такія раздзелы: <code>год</code>, <code>квартал</code>, <code>месяц</code>, <code>нядзеля</code>, <code>дзень</code>, <code>гадзіна</code>, <code>секунда</code>, і <code>mмікрасекунда</code>"
+
+#: pages/settings.inc.php:63
+msgid "Show the owner of the feed in the display."
+msgstr "Паказацьуладара канала на экране."
+
+#: pages/settings.inc.php:69
+msgid "Enable iBox on plugins that support it."
+msgstr "Уключыць  iBox на плагіны, якія яго падтрымліваюць."
+
+#: pages/settings.inc.php:75
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Даць крэдыт  Lifestream, калі ён убудаваны."
+
+#: pages/settings.inc.php:82
+msgid "Daily Digest"
+msgstr "Штодзённы дайджэст"
+
+#: pages/settings.inc.php:83
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Lifestream дае вам магчымасць ствараць новы блог кожны дзень, ён будзе змяшчаць усе падзеі, якія адбыліся у гэты дзень."
+
+#: pages/settings.inc.php:91
+msgid "Post a daily summary of my lifestream."
+msgstr "размясціць рэзюмэ ў дзень майго lifestream."
+
+#: pages/settings.inc.php:95
+msgid "Summary Post Title:"
+msgstr "Рэзюме загалоўкаў паведамленняў."
+
+#: pages/settings.inc.php:98
+#, php-format
+msgid "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
+msgstr "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
+
+#: pages/settings.inc.php:102
+msgid "Summary Post Body:"
+msgstr "Рэзюме пастаў:"
+
+#: pages/settings.inc.php:105
+#, php-format
+msgid "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
+msgstr "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
+
+#: pages/settings.inc.php:109
+msgid "Summary Author:"
+msgstr "Аўтар:"
+
+#: pages/settings.inc.php:127
+msgid "Summary Category:"
+msgstr "Катэгорыя рэзюмэ:"
+
+#: pages/settings.inc.php:142
+msgid "Save Changes"
+msgstr "Захаваць змены"
+

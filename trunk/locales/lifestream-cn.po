@@ -1,0 +1,291 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: lifestream\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-08-25 16:55-0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Sharpmark <sharpmark@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: _lifestream.php:533
+#: feeds.inc.php:335
+msgid "Show Details"
+msgstr "显示详细内容"
+
+#: _lifestream.php:533
+#: feeds.inc.php:335
+msgid "Hide Details"
+msgstr "隐藏详细内容"
+
+#: _lifestream.php:677
+msgid "The selected event was hidden."
+msgstr "所选的项已隐藏"
+
+#: _lifestream.php:681
+msgid "The selected event was not found."
+msgstr "所选的项没有找到"
+
+#: _lifestream.php:691
+msgid "All of your feeds have been refreshed."
+msgstr "您所有的Feed都已刷新"
+
+#: _lifestream.php:699
+msgid "The selected feed's events has been refreshed."
+msgstr "所选Feed的事件已经刷新"
+
+#: _lifestream.php:703
+#: _lifestream.php:716
+#: _lifestream.php:755
+msgid "The selected feed was not found."
+msgstr "所选的Feed没有找到"
+
+#: _lifestream.php:712
+msgid "The selected feed and all events has been removed."
+msgstr "所选的Feed及其所有的项都已移除"
+
+#: _lifestream.php:792
+#, php-format
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "所选的Feed已经增加了 %d 个项的您的Lifestream中。"
+
+#: _lifestream.php:822
+msgid "Please correct the following errors:"
+msgstr "请更正下面的错误"
+
+#: _lifestream.php:873
+msgid "Lifestream Settings"
+msgstr "Lifestream设置"
+
+#: _lifestream.php:873
+msgid "Settings"
+msgstr "设置"
+
+#: _lifestream.php:874
+#: pages/feeds.inc.php:1
+msgid "Lifestream Feeds"
+msgstr "Lifestream Feeds"
+
+#: _lifestream.php:874
+msgid "Feeds"
+msgstr "种子(Feeds)"
+
+#: _lifestream.php:875
+#: pages/events.inc.php:1
+msgid "Lifestream Events"
+msgstr "Lifestream 项"
+
+#: _lifestream.php:875
+#: pages/feeds.inc.php:12
+msgid "Events"
+msgstr "项(Events)"
+
+#: pages/add-feed.inc.php:1
+msgid "Add a Feed"
+msgstr "增加一个种子"
+
+#: pages/add-feed.inc.php:4
+msgid "You will need JavaScript enabled in order to add a feed."
+msgstr "您需要启用JavaScript以增加一个Feed"
+
+#: pages/add-feed.inc.php:7
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr "根据第一个选择的Feed类型增加一个新的Feed"
+
+#: pages/add-feed.inc.php:21
+#: pages/edit-feed.inc.php:4
+#, php-format
+msgid "%s Feed Settings"
+msgstr "%s Feed设置"
+
+#: pages/add-feed.inc.php:63
+msgid "Show labels for events in this feed. This will not affect grouped events."
+msgstr "显示此Feed的项标签。此设置不会对分组了的项有效。"
+
+#: pages/add-feed.inc.php:72
+#: pages/edit-feed.inc.php:54
+msgid "Group events from the same day together."
+msgstr "将同一天的项聚合在一起"
+
+#: pages/add-feed.inc.php:79
+#: pages/edit-feed.inc.php:62
+#, php-format
+msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
+msgstr "访问 <a href=\"%s\">%s</a> 获得更多关于 %s 的信息"
+
+#: pages/add-feed.inc.php:82
+msgid "Add Feed"
+msgstr "增加Feed"
+
+#: pages/edit-feed.inc.php:1
+msgid "Edit Feed"
+msgstr "编辑Feed"
+
+#: pages/edit-feed.inc.php:1
+#, php-format
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">返回到 Lifestream Feeds</a>)"
+
+#: pages/edit-feed.inc.php:46
+msgid "Show labels for events in this feed. This will not effect grouped events."
+msgstr "显示此Feed的项标签。此设置不会对分组了的项有效。"
+
+#: pages/edit-feed.inc.php:55
+msgid "This will not affect any event's already listed."
+msgstr "此设置不会对任何已存在的项生效。"
+
+#: pages/edit-feed.inc.php:65
+msgid "Save Feed"
+msgstr "保存Feed"
+
+#: pages/edit-feed.inc.php:69
+msgid "Recent Events"
+msgstr "当前项"
+
+#: pages/edit-feed.inc.php:73
+#: pages/events.inc.php:11
+#: pages/feeds.inc.php:10
+msgid "ID"
+msgstr "序号"
+
+#: pages/edit-feed.inc.php:74
+#: pages/events.inc.php:12
+msgid "Event"
+msgstr "项"
+
+#: pages/edit-feed.inc.php:75
+#: pages/events.inc.php:13
+msgid "Date"
+msgstr "日期"
+
+#: pages/edit-feed.inc.php:85
+#: pages/events.inc.php:25
+#: pages/feeds.inc.php:25
+msgid "Delete"
+msgstr "删除"
+
+#: pages/events.inc.php:9
+#: pages/feeds.inc.php:9
+msgid "Feed Type"
+msgstr "Feed类型"
+
+#: pages/events.inc.php:10
+msgid "Feed"
+msgstr "Feed"
+
+#: pages/feeds.inc.php:1
+msgid "Refresh All Feeds"
+msgstr "刷新所有的Feed"
+
+#: pages/feeds.inc.php:11
+msgid "Description"
+msgstr "描述"
+
+#: pages/feeds.inc.php:26
+msgid "Refresh"
+msgstr "刷新"
+
+#: pages/lifestream-list.inc.php:45
+#: pages/lifestream-table.inc.php:48
+msgid "There are no events to show at this time."
+msgstr "当前时间没有项"
+
+#: pages/settings.inc.php:7
+msgid "Lifestream Configuration"
+msgstr "Lifestream配置"
+
+#: pages/settings.inc.php:8
+#, php-format
+msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
+msgstr "下列设置会对所有的Feed生效。如果您希望更改每个Feed设置，您可以到<a href=\"%s\">Feed管理页面</a>更改。"
+
+#: pages/settings.inc.php:17
+msgid "Day Format:"
+msgstr "日期格式："
+
+#: pages/settings.inc.php:20
+#: pages/settings.inc.php:27
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method for more information."
+msgstr "更多信息，请参考PHP的<a href=\"http://www.php.net/date/\">date()</a>方法。"
+
+#: pages/settings.inc.php:24
+msgid "Hour Format:"
+msgstr "小时格式："
+
+#: pages/settings.inc.php:31
+msgid "Current Time:"
+msgstr "当前时间："
+
+#: pages/settings.inc.php:41
+msgid "Update Interval:"
+msgstr "更新频率："
+
+#: pages/settings.inc.php:44
+msgid "The number of minutes between updates to your feeds. Value is in minutes."
+msgstr "更新您的Feeds的时间间隔，单位为秒。"
+
+#: pages/settings.inc.php:48
+msgid "Number of Items:"
+msgstr "项的数目"
+
+#: pages/settings.inc.php:51
+msgid "The number of items to display in the default lifestream feed call."
+msgstr "默认的Lifestream Feed调用时显示的默认的项数目"
+
+#: pages/settings.inc.php:55
+msgid "Date Cutoff:"
+msgstr "截至日期"
+
+#: pages/settings.inc.php:58
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "默认的Lifestream Feed调用时的截至日期。可用的单位名字有：<code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+
+#: pages/settings.inc.php:64
+msgid "Daily Digest"
+msgstr "每日摘要"
+
+#: pages/settings.inc.php:65
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Lifestream可以每天为您创建一个新博客文章，内容为当天所有的项的内容。"
+
+#: pages/settings.inc.php:73
+msgid "Post a daily summary of my lifestream."
+msgstr "从Lifestream发表每日总结"
+
+#: pages/settings.inc.php:77
+msgid "Summary Post Title:"
+msgstr "总结日志的标题："
+
+#: pages/settings.inc.php:80
+#, php-format
+msgid "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
+msgstr "您可以使用<code>%s</code>来表示当前的日期，格式是您设置的<em>日期格式</em>选项."
+
+#: pages/settings.inc.php:84
+msgid "Summary Post Body:"
+msgstr "总结日志的内容："
+
+#: pages/settings.inc.php:87
+#, php-format
+msgid "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
+msgstr "您可以使用如下标记：每个项的列表：<code>%1$s</code>；每天：<code>%2$s<code>；项的数目：<code>%3$d</code>"
+
+#: pages/settings.inc.php:91
+msgid "Summary Author:"
+msgstr "总结的发布作者："
+
+#: pages/settings.inc.php:109
+msgid "Summary Category:"
+msgstr "总结的分类："
+
+#: pages/settings.inc.php:124
+msgid "Save Changes"
+msgstr "保存设置"
+

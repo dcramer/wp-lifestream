@@ -1,0 +1,1341 @@
+# Japanese Language File for Lifestream
+# (lifestream-ja.po)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: lifestream\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-05-04 03:22-0500\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Naoko McCracken <info@nao-net.com>\n"
+"Language-Team: WordPress J-Series Project <http://wppluginsj.sourceforge.jp/i18n-ja_jp/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: feeds.inc.php:16
+#: feeds.inc.php:44
+#: feeds.inc.php:180
+#: feeds.inc.php:228
+#: feeds.inc.php:410
+#: feeds.inc.php:441
+#: feeds.inc.php:499
+#: feeds.inc.php:639
+#: feeds.inc.php:720
+#: feeds.inc.php:842
+#: feeds.inc.php:947
+#: feeds.inc.php:1004
+#: feeds.inc.php:1109
+#: feeds.inc.php:1154
+#: feeds.inc.php:1206
+#: feeds.inc.php:1293
+#: feeds.inc.php:1325
+#: feeds.inc.php:1356
+#: feeds.inc.php:1388
+#: feeds.inc.php:1420
+#: feeds.inc.php:1457
+#: feeds.inc.php:1478
+#: feeds.inc.php:1562
+#: feeds.inc.php:1593
+#: feeds.inc.php:1826
+#: feeds.inc.php:1857
+#: feeds.inc.php:1903
+#: feeds.inc.php:1933
+#: feeds.inc.php:2040
+#: feeds.inc.php:2069
+#: feeds.inc.php:2135
+#: feeds.inc.php:2371
+msgid "Username:"
+msgstr "ユーザー名:"
+
+#: feeds.inc.php:45
+msgid "Hide Replies"
+msgstr "返事を非表示"
+
+#: feeds.inc.php:181
+msgid "Limit items to tag:"
+msgstr "タグを付ける項目を制限する:"
+
+#: feeds.inc.php:229
+msgid "Only show loved tracks."
+msgstr "お気に入り (love トラック) の曲のみ表示する"
+
+#: feeds.inc.php:299
+#: feeds.inc.php:1153
+#: feeds.inc.php:1458
+#: feeds.inc.php:1731
+#: feeds.inc.php:2220
+#: lifestream.php:1568
+#: lifestream.php:1985
+msgid "Feed URL:"
+msgstr "フィード URL:"
+
+#: feeds.inc.php:300
+#: feeds.inc.php:552
+msgid "Website URL:"
+msgstr "サイト URL:"
+
+#: feeds.inc.php:348
+#: feeds.inc.php:553
+#: feeds.inc.php:881
+#: feeds.inc.php:1732
+#: feeds.inc.php:1965
+#: feeds.inc.php:2221
+#: feeds.inc.php:2291
+msgid "User ID:"
+msgstr "ユーザー ID:"
+
+#: feeds.inc.php:442
+#: feeds.inc.php:949
+msgid "Include favorites in this feed."
+msgstr "お気に入りをこのフィードに含める"
+
+#: feeds.inc.php:721
+msgid "Include stations in this feed."
+msgstr "ステーションをこのフィードに含める"
+
+#: feeds.inc.php:722
+msgid "Include bookmarked artists in this feed."
+msgstr "ブックマークしたアーティストをこのフィードに含める"
+
+#: feeds.inc.php:723
+msgid "Include bookmarked songs in this feed."
+msgstr "ブックマークした曲をこのフィードに含める"
+
+#: feeds.inc.php:882
+msgid "Include videos posted in this feed."
+msgstr "投稿した動画をこのフィードに含める"
+
+#: feeds.inc.php:883
+msgid "Include liked videos in this feed."
+msgstr "お気に入り動画をこのフィードに含める"
+
+#: feeds.inc.php:948
+msgid "Include reviews in this feed."
+msgstr "レビューをこのフィードに含める"
+
+#: feeds.inc.php:1479
+msgid "Show Comments."
+msgstr "コメントを表示"
+
+#: feeds.inc.php:1480
+msgid "Show Favorites."
+msgstr "お気に入りを表示"
+
+#: feeds.inc.php:1481
+msgid "Show Submissions."
+msgstr "投稿を表示"
+
+#: feeds.inc.php:1625
+msgid "Steam ID:"
+msgstr "ストリーム ID:"
+
+#: feeds.inc.php:1656
+msgid "Xbox Live ID:"
+msgstr "Xbox Live ID:"
+
+#: feeds.inc.php:1733
+msgid "Show Purchases."
+msgstr "購入履歴を表示"
+
+#: feeds.inc.php:1734
+msgid "Show Reviews."
+msgstr "レビューを表示"
+
+#: feeds.inc.php:1964
+#: feeds.inc.php:2290
+msgid "Profile URL:"
+msgstr "プロフィール URL:"
+
+#: feeds.inc.php:2070
+msgid "Sites to filter out:"
+msgstr "表示しないサイト:"
+
+#: feeds.inc.php:2070
+msgid "Sites as named by BackType, usually the title of the RSS Feed, separate with comma's."
+msgstr "BackType で付けられたサイト名 (通常、RSS フィードのタイトル) を半角コンマで区切って入力。"
+
+#: feeds.inc.php:2222
+msgid "Include queued videos in this feed."
+msgstr "このフィードにキューに入れられた動画を含める。"
+
+#: feeds.inc.php:2223
+msgid "Include reviewed videos in this feed."
+msgstr "このフィードにレビューした動画を含める。"
+
+#: feeds.inc.php:2292
+msgid "API Key:"
+msgstr "API キー:"
+
+#: lifestream.php:395
+msgid "On Lifestream update"
+msgstr "Lifestream 更新時"
+
+#: lifestream.php:400
+msgid "On Lifestream daily digest update"
+msgstr "Lifestream 日ごとのダイジェスト版更新時"
+
+#: lifestream.php:477
+#: pages/feeds.inc.php:1
+msgid "Lifestream Feeds"
+msgstr "Lifestream フィード"
+
+#: lifestream.php:477
+msgid "Feeds"
+msgstr "フィード"
+
+#: lifestream.php:478
+#: pages/events.inc.php:1
+msgid "Lifestream Events"
+msgstr "Lifestream イベント"
+
+#: lifestream.php:478
+#: pages/feeds.inc.php:43
+msgid "Events"
+msgstr "イベント"
+
+#: lifestream.php:479
+msgid "Lifestream Settings"
+msgstr "Lifestream 設定"
+
+#: lifestream.php:479
+msgid "Settings"
+msgstr "設定"
+
+#: lifestream.php:480
+#: pages/changelog.inc.php:1
+msgid "Lifestream Change Log"
+msgstr "Lifestream 更新履歴"
+
+#: lifestream.php:480
+msgid "Change Log"
+msgstr "更新履歴"
+
+#: lifestream.php:481
+#: pages/errors.inc.php:1
+msgid "Lifestream Errors"
+msgstr "Lifestream エラー"
+
+#: lifestream.php:481
+#, php-format
+msgid "Errors (%d)"
+msgstr "エラー (%d)"
+
+#: lifestream.php:482
+#: pages/forums.inc.php:1
+msgid "Lifestream Support Forums"
+msgstr "Lifestream サポートフォーラム"
+
+#: lifestream.php:482
+msgid "Support Forums"
+msgstr "サポートフォーラム"
+
+#: lifestream.php:521
+#: lifestream.php:596
+#: lifestream.php:625
+#: lifestream.php:643
+msgid "The selected feed was not found."
+msgstr "選択したフィードが見つかりません。"
+
+#: lifestream.php:525
+#: lifestream.php:600
+#: lifestream.php:629
+#: lifestream.php:647
+msgid "You do not have permission to do that."
+msgstr "操作を行う権限がありません。"
+
+#: lifestream.php:560
+msgid "The selected events were hidden."
+msgstr "選択したイベントは非表示になっています。"
+
+#: lifestream.php:585
+#: lifestream.php:613
+#, php-format
+msgid "There was an error refreshing the selected feed: ID %s"
+msgstr "選択した以下のフィードを更新する際にエラーが発生しました: ID %s"
+
+#: lifestream.php:587
+msgid "All of your feeds have been refreshed."
+msgstr "すべてのフィードを再読み込みしました。"
+
+#: lifestream.php:608
+msgid "The selected feeds and their events have been refreshed."
+msgstr "選択したフィードとそイベントを再読み込みしました。"
+
+#: lifestream.php:635
+msgid "The selected feeds and all related events has been removed."
+msgstr "選択したフィードと関連イベントを削除しました。"
+
+#: lifestream.php:759
+#, php-format
+msgid "A new %s feed was added to your Lifestream."
+msgstr "%s フィードを Lifestream に追加しました。"
+
+#: lifestream.php:790
+msgid "There were errors with your request:"
+msgstr "リクエスト中にエラーが発生しました:"
+
+#: lifestream.php:829
+msgid "Weekly"
+msgstr "毎週"
+
+#: lifestream.php:830
+msgid "Daily"
+msgstr "毎日"
+
+#: lifestream.php:831
+msgid "Hourly"
+msgstr "毎時間"
+
+#: lifestream.php:1137
+msgid "Unknown SQL Error"
+msgstr "不明な SQL エラー"
+
+#: lifestream.php:1633
+msgid "Feed has not yet been saved."
+msgstr "フィードはまだ保存されていません。"
+
+#: lifestream.php:1646
+msgid "Feed result was empty."
+msgstr "取得したフィードが空です。"
+
+#: inc/labels.php:39
+#, php-format
+msgid "Posted %2$s"
+msgstr "%2$s を投稿しました。"
+
+#: inc/labels.php:44
+#, php-format
+msgid "Posted %s items."
+msgstr "%s 項目を投稿しました。"
+
+#: inc/labels.php:50
+#, php-format
+msgid "%1$s posted %3$s"
+msgstr "%1$s が %3$s を投稿しました。"
+
+#: inc/labels.php:56
+#, php-format
+msgid "%s posted %s items."
+msgstr "%s が %s 件の項目を投稿しました。"
+
+#: inc/labels.php:65
+#, php-format
+msgid "Published %2$s"
+msgstr "%2$s を公開しました。"
+
+#: inc/labels.php:70
+#, php-format
+msgid "Published %s posts."
+msgstr "%s 件の投稿を公開しました。"
+
+#: inc/labels.php:76
+#, php-format
+msgid "%1$s published %3$s"
+msgstr "%1$s が %3$s を公開しました。"
+
+#: inc/labels.php:81
+#, php-format
+msgid "%s published %s."
+msgstr "%s が %s を公開しました。"
+
+#: inc/labels.php:100
+#: inc/labels.php:130
+#: inc/labels.php:271
+#: inc/labels.php:419
+#: inc/labels.php:808
+#: inc/labels.php:863
+#, php-format
+msgid "Shared %2$s"
+msgstr "%2$s を共有しました。"
+
+#: inc/labels.php:105
+#, php-format
+msgid "Shared %s photos."
+msgstr "%s 枚の写真を共有しました。"
+
+#: inc/labels.php:111
+#: inc/labels.php:141
+#: inc/labels.php:282
+#: inc/labels.php:430
+#: inc/labels.php:819
+#: inc/labels.php:874
+#, php-format
+msgid "%1$s shared %3$s"
+msgstr "%1$s が %3$s を共有しました。"
+
+#: inc/labels.php:116
+#, php-format
+msgid "%s shared %s photos."
+msgstr "%s が %s 枚の写真を共有しました。"
+
+#: inc/labels.php:135
+#, php-format
+msgid "Shared %s links."
+msgstr "%s 件のリンクを共有しました。"
+
+#: inc/labels.php:146
+#, php-format
+msgid "%s shared %s links."
+msgstr "%s が %s 個のリンクを共有しました。"
+
+#: inc/labels.php:159
+msgid "Posted a message."
+msgstr "メッセージを投稿しました。"
+
+#: inc/labels.php:164
+#, php-format
+msgid "Posted %s messages."
+msgstr "%s 件のメッセージを投稿しました。"
+
+#: inc/labels.php:169
+#, php-format
+msgid "%s posted a message."
+msgstr "%s がメッセージを投稿しました。"
+
+#: inc/labels.php:174
+#, php-format
+msgid "%s posted %s messages."
+msgstr "%s が %s 件のメッセージを投稿しました。"
+
+#: inc/labels.php:188
+#: inc/labels.php:359
+#: inc/labels.php:598
+#: inc/labels.php:982
+#, php-format
+msgid "Reviewed %2$s"
+msgstr "%2$s をレビューしました。"
+
+#: inc/labels.php:193
+#, php-format
+msgid "Reviewed %s items."
+msgstr "%s 個の商品をレビューしました。"
+
+#: inc/labels.php:199
+#: inc/labels.php:370
+#: inc/labels.php:609
+#: inc/labels.php:993
+#, php-format
+msgid "%1$s reviewed %3$s"
+msgstr "%1$s が %3$s をレビューしました。"
+
+#: inc/labels.php:204
+#, php-format
+msgid "%s reviewed %s items."
+msgstr "%s が %s 商品をレビューしました。"
+
+#: inc/labels.php:218
+#, php-format
+msgid "Purchased %2$s"
+msgstr "%2$s を購入しました。"
+
+#: inc/labels.php:223
+#, php-format
+msgid "Purchased %s items."
+msgstr "%s 個の商品を購入しました。"
+
+#: inc/labels.php:229
+#, php-format
+msgid "%1$s purchased %3$s"
+msgstr "%1$s が %3$s を購入しました。"
+
+#: inc/labels.php:234
+#, php-format
+msgid "%s purchased %s items."
+msgstr "%s が %s 個の商品を購入しました。"
+
+#: inc/labels.php:242
+msgid "Commited code."
+msgstr "コードをコミットしました。"
+
+#: inc/labels.php:247
+#, php-format
+msgid "Made %s commits."
+msgstr "%s 回のコミットを行いました。"
+
+#: inc/labels.php:252
+#, php-format
+msgid "%s commited code."
+msgstr "%s がコードをコミットしました。"
+
+#: inc/labels.php:257
+#, php-format
+msgid "%s made %s commits."
+msgstr "%s が %s 回のコミットを行いました。"
+
+#: inc/labels.php:276
+#, php-format
+msgid "Shared %s books."
+msgstr "%s 冊の本を共有しました。"
+
+#: inc/labels.php:287
+#, php-format
+msgid "%s shared %s books."
+msgstr "%s が %s 冊の本を共有しました。"
+
+#: inc/labels.php:300
+msgid "Posted a comment."
+msgstr "コメントを投稿しました。"
+
+#: inc/labels.php:305
+#, php-format
+msgid "Posted %s comments."
+msgstr "%s 件のコメントを投稿しました。"
+
+#: inc/labels.php:310
+#, php-format
+msgid "%s posted a comment."
+msgstr "%s がコメントを投稿しました。"
+
+#: inc/labels.php:315
+#, php-format
+msgid "%s posted %s comments."
+msgstr "%s が %s 件のコメントを投稿しました。"
+
+#: inc/labels.php:329
+#: inc/labels.php:448
+#: inc/labels.php:478
+#: inc/labels.php:508
+#: inc/labels.php:628
+#: inc/labels.php:838
+#, php-format
+msgid "Liked %2$s"
+msgstr "%2$s を気に入りました。"
+
+#: inc/labels.php:334
+#, php-format
+msgid "Liked %s stories."
+msgstr "%s 個のストーリーを気に入りました。"
+
+#: inc/labels.php:340
+#: inc/labels.php:459
+#: inc/labels.php:489
+#: inc/labels.php:519
+#: inc/labels.php:639
+#: inc/labels.php:849
+#, php-format
+msgid "%1$s liked %3$s"
+msgstr "%1$s が %3$s を気に入りました。"
+
+#: inc/labels.php:345
+#, php-format
+msgid "%s liked %s stories."
+msgstr "%s が %s 個のストーリーを気に入りました。"
+
+#: inc/labels.php:364
+#, php-format
+msgid "Reviewed %s businesses."
+msgstr "%s 件のお店をレビューしました。"
+
+#: inc/labels.php:375
+#, php-format
+msgid "%s reviewed %s businesses."
+msgstr "%s が %s 件のお店をレビューしました。"
+
+#: inc/labels.php:389
+#, php-format
+msgid "Listened to %2$s"
+msgstr "%2$s を聴きました。"
+
+#: inc/labels.php:394
+#, php-format
+msgid "Listened to %s songs."
+msgstr "%s 曲を聴きました。"
+
+#: inc/labels.php:400
+#, php-format
+msgid "%1$s listened to %3$s"
+msgstr "%1$s が %3$s を聴きました。"
+
+#: inc/labels.php:405
+#, php-format
+msgid "%s listened to %s songs."
+msgstr "%s が %s 曲を聴きました。"
+
+#: inc/labels.php:424
+#, php-format
+msgid "Shared %s videos."
+msgstr "%s 個の動画を共有しました。"
+
+#: inc/labels.php:435
+#, php-format
+msgid "%s shared %s videos."
+msgstr "%s が %s 個の動画を共有しました。"
+
+#: inc/labels.php:453
+#, php-format
+msgid "Liked %s videos."
+msgstr "%s 個の動画を気に入りました。"
+
+#: inc/labels.php:464
+#, php-format
+msgid "%s liked %s videos."
+msgstr "%s が %s 個の動画を気に入りました。"
+
+#: inc/labels.php:483
+#, php-format
+msgid "Liked %s songs."
+msgstr "%s の曲を気に入りました。"
+
+#: inc/labels.php:494
+#, php-format
+msgid "%s liked %s songs."
+msgstr "%s が %s の曲を気に入りました。"
+
+#: inc/labels.php:513
+#, php-format
+msgid "Liked %s artists."
+msgstr "%s 人のアーティストを気に入りました。"
+
+#: inc/labels.php:524
+#, php-format
+msgid "%s liked %s artists."
+msgstr "%s が %s 人のアーティストを気に入りました。"
+
+#: inc/labels.php:538
+#, php-format
+msgid "Created %2$s"
+msgstr "%2$s を作成しました。"
+
+#: inc/labels.php:543
+#, php-format
+msgid "Created %s stations."
+msgstr "%s 個のステーションを作成しました。"
+
+#: inc/labels.php:549
+#, php-format
+msgid "%1$s created %3$s"
+msgstr "%1$s が %3$s を作成しました。"
+
+#: inc/labels.php:554
+#, php-format
+msgid "%s created %s stations."
+msgstr "%s が %s 個のステーションを作成しました。"
+
+#: inc/labels.php:568
+#, php-format
+msgid "Watched %2$s"
+msgstr "%2$s を観ました。"
+
+#: inc/labels.php:573
+#, php-format
+msgid "Watched %s videos."
+msgstr "%s 個の動画を観ました。"
+
+#: inc/labels.php:579
+#, php-format
+msgid "%1$s watched %3$s"
+msgstr "%1$s が %3$s を観ました。"
+
+#: inc/labels.php:584
+#, php-format
+msgid "%s watched %s videos."
+msgstr "%s が %s 個の動画を観ました。"
+
+#: inc/labels.php:603
+#, php-format
+msgid "Reviewed %s websites."
+msgstr "%s 個のサイトをレビューしました。"
+
+#: inc/labels.php:614
+#, php-format
+msgid "%s reviewed %s websites."
+msgstr "%s が %s 個のサイトをレビューしました。"
+
+#: inc/labels.php:633
+#, php-format
+msgid "Liked %s websites."
+msgstr "%s 個のサイトを気に入りました。"
+
+#: inc/labels.php:644
+#, php-format
+msgid "%s liked %s websites."
+msgstr "%s が %s 個のサイトを気に入りました。"
+
+#: inc/labels.php:658
+#, php-format
+msgid "Wants %2$s"
+msgstr "%2$s を欲しいものリストに追加しました。"
+
+#: inc/labels.php:663
+#, php-format
+msgid "Wants %s items."
+msgstr "%s 個の商品を欲しいものリストに追加しました。"
+
+#: inc/labels.php:669
+#, php-format
+msgid "%1$s wants %3$s"
+msgstr "%1$s が %3$s を欲しいものリストに追加しました。"
+
+#: inc/labels.php:674
+#, php-format
+msgid "%s wants %s items."
+msgstr "%s は %s 個の商品を欲しいものリストに追加しました。"
+
+#: inc/labels.php:688
+#, php-format
+msgid "Checked in at %2$s"
+msgstr "%2$s にチェックインしました。"
+
+#: inc/labels.php:693
+#, php-format
+msgid "Checked in %s times."
+msgstr "%s 回チェックインしました。"
+
+#: inc/labels.php:699
+#, php-format
+msgid "%1$s checked in at %3$s"
+msgstr "%1$s が %3$s にチェックインしました。"
+
+#: inc/labels.php:704
+#, php-format
+msgid "%s checked in %s times."
+msgstr "%s が %s 回チェックインしました。"
+
+#: inc/labels.php:718
+#, php-format
+msgid "Received %2$s"
+msgstr "%2$s を受け取りました。"
+
+#: inc/labels.php:723
+#, php-format
+msgid "Received %s badges."
+msgstr "%s 個のバッジを受け取りました。"
+
+#: inc/labels.php:729
+#, php-format
+msgid "%1$s received %3$s"
+msgstr "%1$s が %3$s を受け取りました。"
+
+#: inc/labels.php:734
+#, php-format
+msgid "%s received %s badges."
+msgstr "%s が %s 個のバッジを受け取りました。"
+
+#: inc/labels.php:748
+#, php-format
+msgid "Ate %2$s."
+msgstr "%2$s を食べました。"
+
+#: inc/labels.php:753
+#, php-format
+msgid "Ate %s meals."
+msgstr "%s 回食事をしました。"
+
+#: inc/labels.php:759
+#, php-format
+msgid "%1$s ate %3$s."
+msgstr "%1$s が %3$s を食べました。"
+
+#: inc/labels.php:764
+#, php-format
+msgid "%s ate %s."
+msgstr "%s が %s を食べました。"
+
+#: inc/labels.php:778
+#, php-format
+msgid "Watched %2$s."
+msgstr "%2$s を観ました。"
+
+#: inc/labels.php:783
+#, php-format
+msgid "Watched %s episodes."
+msgstr "%s 個のエピソードを観ました。"
+
+#: inc/labels.php:789
+#, php-format
+msgid "%1$s watched %3$s."
+msgstr "%1$s が %3$s を観ました。"
+
+#: inc/labels.php:794
+#, php-format
+msgid "%s watched %s episodes."
+msgstr "%s が %s 個のエピソードを観ました。"
+
+#: inc/labels.php:813
+#, php-format
+msgid "Shared %s stories."
+msgstr "%s 個のストーリーを共有しました。"
+
+#: inc/labels.php:824
+#, php-format
+msgid "%s shared %s stories."
+msgstr "%s が %s 個のストーリーを共有しました。"
+
+#: inc/labels.php:843
+#, php-format
+msgid "Liked %s movies."
+msgstr "%s 個の映画を気に入りました。"
+
+#: inc/labels.php:854
+#, php-format
+msgid "%s liked %s movies."
+msgstr "%s が %s 個の映画を気に入りました。"
+
+#: inc/labels.php:868
+#, php-format
+msgid "Shared %s presentations."
+msgstr "%s 個のプレゼンテーションを共有しました。"
+
+#: inc/labels.php:879
+#, php-format
+msgid "%s shared %s presentations."
+msgstr "%s が %s 個のプレゼンテーションを共有しました。"
+
+#: inc/labels.php:893
+#, php-format
+msgid "Unlocked %2$s"
+msgstr "%2$s のロックを解除しました。"
+
+#: inc/labels.php:898
+#, php-format
+msgid "Unlocked %s achievements."
+msgstr "%s 個の功績のロックを解除しました。"
+
+#: inc/labels.php:904
+#, php-format
+msgid "%1$s unlocked %3$s"
+msgstr "%1$s が %3$s のロックを解除しました。"
+
+#: inc/labels.php:909
+#, php-format
+msgid "%s unlocked %s achievements."
+msgstr "%s が %s 個の功績のロックを解除しました。"
+
+#: inc/labels.php:923
+#, php-format
+msgid "Played %2$s"
+msgstr "%2$s をプレーしました。"
+
+#: inc/labels.php:928
+#, php-format
+msgid "Played %s games."
+msgstr "%s 種類のゲームをプレーしました。"
+
+#: inc/labels.php:934
+#, php-format
+msgid "%1$s played %3$s"
+msgstr "%1$s が %3$s をプレーしました。"
+
+#: inc/labels.php:939
+#, php-format
+msgid "%s played %s games."
+msgstr "%s が %s 種類のゲームをプレーしました。"
+
+#: inc/labels.php:952
+#, php-format
+msgid "Queued %2$s"
+msgstr "%2$s をキューに入れました。"
+
+#: inc/labels.php:957
+#, php-format
+msgid "Queued %s videos."
+msgstr "%s 個の動画ををキューに入れました。"
+
+#: inc/labels.php:963
+#, php-format
+msgid "%1$s queued %3$s"
+msgstr "%1$s が %3$s をキューに入れました。"
+
+#: inc/labels.php:968
+#, php-format
+msgid "%s queued %s videos."
+msgstr "%s が %s 個の動画をキューに入れました。"
+
+#: inc/labels.php:987
+#, php-format
+msgid "Reviewed %s videos."
+msgstr "%s 個の動画をレビューしました。"
+
+#: inc/labels.php:998
+#, php-format
+msgid "%s reviewed %s videos."
+msgstr "%s が %s 個の動画をレビューしました。"
+
+#: inc/labels.php:1012
+#, php-format
+msgid "Attending %2$s"
+msgstr "%2$s に参加する予定です。"
+
+#: inc/labels.php:1017
+#, php-format
+msgid "Attending %s events."
+msgstr "%s 件のイベントに参加する予定です。"
+
+#: inc/labels.php:1023
+#, php-format
+msgid "%1$s is attending %3$s"
+msgstr "%1$s は %3$s に参加予定です。"
+
+#: inc/labels.php:1028
+#, php-format
+msgid "%s is attending %s events."
+msgstr "%s は %s 件のイベントに参加する予定です。"
+
+#: inc/labels.php:1042
+#, php-format
+msgid "Contributed to %2$s"
+msgstr "%2$s に貢献しました。"
+
+#: inc/labels.php:1047
+#, php-format
+msgid "Contributed to %s pages."
+msgstr "%s ページに貢献しました。"
+
+#: inc/labels.php:1053
+#, php-format
+msgid "%1$s contributed to %3$s"
+msgstr "%1$s が %3$s に貢献しました。"
+
+#: inc/labels.php:1058
+#, php-format
+msgid "%s contributed to %s pages."
+msgstr "%s が %s ページに貢献しました。"
+
+#: inc/widget.php:28
+msgid "Lifestream"
+msgstr "Lifestream"
+
+#: inc/widget.php:139
+msgid "Title:"
+msgstr "タイトル:"
+
+#: inc/widget.php:145
+msgid "Number of events to show:"
+msgstr "表示するイベント項目数:"
+
+#: inc/widget.php:152
+msgid "Break up grouped events."
+msgstr "グループ化されたイベントを分割"
+
+#: inc/widget.php:158
+msgid "Hide meta data, such as the time."
+msgstr "時間などのメタ情報を非表示"
+
+#: inc/widget.php:162
+msgid "Feeds to show (optional):"
+msgstr "表示するフィード (オプション):"
+
+#: inc/widget.php:162
+msgid "Clear Selection"
+msgstr "選択肢をクリア"
+
+#: inc/widget.php:181
+msgid "Displays your activity from your lifestream"
+msgstr "あなたの Lifestream から活動内容を表示"
+
+#: inc/widget.php:184
+msgid "Lifestream"
+msgstr "Lifestream"
+
+#: pages/add-feed.inc.php:5
+#: pages/feeds.inc.php:84
+msgid "Add a Feed"
+msgstr "フィードを追加"
+
+#: pages/add-feed.inc.php:5
+#: pages/edit-feed.inc.php:5
+#, php-format
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Lifestream フィードへ戻る</a>)"
+
+#: pages/add-feed.inc.php:8
+#: pages/edit-feed.inc.php:9
+#, php-format
+msgid "%s Feed Settings"
+msgstr "%s フィード設定"
+
+#: pages/add-feed.inc.php:50
+#: pages/add-feed.inc.php:63
+#: pages/edit-feed.inc.php:49
+#: pages/edit-feed.inc.php:62
+msgid "Optional"
+msgstr "オプション"
+
+#: pages/add-feed.inc.php:54
+#: pages/edit-feed.inc.php:53
+msgid "A label to use for this feed instead of the default."
+msgstr "このフィードに使用するデフォルト以外のラベル"
+
+#: pages/add-feed.inc.php:60
+#: pages/edit-feed.inc.php:59
+msgid "Use websites default favicon."
+msgstr "サイトのデフォルト favicon を使う"
+
+#: pages/add-feed.inc.php:67
+#: pages/edit-feed.inc.php:66
+msgid "An icon to use for this feed instead of the default."
+msgstr "このフィードで使うデフォルト以外の favicon"
+
+#: pages/add-feed.inc.php:81
+#: pages/edit-feed.inc.php:80
+msgid "Group events from the same day together."
+msgstr "同じ日のイベントをグループ化する。"
+
+#: pages/add-feed.inc.php:88
+#: pages/edit-feed.inc.php:88
+msgid "Excerpts"
+msgstr "抜粋"
+
+#: pages/add-feed.inc.php:91
+#: pages/edit-feed.inc.php:91
+msgid "Do not show any excerpts."
+msgstr "抜粋を非表示"
+
+#: pages/add-feed.inc.php:92
+#: pages/edit-feed.inc.php:92
+msgid "Show partial excerpt for events."
+msgstr "イベント説明の一部抜粋のみ表示"
+
+#: pages/add-feed.inc.php:93
+#: pages/edit-feed.inc.php:93
+msgid "Show full description for events."
+msgstr "イベント説明をすべて表示"
+
+#: pages/add-feed.inc.php:95
+#: pages/edit-feed.inc.php:95
+msgid "This feed can show a more detailed description of the event."
+msgstr "このフィードではイベントのより詳しい説明を表示することができます。"
+
+#: pages/add-feed.inc.php:99
+#: pages/edit-feed.inc.php:99
+msgid "Owner:"
+msgstr "所有者:"
+
+#: pages/add-feed.inc.php:120
+#: pages/edit-feed.inc.php:120
+#, php-format
+msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
+msgstr "%s についてさらに詳しくは <a href=\"%s\">%s</a> をご覧ください。"
+
+#: pages/add-feed.inc.php:123
+msgid "Add Feed"
+msgstr "フィードを追加"
+
+#: pages/changelog.inc.php:3
+#, php-format
+msgid "You are using <strong>wp-lifestream %s</strong>."
+msgstr "あなたは <strong>wp-lifestream %s</strong> を使っています。"
+
+#: pages/changelog.inc.php:5
+msgid "This is the current change log, pulled directly from the latest version. It allows you to see past, and future changes."
+msgstr "これは最新のバージョンから取り込まれた現在の更新履歴です。過去および将来の変更を確認することができます。"
+
+#: pages/edit-feed.inc.php:5
+msgid "Edit Feed"
+msgstr "フィードを編集"
+
+#: pages/edit-feed.inc.php:81
+msgid "This will not affect any event's already listed."
+msgstr "すでに追加されたイベントには適用されません。"
+
+#: pages/edit-feed.inc.php:123
+msgid "Save Feed"
+msgstr "フィードを保存"
+
+#: pages/edit-feed.inc.php:127
+msgid "Recent Events"
+msgstr "最近のイベント"
+
+#: pages/edit-feed.inc.php:133
+#: pages/events.inc.php:30
+#: pages/feeds.inc.php:40
+msgid "ID"
+msgstr "ID"
+
+#: pages/edit-feed.inc.php:134
+#: pages/events.inc.php:32
+msgid "Event"
+msgstr "イベント"
+
+#: pages/edit-feed.inc.php:135
+#: pages/errors.inc.php:27
+#: pages/events.inc.php:33
+msgid "Date"
+msgstr "日付"
+
+#: pages/edit-feed.inc.php:151
+#: pages/events.inc.php:63
+msgid "There are no events to show."
+msgstr "現在、表示するイベントがありません。"
+
+#: pages/errors.inc.php:1
+msgid "Clear Log"
+msgstr "ログを消去"
+
+#: pages/errors.inc.php:25
+#: pages/events.inc.php:31
+msgid "Feed"
+msgstr "フィード"
+
+#: pages/errors.inc.php:26
+msgid "Message"
+msgstr "メッセージ"
+
+#: pages/errors.inc.php:79
+msgid "There are no errors to show."
+msgstr "現在、表示するエラーがありません。"
+
+#: pages/events.inc.php:20
+#: pages/events.inc.php:57
+#: pages/feeds.inc.php:21
+#: pages/feeds.inc.php:74
+msgid "Delete"
+msgstr "削除"
+
+#: pages/events.inc.php:34
+#: pages/feeds.inc.php:44
+msgid "Owner"
+msgstr "所有者"
+
+#: pages/feeds.inc.php:1
+msgid "Refresh All Feeds"
+msgstr "すべてのフィードを再読み込み"
+
+#: pages/feeds.inc.php:20
+#: pages/feeds.inc.php:73
+msgid "Refresh"
+msgstr "再読み込み"
+
+#: pages/feeds.inc.php:41
+msgid "Description"
+msgstr "説明"
+
+#: pages/feeds.inc.php:42
+msgid "Last Update"
+msgstr "前回の更新"
+
+#: pages/feeds.inc.php:80
+msgid "You do not currently have ownership of any feeds."
+msgstr "所有するフィードがありません。"
+
+#: pages/feeds.inc.php:85
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr "フィードの種類を選択して新しいフィードを追加:"
+
+#: pages/forums.inc.php:1
+msgid "Open in a new window"
+msgstr "新しいウィンドウで開く"
+
+#: pages/forums.inc.php:3
+msgid "You may direct questions, feedback, and problems to us by posting in the forums below."
+msgstr "質問、フィードバック、問題点などは、以下のフォーラムに投稿してください。"
+
+#: pages/lifestream-list.inc.php:23
+#: pages/lifestream-table.inc.php:45
+msgid "There are no events to show at this time."
+msgstr "現在、表示するイベントがありません。"
+
+#: pages/settings.inc.php:7
+msgid "Lifestream Configuration"
+msgstr "Lifestream 設定"
+
+#: pages/settings.inc.php:8
+#, php-format
+msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
+msgstr "以下の設定はすべてのフィードに適用されます。各フィードの設定を変更したい場合は、<a href=\"%s\">フィード管理画面</a>から行ってください。"
+
+#: pages/settings.inc.php:17
+msgid "Day Format:"
+msgstr "日付書式:"
+
+#: pages/settings.inc.php:20
+#: pages/settings.inc.php:27
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method."
+msgstr "詳しくは、PHP マニュアルの<a href=\"http://php.net/manual/ja/function.date.php\">date()</a> 関数のページをご覧ください。"
+
+#: pages/settings.inc.php:24
+msgid "Hour Format:"
+msgstr "時間書式:"
+
+#: pages/settings.inc.php:31
+msgid "Current Time:"
+msgstr "現在の時間:"
+
+#: pages/settings.inc.php:38
+msgid "This will adjust the timezone offset for your Lifestream."
+msgstr "Lifestream のタイムゾーン時差を調整します。"
+
+#: pages/settings.inc.php:42
+msgid "Update Interval:"
+msgstr "更新頻度:"
+
+#: pages/settings.inc.php:44
+#: pages/settings.inc.php:51
+#: pages/settings.inc.php:58
+#: pages/settings.inc.php:65
+#: pages/settings.inc.php:114
+#, php-format
+msgid "(Default: %s)"
+msgstr "(デフォルト: %s)"
+
+#: pages/settings.inc.php:45
+msgid "The number of minutes between updates to your feeds. Value is in minutes."
+msgstr "フィードを再読み込みする間隔 (分)。"
+
+#: pages/settings.inc.php:49
+#: pages/settings.inc.php:112
+msgid "Number of Items:"
+msgstr "項目数:"
+
+#: pages/settings.inc.php:52
+msgid "The number of items to display in the default lifestream call."
+msgstr "Lifestream 関数呼び出しで表示する項目のデフォルト数。"
+
+#: pages/settings.inc.php:56
+msgid "Date Cutoff:"
+msgstr "分割期限:"
+
+#: pages/settings.inc.php:59
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "Lifestream 関数呼び出しを分割する期間のデフォルト値。使える単位は、<code>year</code>、<code>quarter</code>、<code>month</code>、<code>week</code>、<code>day</code>、<code>hour</code>、<code>second</code>、<code>microsecond</code> です。"
+
+#: pages/settings.inc.php:63
+msgid "Description Cutoff:"
+msgstr "説明の切り捨て:"
+
+#: pages/settings.inc.php:66
+msgid "Some extensions will show a preview of the text (such as blogs and comments). Set this to the length, in characters, for the cutoff, or -1 to disable truncating posts."
+msgstr "機能拡張の中にはテキストのプレビューを表示するもの (ブログやコメントなど) がありますが、その際に表示させる文字数をここで指定します。テキスト全文を使う場合は -1 を指定してください。"
+
+#: pages/settings.inc.php:70
+msgid "Show Owners:"
+msgstr "所有者を表示:"
+
+#: pages/settings.inc.php:71
+msgid "Show the owner of the feed in the display."
+msgstr "フィードの所有者を表示する"
+
+#: pages/settings.inc.php:76
+msgid "Enable iBox:"
+msgstr "iBox を有効化:"
+
+#: pages/settings.inc.php:77
+msgid "Enable iBox on plugins that support it."
+msgstr "対応しているプラグインで iBox を有効化"
+
+#: pages/settings.inc.php:82
+msgid "Hide Grouped Details:"
+msgstr "グループ化項目の詳細を非表示:"
+
+#: pages/settings.inc.php:83
+msgid "Hide details of grouped events by default."
+msgstr "グループ化したイベントの詳細を隠す:"
+
+#: pages/settings.inc.php:87
+msgid "URL Handler:"
+msgstr "URL ハンドラー:"
+
+#: pages/settings.inc.php:89
+msgid "(Automatic)"
+msgstr "(自動)"
+
+#: pages/settings.inc.php:90
+msgid "Curl"
+msgstr "Curl"
+
+#: pages/settings.inc.php:91
+msgid "fopen"
+msgstr "fopen"
+
+#: pages/settings.inc.php:95
+msgid "Show Credits:"
+msgstr "クレジットを表示:"
+
+#: pages/settings.inc.php:96
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "サイトに挿入する際 Lifestream のクレジットを表示する。"
+
+#: pages/settings.inc.php:105
+#, php-format
+msgid "You can access your feed URL at <a href=\"%s\">%s</a>."
+msgstr "フィードの URL には、<a href=\"%s\">%s</a> からアクセスできます。"
+
+#: pages/settings.inc.php:115
+msgid "The number of items to display in the default lifestream feed call."
+msgstr "Lifestream 関数呼び出しで表示する項目のデフォルト数。"
+
+#: pages/settings.inc.php:120
+msgid "Digest"
+msgstr "ダイジェスト版"
+
+#: pages/settings.inc.php:121
+msgid "Lifestream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period."
+msgstr "Lifestream では、一定の期間の間に起こったイベントを含む記事をブログへ自動投稿することができます。"
+
+#: pages/settings.inc.php:128
+msgid "Show Digest:"
+msgstr "ダイジェストを表示:"
+
+#: pages/settings.inc.php:129
+msgid "Post a summary of my lifestream."
+msgstr "Lifestream のダイジェスト版を投稿する。"
+
+#: pages/settings.inc.php:133
+msgid "Post Interval:"
+msgstr "投稿頻度:"
+
+#: pages/settings.inc.php:156
+msgid "This determines the approximate time when your digest should be posted."
+msgstr "ダイジェスト版が投稿されるだいたいの時間を決定します。"
+
+#: pages/settings.inc.php:160
+msgid "Summary Post Title:"
+msgstr "概要投稿のタイトル:"
+
+#: pages/settings.inc.php:163
+#, php-format
+msgid "You may use <code>%%1$s</code> for the current date, and <code>%%2$s</code> for the current time."
+msgstr "現在の日付には <code>%%1$s</code>、時間には <code>%%2$s</code> を使用できます。"
+
+#: pages/settings.inc.php:167
+msgid "Summary Post Body:"
+msgstr "概要投稿の本文:"
+
+#: pages/settings.inc.php:170
+#, php-format
+msgid "You may use <code>%%1$s</code> for the list of events, <code>%%2$s</code> for the day, and <code>%%3$d</code> for the number of events."
+msgstr "イベント一覧を挿入するには <code>%%1$s</code>、日付には <code>%%2$s</code>、イベント総数には <code>%%3$d</code> を使用できます。"
+
+#: pages/settings.inc.php:174
+msgid "Summary Author:"
+msgstr "概要投稿の作成者:"
+
+#: pages/settings.inc.php:192
+msgid "Summary Category:"
+msgstr "概要投稿のカテゴリー:"
+
+#: pages/settings.inc.php:207
+msgid "Save Changes"
+msgstr "変更を保存"
+
+#~ msgid "The selected event was not found."
+#~ msgstr "選択したイベントが見つかりません。"
+#~ msgid "Please correct the following errors:"
+#~ msgstr "以下のエラーを修正してください。"
+#~ msgid "You will need JavaScript enabled in order to add a feed."
+#~ msgstr "フィードを追加するには JavaScript を有効化してください。"
+#~ msgid ""
+#~ "Show labels for events in this feed. This will not affect grouped events."
+#~ msgstr ""
+#~ "このフィードのイベントにはラベルを表示します。グループ化されたイベントには"
+#~ "適用されません。"
+#~ msgid ""
+#~ "Show labels for events in this feed. This will not effect grouped events."
+#~ msgstr ""
+#~ "このフィードのイベントにはラベルを表示します。グループ化されたイベントには"
+#~ "適用されません。"
+#~ msgid "Feed Type"
+#~ msgstr "フィードの種類"
+#~ msgid ""
+#~ "You may use <code>%s</code> for the current date formatted with your "
+#~ "<em>Day Format</em> option."
+#~ msgstr ""
+#~ "<code>%s</code> を使えば、<em>日付書式の設定</em>で指定した書式で今日の日"
+#~ "付を挿入できます。"
+

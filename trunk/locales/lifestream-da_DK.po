@@ -1,0 +1,395 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: lifestream\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-27 05:31-0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: René Clausen Nielsen <rcn@shevy.dk>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: _lifestream.php:193
+msgid "Unknown SQL Error"
+msgstr "Ukendt SQL-fejl"
+
+#: _lifestream.php:731
+#: pages/lifestream-list.inc.php:21
+msgid "Show Details"
+msgstr "Vis detaljer"
+
+#: _lifestream.php:731
+#: pages/lifestream-list.inc.php:21
+msgid "Hide Details"
+msgstr "Skjul detaljer"
+
+#: _lifestream.php:1022
+#: _lifestream.php:1089
+#: _lifestream.php:1110
+#: _lifestream.php:1128
+msgid "The selected feed was not found."
+msgstr "Det valgte feed blev ikke fundet."
+
+#: _lifestream.php:1026
+#: _lifestream.php:1093
+#: _lifestream.php:1114
+#: _lifestream.php:1132
+msgid "You do not have permission to do that."
+msgstr "Det har du ikke rettigheder til."
+
+#: _lifestream.php:1061
+msgid "The selected events were hidden."
+msgstr "De valgte events blev skjult."
+
+#: _lifestream.php:1080
+msgid "All of your feeds have been refreshed."
+msgstr "Alle dine feeds blev opdateret."
+
+#: _lifestream.php:1099
+msgid "The selected feeds and their events have been refreshed."
+msgstr "De valgte feeds blev opdateret."
+
+#: _lifestream.php:1120
+msgid "The selected feeds and all related events has been removed."
+msgstr "De valgte feeds og alle relaterede events er blevet fjernet."
+
+#: _lifestream.php:1222
+#, php-format
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "Det valgte feed blev tilføjet din Lifestream med %d event(s)."
+
+#: _lifestream.php:1253
+msgid "Please correct the following errors:"
+msgstr "Ret venligst følgende fejl:"
+
+#: _lifestream.php:1362
+#: pages/feeds.inc.php:1
+msgid "Lifestream Feeds"
+msgstr "Lifestream-feeds"
+
+#: _lifestream.php:1362
+msgid "Feeds"
+msgstr "Feeds"
+
+#: _lifestream.php:1363
+#: pages/events.inc.php:1
+msgid "Lifestream Events"
+msgstr "Lifestream-events"
+
+#: _lifestream.php:1363
+#: pages/feeds.inc.php:41
+msgid "Events"
+msgstr "Events"
+
+#: _lifestream.php:1364
+msgid "Lifestream Settings"
+msgstr "Lifestream-indstillinger"
+
+#: _lifestream.php:1364
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: _lifestream.php:1365
+#: pages/changelog.inc.php:1
+msgid "Lifestream Change Log"
+msgstr "Lifestream ændringslog"
+
+#: _lifestream.php:1365
+msgid "Change Log"
+msgstr "Ændringslog"
+
+#: _lifestream.php:1366
+#: pages/errors.inc.php:1
+msgid "Lifestream Errors"
+msgstr "Lifestream-fejl"
+
+#: _lifestream.php:1366
+#, php-format
+msgid "Errors (%d)"
+msgstr "Fejl (%d)"
+
+#: _lifestream.php:1367
+#: pages/forums.inc.php:1
+msgid "Lifestream Support Forums"
+msgstr "Lifestream-supportforums (engelsk)"
+
+#: _lifestream.php:1367
+msgid "Support Forums"
+msgstr "Supportforums"
+
+#: pages/add-feed.inc.php:5
+#: pages/feeds.inc.php:76
+msgid "Add a Feed"
+msgstr "Tilføj et feed"
+
+#: pages/add-feed.inc.php:5
+#: pages/edit-feed.inc.php:5
+#, php-format
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Tilbage til Lifestream-feeds</a>)"
+
+#: pages/add-feed.inc.php:8
+#: pages/edit-feed.inc.php:9
+#, php-format
+msgid "%s Feed Settings"
+msgstr "%s feed-indstillinger"
+
+#: pages/add-feed.inc.php:50
+msgid "Show labels for events in this feed. This will not affect grouped events."
+msgstr "Vis labels for events i dette feed. Dette vil ikke have nogen effekt på grupperede events."
+
+#: pages/add-feed.inc.php:59
+#: pages/edit-feed.inc.php:58
+msgid "Group events from the same day together."
+msgstr "Gruppér events fra samme dag."
+
+#: pages/add-feed.inc.php:65
+#: pages/edit-feed.inc.php:64
+msgid "Owner:"
+msgstr "Ejer:"
+
+#: pages/add-feed.inc.php:86
+#: pages/edit-feed.inc.php:85
+#, php-format
+msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
+msgstr "Læs mere om %s ved at besøge <a href=\"%s\">%s</a>."
+
+#: pages/add-feed.inc.php:89
+msgid "Add Feed"
+msgstr "Tilføj feed"
+
+#: pages/edit-feed.inc.php:5
+msgid "Edit Feed"
+msgstr "Rediger feed"
+
+#: pages/edit-feed.inc.php:50
+msgid "Show labels for events in this feed. This will not effect grouped events."
+msgstr "Vis labels for events i dette feed. Dette vil ikke have nogen effekt på grupperede events."
+
+#: pages/edit-feed.inc.php:59
+msgid "This will not affect any event's already listed."
+msgstr "Dette vil ikke have nogen effekt på events, der allerede vises."
+
+#: pages/edit-feed.inc.php:88
+msgid "Save Feed"
+msgstr "Gem feed"
+
+#: pages/edit-feed.inc.php:92
+msgid "Recent Events"
+msgstr "Nyeste events"
+
+#: pages/edit-feed.inc.php:98
+#: pages/events.inc.php:30
+#: pages/feeds.inc.php:39
+msgid "ID"
+msgstr "ID"
+
+#: pages/edit-feed.inc.php:99
+#: pages/events.inc.php:32
+msgid "Event"
+msgstr "Event"
+
+#: pages/edit-feed.inc.php:100
+#: pages/errors.inc.php:27
+#: pages/events.inc.php:33
+msgid "Date"
+msgstr "Dato"
+
+#: pages/edit-feed.inc.php:110
+#: pages/events.inc.php:20
+#: pages/events.inc.php:57
+#: pages/feeds.inc.php:21
+#: pages/feeds.inc.php:66
+msgid "Delete"
+msgstr "Slet"
+
+#: pages/edit-feed.inc.php:116
+#: pages/events.inc.php:63
+msgid "There are no events to show."
+msgstr "Der er ingen events at vise."
+
+#: pages/errors.inc.php:25
+#: pages/events.inc.php:31
+msgid "Feed"
+msgstr "Feed"
+
+#: pages/errors.inc.php:26
+msgid "Message"
+msgstr "Besked"
+
+#: pages/errors.inc.php:79
+msgid "There are no errors to show."
+msgstr "Der er ingen fejl at vise."
+
+#: pages/events.inc.php:34
+#: pages/feeds.inc.php:42
+msgid "Owner"
+msgstr "Ejer"
+
+#: pages/feeds.inc.php:1
+msgid "Refresh All Feeds"
+msgstr "Opdater alle feeds"
+
+#: pages/feeds.inc.php:20
+#: pages/feeds.inc.php:65
+msgid "Refresh"
+msgstr "Opdater"
+
+#: pages/feeds.inc.php:40
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: pages/feeds.inc.php:72
+msgid "You do not currently have ownership of any feeds."
+msgstr "Du ejer i øjeblikket ingen feeds."
+
+#: pages/feeds.inc.php:77
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr "Tilføj et nyt feed ved først at vælge type:"
+
+#: pages/forums.inc.php:1
+msgid "Open in a new window"
+msgstr "Åben i nyt vindue"
+
+#: pages/forums.inc.php:3
+msgid "You may direct questions, feedback, and problems to us by posting in the forums below."
+msgstr "Du kan sende os spørgsmål, feedback og få hjælp til problemer ved at benytte forummet nedenfor (engelsk)."
+
+#: pages/lifestream-list.inc.php:31
+#: pages/lifestream-table.inc.php:48
+#: pages/lifestream.inc.php:38
+msgid "There are no events to show at this time."
+msgstr "Der er ingen events i øjeblikket."
+
+#: pages/settings.inc.php:7
+msgid "Lifestream Configuration"
+msgstr "Lifestream-indstillinger"
+
+#: pages/settings.inc.php:8
+#, php-format
+msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
+msgstr "De følgende indstillinger er globale. Hvis du ønsker at redigere feed-indstillinger enkeltvis, kan det gøres på <a href=\"%s\">Feed-indstillingssiden</a>."
+
+#: pages/settings.inc.php:17
+msgid "Day Format:"
+msgstr "Dagformat:"
+
+#: pages/settings.inc.php:20
+#: pages/settings.inc.php:27
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method."
+msgstr "Se PHP's <a href=\"http://www.php.net/date/\">date()</a>-funktion for mere information."
+
+#: pages/settings.inc.php:24
+msgid "Hour Format:"
+msgstr "Timeformat:"
+
+#: pages/settings.inc.php:31
+msgid "Current Time:"
+msgstr "Klokken lige nu:"
+
+#: pages/settings.inc.php:41
+msgid "Update Interval:"
+msgstr "Opdateringsinterval:"
+
+#: pages/settings.inc.php:43
+#: pages/settings.inc.php:50
+#: pages/settings.inc.php:57
+#, php-format
+msgid "(Default: %s)"
+msgstr "(Standard: %s)"
+
+#: pages/settings.inc.php:44
+msgid "The number of minutes between updates to your feeds. Value is in minutes."
+msgstr "Antallet af minutter mellem opdatering af dine feeds. Angives i minutter."
+
+#: pages/settings.inc.php:48
+msgid "Number of Items:"
+msgstr "Antal:"
+
+#: pages/settings.inc.php:51
+msgid "The number of items to display in the default lifestream feed call."
+msgstr "Ønsket antal viste posts i standard-lifestream-feedet."
+
+#: pages/settings.inc.php:55
+msgid "Date Cutoff:"
+msgstr "Dato cutoff:"
+
+#: pages/settings.inc.php:58
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "Cutoff-tidspunktet er det tidspunkt, hvor feedet skal slutte. De tilgængelige enheder er: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code> og <code>microsecond</code>"
+
+#: pages/settings.inc.php:62
+msgid "Show Owners:"
+msgstr "Vis ejere:"
+
+#: pages/settings.inc.php:63
+msgid "Show the owner of the feed in the display."
+msgstr "Vis ejeren af feedet."
+
+#: pages/settings.inc.php:69
+msgid "Enable iBox on plugins that support it."
+msgstr "Aktiver iBox på plugins som understøtter det."
+
+#: pages/settings.inc.php:74
+msgid "Show Credits:"
+msgstr "Vis credits:"
+
+#: pages/settings.inc.php:75
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Vis credit til Lifestream når det er embeddet."
+
+#: pages/settings.inc.php:82
+msgid "Daily Digest"
+msgstr "Daglig opdatering"
+
+#: pages/settings.inc.php:83
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Lifestream giver dig mulighed for at oprette et nyt blogindlæg hver dag, som indeholder alle de events, der fandt sted den pågældende dag."
+
+#: pages/settings.inc.php:90
+msgid "Show Daily Digest:"
+msgstr "Vis daglig opdatering:"
+
+#: pages/settings.inc.php:91
+msgid "Post a daily summary of my lifestream."
+msgstr "Lav en daglig opsummering af min lifestream."
+
+#: pages/settings.inc.php:95
+msgid "Summary Post Title:"
+msgstr "Tiltel på opsummering:"
+
+#: pages/settings.inc.php:98
+#, php-format
+msgid "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
+msgstr "Du kan benytte <code>%s</code> for at vise datoen formatteret ud fra dit <em>Dagformat</em>."
+
+#: pages/settings.inc.php:102
+msgid "Summary Post Body:"
+msgstr "Opsummering (selve indlægget):"
+
+#: pages/settings.inc.php:105
+#, php-format
+msgid "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
+msgstr "Du kan benytte <code>%1$s</code> til listen af events, <code>%2$s</code> for dagen, og <code>%3$d</code> for antallet af events."
+
+#: pages/settings.inc.php:109
+msgid "Summary Author:"
+msgstr "Opsummering af udgiver:"
+
+#: pages/settings.inc.php:127
+msgid "Summary Category:"
+msgstr "Opsummering af kategorier:"
+
+#: pages/settings.inc.php:142
+msgid "Save Changes"
+msgstr "Gem ændringer"
+
+#~ msgid "You will need JavaScript enabled in order to add a feed."
+#~ msgstr "Du skal have JavaScript aktiveret for at kunne tilføje et feed."
+#~ msgid "Feed Type"
+#~ msgstr "Feed type"
+

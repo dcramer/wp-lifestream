@@ -1,0 +1,357 @@
+# translation of lifestream-bg_BG.po to Bulgarian
+# Krasimir Panayotov <admin@krassyo.info>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: lifestream-bg_BG\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-03 19:22-0600\n"
+"PO-Revision-Date: 2008-09-23 20:55+0300\n"
+"Last-Translator: Krasimir Panayotov <admin@krassyo.info>\n"
+"Language-Team: Bulgarian <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../lifestream/\n"
+"X-Poedit-Language: Bulgarian\n"
+"X-Poedit-Country: BULGARIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: _lifestream.php:649
+#: pages/lifestream-list.inc.php:21
+msgid "Show Details"
+msgstr "Покажи детайли"
+
+#: _lifestream.php:649
+#: pages/lifestream-list.inc.php:21
+msgid "Hide Details"
+msgstr "Скрий детайли"
+
+#: _lifestream.php:917
+#: _lifestream.php:983
+#: _lifestream.php:1003
+#: _lifestream.php:1021
+msgid "The selected feed was not found."
+msgstr "Избраната хранилка не е намерена"
+
+#: _lifestream.php:921
+#: _lifestream.php:987
+#: _lifestream.php:1007
+#: _lifestream.php:1025
+msgid "You do not have permission to do that."
+msgstr "Нямате права да правите това"
+
+#: _lifestream.php:956
+msgid "The selected events were hidden."
+msgstr "Избраните действия са скрити"
+
+#: _lifestream.php:975
+msgid "All of your feeds have been refreshed."
+msgstr "Всички ваши хранилки са обновени"
+
+#: _lifestream.php:993
+msgid "The selected feeds and their events have been refreshed."
+msgstr "Избраните хранилки и техните събития бяха обновени"
+
+#: _lifestream.php:1013
+msgid "The selected feeds and all related events has been removed."
+msgstr "Избраните хранилки и техните събития бяха премахнати"
+
+#: _lifestream.php:1113
+#, php-format
+msgid "Selected feed was added to your Lifestream with %d event(s)."
+msgstr "Избраната хранилка беше добавена към Lifestream със %d събития."
+
+#: _lifestream.php:1134
+msgid "Please correct the following errors:"
+msgstr "Моля поправете следните грешки:"
+
+#: _lifestream.php:1214
+#: pages/feeds.inc.php:1
+msgid "Lifestream Feeds"
+msgstr "Lifestream хранилки"
+
+#: _lifestream.php:1214
+msgid "Feeds"
+msgstr "Хранилки"
+
+#: _lifestream.php:1215
+#: pages/events.inc.php:1
+msgid "Lifestream Events"
+msgstr "Lifestream събития"
+
+#: _lifestream.php:1215
+#: pages/feeds.inc.php:34
+msgid "Events"
+msgstr "Събития"
+
+#: _lifestream.php:1216
+msgid "Lifestream Settings"
+msgstr "Lifestream настройки"
+
+#: _lifestream.php:1216
+msgid "Settings"
+msgstr "Настройки"
+
+#: _lifestream.php:1217
+#: pages/forums.inc.php:1
+msgid "Lifestream Support Forums"
+msgstr "Lifestream форуми за поддръжка"
+
+#: _lifestream.php:1217
+msgid "Support Forums"
+msgstr "Форуми за поддръжка"
+
+#: pages/add-feed.inc.php:5
+msgid "Add a Feed"
+msgstr "Добавяне на хранилка"
+
+#: pages/add-feed.inc.php:8
+msgid "You will need JavaScript enabled in order to add a feed."
+msgstr "Трябва JavaScript да е разрешен за да можете да добавите хранилка."
+
+#: pages/add-feed.inc.php:11
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr "Добавете нова хранлка, като първо изберете типа на хранилката:"
+
+#: pages/add-feed.inc.php:25
+#: pages/edit-feed.inc.php:9
+#, php-format
+msgid "%s Feed Settings"
+msgstr "%s настройки на хранилката"
+
+#: pages/add-feed.inc.php:67
+msgid "Show labels for events in this feed. This will not affect grouped events."
+msgstr "Показване на етикетите за събитията в тази хранилка. Това няма ефект върху групираните събития."
+
+#: pages/add-feed.inc.php:76
+#: pages/edit-feed.inc.php:59
+msgid "Group events from the same day together."
+msgstr "Групиране на събитията от един и същ ден заедно."
+
+#: pages/add-feed.inc.php:82
+#: pages/edit-feed.inc.php:65
+msgid "Owner:"
+msgstr "Собственик:"
+
+#: pages/add-feed.inc.php:103
+#: pages/edit-feed.inc.php:86
+#, php-format
+msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
+msgstr "Намери повече информация за %s, като посетиш <a href=\"%s\">%s</a>."
+
+#: pages/add-feed.inc.php:106
+msgid "Add Feed"
+msgstr "Добавяне на хранилка"
+
+#: pages/edit-feed.inc.php:5
+msgid "Edit Feed"
+msgstr "Редактиране на хранилка"
+
+#: pages/edit-feed.inc.php:5
+#, php-format
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Обратно към хранилките</a>)"
+
+#: pages/edit-feed.inc.php:51
+msgid "Show labels for events in this feed. This will not effect grouped events."
+msgstr "Показване на етикетите за събитията в тази хранилка. Това няма ефект върху групираните събития."
+
+#: pages/edit-feed.inc.php:60
+msgid "This will not affect any event's already listed."
+msgstr "Това няма да има ефект върху вече публикуваните събития от тази хранилка."
+
+#: pages/edit-feed.inc.php:89
+msgid "Save Feed"
+msgstr "Запазване на хранилката"
+
+#: pages/edit-feed.inc.php:93
+msgid "Recent Events"
+msgstr "Последни събития"
+
+#: pages/edit-feed.inc.php:99
+#: pages/events.inc.php:30
+#: pages/feeds.inc.php:31
+msgid "ID"
+msgstr "ID"
+
+#: pages/edit-feed.inc.php:100
+#: pages/events.inc.php:33
+msgid "Event"
+msgstr "Събитие"
+
+#: pages/edit-feed.inc.php:101
+#: pages/events.inc.php:34
+msgid "Date"
+msgstr "Дата"
+
+#: pages/edit-feed.inc.php:111
+#: pages/events.inc.php:20
+#: pages/events.inc.php:58
+#: pages/feeds.inc.php:21
+#: pages/feeds.inc.php:59
+msgid "Delete"
+msgstr "Изтриване"
+
+#: pages/edit-feed.inc.php:117
+#: pages/events.inc.php:63
+msgid "There are no events to show."
+msgstr "Няма събития за показване."
+
+#: pages/events.inc.php:31
+#: pages/feeds.inc.php:32
+msgid "Feed Type"
+msgstr "Тип на хранилката"
+
+#: pages/events.inc.php:32
+msgid "Feed"
+msgstr "Хранилка"
+
+#: pages/events.inc.php:35
+#: pages/feeds.inc.php:35
+msgid "Owner"
+msgstr "Собственик"
+
+#: pages/feeds.inc.php:1
+msgid "Refresh All Feeds"
+msgstr "Обновяване на всички хранилки"
+
+#: pages/feeds.inc.php:20
+#: pages/feeds.inc.php:58
+msgid "Refresh"
+msgstr "Обновяване"
+
+#: pages/feeds.inc.php:33
+msgid "Description"
+msgstr "Описание"
+
+#: pages/feeds.inc.php:65
+msgid "You do not currently have ownership of any feeds."
+msgstr "В момента вие не сте собственик на нито една хранилка."
+
+#: pages/forums.inc.php:1
+msgid "Open in a new window"
+msgstr "Отваряне в нов прозорец"
+
+#: pages/forums.inc.php:3
+msgid "You may direct questions, feedback, and problems to us by posting in the forums below."
+msgstr "Можете да зададете въпроси, да отправите препоръка или да опишете проблем във форумите по-долу."
+
+#: pages/lifestream-list.inc.php:31
+#: pages/lifestream-table.inc.php:48
+msgid "There are no events to show at this time."
+msgstr "Няма събития, които да бъдат показани към този момент."
+
+#: pages/settings.inc.php:7
+msgid "Lifestream Configuration"
+msgstr "Lifestream конфигурация"
+
+#: pages/settings.inc.php:8
+#, php-format
+msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
+msgstr "Следващите настройки имат глобален ефект върху хранилките. Ако искате да промените настройките само на някоя хранилка, можете да го направите от страницата <a href=\"%s\">Промяна на настройките на хранилките</a>."
+
+#: pages/settings.inc.php:17
+msgid "Day Format:"
+msgstr "Формат на датата:"
+
+#: pages/settings.inc.php:20
+#: pages/settings.inc.php:27
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method."
+msgstr "За повече информация вижте ръководството на PHP за метода <a href=\"http://www.php.net/date/\">date()</a>."
+
+#: pages/settings.inc.php:24
+msgid "Hour Format:"
+msgstr "Формат на часа:"
+
+#: pages/settings.inc.php:31
+msgid "Current Time:"
+msgstr "Текущо време:"
+
+#: pages/settings.inc.php:41
+msgid "Update Interval:"
+msgstr "Интервал на обновяване:"
+
+#: pages/settings.inc.php:43
+#: pages/settings.inc.php:50
+#: pages/settings.inc.php:57
+#, php-format
+msgid "(Default: %s)"
+msgstr "(По подразбиране: %s)"
+
+#: pages/settings.inc.php:44
+msgid "The number of minutes between updates to your feeds. Value is in minutes."
+msgstr "Броя на минутите между обновяванията на всички хранилки. Стойността е в минути."
+
+#: pages/settings.inc.php:48
+msgid "Number of Items:"
+msgstr "Брой елементи:"
+
+#: pages/settings.inc.php:51
+msgid "The number of items to display in the default lifestream feed call."
+msgstr "Брой на елементите, които ще бъдат показвани при обновяване на хранилката."
+
+#: pages/settings.inc.php:55
+msgid "Date Cutoff:"
+msgstr "Период на извличане:"
+
+#: pages/settings.inc.php:58
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "Периодът до който да се извличат събития от хранилката. Могат да се използват следните стойности: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, и <code>microsecond</code>"
+
+#: pages/settings.inc.php:63
+msgid "Show the owner of the feed in the display."
+msgstr "Показване на собственика на хранилката."
+
+#: pages/settings.inc.php:69
+msgid "Enable iBox on plugins that support it."
+msgstr "Разрешаване на iBox за разширенията, които го поддържат."
+
+#: pages/settings.inc.php:75
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Отблагодарете се на Lifestream с препратка."
+
+#: pages/settings.inc.php:82
+msgid "Daily Digest"
+msgstr "Дневен преглед"
+
+#: pages/settings.inc.php:83
+msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
+msgstr "Lifestream ви дава възможност всеки ден да създавате нова публикация с преглед на събитията, които са се случили."
+
+#: pages/settings.inc.php:91
+msgid "Post a daily summary of my lifestream."
+msgstr "Публикувай дневен преглед на моя lifestream"
+
+#: pages/settings.inc.php:95
+msgid "Summary Post Title:"
+msgstr "Заглавие на публикацията:"
+
+#: pages/settings.inc.php:98
+#, php-format
+msgid "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
+msgstr "Можете да използвате <code>%s</code> за настоящата дата форматирана с вашите настройки за <em>Формат на датата</em>."
+
+#: pages/settings.inc.php:102
+msgid "Summary Post Body:"
+msgstr "Съдържание на публикацията:"
+
+#: pages/settings.inc.php:105
+#, php-format
+msgid "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
+msgstr "Можете да използвате <code>%1$s</code> за списъка на събитията, <code>%2$s</code> за даня, и <code>%3$d</code> за броя на събитията."
+
+#: pages/settings.inc.php:109
+msgid "Summary Author:"
+msgstr "Автор:"
+
+#: pages/settings.inc.php:127
+msgid "Summary Category:"
+msgstr "Категория:"
+
+#: pages/settings.inc.php:142
+msgid "Save Changes"
+msgstr "Запазване на промените"
+
