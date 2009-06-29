@@ -1,3 +1,10 @@
+0.99.8.1
+
+* Introduced icon packs.
+* Fixed a bug with icons on the errors panel.
+* Cleaned up some admin panels UI and design.
+* get_icon_url() will now fall back on generic.png if icon is not present.
+
 0.99.8.0
 
 * Refactored all rendering to require a label bringing it closer in line with Lifestrm.

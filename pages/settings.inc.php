@@ -80,6 +80,19 @@ $authors = get_users_of_blog();
 					<option value="fopen"<?php if ($lifestream->get_option('url_handler') == 'fopen') echo ' selected="selected"'; ?>><?php $lifestream->_e('fopen'); ?></option>
 				</td>
 			</tr>
+		</tbody>
+	</table>
+	<p class="submit">
+		<input type="submit" name="save" class="button-primary" value="<?php $lifestream->_e('Save Changes');?>" />
+	</p>
+	<br />
+	<h2><?php $lifestream->_e('Appearance'); ?></h2>
+	<table class="form-table">
+		<colgroup>
+			<col style="width:150px;"/>
+			<col>
+		</colgroup>
+		<tbody>
 			<tr>
 				<th><label for="id_theme"><?php $lifestream->_e('Theme:'); ?></label></th>
 				<td>
@@ -92,6 +105,29 @@ $authors = get_users_of_blog();
 				</td>
 			</tr>
 			<tr>
+				<th><label for="id_icons"><?php $lifestream->_e('Icons:'); ?></label></th>
+				<td>
+					<table>
+						<?php foreach ($lifestream->icons as $key=>$data) {?>
+							<tr>
+								<td class="icon"><input type="radio" id="id_lifestream_icons_<?php echo $key; ?>" name="lifestream_icons" value="<?php echo $key; ?>"<?php if ($lifestream->get_option('icons', 'default') == $key) echo ' checked="checked"'; ?>/></td>
+								<td class="icon"><label for="id_lifestream_icons_<?php echo $key; ?>"><img src="<?php echo $lifestream->path . '/icons/' . $key; ?>/generic.png"/></label></td>
+								<td><label for="id_lifestream_icons_<?php echo $key; ?>"><?php echo htmlspecialchars($data['name']); ?>
+									<?php if ($data['author']) { ?>
+										<?php if ($data['url']) { ?>
+										 by <a href="<?php echo htmlspecialchars($data['url']); ?>"><?php echo htmlspecialchars($data['author']); ?></a>
+										<?php } else { ?>
+										 by <em><?php echo htmlspecialchars($data['author']); ?></em>
+										<?php } ?>
+									<?php } ?></label>
+								</td>
+							</tr>
+						<?php } ?>
+					</table>
+					<div class="helptext"><?php $lifestream->_e('Please see the included icons/README for information on creating your own icon set.'); ?>
+				</td>
+			</tr>
+			<tr>
 				<th><?php $lifestream->_e('Show Credits:'); ?></th>
 				<td><label for="id_show_credits"><input type="checkbox" name="lifestream_show_credits" id="id_show_credits" value="1"<?php if ($lifestream->get_option('show_credits')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Give credit to Lifestream when it\'s embedded.'); ?></label>
 					<div class="helptext"><?php $lifestream->_e('e.g.'); ?> <?php echo $lifestream->credits(); ?></div>
@@ -100,7 +136,7 @@ $authors = get_users_of_blog();
 		</tbody>
 	</table>
 	<p class="submit">
-		<input type="submit" name="save" value="<?php $lifestream->_e('Save Changes');?>" />
+		<input type="submit" name="save" class="button-primary" value="<?php $lifestream->_e('Save Changes');?>" />
 	</p>
 	<br />
 	<h2><?php $lifestream->_e('Feed'); ?></h2>
@@ -111,16 +147,18 @@ $authors = get_users_of_blog();
 			<col style="width:150px;"/>
 			<col/>
 		</colgroup>
-		<tr>
-			<th><label for="id_feed_items"><?php $lifestream->_e('Number of Items:'); ?></label></th>
-			<td>
-				<input type="text" class="text" name="lifestream_feed_items" id="id_feed_items" value="<?php echo htmlspecialchars($lifestream->get_option('feed_items')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->_options['feed_items']); ?>
-				<div class="helptext"><?php $lifestream->_e('The number of items to display in the default lifestream feed call.'); ?></div></p>
-			</td>
-		</tr>
+		<tbody>
+			<tr>
+				<th><label for="id_feed_items"><?php $lifestream->_e('Number of Items:'); ?></label></th>
+				<td>
+					<input type="text" class="text" name="lifestream_feed_items" id="id_feed_items" value="<?php echo htmlspecialchars($lifestream->get_option('feed_items')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->_options['feed_items']); ?>
+					<div class="helptext"><?php $lifestream->_e('The number of items to display in the default lifestream feed call.'); ?></div></p>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 	<p class="submit">
-		<input type="submit" name="save" value="<?php $lifestream->_e('Save Changes');?>" />
+		<input type="submit" name="save" class="button-primary" value="<?php $lifestream->_e('Save Changes');?>" />
 	</p>
 	<br />
 	<h2><?php $lifestream->_e('Digest'); ?></h2>
@@ -130,86 +168,88 @@ $authors = get_users_of_blog();
 			<col style="width: 150px;"/>
 			<col/>
 		</colgroup>
-		<tr>
-			<th><?php $lifestream->_e('Show Digest:'); ?></th>
-			<td><label for="id_daily_digest"><input type="checkbox" name="lifestream_daily_digest" id="id_daily_digest" value="1"<?php if ($lifestream->get_option('daily_digest')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Post a summary of my lifestream.'); ?></label>
-			</td>
-		</tr>
-		<tr>
-			<th><label for="id_digest_interval"><?php $lifestream->_e('Post Interval:'); ?></label></th>
-			<td>
-				<select name="lifestream_digest_interval" id="id_digest_interval" onchange="handleDigestTimeField();">
-					<?php foreach ($lifestream_digest_intervals as $interval=>$label) {?>
-						<option value="<?php echo $interval; ?>"<?php if ($lifestream->get_option('digest_interval') == $interval) echo ' selected="selected"'; ?>><?php echo htmlspecialchars($label); ?></option>
-					<?php } ?>
-				</select><span id="id_digest_time_wrap"> @ <select name="lifestream_digest_time" id="id_digest_time">
-					<?php for ($i=0; $i<=24; $i++) {?>
-						<option value="<?php echo $i; ?>"<?php if ($lifestream->get_option('digest_time') == $i) echo ' selected="selected"'; ?>><?php echo ($i > 12 ? ($i-12) : ($i == 0 ? 12 : $i)); ?>:00 <?php echo ($i >= 12 ? 'pm' : 'am'); ?></option>
-					<?php } ?>
-				</select></span>
-				<script type="text/javascript">
-				function handleDigestTimeField() {
-					var el = document.getElementById('id_digest_interval');
-					if (el.options[el.selectedIndex].value == 'hourly') {
-						var display = 'none';
-					} else {
-						var display = '';
+		<tbody>
+			<tr>
+				<th><?php $lifestream->_e('Show Digest:'); ?></th>
+				<td><label for="id_daily_digest"><input type="checkbox" name="lifestream_daily_digest" id="id_daily_digest" value="1"<?php if ($lifestream->get_option('daily_digest')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Post a summary of my lifestream.'); ?></label>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="id_digest_interval"><?php $lifestream->_e('Post Interval:'); ?></label></th>
+				<td>
+					<select name="lifestream_digest_interval" id="id_digest_interval" onchange="handleDigestTimeField();">
+						<?php foreach ($lifestream_digest_intervals as $interval=>$label) {?>
+							<option value="<?php echo $interval; ?>"<?php if ($lifestream->get_option('digest_interval') == $interval) echo ' selected="selected"'; ?>><?php echo htmlspecialchars($label); ?></option>
+						<?php } ?>
+					</select><span id="id_digest_time_wrap"> @ <select name="lifestream_digest_time" id="id_digest_time">
+						<?php for ($i=0; $i<=24; $i++) {?>
+							<option value="<?php echo $i; ?>"<?php if ($lifestream->get_option('digest_time') == $i) echo ' selected="selected"'; ?>><?php echo ($i > 12 ? ($i-12) : ($i == 0 ? 12 : $i)); ?>:00 <?php echo ($i >= 12 ? 'pm' : 'am'); ?></option>
+						<?php } ?>
+					</select></span>
+					<script type="text/javascript">
+					function handleDigestTimeField() {
+						var el = document.getElementById('id_digest_interval');
+						if (el.options[el.selectedIndex].value == 'hourly') {
+							var display = 'none';
+						} else {
+							var display = '';
+						}
+						document.getElementById('id_digest_time_wrap').style.display = display;
 					}
-					document.getElementById('id_digest_time_wrap').style.display = display;
-				}
-				handleDigestTimeField();
-				</script>
-				<div class="helptext"><?php $lifestream->_e('This determines the approximate time when your digest should be posted.'); ?>
-			</td>
-		</tr>
-		<tr>
-			<th><label for="id_digest_title"><?php $lifestream->_e('Summary Post Title:'); ?></label></th>
-			<td>
-				<input type="text" name="lifestream_digest_title" size="40" value="<?php echo htmlspecialchars($lifestream->get_option('digest_title')); ?>"/>
-				<div class="helptext"><?php $lifestream->_e('You may use <code>%%1$s</code> for the current date, and <code>%%2$s</code> for the current time.'); ?></div>
-			</td>
-		</tr>
-		<tr>
-			<th><label for="id_digest_body"><?php $lifestream->_e('Summary Post Body:'); ?></label></th>
-			<td>
-				<textarea name="lifestream_digest_body" id="id_digest_body" rows="15" cols="60"><?php echo htmlspecialchars($lifestream->get_option('digest_body')); ?></textarea>
-				<div class="helptext"><?php $lifestream->_e('You may use <code>%%1$s</code> for the list of events, <code>%%2$s</code> for the day, and <code>%%3$d</code> for the number of events.'); ?></div>
-			</td>
-		</tr>
-		<tr>
-			<th><label for="id_digest_author"><?php $lifestream->_e('Summary Author:'); ?></label></th>
-			<td>
-				<select name="lifestream_digest_author" id="id_digest_author">
-				<?php
-				$current_author = $lifestream->get_option('digest_author');
-				foreach ($authors as $author)
-				{
-					$usero = new WP_User($author->user_id);
-					$author = $usero->data;
-					// Only list users who are allowed to publish
-					if (!$usero->has_cap('publish_posts')) continue;
-					echo '<option value="'.$author->ID.'"'.($author->ID == $current_author ? ' selected="selected"' : '').'>'.$author->display_name.'</option>';
-				}
-				?>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<th><label for="id_digest_category"><?php $lifestream->_e('Summary Category:'); ?></label></th>
-			<td>
-				<select name="lifestream_digest_category" id="id_digest_category">
-				<?php
-				$current_category = $lifestream->get_option('digest_category');
-				foreach ($categories as $category)
-				{
-					echo '<option value="'.$category->term_id.'"'.($category->term_id == $current_category ? ' selected="selected"' : '').'>'.$category->name.'</option>';
-				}
-				?>
-				</select>
-			</td>
-		</tr>
+					handleDigestTimeField();
+					</script>
+					<div class="helptext"><?php $lifestream->_e('This determines the approximate time when your digest should be posted.'); ?>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="id_digest_title"><?php $lifestream->_e('Summary Post Title:'); ?></label></th>
+				<td>
+					<input type="text" name="lifestream_digest_title" size="40" value="<?php echo htmlspecialchars($lifestream->get_option('digest_title')); ?>"/>
+					<div class="helptext"><?php $lifestream->_e('You may use <code>%%1$s</code> for the current date, and <code>%%2$s</code> for the current time.'); ?></div>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="id_digest_body"><?php $lifestream->_e('Summary Post Body:'); ?></label></th>
+				<td>
+					<textarea name="lifestream_digest_body" id="id_digest_body" rows="15" cols="60"><?php echo htmlspecialchars($lifestream->get_option('digest_body')); ?></textarea>
+					<div class="helptext"><?php $lifestream->_e('You may use <code>%%1$s</code> for the list of events, <code>%%2$s</code> for the day, and <code>%%3$d</code> for the number of events.'); ?></div>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="id_digest_author"><?php $lifestream->_e('Summary Author:'); ?></label></th>
+				<td>
+					<select name="lifestream_digest_author" id="id_digest_author">
+					<?php
+					$current_author = $lifestream->get_option('digest_author');
+					foreach ($authors as $author)
+					{
+						$usero = new WP_User($author->user_id);
+						$author = $usero->data;
+						// Only list users who are allowed to publish
+						if (!$usero->has_cap('publish_posts')) continue;
+						echo '<option value="'.$author->ID.'"'.($author->ID == $current_author ? ' selected="selected"' : '').'>'.$author->display_name.'</option>';
+					}
+					?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="id_digest_category"><?php $lifestream->_e('Summary Category:'); ?></label></th>
+				<td>
+					<select name="lifestream_digest_category" id="id_digest_category">
+					<?php
+					$current_category = $lifestream->get_option('digest_category');
+					foreach ($categories as $category)
+					{
+						echo '<option value="'.$category->term_id.'"'.($category->term_id == $current_category ? ' selected="selected"' : '').'>'.$category->name.'</option>';
+					}
+					?>
+					</select>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 	<p class="submit">
-		<input type="submit" name="save" value="<?php $lifestream->_e('Save Changes');?>" />
+		<input type="submit" name="save" class="button-primary" value="<?php $lifestream->_e('Save Changes');?>" />
 	</p>
 </form>

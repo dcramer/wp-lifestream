@@ -46,7 +46,7 @@ if (count($results))
                         if ($result->feed_id)
                         {
                             ?><td class="icon">
-                            <img src="<?php echo $lifestream->path . '/images/' . $result->feed; ?>.png"/></td>
+                            <img src="<?php echo $lifestream->path . '/icons/' . $this->lifestream->get_option('icons', 'default') . '/' . $result->feed; ?>.png"/></td>
                             <td><?php
                         }
                         else

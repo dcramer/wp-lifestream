@@ -5,7 +5,7 @@
 		<h3><?php $lifestream->_e('Restore Defaults'); ?></h3>
 		<p><?php $lifestream->_e('If you are having issues with your installation you can easily restore the default settings for Lifestream.'); ?></p>
 		<p class="submit">
-			<input type="submit" name="restore" value="<?php $lifestream->_e('Restore default settings');?>"/>
+			<input type="submit" class="button-primary" name="restore" value="<?php $lifestream->_e('Restore default settings');?>"/>
 		</p>
 	</fieldset>
 	
@@ -42,7 +42,7 @@
 			</tbody>
 		</table>
 		<p class="submit">
-			<input type="submit" name="resetcron" value="<?php $lifestream->_e('Reset cron timers');?>"/>
+			<input type="submit" class="button-primary" name="resetcron" value="<?php $lifestream->_e('Reset cron timers');?>"/>
 		</p>
 	</fieldset>
 </form>

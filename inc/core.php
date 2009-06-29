@@ -192,8 +192,11 @@ class Lifestream
 	// stores file locations to feed classes
 	public $paths = array();
 	
-	// stores theme folder names
+	// stores theme information
 	public $themes = array();
+
+	// stores icon folder names
+	public $icons = array();
 	
 	// current theme
 	public $theme = 'default';
@@ -219,6 +222,43 @@ class Lifestream
 		$string = preg_replace('~&#0*([0-9]+);~e', 'chr(\\1)', $string);
 
  		return $string;
+	}
+
+	function parse_nfo_file($file)
+	{
+		$data = array();
+		if (!is_file($file)) return $data;
+		$fp = file($file);
+		foreach ($fp as $line)
+		{
+			if (str_startswith('#', $line)) continue;
+			list($key, $value) = explode(':', $line);
+			$data[strtolower($key)] = trim($value);
+		}
+		return $data;
+	}
+
+	/**
+	 * Find each icons/name/generic.png file.
+	 */
+	function detect_icons()
+	{
+		$base_dir = LIFESTREAM_PATH . '/icons/';
+		$handler = opendir($base_dir);
+		while ($file = readdir($handler))
+		{
+			// ignore hidden files
+			if (str_startswith($file, '.')) continue;
+			// if its not a directory we dont care
+			if (!is_dir($base_dir . $file)) continue;
+			$ext_file = $base_dir . $file . '/generic.png';
+			if (is_file($ext_file))
+			{
+				$data = $this->parse_nfo_file($base_dir . $file . '/icons.txt');
+				if (!$data['name']) $data['name'] = $file;
+				$this->icons[$file] = $data;
+			}
+		}
 	}
 	
 	/**
@@ -263,13 +303,7 @@ class Lifestream
 			if (is_file($ext_file))
 			{
 				$theme = array();
-				$fp = file($ext_file);
-				foreach ($fp as $line)
-				{
-					if (str_startswith('#', $line)) continue;
-					list($key, $value) = explode(':', $line);
-					$theme[strtolower($key)] = trim($value);
-				}
+				$theme = $this->parse_nfo_file($ext_file);
 				if (!array_key_exists('name', $theme)) continue;
 				$this->themes[$file] = $theme;
 			}
@@ -363,6 +397,7 @@ class Lifestream
 		'feed_items'		=> '10',
 		'truncate_length'	=> '128',
 		'theme'				=> 'default',
+		'icons'				=> 'default',
 	);
 	
 	function __construct()
@@ -1759,7 +1794,12 @@ abstract class Lifestream_Extension
 		$root = dirname(__FILE__);
 		if ($path == $root)
 		{
-			return $this->lifestream->path . '/images/' . $this->get_constant('ID') . '.png';
+			$icon_path = '/icons/'. $this->lifestream->get_option('icons', 'default') . '/' . $this->get_constant('ID') . '.png';
+			if (!is_file(LIFESTREAM_PATH . $icon_path))
+			{
+				$icon_path = '/icons/'. $this->lifestream->get_option('icons', 'default') . '/generic.png';
+			}
+			return $this->lifestream->path . $icon_path;
 		}
 		else
 		{
@@ -2284,7 +2324,7 @@ function lifestream($args=array())
 	
 	require($lifestream->get_theme_filepath('main.inc.php'));
 
-	echo '<!-- Powered by iBegin Lifestream (version: '.LIFESTREAM_VERSION.'; theme: '.$lifestream->theme.') -->';
+	echo '<!-- Powered by iBegin Lifestream (version: '.LIFESTREAM_VERSION.'; theme: '.$lifestream->get_option('theme', 'default').'; iconset: '.$lifestream->get_option('icons', 'default').') -->';
 
 	if ($lifestream->get_option('show_credits') == '1')
 	{
@@ -2331,8 +2371,8 @@ include(LIFESTREAM_PATH . '/inc/extensions.php');
 
 // detect external extensions in extensions/
 $lifestream->detect_extensions();
-
 $lifestream->detect_themes();
+$lifestream->detect_icons();
 
 // sort once
 ksort($lifestream->feeds);
