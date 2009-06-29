@@ -29,4 +29,5 @@ else
 {
 	require_once(LIFESTREAM_PATH . '/inc/core.php');
 }
+
 ?>

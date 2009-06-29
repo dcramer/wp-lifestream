@@ -605,15 +605,14 @@ class Lifestream
 
 			$results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_error_log` WHERE has_viewed = 0");
 			$errors = $results[0]->count;
-
 			add_menu_page('Lifestream', 'Lifestream', 'edit_posts', $basename, array(&$this, 'options_page'));
-			add_submenu_page($basename, $this->__('Lifestream Feeds'), $this->__('Feeds'), 'edit_posts', $basename, array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('Lifestream Feeds'), $this->__('Feeds'), 'level_1', $basename, array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Events'), $this->__('Events'), 'edit_posts', 'lifestream-events.php', array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Settings'), $this->__('Settings'), 'manage_options', 'lifestream-settings.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, $this->__('Lifestream Change Log'), $this->__('Change Log'), 'manage_options', 'lifestream-changelog.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, $this->__('Lifestream Errors'), $this->__('Errors (%d)', $errors), 'manage_options', 'lifestream-errors.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('Lifestream Change Log'), $this->__('Change Log'), 'edit_posts', 'lifestream-changelog.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('Lifestream Errors'), $this->__('Errors (%d)', $errors), 'edit_posts', 'lifestream-errors.php', array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Maintenance'), $this->__('Maintenance', $errors), 'manage_options', 'lifestream-maintenance.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, $this->__('Lifestream Support Forums'), $this->__('Support Forums'), 'manage_options', 'lifestream-forums.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('Lifestream Support Forums'), $this->__('Support Forums'), 'edit_posts', 'lifestream-forums.php', array(&$this, 'options_page'));
 		}
 	}
 	
