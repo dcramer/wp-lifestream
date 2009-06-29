@@ -114,7 +114,7 @@ $authors = get_users_of_blog();
 		<tr>
 			<th><label for="id_feed_items"><?php $lifestream->_e('Number of Items:'); ?></label></th>
 			<td>
-				<input type="text" class="text" name="lifestream_feed_items" id="id_feed_items" value="<?php echo htmlspecialchars($lifestream->get_option('feed_items')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->options['feed_items']); ?>
+				<input type="text" class="text" name="lifestream_feed_items" id="id_feed_items" value="<?php echo htmlspecialchars($lifestream->get_option('feed_items')); ?>"/> <?php $lifestream->_e('(Default: %s)', $lifestream->_options['feed_items']); ?>
 				<div class="helptext"><?php $lifestream->_e('The number of items to display in the default lifestream feed call.'); ?></div></p>
 			</td>
 		</tr>
