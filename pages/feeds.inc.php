@@ -18,7 +18,7 @@ if (count($results))
 			echo "<div class='tablenav-pages'>$page_links</div>";
 		?>
 		<div class="alignleft">
-			<button type="submit" name="op" value="refresh" class="button-secondary refresh"><?php $lifestream->_e('Refresh'); ?></button>
+			<button type="submit" name="op" value="refresh" class="button-primary refresh"><?php $lifestream->_e('Refresh'); ?></button>
 			<button type="submit" name="op" value="delete" class="button-secondary delete"><?php $lifestream->_e('Delete'); ?></button>
 		</div>
 		<br class="clear" />
@@ -71,7 +71,7 @@ if (count($results))
 			echo "<div class='tablenav-pages'>$page_links</div>";
 		?>
 		<div class="alignleft">
-			<button type="submit" name="op" value="refresh" class="button-secondary refresh"><?php $lifestream->_e('Refresh'); ?></button>
+			<button type="submit" name="op" value="refresh" class="button-primary refresh"><?php $lifestream->_e('Refresh'); ?></button>
 			<button type="submit" name="op" value="delete" class="button-secondary delete"><?php $lifestream->_e('Delete'); ?></button>
 		</div>
 		<br class="clear" />

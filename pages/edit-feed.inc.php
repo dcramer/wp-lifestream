@@ -120,7 +120,7 @@ $authors = get_users_of_blog();
 			<p><?php $lifestream->_e('Find more information about %s by visiting <a href="%s">%s</a>.', htmlspecialchars($instance->get_constant('NAME')), htmlspecialchars($url), htmlspecialchars($url)); ?></p>
 		<?php } ?>
 		<p class="submit">
-			<input type="submit" name="save" value="<?php $lifestream->_e('Save Feed');?>" />
+			<input type="submit" class="button-primary" name="save" value="<?php $lifestream->_e('Save Feed');?>" />
 		</p>
 	</form>
 	<br />
