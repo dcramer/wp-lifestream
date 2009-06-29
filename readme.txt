@@ -2,7 +2,7 @@
 Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom
 Requires at least: 2.5
 Tested up to: 2.8.0
-Stable tag: 0.99.8.0
+Stable tag: 0.99.8.1
 
 Streams your activity from over 50 different sources to your blog.
 
@@ -18,6 +18,7 @@ Requirements:
 * PHP 5.x
 * WordPress 2.5+
 * MySQL 5.x
+
 
 == Installation ==
 
@@ -99,6 +100,7 @@ And
 * Supports grouping of events.
 * Localization ready!
 * Digest available to summarize your activities.
+* WordPress MU is supported.
 
 == Built-in Feeds ==
 
