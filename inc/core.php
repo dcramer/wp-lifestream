@@ -591,7 +591,7 @@ class Lifestream
 
 		$options = array(
 			'id'=>uniqid('ls_', true),
-		)
+		);
 
 		$now = time();
 		// If there was a previous digest, we show only events since it
