@@ -581,6 +581,11 @@ class Lifestream
 		return $event;
 	}
 	
+	function generate_unique_id()
+	{
+		return uniqid('ls_', true);
+	}
+	
 	function digest_update()
 	{
 		global $wpdb;
@@ -590,7 +595,7 @@ class Lifestream
 		$interval = $this->get_digest_interval();
 
 		$options = array(
-			'id'=>uniqid('ls_', true),
+			'id' => $this->generate_unique_id(),
 		);
 
 		$now = time();
@@ -2062,8 +2067,6 @@ abstract class Lifestream_Extension
 	{
 		$lifestream = $this->lifestream;
 
-		$options['id'] = uniqid('ls_', true);
-
 		$label_inst = $event->get_label_instance($options);
 		
 		if ($event->is_grouped && count($event->data) == 1 && $this->get_constant('MUST_GROUP')) $visible = true;
@@ -2350,7 +2353,7 @@ function lifestream_sidebar_widget($_=array())
 	
 	$_ = array_merge($defaults, $_);
 	
-	$_['id'] = uniqid('ls_', true);
+	$_['id'] = $lifestream->generate_unique_id();
 	
 	$options =& $_;
 	
