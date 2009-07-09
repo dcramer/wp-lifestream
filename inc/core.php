@@ -562,12 +562,12 @@ class Lifestream
 	function get_cron_schedules($cron)
 	{
 		$cron['lifestream'] = array(
-			'interval' => $this->get_option('update_interval') * 60,
+			'interval' => (int)$this->get_option('update_interval', 15) * 60,
 			'display' => $this->__('On Lifestream update')
 		);
 
 		$cron['lifestream_digest'] = array(
-			'interval' => $this->get_digest_interval(),
+			'interval' => (int)$this->get_digest_interval(),
 			'display' => $this->__('On Lifestream daily digest update')
 		);
 		return $cron;
