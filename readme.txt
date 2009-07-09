@@ -58,11 +58,12 @@ Example:
 
 `<ul>
 <?php
-$events = $lifestream->get_events(array('limit' => 50));
+$options = array('limit' => 50);
+$events = $lifestream->get_events($options);
 
 foreach ($events as $event)
 {
-	echo '<li>'.$event->render().'</li>';
+	echo '<li>'.$event->render($options).'</li>';
 }
 ?>
 </ul>`

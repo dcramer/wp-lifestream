@@ -2058,9 +2058,10 @@ abstract class Lifestream_Extension
 		return new $cls($this, $event, $options);
 	}
 	
-	function render($event, $options)
+	function render($event, $options=array())
 	{
 		$lifestream = $this->lifestream;
+
 		$options['id'] = uniqid('ls_', true);
 
 		$label_inst = $event->get_label_instance($options);
@@ -2351,7 +2352,7 @@ function lifestream_sidebar_widget($_=array())
 	
 	$_['id'] = uniqid('ls_', true);
 	
-	$options &= $_;
+	$options =& $_;
 	
 	// TODO: offset
 	//$offset = $lifestream->get_option('lifestream_timezone');

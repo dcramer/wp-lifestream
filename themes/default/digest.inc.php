@@ -1,11 +1,11 @@
 <table class="lifestream">
 <?php
-foreach ($events as $result)
+foreach ($events as $event)
 {
 	?>
-	<tr class="lifestream_feedid_<?php echo $result->feed->id; ?> lifestream_feed_<?php echo $result->feed->get_constant('ID'); ?>">
+	<tr class="lifestream_feedid_<?php echo $event->feed->id; ?> lifestream_feed_<?php echo $event->feed->get_constant('ID'); ?>">
 		   <td class="lifestream_icon">
-			   <a href="<?php echo htmlspecialchars($result->get_url()); ?>"><img src="<?php echo $result->feed->get_icon_url(); ?>" alt="<?php echo $result->feed->get_constant('ID'); ?> (feed #<?php echo $result->feed->id; ?>)" /></a>
+			   <a href="<?php echo htmlspecialchars($event->get_url()); ?>"><img src="<?php echo $event->feed->get_icon_url(); ?>" alt="<?php echo $event->feed->get_constant('ID'); ?> (feed #<?php echo $event->feed->id; ?>)" /></a>
 		   </td>
 		   <td class="lifestream_text">
 				<div class="lifestream_label"><?php echo $event->get_label($options); ?></div>
