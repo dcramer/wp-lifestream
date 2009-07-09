@@ -1,3 +1,10 @@
+0.99.8.2
+
+* Added Swedish translation from Jens Wedin.
+* Fixed expand toggle links.
+* Removed $id global from theme templates.
+* Fixed url encoding on Twitter passwords.
+
 0.99.8.1
 
 * Introduced icon packs.
