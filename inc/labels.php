@@ -14,7 +14,7 @@ class Lifestream_Label
 	
 	function _get_show_details_link()
 	{
-		return sprintf('<a href="javascript:void(0);" onclick="lifestream_toggle(this, \'%s\', \'%2$s\', \'%2$s\');return false;">%2$s</a>', $this->options['id'] + $event->id, count($this->event->data));
+		return sprintf('<a href="javascript:void(0);" onclick="lifestream_toggle(this, \'%s\', \'%2$s\', \'%2$s\');return false;">%2$s</a>', $this->options['id'], count($this->event->data));
 	}
 	
 	// backwards compatibility
