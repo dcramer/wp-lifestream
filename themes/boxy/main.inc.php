@@ -14,9 +14,9 @@ if (count($events))
 			<span class="lifestream_icon">
 				<a href="<?php echo htmlspecialchars($event->get_url()); ?>"><img src="<?php echo $event->feed->get_icon_url(); ?>" alt="<?php echo $event->feed->get_constant('ID'); ?> (feed #<?php echo $event->feed->id; ?>)" /></a>
 			</span>
-			<span class="lifestream_label"><?php echo $event->get_label(); ?></span>
+			<span class="lifestream_label"><?php echo $event->get_label($options); ?></span>
 			<?php if ($show_metadata) { ?>
-				<span class="lifestream_meta"><abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php echo $lifestream->timesince($event->timestamp); ?></abbr><span class="lifestream_via">via <?php echo $event->get_feed_label() ?></span></span>
+				<span class="lifestream_meta"><abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php echo $lifestream->timesince($event->timestamp); ?></abbr><span class="lifestream_via">via <?php echo $event->get_feed_label($options) ?></span></span>
 			<?php } ?>
 		</li>
 		<?php

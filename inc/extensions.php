@@ -139,7 +139,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	{
 		if ($this->options['password'])
 		{
-			$url_base = 'http://'.$this->options['username'].':'.$this->options['password'].'@twitter.com';
+			$url_base = 'http://'.$this->options['username'].':'.urlencode($this->options['password']).'@twitter.com';
 		}
 		else
 		{

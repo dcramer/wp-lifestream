@@ -105,8 +105,8 @@ class Lifestream_Event
 			$this->_label_instance = $this->feed->get_label($this, $options);
 		}
 		return $this->_label_instance;
-		
 	}
+	
 	function get_label($options=array())
 	{
 		$label_inst = $this->get_label_instance($options);
@@ -588,6 +588,10 @@ class Lifestream
 		if ($this->get_option('daily_digest') != '1') return;
 
 		$interval = $this->get_digest_interval();
+
+		$options = array(
+			'id'=>uniqid('ls_', true),
+		)
 
 		$now = time();
 		// If there was a previous digest, we show only events since it
@@ -2057,8 +2061,7 @@ abstract class Lifestream_Extension
 	function render($event, $options)
 	{
 		$lifestream = $this->lifestream;
-		$id = uniqid('ls_', true);
-		$options['id'] = $id;
+		$options['id'] = uniqid('ls_', true);
 
 		$label_inst = $event->get_label_instance($options);
 		
@@ -2345,6 +2348,10 @@ function lifestream_sidebar_widget($_=array())
 	);
 	
 	$_ = array_merge($defaults, $_);
+	
+	$_['id'] = uniqid('ls_', true);
+	
+	$options &= $_;
 	
 	// TODO: offset
 	//$offset = $lifestream->get_option('lifestream_timezone');
