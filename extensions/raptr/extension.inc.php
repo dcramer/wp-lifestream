@@ -5,8 +5,8 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 	const NAME	= 'Raptr';
 	const URL	= 'http://www.ratpr.com/';
 
-	$achievement_regexp = '#unlocked the (\w+) achievement in <a[^>]+href="([^"]+)"[^>]+>([^<]+)</a>#i';
-	$play_regexp = '#(?:played some|managed to fit in a quick game of|played a game of|acquainted himself with the main menu of)\s<a[^>]+href="([^"]+)"[^>]+>([^<]+)</a>#i'
+	private $achievement_regexp = '#unlocked the (\w+) achievement in <a[^>]+href="([^"]+)"[^>]+>([^<]+)</a>#i';
+	private $play_regexp = '#(?:played some|managed to fit in a quick game of|played a game of|acquainted himself with the main menu of)\s<a[^>]+href="([^"]+)"[^>]+>([^<]+)</a>#i';
 	
 	function get_public_url()
 	{
