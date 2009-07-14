@@ -5,32 +5,44 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 	const NAME	= 'Raptr';
 	const URL	= 'http://www.ratpr.com/';
 
-	private $achievement_regexp = '#unlocked the (\w+) achievement in <a[^>]+href="([^"]+)"[^>]+>([^<]+)</a>#i';
-	private $play_regexp = '#(?:played some|managed to fit in a quick game of|played a game of|acquainted himself with the main menu of)\s<a[^>]+href="([^"]+)"[^>]+>([^<]+)</a>#i';
+	private $achievement_regexp = '#unlocked the (.*) achievement in <a[^>]+href="([^"]+)"[^>]*>([^<]+)</a>#i';
+	private $played_regexp = '#(?:played some|managed to fit in a quick game of|played a game of|acquainted himself with the main menu of)\s<a[^>]+href="([^"]+)"[^>]*>([^<]+)</a>#i';
+
+	function __toString()
+	{
+		return $this->options['username'];
+	}
+
+	function get_options()
+	{
+		return array(
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
+		);
+	}
 	
 	function get_public_url()
 	{
-		return 'http://www.raptr.com/'.urlencode($this->options['username']);
+		return 'http://raptr.com/'.urlencode($this->options['username']);
 	}
 
 	function get_url()
 	{
-		return 'http://www.raptr.com/'.urlencode($this->options['username']).'/rss';
+		return 'http://raptr.com/'.urlencode($this->options['username']).'/rss';
 	}
 	
 	function yield_many($row, $url, $key)
 	{
 		$events = array();
 		
-		$string = $this->options['username'] . ' ';
+		$string = '<a href="'.$this->get_public_url().'">'.$this->options['username'].'</a> ';
 		$description = $this->lifestream->html_entity_decode($row->get_description());
 		if (str_startswith(strtolower($description), strtolower($string)))
 		{
 			$description = substr($description, strlen($string));
 		}
-		if (str_startswith($description, 'unlocked'))
+		if (str_startswith(strtolower($description), 'unlocked'))
 		{
-			preg_match_all($this->achievement_regexp, $description, $matches);
+			preg_match_all($this->achievement_regexp, str_replace('</li>', "</li>\n", $description), $matches, PREG_SET_ORDER);
 			foreach ($matches as $match)
 			{
 				$data = parent::yield($row, $url, $key);
