@@ -175,6 +175,8 @@ Currently the plugin is localized in the default language of English, as well as
 * German
 * Danish
 * Spanish
+* Swedish
+* Belorussian
 
 == Credits ==
 
