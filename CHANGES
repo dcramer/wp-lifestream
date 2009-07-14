@@ -4,6 +4,7 @@
 * Added a yield_many() method to LifeStream_Extension. See included raptr extension for usage.
 * Added Raptr feed for tracking played games and achievements.
 * Fixed an issue with the Errors page.
+* Updated German localization.
 
 0.99.8.2
 
