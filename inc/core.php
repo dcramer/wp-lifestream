@@ -2059,7 +2059,7 @@ abstract class Lifestream_Extension
 	 * @abstract
 	 * @return {Array} Data dictionary.
 	 */
-	abstract function fetch($row, $url, $key);
+	abstract function fetch();
 	
 	function get_id($event, $uniq_id='')
 	{
@@ -2341,7 +2341,7 @@ function lifestream($args=array())
 	$_ = func_get_args();
 
 	$defaults = array(
-		'id'	=> $lifestream->generate_unique_id();
+		'id'	=> $lifestream->generate_unique_id(),
 	);
 
 	if (!is_array($_[0]))
