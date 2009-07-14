@@ -1204,6 +1204,13 @@ class Lifestream
 		return ob_get_clean();
 	}
 	
+	/**
+	 * Returns the duration from now until timestamp.
+	 * @param $timestamp {Integer}
+	 * @param $granularity {Integer}
+	 * @param $format {String} Date format.
+	 * @return {String}
+	 */
 	function timesince($timestamp, $granularity=1, $format='Y-m-d H:i:s')
 	{
 		$difference = time() - $timestamp;
@@ -1218,6 +1225,12 @@ class Lifestream
 		}
 	}
 	
+	/**
+	 * Returns the duration from a difference.
+	 * @param $difference {Integer}
+	 * @param $granularity {Integer}
+	 * @return {String}
+	 */
 	function duration($difference, $granularity=2)
 	{
 		{ // if difference is over 10 days show normal time form
@@ -2030,7 +2043,28 @@ abstract class Lifestream_Extension
 		return array(true, $total);
 	}
 	
-	abstract function fetch();
+	/**
+	 * Processes a row and returns an array of data dictionaries.
+	 * @return {Array} Array of data dictionaries.
+	 */
+	function yield_many()
+	{
+		$args = func_get_args();
+		return call_user_func_array(array($this, 'yield'), $args);
+	}
+
+	/**
+	 * Processes a row and returns a data dictionary.
+	 * Should at the very least return title and link keys.
+	 * @abstract
+	 * @return {Array} Data dictionary.
+	 */
+	abstract function fetch($row, $url, $key);
+	
+	function get_id($event, $uniq_id='')
+	{
+		return $event->id.'-'.$uniq_id;
+	}
 	
 	function render_item($row, $item)
 	{
@@ -2156,6 +2190,10 @@ class Lifestream_Feed extends Lifestream_Extension
 		parent::save_options();
 	}
 	
+	/**
+	 * Fetches all current events from this extension.
+	 * @return {Array} List of events.
+	 */
 	function fetch($urls=null, $initial=false)
 	{
 		if (!$urls) $urls = $this->get_url();
@@ -2190,10 +2228,13 @@ class Lifestream_Feed extends Lifestream_Extension
 			$feed->handle_content_type();
 			foreach ($feed->get_items() as $row)
 			{
-				$row =& $this->yield($row, $url, $key);
-				if (!$row) continue;
-				if (!$row['key']) $row['key'] = $key;
-				if (count($row)) $items[] = $row;
+				$rows =& $this->yield_many($row, $url, $key);
+				foreach ($rows as $row)
+				{
+					if (!$row) continue;
+					if (!$row['key']) $row['key'] = $key;
+					if (count($row)) $items[] = $row;
+				}
 			}
 			$feed->__destruct();
 			unset($feed);
@@ -2300,6 +2341,7 @@ function lifestream($args=array())
 	$_ = func_get_args();
 
 	$defaults = array(
+		'id'	=> $lifestream->generate_unique_id();
 	);
 
 	if (!is_array($_[0]))

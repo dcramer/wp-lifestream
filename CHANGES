@@ -1,3 +1,9 @@
+0.99.8.3
+
+* ID fixes for expanding events.
+* Added a yield_many() method to LifeStream_Extension. See included raptr extension for usage.
+* Added Raptr feed for tracking played games and achievements.
+
 0.99.8.2
 
 * Added Swedish translation from Jens Wedin.
