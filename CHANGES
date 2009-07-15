@@ -1,3 +1,7 @@
+0.99.8.4
+
+* Fixed an issue created in 0.99.8.3 with yield_many().
+
 0.99.8.3
 
 * ID fixes for expanding events.
