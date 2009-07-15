@@ -1,238 +1,1194 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Lifestream v0.75\n"
-"PO-Revision-Date: 2008-10-17 11:10+0200\n"
-"Last-Translator: Robert Mekwinski <info@soma3.de>\n"
+"Project-Id-Version: lifestream\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-06-29 18:24-0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: GhostLyrics <ghostlyrics@firefly.menkisys.de>\n"
+"Language-Team: GhostLyrics <ghostlyrics@firefly.menkisys.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-Language: German\n"
-"X-Poedit-Country: GERMANY\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;__ngettext_noop:1,2;_c\n"
+"X-Poedit-KeywordsList: _e;__\n"
 "X-Poedit-Basepath: ../\n"
-"X-Poedit-SearchPath-0: ."
+"X-Poedit-Language: German\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#: _lifestream.php:658
-#: pages/lifestream-list.inc.php:21
-msgid "Show Details"
-msgstr "Zeige Details"
+#: inc/core.php:566
+msgid "On Lifestream update"
+msgstr "Bei Lifestream Aktualisierung"
 
-#: _lifestream.php:658
-#: pages/lifestream-list.inc.php:21
-msgid "Hide Details"
-msgstr "Verstecke Details"
+#: inc/core.php:571
+msgid "On Lifestream daily digest update"
+msgstr "Bei der täglichen Lifestream Zusammenfassung"
 
-#: _lifestream.php:927
-#: _lifestream.php:994
-#: _lifestream.php:1015
-#: _lifestream.php:1033
-msgid "The selected feed was not found."
-msgstr "Der ausgewählte Feed wurde nicht gefunden."
-
-#: _lifestream.php:931
-#: _lifestream.php:998
-#: _lifestream.php:1019
-#: _lifestream.php:1037
-msgid "You do not have permission to do that."
-msgstr "Du hast keine Berechtigung dafür."
-
-#: _lifestream.php:966
-msgid "The selected events were hidden."
-msgstr "Die ausgewählten Einträge wurden ausgeblendet."
-
-#: _lifestream.php:985
-msgid "All of your feeds have been refreshed."
-msgstr "Alle deine Feeds wurden aktualisiert."
-
-#: _lifestream.php:1004
-msgid "The selected feeds and their events have been refreshed."
-msgstr "Die ausgewählten Feeds und Einträge wurden aktualisiert."
-
-#: _lifestream.php:1025
-msgid "The selected feeds and all related events has been removed."
-msgstr "Die ausgewählten Feeds und alle damit verbundenen Einträge wurde entfernt."
-
-#: _lifestream.php:1125
-#, php-format
-msgid "Selected feed was added to your Lifestream with %d event(s)."
-msgstr "Der ausgewählte Feed wurde mit %d Einträgen zu deinem Lifestream hinzugefügt."
-
-#: _lifestream.php:1151
-msgid "Please correct the following errors:"
-msgstr "Bitte korrigiere die folgenden Fehler:"
-
-#: _lifestream.php:1231
+#: inc/core.php:644
 #: pages/feeds.inc.php:1
 msgid "Lifestream Feeds"
 msgstr "Lifestream Feeds"
 
-#: _lifestream.php:1231
+#: inc/core.php:644
 msgid "Feeds"
 msgstr "Feeds"
 
-#: _lifestream.php:1232
+#: inc/core.php:645
 #: pages/events.inc.php:1
 msgid "Lifestream Events"
-msgstr "Lifestream Einträge"
+msgstr "Lifestream Ereignisse"
 
-#: _lifestream.php:1232
-#: pages/feeds.inc.php:41
+#: inc/core.php:645
+#: pages/feeds.inc.php:44
 msgid "Events"
-msgstr "Einträge"
+msgstr "Ereignisse"
 
-#: _lifestream.php:1233
+#: inc/core.php:646
 msgid "Lifestream Settings"
 msgstr "Lifestream Einstellungen"
 
-#: _lifestream.php:1233
+#: inc/core.php:646
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: _lifestream.php:1234
+#: inc/core.php:647
+#: pages/changelog.inc.php:1
+msgid "Lifestream Change Log"
+msgstr "Lifestream Change Log"
+
+#: inc/core.php:647
+msgid "Change Log"
+msgstr "Change Log"
+
+#: inc/core.php:648
+#: pages/errors.inc.php:1
+msgid "Lifestream Errors"
+msgstr "Lifestream Fehler"
+
+#: inc/core.php:648
+#, php-format
+msgid "Errors (%d)"
+msgstr "Fehler (%d)"
+
+#: inc/core.php:649
+#: pages/maintenance.inc.php:1
+msgid "Lifestream Maintenance"
+msgstr "Lifestream Wartung"
+
+#: inc/core.php:649
+msgid "Maintenance"
+msgstr "Wartung"
+
+#: inc/core.php:650
 #: pages/forums.inc.php:1
 msgid "Lifestream Support Forums"
 msgstr "Lifestream Support Foren"
 
-#: _lifestream.php:1234
+#: inc/core.php:650
 msgid "Support Forums"
 msgstr "Support Foren"
 
+#: inc/core.php:682
+msgid "Cron timers have been reset."
+msgstr "Cron Timer wurden zurückgesetzt."
+
+#: inc/core.php:687
+msgid "Default options have been restored."
+msgstr "Standardeinstellungen wurden wiederhergestellt."
+
+#: inc/core.php:701
+#: inc/core.php:776
+#: inc/core.php:805
+#: inc/core.php:823
+msgid "The selected feed was not found."
+msgstr "Der ausgewählte Feed wurde nicht gefunden."
+
+#: inc/core.php:705
+#: inc/core.php:780
+#: inc/core.php:809
+#: inc/core.php:827
+msgid "You do not have permission to do that."
+msgstr "Die Benutzerrechte reichen für diese Aktion nicht aus."
+
+#: inc/core.php:740
+msgid "The selected events were hidden."
+msgstr "Die ausgewählten Ereignisse wurden versteckt."
+
+#: inc/core.php:765
+#: inc/core.php:793
+#, php-format
+msgid "There was an error refreshing the selected feed: ID %s"
+msgstr "Es gab einen Fehler beim aktualisieren des Feeds: ID %s"
+
+#: inc/core.php:767
+msgid "All of your feeds have been refreshed."
+msgstr "Alle Feeds wurden aktualisiert."
+
+#: inc/core.php:788
+msgid "The selected feeds and their events have been refreshed."
+msgstr "Die ausgewählten Feeds und ihre Ereignisse wurden aktualisiert."
+
+#: inc/core.php:815
+msgid "The selected feeds and all related events has been removed."
+msgstr "Die ausgewählten Feeds und alle zugehörigen Ereignisse wurden entfernt."
+
+#: inc/core.php:939
+#, php-format
+msgid "A new %s feed was added to your Lifestream."
+msgstr "Ein neuer %s Feed wurde zum Lifestream hinzugefügt."
+
+#: inc/core.php:969
+msgid "There were errors with your request:"
+msgstr "Es gab Fehler bei der Anfrage:"
+
+#: inc/core.php:1011
+msgid "Weekly"
+msgstr "Wöchentlich"
+
+#: inc/core.php:1012
+msgid "Daily"
+msgstr "Täglich"
+
+#: inc/core.php:1013
+msgid "Hourly"
+msgstr "Stündlich"
+
+#: inc/core.php:1216
+msgid "w"
+msgstr "w"
+
+#: inc/core.php:1217
+msgid "d"
+msgstr "d"
+
+#: inc/core.php:1218
+msgid "h"
+msgstr "h"
+
+#: inc/core.php:1219
+msgid "m"
+msgstr "m"
+
+#: inc/core.php:1220
+msgid "s"
+msgstr "s"
+
+#: inc/core.php:1394
+msgid "Unknown SQL Error"
+msgstr "Unbekannter SQL Fehler"
+
+#: inc/core.php:1854
+#: inc/core.php:2265
+#: inc/extensions.php:360
+#: inc/extensions.php:1214
+#: inc/extensions.php:1532
+#: inc/extensions.php:1804
+#: inc/extensions.php:2293
+msgid "Feed URL:"
+msgstr "Feed URL:"
+
+#: inc/core.php:1919
+msgid "Feed has not yet been saved."
+msgstr "Feed wurde noch nicht gespeichert."
+
+#: inc/core.php:1933
+msgid "Feed result was empty."
+msgstr "Der Feed ist leer."
+
+#: inc/extensions.php:18
+#: inc/extensions.php:97
+#: inc/extensions.php:242
+#: inc/extensions.php:290
+#: inc/extensions.php:471
+#: inc/extensions.php:502
+#: inc/extensions.php:560
+#: inc/extensions.php:700
+#: inc/extensions.php:781
+#: inc/extensions.php:903
+#: inc/extensions.php:1008
+#: inc/extensions.php:1065
+#: inc/extensions.php:1170
+#: inc/extensions.php:1215
+#: inc/extensions.php:1280
+#: inc/extensions.php:1367
+#: inc/extensions.php:1399
+#: inc/extensions.php:1430
+#: inc/extensions.php:1462
+#: inc/extensions.php:1494
+#: inc/extensions.php:1531
+#: inc/extensions.php:1552
+#: inc/extensions.php:1636
+#: inc/extensions.php:1667
+#: inc/extensions.php:1899
+#: inc/extensions.php:1930
+#: inc/extensions.php:1976
+#: inc/extensions.php:2006
+#: inc/extensions.php:2113
+#: inc/extensions.php:2142
+#: inc/extensions.php:2208
+#: inc/extensions.php:2444
+msgid "Username:"
+msgstr "Benutzername:"
+
+#: inc/extensions.php:98
+msgid "Password:"
+msgstr "Passwort:"
+
+#: inc/extensions.php:99
+msgid "Hide Replies"
+msgstr "Antworten verbergen"
+
+#: inc/extensions.php:243
+msgid "Limit items to tag:"
+msgstr "Ereignisse auf Schlagwort beschränken:"
+
+#: inc/extensions.php:291
+msgid "Only show loved tracks."
+msgstr "Nur Lieblingslieder zeigen."
+
+#: inc/extensions.php:361
+#: inc/extensions.php:613
+msgid "Website URL:"
+msgstr "Website URL:"
+
+#: inc/extensions.php:409
+#: inc/extensions.php:614
+#: inc/extensions.php:942
+#: inc/extensions.php:1805
+#: inc/extensions.php:2038
+#: inc/extensions.php:2294
+#: inc/extensions.php:2364
+msgid "User ID:"
+msgstr "Benutzer ID:"
+
+#: inc/extensions.php:503
+#: inc/extensions.php:1010
+msgid "Include favorites in this feed."
+msgstr "Inkludiere Favoriten in diesem Feed."
+
+#: inc/extensions.php:782
+msgid "Include stations in this feed."
+msgstr "Inkludiere Stationen im Feed."
+
+#: inc/extensions.php:783
+msgid "Include bookmarked artists in this feed."
+msgstr "Inkludiere Künstler mit Lesezeichen im Feed."
+
+#: inc/extensions.php:784
+msgid "Include bookmarked songs in this feed."
+msgstr "Inkludiere Songs mit Lesezeichen im Feed."
+
+#: inc/extensions.php:943
+msgid "Include videos posted in this feed."
+msgstr "Inkludiere hochgeladene Videos im Feed."
+
+#: inc/extensions.php:944
+msgid "Include liked videos in this feed."
+msgstr "Inkludiere gemochte Videos im Feed"
+
+#: inc/extensions.php:1009
+msgid "Include reviews in this feed."
+msgstr "Inkludiere Reviews im Feed."
+
+#: inc/extensions.php:1553
+msgid "Show Comments."
+msgstr "Zeige Kommentare."
+
+#: inc/extensions.php:1554
+msgid "Show Favorites."
+msgstr "Zeige Favoriten."
+
+#: inc/extensions.php:1555
+msgid "Show Submissions."
+msgstr "Zeige Submissions."
+
+#: inc/extensions.php:1699
+msgid "Steam ID:"
+msgstr "Steam ID:"
+
+#: inc/extensions.php:1730
+msgid "Xbox Live ID:"
+msgstr "Xbox Live ID:"
+
+#: inc/extensions.php:1806
+msgid "Show Purchases."
+msgstr "Zeige Käufe."
+
+#: inc/extensions.php:1807
+msgid "Show Reviews."
+msgstr "Zeige Reviews."
+
+#: inc/extensions.php:2037
+#: inc/extensions.php:2363
+msgid "Profile URL:"
+msgstr "Profil URL:"
+
+#: inc/extensions.php:2143
+msgid "Sites to filter out:"
+msgstr "Zu filternde Seiten:"
+
+#: inc/extensions.php:2143
+msgid "Sites as named by BackType, usually the title of the RSS Feed, separate with comma's."
+msgstr "Seiten nach der Benennung von BackType, normalerweise der Titel des RSS Feeds, kommata-getrennt."
+
+#: inc/extensions.php:2295
+msgid "Include queued videos in this feed."
+msgstr "Inkludiere Videos in der Warteschlange im Feed."
+
+#: inc/extensions.php:2296
+msgid "Include reviewed videos in this feed."
+msgstr "Inkludiere Videos mit Reviews im Feed."
+
+#: inc/extensions.php:2365
+msgid "API Key:"
+msgstr "API Schlüssel:"
+
+#: inc/labels.php:41
+#, php-format
+msgid "Posted %2$s"
+msgstr "Neuer Eintrag: %2$s"
+
+#: inc/labels.php:46
+#, php-format
+msgid "Posted %s items."
+msgstr "hat %s neue Einträge."
+
+#: inc/labels.php:52
+#, php-format
+msgid "%1$s posted %3$s"
+msgstr "%1$s hat %3$s Einträge."
+
+#: inc/labels.php:58
+#, php-format
+msgid "%s posted %s items."
+msgstr "%s hat %s neue Einträge."
+
+#: inc/labels.php:69
+#, php-format
+msgid "Published %2$s"
+msgstr "veröffentlichte %2$s."
+
+#: inc/labels.php:74
+#, php-format
+msgid "Published %s posts."
+msgstr "veröffentlichte %s Blogeinträge."
+
+#: inc/labels.php:80
+#, php-format
+msgid "%1$s published %3$s"
+msgstr "%1$s veröffentlichte %3$s."
+
+#: inc/labels.php:85
+#, php-format
+msgid "%s published %s."
+msgstr "%s veröffentlichte %s."
+
+#: inc/labels.php:96
+#: inc/labels.php:123
+#: inc/labels.php:248
+#: inc/labels.php:376
+#: inc/labels.php:702
+#: inc/labels.php:754
+#, php-format
+msgid "Shared %2$s"
+msgstr "stellte %2$s online."
+
+#: inc/labels.php:101
+#, php-format
+msgid "Shared %s photos."
+msgstr "stellte %s Fotos online."
+
+#: inc/labels.php:107
+#: inc/labels.php:134
+#: inc/labels.php:259
+#: inc/labels.php:387
+#: inc/labels.php:713
+#: inc/labels.php:765
+#, php-format
+msgid "%1$s shared %3$s"
+msgstr "%1$s stellte %3$s online."
+
+#: inc/labels.php:112
+#, php-format
+msgid "%s shared %s photos."
+msgstr "%s stellte %s Fotos online."
+
+#: inc/labels.php:128
+#, php-format
+msgid "Shared %s links."
+msgstr "verbreitete %s Links."
+
+#: inc/labels.php:139
+#, php-format
+msgid "%s shared %s links."
+msgstr "%s verbreitete %s Links."
+
+#: inc/labels.php:155
+#, php-format
+msgid "Posted %s messages."
+msgstr "erstellte %s Nachrichten."
+
+#: inc/labels.php:161
+#, php-format
+msgid "%s %s."
+msgstr "%s %s."
+
+#: inc/labels.php:166
+#, php-format
+msgid "%s posted %s messages."
+msgstr "%s erstellte %s Nachrichten."
+
+#: inc/labels.php:175
+#: inc/labels.php:324
+#: inc/labels.php:527
+#: inc/labels.php:853
+#, php-format
+msgid "Reviewed %2$s"
+msgstr "schrieb ein Review über %2$s."
+
+#: inc/labels.php:180
+#, php-format
+msgid "Reviewed %s items."
+msgstr "schrieb %s Reviews."
+
+#: inc/labels.php:186
+#: inc/labels.php:335
+#: inc/labels.php:538
+#: inc/labels.php:864
+#, php-format
+msgid "%1$s reviewed %3$s"
+msgstr "%1$s schrieb ein Review über %3$s."
+
+#: inc/labels.php:191
+#, php-format
+msgid "%s reviewed %s items."
+msgstr "%s schrieb %s Reviews."
+
+#: inc/labels.php:200
+#, php-format
+msgid "Purchased %2$s"
+msgstr "kaufte %2$s."
+
+#: inc/labels.php:205
+#, php-format
+msgid "Purchased %s items."
+msgstr "kaufte %s Gegenstände."
+
+#: inc/labels.php:211
+#, php-format
+msgid "%1$s purchased %3$s"
+msgstr "%1$s kaufte %3$s."
+
+#: inc/labels.php:216
+#, php-format
+msgid "%s purchased %s items."
+msgstr "%s kaufte %s Gegenstände."
+
+#: inc/labels.php:224
+msgid "Commited code."
+msgstr "veränderte Code."
+
+#: inc/labels.php:229
+#, php-format
+msgid "Made %s commits."
+msgstr "nahm %s Veränderungen am Code vor."
+
+#: inc/labels.php:234
+#, php-format
+msgid "%s commited code."
+msgstr "%s veränderte Code."
+
+#: inc/labels.php:239
+#, php-format
+msgid "%s made %s commits."
+msgstr "%s nahm %s Veränderungen am Code vor."
+
+#: inc/labels.php:253
+#, php-format
+msgid "Shared %s books."
+msgstr "fügte %s Bücher zu seiner Bibliothek hinzu."
+
+#: inc/labels.php:264
+#, php-format
+msgid "%s shared %s books."
+msgstr "%s fügte %s Bücher zu seiner Bibliothek hinzu."
+
+#: inc/labels.php:275
+msgid "Posted a comment."
+msgstr "verfasste einen Kommentar."
+
+#: inc/labels.php:280
+#, php-format
+msgid "Posted %s comments."
+msgstr "verfasste %s Kommentare."
+
+#: inc/labels.php:285
+#, php-format
+msgid "%s posted a comment."
+msgstr "%s verfasste einen Kommentar."
+
+#: inc/labels.php:290
+#, php-format
+msgid "%s posted %s comments."
+msgstr "%s verfasste %s Kommentare."
+
+#: inc/labels.php:299
+#: inc/labels.php:402
+#: inc/labels.php:427
+#: inc/labels.php:452
+#: inc/labels.php:552
+#: inc/labels.php:729
+#, php-format
+msgid "Liked %2$s"
+msgstr "mochte %2$s."
+
+#: inc/labels.php:304
+#, php-format
+msgid "Liked %s stories."
+msgstr "mochte %s Storys."
+
+#: inc/labels.php:310
+#: inc/labels.php:413
+#: inc/labels.php:438
+#: inc/labels.php:463
+#: inc/labels.php:563
+#: inc/labels.php:740
+#, php-format
+msgid "%1$s liked %3$s"
+msgstr "%1$s mochte %3$s."
+
+#: inc/labels.php:315
+#, php-format
+msgid "%s liked %s stories."
+msgstr "%s mochte %s Storys."
+
+#: inc/labels.php:329
+#, php-format
+msgid "Reviewed %s businesses."
+msgstr "schrieb %s Business-Reviews."
+
+#: inc/labels.php:340
+#, php-format
+msgid "%s reviewed %s businesses."
+msgstr "%s schrieb %s Business-Reviews."
+
+#: inc/labels.php:349
+#, php-format
+msgid "Listened to %2$s"
+msgstr "hörte %2$s."
+
+#: inc/labels.php:354
+#, php-format
+msgid "Listened to %s songs."
+msgstr "hörte %s Songs."
+
+#: inc/labels.php:360
+#, php-format
+msgid "%1$s listened to %3$s"
+msgstr "%1$s hörte %3$s."
+
+#: inc/labels.php:365
+#, php-format
+msgid "%s listened to %s songs."
+msgstr "%s hörte %s Songs."
+
+#: inc/labels.php:381
+#, php-format
+msgid "Shared %s videos."
+msgstr "stellte %s Videos online."
+
+#: inc/labels.php:392
+#, php-format
+msgid "%s shared %s videos."
+msgstr "%s stellte %s Videos online."
+
+#: inc/labels.php:407
+#, php-format
+msgid "Liked %s videos."
+msgstr "mochte %s Videos."
+
+#: inc/labels.php:418
+#, php-format
+msgid "%s liked %s videos."
+msgstr "%s mochte %s Videos."
+
+#: inc/labels.php:432
+#, php-format
+msgid "Liked %s songs."
+msgstr "mochte %s Songs."
+
+#: inc/labels.php:443
+#, php-format
+msgid "%s liked %s songs."
+msgstr "%s mochte %s Songs."
+
+#: inc/labels.php:457
+#, php-format
+msgid "Liked %s artists."
+msgstr "mochte %s Interpreten."
+
+#: inc/labels.php:468
+#, php-format
+msgid "%s liked %s artists."
+msgstr "%s mochte %s Interpreten."
+
+#: inc/labels.php:477
+#, php-format
+msgid "Created %2$s"
+msgstr "erstellte %2$s."
+
+#: inc/labels.php:482
+#, php-format
+msgid "Created %s stations."
+msgstr "erstellte %s Stationen."
+
+#: inc/labels.php:488
+#, php-format
+msgid "%1$s created %3$s"
+msgstr "%1$s erstellte %3$s."
+
+#: inc/labels.php:493
+#, php-format
+msgid "%s created %s stations."
+msgstr "%s erstellte %s Stationen."
+
+#: inc/labels.php:502
+#, php-format
+msgid "Watched %2$s"
+msgstr "sah %2$s."
+
+#: inc/labels.php:507
+#, php-format
+msgid "Watched %s videos."
+msgstr "sah %s Videos an."
+
+#: inc/labels.php:513
+#, php-format
+msgid "%1$s watched %3$s"
+msgstr "%1$s sah %3$s."
+
+#: inc/labels.php:518
+#, php-format
+msgid "%s watched %s videos."
+msgstr "%s sah %s Videos."
+
+#: inc/labels.php:532
+#, php-format
+msgid "Reviewed %s websites."
+msgstr "schrieb %s Website-Reviews."
+
+#: inc/labels.php:543
+#, php-format
+msgid "%s reviewed %s websites."
+msgstr "%s schrieb %s Website-Reviews."
+
+#: inc/labels.php:557
+#, php-format
+msgid "Liked %s websites."
+msgstr "mochte %s Websites."
+
+#: inc/labels.php:568
+#, php-format
+msgid "%s liked %s websites."
+msgstr "%s mochte %s Websites."
+
+#: inc/labels.php:577
+#, php-format
+msgid "Wants %2$s"
+msgstr "will %2$s."
+
+#: inc/labels.php:582
+#, php-format
+msgid "Wants %s items."
+msgstr "will %s Gegenstände."
+
+#: inc/labels.php:588
+#, php-format
+msgid "%1$s wants %3$s"
+msgstr "%1$s will %3$s."
+
+#: inc/labels.php:593
+#, php-format
+msgid "%s wants %s items."
+msgstr "%s will %s Gegenstände."
+
+#: inc/labels.php:602
+#, php-format
+msgid "Checked in at %2$s"
+msgstr "erreicht %2$s."
+
+#: inc/labels.php:607
+#, php-format
+msgid "Checked in %s times."
+msgstr "%s-mal erreicht."
+
+#: inc/labels.php:613
+#, php-format
+msgid "%1$s checked in at %3$s"
+msgstr "%1$s erreicht %3$s."
+
+#: inc/labels.php:618
+#, php-format
+msgid "%s checked in %s times."
+msgstr "Als %s %s-mal erreicht."
+
+#: inc/labels.php:627
+#, php-format
+msgid "Received %2$s"
+msgstr "erhielt %2$s."
+
+#: inc/labels.php:632
+#, php-format
+msgid "Received %s badges."
+msgstr "erhielt %s Abzeichen."
+
+#: inc/labels.php:638
+#, php-format
+msgid "%1$s received %3$s"
+msgstr "%1$s erhielt %3$s."
+
+#: inc/labels.php:643
+#, php-format
+msgid "%s received %s badges."
+msgstr "%s erhielt %s Abzeichen."
+
+#: inc/labels.php:652
+#, php-format
+msgid "Ate %2$s."
+msgstr "aß %2$s."
+
+#: inc/labels.php:657
+#, php-format
+msgid "Ate %s meals."
+msgstr "aß %s Mahlzeiten."
+
+#: inc/labels.php:663
+#, php-format
+msgid "%1$s ate %3$s."
+msgstr "%1$s aß %3$s."
+
+#: inc/labels.php:668
+#, php-format
+msgid "%s ate %s."
+msgstr "%s aß %s."
+
+#: inc/labels.php:677
+#, php-format
+msgid "Watched %2$s."
+msgstr "sah %2$s."
+
+#: inc/labels.php:682
+#, php-format
+msgid "Watched %s episodes."
+msgstr "Sah %s Episoden."
+
+#: inc/labels.php:688
+#, php-format
+msgid "%1$s watched %3$s."
+msgstr "%1$s sah %3$s."
+
+#: inc/labels.php:693
+#, php-format
+msgid "%s watched %s episodes."
+msgstr "%s sah %s Episoden."
+
+#: inc/labels.php:707
+#, php-format
+msgid "Shared %s stories."
+msgstr "verfasste %s Storys."
+
+#: inc/labels.php:718
+#, php-format
+msgid "%s shared %s stories."
+msgstr "%s verfasste %s Storys."
+
+#: inc/labels.php:734
+#, php-format
+msgid "Liked %s movies."
+msgstr "mochte %s Filme."
+
+#: inc/labels.php:745
+#, php-format
+msgid "%s liked %s movies."
+msgstr "%s mochte %s Filme."
+
+#: inc/labels.php:759
+#, php-format
+msgid "Shared %s presentations."
+msgstr "stellte %s Präsentationen online."
+
+#: inc/labels.php:770
+#, php-format
+msgid "%s shared %s presentations."
+msgstr "%s stellte %s Präsentationen online."
+
+#: inc/labels.php:779
+#, php-format
+msgid "Unlocked %2$s"
+msgstr "schaltete %2$s frei."
+
+#: inc/labels.php:784
+#, php-format
+msgid "Unlocked %s achievements."
+msgstr "schaltete %s Achievements frei."
+
+#: inc/labels.php:790
+#, php-format
+msgid "%1$s unlocked %3$s"
+msgstr "%1$s schaltete %3$s frei."
+
+#: inc/labels.php:795
+#, php-format
+msgid "%s unlocked %s achievements."
+msgstr "%s schaltete %s Achievements frei."
+
+#: inc/labels.php:804
+#, php-format
+msgid "Played %2$s"
+msgstr "spielte %2$s."
+
+#: inc/labels.php:809
+#, php-format
+msgid "Played %s games."
+msgstr "spielte %s Spiele."
+
+#: inc/labels.php:815
+#, php-format
+msgid "%1$s played %3$s"
+msgstr "%1$s spielte %3$s."
+
+#: inc/labels.php:820
+#, php-format
+msgid "%s played %s games."
+msgstr "%s spielte %s Spiele."
+
+#: inc/labels.php:828
+#, php-format
+msgid "Queued %2$s"
+msgstr "stellte %2$s in die Warteschlange."
+
+#: inc/labels.php:833
+#, php-format
+msgid "Queued %s videos."
+msgstr "stellte %s Videos in die Warteschlange."
+
+#: inc/labels.php:839
+#, php-format
+msgid "%1$s queued %3$s"
+msgstr "%1$s stellte %3$s Videos in die Warteschlange."
+
+#: inc/labels.php:844
+#, php-format
+msgid "%s queued %s videos."
+msgstr "%s stellte %s Videos in die Warteschlange."
+
+#: inc/labels.php:858
+#, php-format
+msgid "Reviewed %s videos."
+msgstr "schrieb %s Video-Reviews."
+
+#: inc/labels.php:869
+#, php-format
+msgid "%s reviewed %s videos."
+msgstr "%s schrieb %s Video-Reviews."
+
+#: inc/labels.php:878
+#, php-format
+msgid "Attending %2$s"
+msgstr "besucht %2$s."
+
+#: inc/labels.php:883
+#, php-format
+msgid "Attending %s events."
+msgstr "besucht %s Veranstaltungen."
+
+#: inc/labels.php:889
+#, php-format
+msgid "%1$s is attending %3$s"
+msgstr "%1$s besucht %3$s."
+
+#: inc/labels.php:894
+#, php-format
+msgid "%s is attending %s events."
+msgstr "%s besucht %s Veranstaltungen."
+
+#: inc/labels.php:903
+#, php-format
+msgid "Contributed to %2$s"
+msgstr "bearbeitete %2$s."
+
+#: inc/labels.php:908
+#, php-format
+msgid "Contributed to %s pages."
+msgstr "bearbeitete %s Seiten."
+
+#: inc/labels.php:914
+#, php-format
+msgid "%1$s contributed to %3$s"
+msgstr "%1$s bearbeitete %3$s Seiten."
+
+#: inc/labels.php:919
+#, php-format
+msgid "%s contributed to %s pages."
+msgstr "%s bearbeitete %s Seiten."
+
+#: inc/widget.php:28
+#: inc/widget.php:184
+msgid "Lifestream"
+msgstr "Lifestream"
+
+#: inc/widget.php:139
+msgid "Title:"
+msgstr "Titel:"
+
+#: inc/widget.php:145
+msgid "Number of events to show:"
+msgstr "Anzahl der zu zeigenden Ereignisse:"
+
+#: inc/widget.php:152
+msgid "Break up grouped events."
+msgstr "Gruppierte Ereignisse auflösen."
+
+#: inc/widget.php:158
+msgid "Hide meta data, such as the time."
+msgstr "Verberge meta Daten, wie beispielsweise die Zeit."
+
+#: inc/widget.php:162
+msgid "Feeds to show (optional):"
+msgstr "zu zeigende Feeds (optional):"
+
+#: inc/widget.php:162
+msgid "Clear Selection"
+msgstr "Auswahl leeren"
+
+#: inc/widget.php:181
+msgid "Displays your activity from your lifestream"
+msgstr "Zeigt Aktivität des Lifestreams"
+
 #: pages/add-feed.inc.php:5
+#: pages/feeds.inc.php:85
 msgid "Add a Feed"
 msgstr "Feed hinzufügen"
 
+#: pages/add-feed.inc.php:5
+#: pages/edit-feed.inc.php:5
+#, php-format
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">zurück zu den Lifestream Feeds</a>)"
+
 #: pages/add-feed.inc.php:8
-msgid "You will need JavaScript enabled in order to add a feed."
-msgstr "Du musst Javascript aktivieren, um einen Feed hinzufügen zu können."
-
-#: pages/add-feed.inc.php:11
-msgid "Add a new feed by first selecting the type of feed:"
-msgstr "Wähle zunächst die Art des Feeds bevor du einen neuen Feed hinzufügst:"
-
-#: pages/add-feed.inc.php:28
 #: pages/edit-feed.inc.php:9
 #, php-format
 msgid "%s Feed Settings"
 msgstr "%s Feed Einstellungen"
 
-#: pages/add-feed.inc.php:70
-msgid "Show labels for events in this feed. This will not affect grouped events."
-msgstr "Zeige die Icons für die Einträge in diesem Feed. Dies wirkt sich nicht auf Ereignissgruppierung aus."
+#: pages/add-feed.inc.php:50
+#: pages/edit-feed.inc.php:49
+msgid "Feed Label:"
+msgstr "Feed Beschriftung:"
 
-#: pages/add-feed.inc.php:79
+#: pages/add-feed.inc.php:50
+#: pages/add-feed.inc.php:63
+#: pages/edit-feed.inc.php:49
+#: pages/edit-feed.inc.php:62
+msgid "Optional"
+msgstr "Optional"
+
+#: pages/add-feed.inc.php:54
+#: pages/edit-feed.inc.php:53
+msgid "A label to use for this feed instead of the default."
+msgstr "Beschriftung für den Feed, die statt der Standard-Beschriftung gezeigt wird."
+
+#: pages/add-feed.inc.php:60
 #: pages/edit-feed.inc.php:59
+msgid "Use websites default favicon."
+msgstr "Nutze das Standard-Favicon der Website."
+
+#: pages/add-feed.inc.php:63
+#: pages/edit-feed.inc.php:62
+msgid "Icon URL:"
+msgstr "Favicon URL:"
+
+#: pages/add-feed.inc.php:67
+#: pages/edit-feed.inc.php:66
+msgid "An icon to use for this feed instead of the default."
+msgstr "Symbol für den Feed, das statt dem Standard-Symbol gezeigt wird."
+
+#: pages/add-feed.inc.php:81
+#: pages/edit-feed.inc.php:80
 msgid "Group events from the same day together."
-msgstr "Gruppiere Einträge vom selben Tag zusammen."
+msgstr "Gruppiere Ereignisse des selben Tages."
 
-#: pages/add-feed.inc.php:85
-#: pages/edit-feed.inc.php:65
+#: pages/add-feed.inc.php:88
+#: pages/edit-feed.inc.php:88
+msgid "Excerpts"
+msgstr "Exzerpte"
+
+#: pages/add-feed.inc.php:91
+#: pages/edit-feed.inc.php:91
+msgid "Do not show any excerpts."
+msgstr "Zeige keine Exzerpte."
+
+#: pages/add-feed.inc.php:92
+#: pages/edit-feed.inc.php:92
+msgid "Show partial excerpt for events."
+msgstr "Zeige Teile des Exzerpts für Ereignisse."
+
+#: pages/add-feed.inc.php:93
+#: pages/edit-feed.inc.php:93
+msgid "Show full description for events."
+msgstr "Zeige die vollständige Beschreibung für Ereignisse."
+
+#: pages/add-feed.inc.php:95
+#: pages/edit-feed.inc.php:95
+msgid "This feed can show a more detailed description of the event."
+msgstr "Dieser Feed kann eine detailiertere Beschreibung von Ereignissen darstellen."
+
+#: pages/add-feed.inc.php:99
+#: pages/edit-feed.inc.php:99
 msgid "Owner:"
-msgstr "Besitzer:"
+msgstr "Besitzer"
 
-#: pages/add-feed.inc.php:106
-#: pages/edit-feed.inc.php:86
+#: pages/add-feed.inc.php:120
+#: pages/edit-feed.inc.php:120
 #, php-format
 msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
-msgstr "Mehr Informationen über  %s auf <a href=\"%s\">%s</a>."
+msgstr "Weitere Informationen über %s auf <a href=\"%s\">%s</a>."
 
-#: pages/add-feed.inc.php:109
+#: pages/add-feed.inc.php:123
 msgid "Add Feed"
 msgstr "Feed hinzufügen"
 
+#: pages/changelog.inc.php:3
+#, php-format
+msgid "You are using <strong>wp-lifestream %s</strong>."
+msgstr "Erzeugt von <strong>wp-lifestream %s</strong>."
+
+#: pages/changelog.inc.php:5
+msgid "This is the current change log, pulled directly from the latest version. It allows you to see past, and future changes."
+msgstr "Dies ist das aktuelle Change Log, direkt aus der aktuellsten Version. Hier können vorgenommene und geplante Änderungen eingesehen werden."
+
 #: pages/edit-feed.inc.php:5
 msgid "Edit Feed"
-msgstr "Feed bearbeiten"
+msgstr "Bearbeite Feed"
 
-#: pages/edit-feed.inc.php:5
-#, php-format
-msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
-msgstr "(<a href=\"%s\">Zurück zu den Lifestream Feeds</a>)"
-
-#: pages/edit-feed.inc.php:51
-msgid "Show labels for events in this feed. This will not effect grouped events."
-msgstr "Zeige die Icons für die Einträge in diesem Feed. Dies hat keine Auswirkungen auf gruppierten Einträge."
-
-#: pages/edit-feed.inc.php:60
+#: pages/edit-feed.inc.php:81
 msgid "This will not affect any event's already listed."
-msgstr "Dies wirkt sich nicht auf bereits veröffentlichten Einträge aus."
+msgstr "Dies betrifft keine Ereignisse, die bereits gelistet sind."
 
-#: pages/edit-feed.inc.php:89
+#: pages/edit-feed.inc.php:123
 msgid "Save Feed"
-msgstr "Feed speichern"
+msgstr "Speichere Feed"
 
-#: pages/edit-feed.inc.php:93
+#: pages/edit-feed.inc.php:127
 msgid "Recent Events"
-msgstr "Aktuelle Einträge"
+msgstr "Kürzliche Ereignisse"
 
-#: pages/edit-feed.inc.php:99
+#: pages/edit-feed.inc.php:133
 #: pages/events.inc.php:30
-#: pages/feeds.inc.php:39
+#: pages/feeds.inc.php:41
 msgid "ID"
 msgstr "ID"
 
-#: pages/edit-feed.inc.php:100
+#: pages/edit-feed.inc.php:134
 #: pages/events.inc.php:32
 msgid "Event"
-msgstr "Eintrag"
+msgstr "Ereignis"
 
-#: pages/edit-feed.inc.php:101
+#: pages/edit-feed.inc.php:135
+#: pages/errors.inc.php:27
 #: pages/events.inc.php:33
 msgid "Date"
 msgstr "Datum"
 
-#: pages/edit-feed.inc.php:111
-#: pages/events.inc.php:20
-#: pages/events.inc.php:57
-#: pages/feeds.inc.php:21
-#: pages/feeds.inc.php:66
-msgid "Delete"
-msgstr "Löschen"
-
-#: pages/edit-feed.inc.php:117
-#: pages/events.inc.php:62
+#: pages/edit-feed.inc.php:151
+#: pages/events.inc.php:63
 msgid "There are no events to show."
-msgstr "Es sind keine Einträge vorhanden."
+msgstr "Es gibt keine anzuzeigenden Benachrichtigungen."
 
+#: pages/errors.inc.php:1
+msgid "Clear Log"
+msgstr "Lösche Log"
+
+#: pages/errors.inc.php:25
 #: pages/events.inc.php:31
 msgid "Feed"
 msgstr "Feed"
 
+#: pages/errors.inc.php:26
+msgid "Message"
+msgstr "Nachricht"
+
+#: pages/errors.inc.php:79
+msgid "There are no errors to show."
+msgstr "Es gibt keine anzuzeigenden Fehler."
+
+#: pages/events.inc.php:20
+#: pages/events.inc.php:57
+#: pages/feeds.inc.php:22
+#: pages/feeds.inc.php:75
+msgid "Delete"
+msgstr "Löschen"
+
 #: pages/events.inc.php:34
-#: pages/feeds.inc.php:42
+#: pages/feeds.inc.php:45
 msgid "Owner"
-msgstr "Eigentümer"
+msgstr "Besitzer"
 
 #: pages/feeds.inc.php:1
 msgid "Refresh All Feeds"
-msgstr "Aktualisiere Feeds"
+msgstr "Aktualisiere alle Feeds"
 
-#: pages/feeds.inc.php:20
-#: pages/feeds.inc.php:65
+#: pages/feeds.inc.php:21
+#: pages/feeds.inc.php:74
 msgid "Refresh"
 msgstr "Aktualisieren"
 
-#: pages/feeds.inc.php:40
+#: pages/feeds.inc.php:42
 msgid "Description"
 msgstr "Beschreibung"
 
-#: pages/feeds.inc.php:72
+#: pages/feeds.inc.php:43
+msgid "Last Update"
+msgstr "Letzte Aktualisierung"
+
+#: pages/feeds.inc.php:81
 msgid "You do not currently have ownership of any feeds."
-msgstr "Du hast derzeit keine Feeds."
+msgstr "Momentan kein Besitzer eines Feeds."
+
+#: pages/feeds.inc.php:86
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr "Feed-Typ wählen um neuen Feed hinzuzufügen:"
 
 #: pages/forums.inc.php:1
 msgid "Open in a new window"
-msgstr "In einem neuen Fenster öffnen"
+msgstr "In neuem Fenster öffnen"
 
 #: pages/forums.inc.php:3
 msgid "You may direct questions, feedback, and problems to us by posting in the forums below."
-msgstr "Du kannst direkte Fragen, Feedbacks und Probleme an uns unten im Forum posten."
+msgstr "Antworten auf Fragen, Möglichkeiten zum Abgeben von Feedback und Lösungen zu Problemen gibt es im Forum."
 
-#: pages/lifestream-list.inc.php:31
-#: pages/lifestream-table.inc.php:48
-msgid "There are no events to show at this time."
-msgstr "Es gibt derzeit keine Einträge."
+#: pages/maintenance.inc.php:5
+msgid "Restore Defaults"
+msgstr "Standardeinstellungen wiederherstellen"
+
+#: pages/maintenance.inc.php:6
+msgid "If you are having issues with your installation you can easily restore the default settings for Lifestream."
+msgstr "Bei Problemen mit der Installation können schnell die Standardeinstellungen für Lifestream wiederhergestellt werden."
+
+#: pages/maintenance.inc.php:8
+msgid "Restore default settings"
+msgstr "Standardeinstellungen wiederherstellen"
+
+#: pages/maintenance.inc.php:13
+msgid "Cron Tasks"
+msgstr "Cron Tasks"
+
+#: pages/maintenance.inc.php:14
+msgid "Cron tasks are regularly scheduled events, and are used to update lifestream and make automated posts."
+msgstr "Cron Tasks sind regelmäßig durchgeführte Aufgaben und werden für Aktualisierungen und automatische Beiträge genutzt."
+
+#: pages/maintenance.inc.php:45
+msgid "Reset cron timers"
+msgstr "Setzte Cron Timer zurück"
 
 #: pages/settings.inc.php:7
 msgid "Lifestream Configuration"
@@ -241,107 +1197,222 @@ msgstr "Lifestream Konfiguration"
 #: pages/settings.inc.php:8
 #, php-format
 msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
-msgstr "Die folgenden Einstellungen betreffen alle Feeds direkt. Wenn du jeden Feed einzeln einstellen willst kannst du dass hier unter der <a href=\"%s\">Feed-Management-Seite.</a>"
+msgstr "Die folgenden Einstellungen werden alle Feeds global betreffen. Nach Wunsch können die Feeds einzeln geändert werden, via der <a href=\"%s\">Feed Verwaltungsseite</a>."
 
 #: pages/settings.inc.php:17
 msgid "Day Format:"
-msgstr "Tag Format:"
+msgstr "Tagesformat:"
 
 #: pages/settings.inc.php:20
 #: pages/settings.inc.php:27
 msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method."
-msgstr "Für mehr Informationen, schau hier bei PHP's <a href=\"http://www.php.net/date/\">date()</a> Methoden."
+msgstr "Informationen zur Formatierung der Zeit in PHP <a href=\"http://www.php.net/date/\">date()</a>"
 
 #: pages/settings.inc.php:24
 msgid "Hour Format:"
-msgstr "Stunden-Format:"
+msgstr "Stundenformat:"
 
 #: pages/settings.inc.php:31
-msgid "Current Time:"
-msgstr "Aktuelle Zeit:"
-
-#: pages/settings.inc.php:41
 msgid "Update Interval:"
-msgstr "Update-Intervall:"
+msgstr "Aktualisierungsintervall:"
 
-#: pages/settings.inc.php:43
-#: pages/settings.inc.php:50
-#: pages/settings.inc.php:57
+#: pages/settings.inc.php:33
+#: pages/settings.inc.php:40
+#: pages/settings.inc.php:47
+#: pages/settings.inc.php:54
+#: pages/settings.inc.php:154
 #, php-format
 msgid "(Default: %s)"
 msgstr "(Standard: %s)"
 
-#: pages/settings.inc.php:44
+#: pages/settings.inc.php:34
 msgid "The number of minutes between updates to your feeds. Value is in minutes."
-msgstr "Die Anzahl von Minuten zwischen den Aktualisierungen der Feeds. Der Wert wird in Minuten angegeben."
+msgstr "Die Anzahl der Minuten zwischen der Aktualisierung der Feeds."
+
+#: pages/settings.inc.php:38
+#: pages/settings.inc.php:152
+msgid "Number of Items:"
+msgstr "Anzahl der Einträge:"
+
+#: pages/settings.inc.php:41
+msgid "The number of items to display in the default lifestream call."
+msgstr "Die Anzahl der im standardmäßig konfigurierten Lifestream anzuzeigenden Einträge."
+
+#: pages/settings.inc.php:45
+msgid "Date Cutoff:"
+msgstr "Datumsobergrenze"
 
 #: pages/settings.inc.php:48
-msgid "Number of Items:"
-msgstr "Anzahl der Artikel:"
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "Die Datumsobergrenze für den standardmäßig konfigurierten Lifestream Feed. Verfügbare Einheitsnamen sind: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code> und <code>microsecond</code>"
 
-#: pages/settings.inc.php:51
-msgid "The number of items to display in the default lifestream feed call."
-msgstr "Die Anzahl der Einträge die im Standard Lifestream Feed abgerufen werden."
+#: pages/settings.inc.php:52
+msgid "Description Cutoff:"
+msgstr "Beschreibungslimit:"
 
 #: pages/settings.inc.php:55
-msgid "Date Cutoff:"
-msgstr "Datum Grenzbereich:"
+msgid "Some extensions will show a preview of the text (such as blogs and comments). Set this to the length, in characters, for the cutoff, or -1 to disable truncating posts."
+msgstr "Einige Erweiterungen werden enie kleine Textvorschau zeigen (wie z.b. Blogs oder Kommentare). Die gesetzte Länge ist die Obergrenze für die Anzahl an Zeichen. Zum Deaktivieren des Kürzens -1 einsetzen."
 
-#: pages/settings.inc.php:58
-msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
-msgstr "Der Zeitraum für den die Feeds abgerufen werden sollen. Verfügbare Zeiträume sind: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, und <code>microsecond</code>"
+#: pages/settings.inc.php:59
+msgid "Show Owners:"
+msgstr "Zeige Besitzer:"
 
-#: pages/settings.inc.php:63
+#: pages/settings.inc.php:60
 msgid "Show the owner of the feed in the display."
-msgstr "Zeige den Eigentümer des Feeds."
+msgstr "Zeige den Besitzers des Feeds auf der Ausgabe."
 
-#: pages/settings.inc.php:69
+#: pages/settings.inc.php:61
+#, php-format
+msgid "e.g. %s posted a new photo on %s"
+msgstr "z.B.: %s hat ein neues Foto auf %s hochgeladen."
+
+#: pages/settings.inc.php:65
+msgid "Enable iBox:"
+msgstr "Aktiviere iBox:"
+
+#: pages/settings.inc.php:66
 msgid "Enable iBox on plugins that support it."
-msgstr "Aktiviere IBox über Plugins zur Unterstützung."
+msgstr "Aktiviere iBox bei unterstützten Plugins."
 
-#: pages/settings.inc.php:75
-msgid "Give credit to Lifestream when it's embedded."
-msgstr "Zeige Lifestream Homepage Link wenn es eingefügt wird."
-
-#: pages/settings.inc.php:82
-msgid "Daily Digest"
-msgstr "Daily Digest"
-
-#: pages/settings.inc.php:83
-msgid "Lifestream gives you the ability to create a new blog post each day, containing all of the events which happened on that day."
-msgstr "Mit Lifestream hast du die Möglichkeit jeden Tag einen neuen Blogpost zu erstellen, der von deinen Aktivitäten und Events am Tag erzählt."
-
-#: pages/settings.inc.php:91
-msgid "Post a daily summary of my lifestream."
-msgstr "Poste eine tägliche Zusammenfassung meines Lifestreams."
-
-#: pages/settings.inc.php:95
-msgid "Summary Post Title:"
-msgstr "Zusammenfassung Post Überschrift:"
-
-#: pages/settings.inc.php:98
+#: pages/settings.inc.php:67
 #, php-format
-msgid "You may use <code>%s</code> for the current date formatted with your <em>Day Format</em> option."
-msgstr "Nutze <code>%s</code> für das aktuelle Datum mit der <em>Datum Format</em> Option."
+msgid "Requires the %s plugin."
+msgstr "Erfodert das %s Plugin."
 
-#: pages/settings.inc.php:102
-msgid "Summary Post Body:"
-msgstr "Zusammenfassung Post Body:"
+#: pages/settings.inc.php:71
+msgid "Hide Grouped Details:"
+msgstr "Versteckte Details bei Gruppierung:"
 
-#: pages/settings.inc.php:105
-#, php-format
-msgid "You may use <code>%1$s</code> for the list of events, <code>%2$s</code> for the day, and <code>%3$d</code> for the number of events."
-msgstr "Nutze <code>%1$s</code> für die Liste der Einträge <code>%2$s</code> am Tag und <code>%3$d</code> für die Anzahl der Einträge."
+#: pages/settings.inc.php:72
+msgid "Hide details of grouped events by default."
+msgstr "Bei gruppierten Beiträgen standardmäßig die Details verbergen."
 
-#: pages/settings.inc.php:109
-msgid "Summary Author:"
-msgstr "Zusammenfassung Autor:"
+#: pages/settings.inc.php:76
+msgid "URL Handler:"
+msgstr "URL Handler:"
 
-#: pages/settings.inc.php:127
-msgid "Summary Category:"
-msgstr "Zusammenfassung Kategorie:"
+#: pages/settings.inc.php:78
+msgid "(Automatic)"
+msgstr "(Automatisch)"
 
-#: pages/settings.inc.php:142
+#: pages/settings.inc.php:79
+msgid "Curl"
+msgstr "Curl"
+
+#: pages/settings.inc.php:80
+msgid "fopen"
+msgstr "fopen"
+
+#: pages/settings.inc.php:86
+#: pages/settings.inc.php:139
+#: pages/settings.inc.php:161
+#: pages/settings.inc.php:253
 msgid "Save Changes"
 msgstr "Änderungen speichern"
+
+#: pages/settings.inc.php:89
+msgid "Appearance"
+msgstr "Aussehen"
+
+#: pages/settings.inc.php:97
+msgid "Theme:"
+msgstr "Thema:"
+
+#: pages/settings.inc.php:104
+msgid "Please see the included themes/README for information on creating your own theme."
+msgstr "Für Informationen zum Erstellen von Themas helfen das README und die mitgelieferten Themen."
+
+#: pages/settings.inc.php:108
+msgid "Icons:"
+msgstr "Symbole:"
+
+#: pages/settings.inc.php:127
+msgid "Please see the included icons/README for information on creating your own icon set."
+msgstr "Für Informationen zum Erstellen von Symbolpaketen helfen das README und die mitgelieferten Symbolpakete."
+
+#: pages/settings.inc.php:131
+msgid "Show Credits:"
+msgstr "Zeige Credits:"
+
+#: pages/settings.inc.php:132
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Zeige Lifestream-Link beim Einbetten."
+
+#: pages/settings.inc.php:133
+msgid "e.g."
+msgstr "z.B."
+
+#: pages/settings.inc.php:144
+#, php-format
+msgid "You can access your feed URL at <a href=\"%s\">%s</a>."
+msgstr "Die Feed URL kann auf <a href=\"%s\">%s</a> aufgerufen werden."
+
+#: pages/settings.inc.php:155
+msgid "The number of items to display in the default lifestream feed call."
+msgstr "Die Anzahl der im standardmäßig konfigurierten Lifestream Feed anzuzeigenden Einträge."
+
+#: pages/settings.inc.php:164
+msgid "Digest"
+msgstr "Zusammenfassung"
+
+#: pages/settings.inc.php:165
+msgid "Lifestream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period."
+msgstr "Lifestream bietet die Möglichkeit regelmäßig neue Beiträge zu veröffentlichen, die alle Ereignisse seit der letzten Zusammenfassung enthalten."
+
+#: pages/settings.inc.php:173
+msgid "Show Digest:"
+msgstr "Zeige Zusammenfassung:"
+
+#: pages/settings.inc.php:174
+msgid "Post a summary of my lifestream."
+msgstr "Veröffentliche eine Zusammenfassung des Lifestreams."
+
+#: pages/settings.inc.php:178
+msgid "Post Interval:"
+msgstr "Veröffentlichungsintervall:"
+
+#: pages/settings.inc.php:201
+msgid "This determines the approximate time when your digest should be posted."
+msgstr "Dies bestimmt die ungefähre Zeit zu der die Zusammenfassung veröffentlicht werden soll."
+
+#: pages/settings.inc.php:205
+msgid "Summary Post Title:"
+msgstr "Titel des Zusammenfassungs-Beitrages"
+
+#: pages/settings.inc.php:208
+#, php-format
+msgid "You may use <code>%%1$s</code> for the current date, and <code>%%2$s</code> for the current time."
+msgstr "Es kann <code>%%1$s</code> zum Zeigen des Datums und <code>%%2$s</code> zum Zeigen der Zeit verwendet werden."
+
+#: pages/settings.inc.php:212
+msgid "Summary Post Body:"
+msgstr "Text des Zusammenfassungs-Beitrages"
+
+#: pages/settings.inc.php:215
+#, php-format
+msgid "You may use <code>%%1$s</code> for the list of events, <code>%%2$s</code> for the day, and <code>%%3$d</code> for the number of events."
+msgstr "Es kann <code>%%1$s</code> für eine Liste der Ereignisse, <code>%%2$s</code> für den Tag und <code>%%3$d</code> für die Anzahl der Ereignisse verwendet werden."
+
+#: pages/settings.inc.php:219
+msgid "Summary Author:"
+msgstr "Autor des Zusammenfassungs-Beitrages"
+
+#: pages/settings.inc.php:237
+msgid "Summary Category:"
+msgstr "Kategorie des Zusammenfassungs-Beitrages"
+
+#: themes/boxy/main.inc.php:32
+#: themes/default/main.inc.php:49
+#: themes/default/sidebar.inc.php:29
+msgid "There are no events to show at this time."
+msgstr "Für diese Zeit gibt es keine Ereignisse."
+
+#: themes/default/main.inc.php:13
+msgid "Today"
+msgstr "Heute"
+
+#: themes/default/main.inc.php:14
+msgid "Yesterday"
+msgstr "Gestern"
 
