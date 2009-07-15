@@ -2050,7 +2050,8 @@ abstract class Lifestream_Extension
 	function yield_many()
 	{
 		$args = func_get_args();
-		return call_user_func_array(array($this, 'yield'), $args);
+		$data = call_user_func_array(array(&$this, 'yield'), $args);
+		return array($data);
 	}
 
 	/**
@@ -2059,6 +2060,8 @@ abstract class Lifestream_Extension
 	 * @abstract
 	 * @return {Array} Data dictionary.
 	 */
+	//abstract function yield();
+
 	abstract function fetch();
 	
 	function get_id($event, $uniq_id='')
