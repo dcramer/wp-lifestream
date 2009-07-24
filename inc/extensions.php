@@ -2121,7 +2121,7 @@ class Lifestream_DeviantArtFeed extends Lifestream_PhotoFeed
 
 	function get_url()
 	{
-		return 'http://backend.deviantart.com/rss.xml?q=gallery%3A'.urlencode($this->options['username']).'&type=deviation&offset=0';
+		return 'http://backend.deviantart.com/rss.xml?q=gallery%3A'.urlencode($this->options['username']);
 	}
 }
 $lifestream->register_feed('Lifestream_DeviantArtFeed');
@@ -2280,7 +2280,7 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 	const ID			= 'netflix';
 	const NAME			= 'Netflix';
 	const URL			= 'http://www.netflix.com/';
-	const DESCRIPTION	= 'You can find your User ID by logging into your Netflix account and clicking on RSS at the very bottom of the page.';
+	const DESCRIPTION	= 'You can find your feed URL by logging into your Netflix account and clicking on RSS at the very bottom of the page.';
 
 	function __toString()
 	{

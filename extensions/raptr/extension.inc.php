@@ -6,7 +6,8 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 	const URL	= 'http://www.ratpr.com/';
 
 	private $achievement_regexp = '#unlocked the (.*) achievement in <a[^>]+href="([^"]+)"[^>]*>([^<]+)</a>#i';
-	private $played_regexp = '#(?:played some|managed to fit in a quick game of|played a game of|acquainted himself with the main menu of)\s<a[^>]+href="([^"]+)"[^>]*>([^<]+)</a>#i';
+	private $played_regexp = '#(?:played some|managed to fit in a quick game of|played a game of|acquainted himself with the main menu of|just came up for air from a crazy session of|spent a chunk of time playing)\s<a[^>]+href="([^"]+)"[^>]*>([^<]+)</a>#i';
+	private $played_alt_regexp = '#(?:Another day, another game of|Nothing like a short game of|That was quite a marathon of)\s<a[^>]+href="([^"]+)"[^>]*>([^<]+)</a> (?:that|to calm|for) (.*) (?:played.|\'s frayed nerves.|.)#i';
 
 	function __toString()
 	{
@@ -53,7 +54,7 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 				$events[] = $data;
 			}
 		}
-		elseif (preg_match($this->played_regexp, $description, $match))
+		elseif (preg_match($this->played_regexp, $description, $match) || preg_match($this->played_alt_regexp, $description, $match))
 		{
 			$data = parent::yield($row, $url, $key);
 			$data['title'] = $match[2];
