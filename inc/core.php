@@ -200,6 +200,8 @@ class Lifestream
 	
 	// current theme
 	public $theme = 'default';
+	
+	protected $paging_key = 'ls_p';
 
 	protected $valid_image_types = array('image/gif' => 'gif',  
 		'image/jpeg' => 'jpeg',  
@@ -1536,6 +1538,22 @@ class Lifestream
 		}
 	}
 	
+	function get_page_from_request()
+	{
+		$page = $_GET[$this->paging_key];
+		if (!$page) $page = 1;
+		return $page;
+	}
+	function get_next_page_url($page=null)
+	{
+		if (!$page) $page = $this->get_page_from_request();
+		return '?'.$this->paging_key.'='.$page+1;
+	}
+	function get_previous_page_url($page=null)
+	{
+		if (!$page) $page = $this->get_page_from_request();
+		return '?'.$this->paging_key.'='.$page-1;
+	}
 	
 	/**
 	 * Gets recent events from the lifestream.
@@ -2345,6 +2363,7 @@ function lifestream($args=array())
 
 	$defaults = array(
 		'id'	=> $lifestream->generate_unique_id(),
+		'limit' => $lifestream->get_option('number_of_items'),
 	);
 
 	if (!is_array($_[0]))
@@ -2365,12 +2384,22 @@ function lifestream($args=array())
 	{
 		$_ = $args;
 	}
-	
+	$page = $lifestream->get_page_from_request();
+	$defaults['offset'] = $page*($_['limit'] ? $_['limit'] : $defaults['limit']);
+
 	$_ = array_merge($defaults, $_);
+	$limit = $_['limit'];
+	$_['limit'] = $_['limit'] + 1;
 	
 	// TODO: offset
 	//$offset = $lifestream->get_option('lifestream_timezone');
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
+	$has_next_page = (count($events)) > $limit);
+	if ($has_next_page) {
+		$events = array_slice($events, 0, $limit);
+	}
+	$has_prev_page = ($page > 1);
+	$has_paging = ($has_next_page || $has_prev_page);
 	if ($options['hide_metadata']) $show_metadata = false;
 	else $show_metadata = true;
 	

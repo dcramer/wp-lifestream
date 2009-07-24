@@ -2,6 +2,7 @@
 
 * Improved Raptr extension.
 * Improved DeviantArt extension.
+* Pagination is now available when using [lifestream].
 
 0.99.8.4
 

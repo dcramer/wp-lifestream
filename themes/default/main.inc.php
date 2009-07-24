@@ -4,6 +4,12 @@ if (count($events))
 {
 	$today = date('m d Y');
 	$yesterday = date('m d Y', time()-86400);
+	if ($has_paging)
+	{
+		if ($has_prev_page) {
+			echo '<p class="lifestream-paging"><a href="' . $lifestream->get_previous_page_url($page) . '">Newer Entries</a></p>';
+		}
+	}
 	?>
 	<table class="lifestream">
 	<?php
@@ -42,6 +48,12 @@ if (count($events))
 	?>
 	</table>
 	<?php
+	if ($has_paging)
+	{
+		if ($has_next_page) {
+			echo '<p class="lifestream-paging"><a href="' . $lifestream->get_next_page_url($page) . '">Older Entries</a></p>';
+		}
+	}
 }
 else
 {
