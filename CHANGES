@@ -3,6 +3,9 @@
 * Improved Raptr extension.
 * Improved DeviantArt extension.
 * Pagination is now available when using [lifestream].
+* Added settings for additional extension, icon, and theme directories.
+* Cleaned up settings page.
+* Possible fix for bad interval on lifestream update.
 
 0.99.8.4
 
