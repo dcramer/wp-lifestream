@@ -245,20 +245,27 @@ class Lifestream
 	 */
 	function detect_icons()
 	{
-		$base_dir = LIFESTREAM_PATH . '/icons/';
-		$handler = opendir($base_dir);
-		while ($file = readdir($handler))
+		$directories = array(
+			LIFESTREAM_PATH . '/icons/',
+			$this->get_option('icon_dir')
+		);
+		foreach ($directories as $base_dir)
 		{
-			// ignore hidden files
-			if (str_startswith($file, '.')) continue;
-			// if its not a directory we dont care
-			if (!is_dir($base_dir . $file)) continue;
-			$ext_file = $base_dir . $file . '/generic.png';
-			if (is_file($ext_file))
+			if (!is_dir($base_dir)) continue;
+			$handler = opendir($base_dir);
+			while ($file = readdir($handler))
 			{
-				$data = $this->parse_nfo_file($base_dir . $file . '/icons.txt');
-				if (!$data['name']) $data['name'] = $file;
-				$this->icons[$file] = $data;
+				// ignore hidden files
+				if (str_startswith($file, '.')) continue;
+				// if its not a directory we dont care
+				if (!is_dir($base_dir . $file)) continue;
+				$ext_file = $base_dir . $file . '/generic.png';
+				if (is_file($ext_file))
+				{
+					$data = $this->parse_nfo_file($base_dir . $file . '/icons.txt');
+					if (!$data['name']) $data['name'] = $file;
+					$this->icons[$file] = $data;
+				}
 			}
 		}
 	}
@@ -270,19 +277,26 @@ class Lifestream
 	{
 		$lifestream =& $this;
 
-		$base_dir = LIFESTREAM_PATH . '/extensions/';
-		$handler = opendir($base_dir);
-		while ($file = readdir($handler))
+		$directories = array(
+			LIFESTREAM_PATH . '/extensions/',
+			$this->get_option('extension_dir')
+		);
+		foreach ($directories as $base_dir)
 		{
-			// ignore hidden files
-			if (str_startswith($file, '.')) continue;
-			// if its not a directory we dont care
-			if (!is_dir($base_dir . $file)) continue;
-			// check for extension.inc.php
-			$ext_file = $base_dir . $file . '/extension.inc.php';
-			if (is_file($ext_file))
+			if (!is_dir($base_dir)) continue;
+			$handler = opendir($base_dir);
+			while ($file = readdir($handler))
 			{
-				include($ext_file);
+				// ignore hidden files
+				if (str_startswith($file, '.')) continue;
+				// if its not a directory we dont care
+				if (!is_dir($base_dir . $file)) continue;
+				// check for extension.inc.php
+				$ext_file = $base_dir . $file . '/extension.inc.php';
+				if (is_file($ext_file))
+				{
+					include($ext_file);
+				}
 			}
 		}
 	}
@@ -292,22 +306,29 @@ class Lifestream
 	 */
 	function detect_themes()
 	{
-		$base_dir = LIFESTREAM_PATH . '/themes/';
-		$handler = opendir($base_dir);
-		while ($file = readdir($handler))
+		$directories = array(
+			LIFESTREAM_PATH . '/themes/',
+			$this->get_option('theme_dir')
+		);
+		foreach ($directories as $base_dir)
 		{
-			// ignore hidden files
-			if (str_startswith($file, '.')) continue;
-			// if its not a directory we dont care
-			if (!is_dir($base_dir . $file)) continue;
-			// check for main.inc.php
-			$ext_file = $base_dir . $file . '/theme.txt';
-			if (is_file($ext_file))
+			if (!is_dir($base_dir)) continue;
+			$handler = opendir($base_dir);
+			while ($file = readdir($handler))
 			{
-				$theme = array();
-				$theme = $this->parse_nfo_file($ext_file);
-				if (!array_key_exists('name', $theme)) continue;
-				$this->themes[$file] = $theme;
+				// ignore hidden files
+				if (str_startswith($file, '.')) continue;
+				// if its not a directory we dont care
+				if (!is_dir($base_dir . $file)) continue;
+				// check for main.inc.php
+				$ext_file = $base_dir . $file . '/theme.txt';
+				if (is_file($ext_file))
+				{
+					$theme = array();
+					$theme = $this->parse_nfo_file($ext_file);
+					if (!array_key_exists('name', $theme)) continue;
+					$this->themes[$file] = $theme;
+				}
 			}
 		}
 	}
@@ -400,6 +421,9 @@ class Lifestream
 		'truncate_length'	=> '128',
 		'theme'				=> 'default',
 		'icons'				=> 'default',
+		'extension_dir'		=> '',
+		'theme_dir'			=> '',
+		'icon_dir'			=> '',
 	);
 	
 	function __construct()
@@ -407,7 +431,6 @@ class Lifestream
 		$this->path = WP_CONTENT_URL . '/plugins/lifestream';
 		
 		$this->_optioncache = null;
-		
 
 		add_action('admin_menu', array(&$this, 'options_menu'));
 		add_action('wp_head', array(&$this, 'header'));
@@ -563,8 +586,10 @@ class Lifestream
 	
 	function get_cron_schedules($cron)
 	{
+		$interval = (int)$this->get_option('update_interval', 15);
+		if (!($interval > 0)) $interval = 15;
 		$cron['lifestream'] = array(
-			'interval' => (int)$this->get_option('update_interval', 15) * 60,
+			'interval' => $interval * 60,
 			'display' => $this->__('On Lifestream update')
 		);
 
@@ -644,6 +669,8 @@ class Lifestream
 	function options_menu()
 	{
 		global $wpdb;
+
+		wp_enqueue_script('postbox');
 
 		if (function_exists('add_menu_page'))
 		{
@@ -1394,7 +1421,11 @@ class Lifestream
 		{
 			$this->add_option($key, $value);
 		}
-				
+		// because these are based off of the WP_CONTENT_DIR they cannot be included in $_options
+		$this->add_option('extension_dir', WP_CONTENT_DIR.'/wp-lifestream/extensions/');
+		$this->add_option('theme_dir', WP_CONTENT_DIR.'/wp-lifestream/themes/');
+		$this->add_option('icon_dir', WP_CONTENT_DIR.'/wp-lifestream/icons/');
+		
 		$this->update_option('_version', LIFESTREAM_VERSION);
 
 	}
@@ -1547,12 +1578,12 @@ class Lifestream
 	function get_next_page_url($page=null)
 	{
 		if (!$page) $page = $this->get_page_from_request();
-		return '?'.$this->paging_key.'='.$page+1;
+		return '?'.$this->paging_key.'='.($page+1);
 	}
 	function get_previous_page_url($page=null)
 	{
 		if (!$page) $page = $this->get_page_from_request();
-		return '?'.$this->paging_key.'='.$page-1;
+		return '?'.$this->paging_key.'='.($page-1);
 	}
 	
 	/**
