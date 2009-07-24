@@ -2394,7 +2394,7 @@ function lifestream($args=array())
 	// TODO: offset
 	//$offset = $lifestream->get_option('lifestream_timezone');
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
-	$has_next_page = (count($events)) > $limit);
+	$has_next_page = (count($events) > $limit);
 	if ($has_next_page) {
 		$events = array_slice($events, 0, $limit);
 	}
