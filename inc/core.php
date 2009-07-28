@@ -2416,7 +2416,7 @@ function lifestream($args=array())
 		$_ = $args;
 	}
 	$page = $lifestream->get_page_from_request();
-	$defaults['offset'] = $page*($_['limit'] ? $_['limit'] : $defaults['limit']);
+	$defaults['offset'] = ($page-1)*($_['limit'] ? $_['limit'] : $defaults['limit']);
 
 	$_ = array_merge($defaults, $_);
 	$limit = $_['limit'];
