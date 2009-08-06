@@ -594,7 +594,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	const URL			= 'http://www.google.com/reader/';
 	const DESCRIPTION	= 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". It should look something like this: http://www.google.com/reader/shared/14285665327310657206';
 	const LABEL			= 'Lifestream_BookmarkLabel';
-	const NAMESPACE		= 'http://www.google.com/schemas/reader/atom/';
+	const NS			= 'http://www.google.com/schemas/reader/atom/';
 	const HAS_EXCERPTS	= true;
 	
 	function __toString()
@@ -638,11 +638,10 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	{
 		//<gr:annotation><content type="html">Just testing some stuff in Lifestream</content>
 		$data = parent::yield($row, $url, $key);
-		$annotation =& $row->get_item_tags(self::NAMESPACE, 'annotation');
+		$annotation =& $row->get_item_tags(self::NS, 'annotation');
 		$data['comment'] = $this->lifestream->html_entity_decode($annotation[0]['child']['http://www.w3.org/2005/Atom']['content'][0]['data']);
 		return $data;
 	}
-	
 }
 $lifestream->register_feed('Lifestream_GoogleReaderFeed');
 
