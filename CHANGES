@@ -1,3 +1,7 @@
+0.99.8.6
+
+* Fixed an error with a reserved word causing a Fatal Error for some users.
+
 0.99.8.5
 
 * Improved Raptr extension.
