@@ -16,6 +16,18 @@ if (!function_exists('array_key_pop'))
 		return $value;
 	}
 }
+if (!function_exists('code2utf'))
+{
+	// Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
+	function code2utf($num)
+	{
+		if ($num < 128) return chr($num);
+		if ($num < 2048) return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
+		if ($num < 65536) return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
+		if ($num < 2097152) return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
+		return '';
+	}
+}
 if (!function_exists('str_startswith'))
 {
 	function str_startswith($string, $chunk)
@@ -236,15 +248,6 @@ class Lifestream
 		return strtr($string, $trans_tbl);
 	}
 
-	// Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
-	function code2utf($num)
-	{
-		if ($num < 128) return chr($num);
-		if ($num < 2048) return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
-		if ($num < 65536) return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-		if ($num < 2097152) return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-		return '';
-	}
 	// function html_entity_decode($string)
 	// {
 	// 	$string = html_entity_decode($string, ENT_QUOTES, 'utf-8');
