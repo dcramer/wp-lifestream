@@ -216,15 +216,44 @@ class Lifestream
 		'gif', 'jpg', 'jpeg', 'gif', 'png', 'ico'
 	);
 	
-	function html_entity_decode($string)
+	function html_entity_decode_utf8($string)
 	{
-		$string = html_entity_decode($string, ENT_QUOTES);
-		
-		// $string = preg_replace('~&#x0*([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
-		// $string = preg_replace('~&#0*([0-9]+);~e', 'chr(\\1)', $string);
+		static $trans_tbl;
 
- 		return $string;
+		// replace numeric entities
+		$string = preg_replace('~&#x([0-9a-f]+);~ei', 'code2utf(hexdec("\\1"))', $string);
+		$string = preg_replace('~&#([0-9]+);~e', 'code2utf(\\1)', $string);
+
+		// replace literal entities
+		if (!isset($trans_tbl))
+		{
+			$trans_tbl = array();
+
+			foreach (get_html_translation_table(HTML_ENTITIES) as $val=>$key)
+				$trans_tbl[$key] = utf8_encode($val);
+		}
+
+		return strtr($string, $trans_tbl);
 	}
+
+	// Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
+	function code2utf($num)
+	{
+		if ($num < 128) return chr($num);
+		if ($num < 2048) return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
+		if ($num < 65536) return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
+		if ($num < 2097152) return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
+		return '';
+	}
+	// function html_entity_decode($string)
+	// {
+	// 	$string = html_entity_decode($string, ENT_QUOTES, 'utf-8');
+	// 	
+	// 	$string = preg_replace('~&#x0*([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
+	// 	$string = preg_replace('~&#0*([0-9]+);~e', 'chr(\\1)', $string);
+	// 
+	//  		return $string;
+	// }
 
 	function parse_nfo_file($file)
 	{
