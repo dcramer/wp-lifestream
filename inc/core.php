@@ -218,7 +218,7 @@ class Lifestream
 	
 	function html_entity_decode($string)
 	{
-		$string = html_entity_decode($string);
+		$string = html_entity_decode($string, ENT_QUOTES);
 		
 		$string = preg_replace('~&#x0*([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
 		$string = preg_replace('~&#0*([0-9]+);~e', 'chr(\\1)', $string);
