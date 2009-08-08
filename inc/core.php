@@ -216,7 +216,7 @@ class Lifestream
 		'gif', 'jpg', 'jpeg', 'gif', 'png', 'ico'
 	);
 	
-	function html_entity_decode_utf8($string)
+	function html_entity_decode($string)
 	{
 		static $trans_tbl;
 
