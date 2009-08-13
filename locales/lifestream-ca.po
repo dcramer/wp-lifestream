@@ -1,0 +1,1454 @@
+# Benjamí Villoslada <benjami@bitassa.cat>, 2009.
+# Benjami Villoslada <benjami@bitassa.cat>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: lifestream\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-08-11 12:47+0100\n"
+"PO-Revision-Date: 2009-08-12 21:48+0100\n"
+"Last-Translator: Benjamí Villoslada <benjami@bitassa.cat>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/widget.php:28
+#: inc/widget.php:184
+msgid "Lifestream"
+msgstr "Lifestream"
+
+#: inc/widget.php:139
+msgid "Title:"
+msgstr "Títol:"
+
+#: inc/widget.php:145
+msgid "Number of events to show:"
+msgstr "Número d'esdeveniments a mostrar:"
+
+#: inc/widget.php:152
+msgid "Break up grouped events."
+msgstr "Desagrupar esdeveniments."
+
+#: inc/widget.php:158
+msgid "Hide meta data, such as the time."
+msgstr "Amagar metadades, com ara l'hora."
+
+#: inc/widget.php:162
+msgid "Feeds to show (optional):"
+msgstr "Fils a mostrar (opcional):"
+
+#: inc/widget.php:162
+msgid "Clear Selection"
+msgstr "Netejar la selecció"
+
+#: inc/widget.php:181
+msgid "Displays your activity from your lifestream"
+msgstr "Mostrar l'activitat des del vostre lifestream"
+
+#: inc/extensions.php:18
+#: inc/extensions.php:97
+#: inc/extensions.php:242
+#: inc/extensions.php:290
+#: inc/extensions.php:471
+#: inc/extensions.php:502
+#: inc/extensions.php:560
+#: inc/extensions.php:699
+#: inc/extensions.php:780
+#: inc/extensions.php:902
+#: inc/extensions.php:1007
+#: inc/extensions.php:1064
+#: inc/extensions.php:1169
+#: inc/extensions.php:1214
+#: inc/extensions.php:1279
+#: inc/extensions.php:1366
+#: inc/extensions.php:1398
+#: inc/extensions.php:1429
+#: inc/extensions.php:1461
+#: inc/extensions.php:1493
+#: inc/extensions.php:1530
+#: inc/extensions.php:1551
+#: inc/extensions.php:1635
+#: inc/extensions.php:1666
+#: inc/extensions.php:1898
+#: inc/extensions.php:1929
+#: inc/extensions.php:1975
+#: inc/extensions.php:2005
+#: inc/extensions.php:2112
+#: inc/extensions.php:2141
+#: inc/extensions.php:2207
+#: inc/extensions.php:2443
+#: extensions/raptr/extension.inc.php:20
+msgid "Username:"
+msgstr "Nom d'usuari:"
+
+#: inc/extensions.php:98
+msgid "Password:"
+msgstr "Contrasenya:"
+
+#: inc/extensions.php:99
+msgid "Hide Replies"
+msgstr "Amagar respostes"
+
+#: inc/extensions.php:243
+msgid "Limit items to tag:"
+msgstr "Limitar els camps a l'etiqueta:"
+
+#: inc/extensions.php:291
+msgid "Only show loved tracks."
+msgstr "Mostrar només les pistes predilectes."
+
+#: inc/extensions.php:360
+#: inc/extensions.php:1213
+#: inc/extensions.php:1531
+#: inc/extensions.php:1803
+#: inc/extensions.php:2292
+#: inc/core.php:1925
+#: inc/core.php:2365
+msgid "Feed URL:"
+msgstr "URL del fil:"
+
+#: inc/extensions.php:361
+#: inc/extensions.php:613
+msgid "Website URL:"
+msgstr "URL del lloc web:"
+
+#: inc/extensions.php:409
+#: inc/extensions.php:614
+#: inc/extensions.php:941
+#: inc/extensions.php:1804
+#: inc/extensions.php:2037
+#: inc/extensions.php:2293
+#: inc/extensions.php:2363
+msgid "User ID:"
+msgstr "ID de l'usuari:"
+
+#: inc/extensions.php:503
+#: inc/extensions.php:1009
+msgid "Include favorites in this feed."
+msgstr "Incloure els predilectes en aquest fil."
+
+#: inc/extensions.php:781
+msgid "Include stations in this feed."
+msgstr "Incloure les emissores en aquest fil."
+
+#: inc/extensions.php:782
+msgid "Include bookmarked artists in this feed."
+msgstr "Incloure els artistes predilectes en aquest fil."
+
+#: inc/extensions.php:783
+msgid "Include bookmarked songs in this feed."
+msgstr "Incloure les cançons predilectes en aquest fil."
+
+#: inc/extensions.php:942
+msgid "Include videos posted in this feed."
+msgstr "Incloure els vídeos publicats en aquest fil."
+
+#: inc/extensions.php:943
+msgid "Include liked videos in this feed."
+msgstr "Inclou els vídeos predilectes en aquest fil."
+
+#: inc/extensions.php:1008
+msgid "Include reviews in this feed."
+msgstr "Inclou els anàlisi en aquest fil."
+
+#: inc/extensions.php:1552
+msgid "Show Comments."
+msgstr "Mostrar els comentaris."
+
+#: inc/extensions.php:1553
+msgid "Show Favorites."
+msgstr "Mostrar els predilectes."
+
+#: inc/extensions.php:1554
+msgid "Show Submissions."
+msgstr "Mostrar els enviaments:"
+
+#: inc/extensions.php:1698
+msgid "Steam ID:"
+msgstr "ID del fil:"
+
+#: inc/extensions.php:1729
+msgid "Xbox Live ID:"
+msgstr "Xbox Live ID:"
+
+#: inc/extensions.php:1805
+msgid "Show Purchases."
+msgstr "Mostrar les compres."
+
+#: inc/extensions.php:1806
+msgid "Show Reviews."
+msgstr "Mostrar els anàlisi."
+
+#: inc/extensions.php:2036
+#: inc/extensions.php:2362
+msgid "Profile URL:"
+msgstr "URL del perfil:"
+
+#: inc/extensions.php:2142
+msgid "Sites to filter out:"
+msgstr "Llocs a filtrar:"
+
+#: inc/extensions.php:2142
+msgid "Sites as named by BackType, usually the title of the RSS Feed, separate with comma's."
+msgstr "Els llocs segons els nomena BackType, habitualment el títol del fil RSS, separats per comes."
+
+#: inc/extensions.php:2294
+msgid "Include queued videos in this feed."
+msgstr "Inclou els vídeos en cua en aquest fil."
+
+#: inc/extensions.php:2295
+msgid "Include reviewed videos in this feed."
+msgstr "Inclou els vídeos analitzats en aquest fil."
+
+#: inc/extensions.php:2364
+msgid "API Key:"
+msgstr "Clau API:"
+
+#: inc/labels.php:41
+#, php-format
+msgid "Posted %2$s"
+msgstr "Publicat %2$s"
+
+#: inc/labels.php:46
+#, php-format
+msgid "Posted %s items."
+msgstr "%s entrades publicades."
+
+#: inc/labels.php:52
+#, php-format
+msgid "%1$s posted %3$s"
+msgstr "%1$s ha publicat %3$s"
+
+#: inc/labels.php:58
+#, php-format
+msgid "%s posted %s items."
+msgstr "%s ha publicat %s entrades."
+
+#: inc/labels.php:69
+#, php-format
+msgid "Published %2$s"
+msgstr "Ha publicat %2$s"
+
+#: inc/labels.php:74
+#, php-format
+msgid "Published %s posts."
+msgstr "Ha publicat %s entrades."
+
+#: inc/labels.php:80
+#, php-format
+msgid "%1$s published %3$s"
+msgstr "%1$s ha publicat %3$s"
+
+#: inc/labels.php:85
+#, php-format
+msgid "%s published %s."
+msgstr "%s ha publicat %s."
+
+#: inc/labels.php:96
+#: inc/labels.php:123
+#: inc/labels.php:248
+#: inc/labels.php:376
+#: inc/labels.php:702
+#: inc/labels.php:754
+#, php-format
+msgid "Shared %2$s"
+msgstr "Ha compartit %2$s"
+
+#: inc/labels.php:101
+#, php-format
+msgid "Shared %s photos."
+msgstr "Ha compartit %s fotografies."
+
+#: inc/labels.php:107
+#: inc/labels.php:134
+#: inc/labels.php:259
+#: inc/labels.php:387
+#: inc/labels.php:713
+#: inc/labels.php:765
+#, php-format
+msgid "%1$s shared %3$s"
+msgstr "%1$s ha compartit %3$s"
+
+#: inc/labels.php:112
+#, php-format
+msgid "%s shared %s photos."
+msgstr "%s ha compartit %s fotografies."
+
+#: inc/labels.php:128
+#, php-format
+msgid "Shared %s links."
+msgstr "Ha compartit %s enllaços."
+
+#: inc/labels.php:139
+#, php-format
+msgid "%s shared %s links."
+msgstr "%s ha compartit %s enllaços."
+
+#: inc/labels.php:155
+#, php-format
+msgid "Posted %s messages."
+msgstr "Ha publicat %s missatges."
+
+#: inc/labels.php:161
+#, php-format
+msgid "%s %s."
+msgstr "%s %s."
+
+#: inc/labels.php:166
+#, php-format
+msgid "%s posted %s messages."
+msgstr "%s ha publicat %s missatges."
+
+#: inc/labels.php:175
+#: inc/labels.php:324
+#: inc/labels.php:527
+#: inc/labels.php:853
+#, php-format
+msgid "Reviewed %2$s"
+msgstr "Ha analitzat %2$s"
+
+#: inc/labels.php:180
+#, php-format
+msgid "Reviewed %s items."
+msgstr "Ha analitzat %s articles."
+
+#: inc/labels.php:186
+#: inc/labels.php:335
+#: inc/labels.php:538
+#: inc/labels.php:864
+#, php-format
+msgid "%1$s reviewed %3$s"
+msgstr "%1$s ha analitzat %3$s"
+
+#: inc/labels.php:191
+#, php-format
+msgid "%s reviewed %s items."
+msgstr "%s ha analitzat %s articles."
+
+#: inc/labels.php:200
+#, php-format
+msgid "Purchased %2$s"
+msgstr "Ha comprat %2$s"
+
+#: inc/labels.php:205
+#, php-format
+msgid "Purchased %s items."
+msgstr "Ha comprat %s articles."
+
+#: inc/labels.php:211
+#, php-format
+msgid "%1$s purchased %3$s"
+msgstr "%1$s ha comprat %3$s"
+
+#: inc/labels.php:216
+#, php-format
+msgid "%s purchased %s items."
+msgstr "%s ha comprat %s articles."
+
+#: inc/labels.php:224
+msgid "Commited code."
+msgstr "Codi enviat."
+
+#: inc/labels.php:229
+#, php-format
+msgid "Made %s commits."
+msgstr "Ha fet %s enviaments."
+
+#: inc/labels.php:234
+#, php-format
+msgid "%s commited code."
+msgstr "%s codis enviats."
+
+#: inc/labels.php:239
+#, php-format
+msgid "%s made %s commits."
+msgstr "%s ha fet %s enviaments."
+
+#: inc/labels.php:253
+#, php-format
+msgid "Shared %s books."
+msgstr "Ha compartit %s llibres."
+
+#: inc/labels.php:264
+#, php-format
+msgid "%s shared %s books."
+msgstr "%s ha compartit %s llibres."
+
+#: inc/labels.php:275
+msgid "Posted a comment."
+msgstr "Ha escrit un comentari."
+
+#: inc/labels.php:280
+#, php-format
+msgid "Posted %s comments."
+msgstr "Ha escrit %s comentaris."
+
+#: inc/labels.php:285
+#, php-format
+msgid "%s posted a comment."
+msgstr "%s ha escrit un comentari."
+
+#: inc/labels.php:290
+#, php-format
+msgid "%s posted %s comments."
+msgstr "%s ha escrit %s comentaris."
+
+#: inc/labels.php:299
+#: inc/labels.php:402
+#: inc/labels.php:427
+#: inc/labels.php:452
+#: inc/labels.php:552
+#: inc/labels.php:729
+#, php-format
+msgid "Liked %2$s"
+msgstr "Li han agradat %2$s"
+
+#: inc/labels.php:304
+#, php-format
+msgid "Liked %s stories."
+msgstr "Li han agradat %s històries."
+
+#: inc/labels.php:310
+#: inc/labels.php:413
+#: inc/labels.php:438
+#: inc/labels.php:463
+#: inc/labels.php:563
+#: inc/labels.php:740
+#, php-format
+msgid "%1$s liked %3$s"
+msgstr "%1$s li han agradat %3$s"
+
+#: inc/labels.php:315
+#, php-format
+msgid "%s liked %s stories."
+msgstr "%s li han agradat %s històries."
+
+#: inc/labels.php:329
+#, php-format
+msgid "Reviewed %s businesses."
+msgstr "Ha analitzat %s negocis."
+
+#: inc/labels.php:340
+#, php-format
+msgid "%s reviewed %s businesses."
+msgstr "%s ha analitzat %s negocis."
+
+#: inc/labels.php:349
+#, php-format
+msgid "Listened to %2$s"
+msgstr "Ha escoltat %2$s"
+
+#: inc/labels.php:354
+#, php-format
+msgid "Listened to %s songs."
+msgstr "Ha escoltat %s cançons."
+
+#: inc/labels.php:360
+#, php-format
+msgid "%1$s listened to %3$s"
+msgstr "%1$s ha escoltat %3$s"
+
+#: inc/labels.php:365
+#, php-format
+msgid "%s listened to %s songs."
+msgstr "%s ha escoltat %s cançons."
+
+#: inc/labels.php:381
+#, php-format
+msgid "Shared %s videos."
+msgstr "Ha compartit %s vídeos."
+
+#: inc/labels.php:392
+#, php-format
+msgid "%s shared %s videos."
+msgstr "%s ha compartit %s vídeos."
+
+#: inc/labels.php:407
+#, php-format
+msgid "Liked %s videos."
+msgstr "Li han agradat %s vídeos."
+
+#: inc/labels.php:418
+#, php-format
+msgid "%s liked %s videos."
+msgstr "%s li han agradat %s vídeos."
+
+#: inc/labels.php:432
+#, php-format
+msgid "Liked %s songs."
+msgstr "Li han agradat %s cançons."
+
+#: inc/labels.php:443
+#, php-format
+msgid "%s liked %s songs."
+msgstr "%s li han agradat %s cançons."
+
+#: inc/labels.php:457
+#, php-format
+msgid "Liked %s artists."
+msgstr "Lo han agradat %s artistes."
+
+#: inc/labels.php:468
+#, php-format
+msgid "%s liked %s artists."
+msgstr "%s li han agradat %s artistes."
+
+#: inc/labels.php:477
+#, php-format
+msgid "Created %2$s"
+msgstr "Ha creat %2$s"
+
+#: inc/labels.php:482
+#, php-format
+msgid "Created %s stations."
+msgstr "Ha creat %s emissores."
+
+#: inc/labels.php:488
+#, php-format
+msgid "%1$s created %3$s"
+msgstr "%1$s ha creat %3$s"
+
+#: inc/labels.php:493
+#, php-format
+msgid "%s created %s stations."
+msgstr "%s ha creat %s emissores."
+
+#: inc/labels.php:502
+#, php-format
+msgid "Watched %2$s"
+msgstr "Ha vist %2$s"
+
+#: inc/labels.php:507
+#, php-format
+msgid "Watched %s videos."
+msgstr "Ha vist %s videos."
+
+#: inc/labels.php:513
+#, php-format
+msgid "%1$s watched %3$s"
+msgstr "%1$s ha vist %3$s"
+
+#: inc/labels.php:518
+#, php-format
+msgid "%s watched %s videos."
+msgstr "%s ha vist %s videos."
+
+#: inc/labels.php:532
+#, php-format
+msgid "Reviewed %s websites."
+msgstr "Ha analitzat %s llocs web."
+
+#: inc/labels.php:543
+#, php-format
+msgid "%s reviewed %s websites."
+msgstr "%s ha analitzat %s llocs web."
+
+#: inc/labels.php:557
+#, php-format
+msgid "Liked %s websites."
+msgstr "Li han agradat %s llocs web."
+
+#: inc/labels.php:568
+#, php-format
+msgid "%s liked %s websites."
+msgstr "%s li han agradat %s llocs web."
+
+#: inc/labels.php:577
+#, php-format
+msgid "Wants %2$s"
+msgstr "Vol %2$s"
+
+#: inc/labels.php:582
+#, php-format
+msgid "Wants %s items."
+msgstr "Vol %s articles."
+
+#: inc/labels.php:588
+#, php-format
+msgid "%1$s wants %3$s"
+msgstr "%1$s vol %3$s"
+
+#: inc/labels.php:593
+#, php-format
+msgid "%s wants %s items."
+msgstr "%s vol %s articles."
+
+#: inc/labels.php:602
+#, php-format
+msgid "Checked in at %2$s"
+msgstr "Ha entrat a %2$s"
+
+#: inc/labels.php:607
+#, php-format
+msgid "Checked in %s times."
+msgstr "Ha entrat %s vegades,"
+
+#: inc/labels.php:613
+#, php-format
+msgid "%1$s checked in at %3$s"
+msgstr "%1$s ha entrat a %3$s"
+
+#: inc/labels.php:618
+#, php-format
+msgid "%s checked in %s times."
+msgstr "%s ha entrat %s vegades."
+
+#: inc/labels.php:627
+#, php-format
+msgid "Received %2$s"
+msgstr "Rebut %2$s"
+
+#: inc/labels.php:632
+#, php-format
+msgid "Received %s badges."
+msgstr "Ha rebut %s xapes."
+
+#: inc/labels.php:638
+#, php-format
+msgid "%1$s received %3$s"
+msgstr "%1$s ha rebut %3$s"
+
+#: inc/labels.php:643
+#, php-format
+msgid "%s received %s badges."
+msgstr "%s ha rebut %s xapes."
+
+#: inc/labels.php:652
+#, php-format
+msgid "Ate %2$s."
+msgstr "Ha menjat %2$s."
+
+#: inc/labels.php:657
+#, php-format
+msgid "Ate %s meals."
+msgstr "Ha menjat %s cops."
+
+#: inc/labels.php:663
+#, php-format
+msgid "%1$s ate %3$s."
+msgstr "%1$s ha menjat %3$s."
+
+#: inc/labels.php:668
+#, php-format
+msgid "%s ate %s."
+msgstr "%s ha menjat %s."
+
+#: inc/labels.php:677
+#, php-format
+msgid "Watched %2$s."
+msgstr "Ha vist %2$s."
+
+#: inc/labels.php:682
+#, php-format
+msgid "Watched %s episodes."
+msgstr "Ha vist %s episodis."
+
+#: inc/labels.php:688
+#, php-format
+msgid "%1$s watched %3$s."
+msgstr "%1$s ha vist %3$s."
+
+#: inc/labels.php:693
+#, php-format
+msgid "%s watched %s episodes."
+msgstr "%s ha vist %s episodis."
+
+#: inc/labels.php:707
+#, php-format
+msgid "Shared %s stories."
+msgstr "Ha compartit %s històries."
+
+#: inc/labels.php:718
+#, php-format
+msgid "%s shared %s stories."
+msgstr "%s ha compartit %s històries."
+
+#: inc/labels.php:734
+#, php-format
+msgid "Liked %s movies."
+msgstr "Li han agradat %s pel·lícules."
+
+#: inc/labels.php:745
+#, php-format
+msgid "%s liked %s movies."
+msgstr "%s li han agradat %s pel·lícules."
+
+#: inc/labels.php:759
+#, php-format
+msgid "Shared %s presentations."
+msgstr "Ha compartit %s presentacions."
+
+#: inc/labels.php:770
+#, php-format
+msgid "%s shared %s presentations."
+msgstr "%s ha compartit %s presentacions."
+
+#: inc/labels.php:779
+#, php-format
+msgid "Unlocked %2$s"
+msgstr "Ha desbloquejat %2$s"
+
+#: inc/labels.php:784
+#, php-format
+msgid "Unlocked %s achievements."
+msgstr "Ha desbloquejat %s assoliments."
+
+#: inc/labels.php:790
+#, php-format
+msgid "%1$s unlocked %3$s"
+msgstr "%1$s ha desbloquejat %3$s"
+
+#: inc/labels.php:795
+#, php-format
+msgid "%s unlocked %s achievements."
+msgstr "%s ha desbloquejat %s assoliments."
+
+#: inc/labels.php:804
+#, php-format
+msgid "Played %2$s"
+msgstr "Ha jugat a %2$s"
+
+#: inc/labels.php:809
+#, php-format
+msgid "Played %s games."
+msgstr "Ha jugat %s jocs."
+
+#: inc/labels.php:815
+#, php-format
+msgid "%1$s played %3$s"
+msgstr "%1$s ha jugat %3$s"
+
+#: inc/labels.php:820
+#, php-format
+msgid "%s played %s games."
+msgstr "%s ha jugat a %s jocs."
+
+#: inc/labels.php:828
+#, php-format
+msgid "Queued %2$s"
+msgstr "Ha deixat en cua %2$s"
+
+#: inc/labels.php:833
+#, php-format
+msgid "Queued %s videos."
+msgstr "Ha deixat en cua %s vídeos."
+
+#: inc/labels.php:839
+#, php-format
+msgid "%1$s queued %3$s"
+msgstr "%1$s ha deixat en cua %3$s"
+
+#: inc/labels.php:844
+#, php-format
+msgid "%s queued %s videos."
+msgstr "%s ha deixat en cua %s vídeos."
+
+#: inc/labels.php:858
+#, php-format
+msgid "Reviewed %s videos."
+msgstr "Ha analitzat %s vídeos."
+
+#: inc/labels.php:869
+#, php-format
+msgid "%s reviewed %s videos."
+msgstr "%s ha analitzat %s vídeos."
+
+#: inc/labels.php:878
+#, php-format
+msgid "Attending %2$s"
+msgstr "Assistirà a %2$s"
+
+#: inc/labels.php:883
+#, php-format
+msgid "Attending %s events."
+msgstr "Assistirà a %s esdeveniments."
+
+#: inc/labels.php:889
+#, php-format
+msgid "%1$s is attending %3$s"
+msgstr "%1$s assistirà a %3$s"
+
+#: inc/labels.php:894
+#, php-format
+msgid "%s is attending %s events."
+msgstr "%s assistirà a %s esdeveniments."
+
+#: inc/labels.php:903
+#, php-format
+msgid "Contributed to %2$s"
+msgstr "Va contribuir a %2$s"
+
+#: inc/labels.php:908
+#, php-format
+msgid "Contributed to %s pages."
+msgstr "Ha contribuït amb %s planes."
+
+#: inc/labels.php:914
+#, php-format
+msgid "%1$s contributed to %3$s"
+msgstr "%1$s ha contribuït a %3$s"
+
+#: inc/labels.php:919
+#, php-format
+msgid "%s contributed to %s pages."
+msgstr "%s ha contribuït amb %s planes."
+
+#: inc/core.php:593
+msgid "On Lifestream update"
+msgstr "En l'actualització del Lifestream"
+
+#: inc/core.php:598
+msgid "On Lifestream daily digest update"
+msgstr "En l'actualització del resum diari del Lifestream"
+
+#: inc/core.php:682
+#: pages/feeds.inc.php:1
+msgid "Lifestream Feeds"
+msgstr "Fils del Lifestream"
+
+#: inc/core.php:682
+msgid "Feeds"
+msgstr "Fils"
+
+#: inc/core.php:683
+#: pages/events.inc.php:1
+msgid "Lifestream Events"
+msgstr "Esdeveniments del Lifestream"
+
+#: inc/core.php:683
+#: pages/feeds.inc.php:44
+msgid "Events"
+msgstr "Esdeveniments"
+
+#: inc/core.php:684
+msgid "Lifestream Settings"
+msgstr "Configuració del Lifestream"
+
+#: inc/core.php:684
+msgid "Settings"
+msgstr "Configuració"
+
+#: inc/core.php:685
+msgid "Lifestream Change Log"
+msgstr "Registre de canvis del Lifestream"
+
+#: inc/core.php:685
+msgid "Change Log"
+msgstr "Registre dels canvis"
+
+#: inc/core.php:686
+#: pages/errors.inc.php:1
+msgid "Lifestream Errors"
+msgstr "Errors del Lifestream"
+
+#: inc/core.php:686
+#, php-format
+msgid "Errors (%d)"
+msgstr "Errors (%d)"
+
+#: inc/core.php:687
+msgid "Lifestream Maintenance"
+msgstr "Manteniment del Liferstream"
+
+#: inc/core.php:687
+msgid "Maintenance"
+msgstr "Manteniment"
+
+#: inc/core.php:688
+#: pages/forums.inc.php:1
+msgid "Lifestream Support Forums"
+msgstr "Fòrums de suport del Lifestream"
+
+#: inc/core.php:688
+msgid "Support Forums"
+msgstr "Fòrums de suport"
+
+#: inc/core.php:720
+msgid "Cron timers have been reset."
+msgstr "Temporitzadors del Cron inicialitzats."
+
+#: inc/core.php:725
+msgid "Default options have been restored."
+msgstr "Recuperades les opcions per defecte."
+
+#: inc/core.php:739
+#: inc/core.php:814
+#: inc/core.php:843
+#: inc/core.php:861
+msgid "The selected feed was not found."
+msgstr "El fil seleccionat no existeix."
+
+#: inc/core.php:743
+#: inc/core.php:818
+#: inc/core.php:847
+#: inc/core.php:865
+msgid "You do not have permission to do that."
+msgstr "No teniu permis per a fer això."
+
+#: inc/core.php:778
+msgid "The selected events were hidden."
+msgstr "Amagats els esdeveniments seleccionats."
+
+#: inc/core.php:803
+#: inc/core.php:831
+#, php-format
+msgid "There was an error refreshing the selected feed: ID %s"
+msgstr "Error en refrescar el fil seleccionat: ID %s"
+
+#: inc/core.php:805
+msgid "All of your feeds have been refreshed."
+msgstr "Refrescats tots els vostres fils."
+
+#: inc/core.php:826
+msgid "The selected feeds and their events have been refreshed."
+msgstr "Refrescats els fils seleccionats i els seus esdeveniments."
+
+#: inc/core.php:853
+msgid "The selected feeds and all related events has been removed."
+msgstr "Esborrats els fils seleccionats i els seus esdeveniments."
+
+#: inc/core.php:977
+#, php-format
+msgid "A new %s feed was added to your Lifestream."
+msgstr "Afegit al Lifestream el nou fil %s."
+
+#: inc/core.php:1007
+msgid "There were errors with your request:"
+msgstr "Errors a la vostra petició:"
+
+#: inc/core.php:1049
+msgid "Weekly"
+msgstr "Setmanalment"
+
+#: inc/core.php:1050
+msgid "Daily"
+msgstr "Diàriament"
+
+#: inc/core.php:1051
+msgid "Hourly"
+msgstr "Cada hora"
+
+#: inc/core.php:1267
+msgid "w"
+msgstr "s"
+
+#: inc/core.php:1268
+msgid "d"
+msgstr "d"
+
+#: inc/core.php:1269
+msgid "h"
+msgstr "h"
+
+#: inc/core.php:1270
+msgid "m"
+msgstr "m"
+
+#: inc/core.php:1271
+msgid "s"
+msgstr "s"
+
+#: inc/core.php:1449
+msgid "Unknown SQL Error"
+msgstr "Error desconegut al SQL"
+
+#: inc/core.php:1990
+msgid "Feed has not yet been saved."
+msgstr "El fil encara no s'ha desat."
+
+#: inc/core.php:2004
+msgid "Feed result was empty."
+msgstr "El resultat del fil és buid."
+
+#: pages/settings.inc.php:8
+msgid "Lifestream Configuration"
+msgstr "Configuració del Lifestream"
+
+#: pages/settings.inc.php:9
+#, php-format
+msgid "The following settings that will affect feeds globally. If you wish to modify per-feed settings, you may do so via the <a href=\"%s\">Feed Management page</a>."
+msgstr "La següent configuració pot afectar tots els fils.  Si voleu modificar-los un per un, heu de fer-ho a la <a href=\"%s\">plana de configuració dels fils</a>."
+
+#: pages/settings.inc.php:12
+msgid "General"
+msgstr "General"
+
+#: pages/settings.inc.php:21
+msgid "Day Format:"
+msgstr "Format del dia:"
+
+#: pages/settings.inc.php:24
+#: pages/settings.inc.php:31
+msgid "For more information, please see PHP's <a href=\"http://www.php.net/date/\">date()</a> method."
+msgstr "Per a més informació, si us plau visitau la <a href=\"http://www.php.net/date/\">plana de la funció date()</a> del PHP."
+
+#: pages/settings.inc.php:28
+msgid "Hour Format:"
+msgstr "Format de l'hora:"
+
+#: pages/settings.inc.php:35
+msgid "Update Interval:"
+msgstr "Interval d'actualització:"
+
+#: pages/settings.inc.php:37
+#: pages/settings.inc.php:44
+#: pages/settings.inc.php:51
+#: pages/settings.inc.php:58
+#: pages/settings.inc.php:204
+#, php-format
+msgid "(Default: %s)"
+msgstr "(Per defecte: %s)"
+
+#: pages/settings.inc.php:38
+msgid "The number of minutes between updates to your feeds. Value is in minutes."
+msgstr "Minuts entre actualitzacions dels fils. El valor és en minuts."
+
+#: pages/settings.inc.php:42
+#: pages/settings.inc.php:202
+msgid "Number of Items:"
+msgstr "Nombre d'articles:"
+
+#: pages/settings.inc.php:45
+msgid "The number of items to display in the default lifestream call."
+msgstr "Nombre d'articles a mostrar en una crida per defecte del Lifestream."
+
+#: pages/settings.inc.php:49
+msgid "Date Cutoff:"
+msgstr "Data màxima:"
+
+#: pages/settings.inc.php:52
+msgid "The cutoff time for the default lifestream feed call. Available unit names are: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, and <code>microsecond</code>"
+msgstr "L'hora màxima per la crida als fils per defecte del Lifestream.  Les unitats poden ser <code>year</code>, <code>quarter</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>second</code>, i <code>microsecond</code>"
+
+#: pages/settings.inc.php:56
+msgid "Description Cutoff:"
+msgstr "Tall de la descripció:"
+
+#: pages/settings.inc.php:59
+msgid "Some extensions will show a preview of the text (such as blogs and comments). Set this to the length, in characters, for the cutoff, or -1 to disable truncating posts."
+msgstr "Algunes extensions poden mostrar una vista prèvia del text (com ara dels blogs i comentaris).  Ajusteu-la a la longitud, en caràcters, pel tall.  O -1 per a desactivar el tall."
+
+#: pages/settings.inc.php:63
+msgid "Show Owners:"
+msgstr "Mostrar els propietaris:"
+
+#: pages/settings.inc.php:64
+msgid "Show the owner of the feed in the display."
+msgstr "Mostrar el propietari del fil."
+
+#: pages/settings.inc.php:65
+#, php-format
+msgid "e.g. %s posted a new photo on %s"
+msgstr "per exemple, %s ha publicat una foto a %s"
+
+#: pages/settings.inc.php:69
+msgid "Enable iBox:"
+msgstr "Activar l'iBox:"
+
+#: pages/settings.inc.php:70
+msgid "Enable iBox on plugins that support it."
+msgstr "Activar l'iBox als plugins que la suportin."
+
+#: pages/settings.inc.php:71
+#, php-format
+msgid "Requires the %s plugin."
+msgstr "Necessita el plugin %s."
+
+#: pages/settings.inc.php:75
+msgid "Hide Grouped Details:"
+msgstr "Amaga els detalls agrupats:"
+
+#: pages/settings.inc.php:76
+msgid "Hide details of grouped events by default."
+msgstr "Per defecte amaga els detalls dels esdeveniments agrupats."
+
+#: pages/settings.inc.php:82
+#: pages/settings.inc.php:128
+#: pages/settings.inc.php:185
+#: pages/settings.inc.php:211
+#: pages/settings.inc.php:307
+msgid "Save Changes"
+msgstr "Desar els canvis"
+
+#: pages/settings.inc.php:88
+msgid "Advanced"
+msgstr "Avançat"
+
+#: pages/settings.inc.php:97
+msgid "Theme Directory:"
+msgstr "Directori pels temes:"
+
+#: pages/settings.inc.php:100
+msgid "An additional directory where you may place themes."
+msgstr "Directori addicional on desar-hi temes."
+
+#: pages/settings.inc.php:104
+msgid "Extension Directory:"
+msgstr "Directori per les extensions:"
+
+#: pages/settings.inc.php:107
+msgid "An additional directory where you may place extensions."
+msgstr "Directori addicional on desar-hi extensions."
+
+#: pages/settings.inc.php:111
+msgid "Icon Directory:"
+msgstr "Directori d'icones:"
+
+#: pages/settings.inc.php:114
+msgid "An additional directory where you may place icon packs."
+msgstr "Un directori addicional on podeu desar-hi els paquets d'icones."
+
+#: pages/settings.inc.php:118
+msgid "URL Handler:"
+msgstr "Gestor d'URLs:"
+
+#: pages/settings.inc.php:120
+msgid "(Automatic)"
+msgstr "(Automàtic)"
+
+#: pages/settings.inc.php:121
+msgid "Curl"
+msgstr "Curl"
+
+#: pages/settings.inc.php:122
+msgid "fopen"
+msgstr "fopen"
+
+#: pages/settings.inc.php:134
+msgid "Appearance"
+msgstr "Aparença"
+
+#: pages/settings.inc.php:143
+msgid "Theme:"
+msgstr "Tema:"
+
+#: pages/settings.inc.php:150
+msgid "Please see the included themes/README for information on creating your own theme."
+msgstr "Si us plau, llegiu el themes/README per informar-vos de com crear un tema propi."
+
+#: pages/settings.inc.php:154
+msgid "Icons:"
+msgstr "Icones:"
+
+#: pages/settings.inc.php:173
+msgid "Please see the included icons/README for information on creating your own icon set."
+msgstr "Si us plau, llegiu el icons/README per informar-vos de com crear les vostres icones pròpies."
+
+#: pages/settings.inc.php:177
+msgid "Show Credits:"
+msgstr "Mostrar els crèdits:"
+
+#: pages/settings.inc.php:178
+msgid "Give credit to Lifestream when it's embedded."
+msgstr "Deixar el crèdit pel Lifestream quan està incrustat."
+
+#: pages/settings.inc.php:179
+msgid "e.g."
+msgstr "p.e."
+
+#: pages/settings.inc.php:191
+#: pages/events.inc.php:31
+#: pages/errors.inc.php:25
+msgid "Feed"
+msgstr "Fil"
+
+#: pages/settings.inc.php:194
+#, php-format
+msgid "You can access your feed URL at <a href=\"%s\">%s</a>."
+msgstr "Podeu accedir a l'URL del fil a <a href=\"%s\">%s</a>."
+
+#: pages/settings.inc.php:205
+msgid "The number of items to display in the default lifestream feed call."
+msgstr "El nombre d'articles a mostrar en la crida dels fils que el Lifestream fa per defecte."
+
+#: pages/settings.inc.php:217
+msgid "Digest"
+msgstr "Resum"
+
+#: pages/settings.inc.php:219
+msgid "Lifestream gives you the ability to create a new blog post at regular intervals, containing all of the events which happened in that time period."
+msgstr "El Lifestream us permet crear nous apunts de blog a intervals regulars, contenint tots els esdeveniments d'un període determinat."
+
+#: pages/settings.inc.php:227
+msgid "Show Digest:"
+msgstr "Mostrar el resum:"
+
+#: pages/settings.inc.php:228
+msgid "Post a summary of my lifestream."
+msgstr "Publicar un sumari del vostre Lifestream."
+
+#: pages/settings.inc.php:232
+msgid "Post Interval:"
+msgstr "Interval de publicació:"
+
+#: pages/settings.inc.php:255
+msgid "This determines the approximate time when your digest should be posted."
+msgstr "Determina el moment aproximat per publicar el resum."
+
+#: pages/settings.inc.php:259
+msgid "Summary Post Title:"
+msgstr "Títol per l'apunt de sumari:"
+
+#: pages/settings.inc.php:262
+#, php-format
+msgid "You may use <code>%%1$s</code> for the current date, and <code>%%2$s</code> for the current time."
+msgstr "Podeu usar <code>%%1$s</code> per la data actual i <code>%%2$s</code> per l'hora."
+
+#: pages/settings.inc.php:266
+msgid "Summary Post Body:"
+msgstr "Cos de l'apunt de sumari:"
+
+#: pages/settings.inc.php:269
+#, php-format
+msgid "You may use <code>%%1$s</code> for the list of events, <code>%%2$s</code> for the day, and <code>%%3$d</code> for the number of events."
+msgstr "Podeu usar <code>%%1$s</code> per la llista d'esdeveniments, <code>%%2$s</code> pel dia i <code>%%3$d</code> pel nombre d'esdeveniments."
+
+#: pages/settings.inc.php:273
+msgid "Summary Author:"
+msgstr "Autor del sumari:"
+
+#: pages/settings.inc.php:291
+msgid "Summary Category:"
+msgstr "Categoria del sumari:"
+
+#: pages/events.inc.php:20
+#: pages/events.inc.php:57
+#: pages/feeds.inc.php:22
+#: pages/feeds.inc.php:75
+msgid "Delete"
+msgstr "Esborrar"
+
+#: pages/events.inc.php:30
+#: pages/feeds.inc.php:41
+#: pages/edit-feed.inc.php:133
+msgid "ID"
+msgstr "ID"
+
+#: pages/events.inc.php:32
+#: pages/edit-feed.inc.php:134
+msgid "Event"
+msgstr "Esdeveniment"
+
+#: pages/events.inc.php:33
+#: pages/errors.inc.php:27
+#: pages/edit-feed.inc.php:135
+msgid "Date"
+msgstr "Data"
+
+#: pages/events.inc.php:34
+#: pages/feeds.inc.php:45
+msgid "Owner"
+msgstr "Propietari"
+
+#: pages/events.inc.php:63
+#: pages/edit-feed.inc.php:151
+msgid "There are no events to show."
+msgstr "No hi ha esdeveniments que mostrar."
+
+#: pages/feeds.inc.php:1
+msgid "Refresh All Feeds"
+msgstr "Refrescar tots els fils"
+
+#: pages/feeds.inc.php:21
+#: pages/feeds.inc.php:74
+msgid "Refresh"
+msgstr "Refrescar"
+
+#: pages/feeds.inc.php:42
+msgid "Description"
+msgstr "Descripció"
+
+#: pages/feeds.inc.php:43
+msgid "Last Update"
+msgstr "Darrera actualització"
+
+#: pages/feeds.inc.php:81
+msgid "You do not currently have ownership of any feeds."
+msgstr "No sou el propietari de cap fil."
+
+#: pages/feeds.inc.php:85
+#: pages/add-feed.inc.php:5
+msgid "Add a Feed"
+msgstr "Afegir un fil"
+
+#: pages/feeds.inc.php:86
+msgid "Add a new feed by first selecting the type of feed:"
+msgstr "Afegir fils nous escollint primer el tipus de fil:"
+
+#: pages/add-feed.inc.php:5
+#: pages/edit-feed.inc.php:5
+#, php-format
+msgid "(<a href=\"%s\">Back to Lifestream Feeds</a>)"
+msgstr "(<a href=\"%s\">Enrere cap als fils del Lifestream</a>)"
+
+#: pages/add-feed.inc.php:8
+#: pages/edit-feed.inc.php:9
+#, php-format
+msgid "%s Feed Settings"
+msgstr "%s Configuració del fil"
+
+#: pages/add-feed.inc.php:50
+#: pages/edit-feed.inc.php:49
+msgid "Feed Label:"
+msgstr "Etiqueta del fil:"
+
+#: pages/add-feed.inc.php:50
+#: pages/add-feed.inc.php:63
+#: pages/edit-feed.inc.php:49
+#: pages/edit-feed.inc.php:62
+msgid "Optional"
+msgstr "Opcional"
+
+#: pages/add-feed.inc.php:54
+#: pages/edit-feed.inc.php:53
+msgid "A label to use for this feed instead of the default."
+msgstr "Una etiqueta per aquest fil en comptes de la que duu per defecte."
+
+#: pages/add-feed.inc.php:60
+#: pages/edit-feed.inc.php:59
+msgid "Use websites default favicon."
+msgstr "Usar el favicon per defecte del lloc."
+
+#: pages/add-feed.inc.php:63
+#: pages/edit-feed.inc.php:62
+msgid "Icon URL:"
+msgstr "URL de l'icona:"
+
+#: pages/add-feed.inc.php:67
+#: pages/edit-feed.inc.php:66
+msgid "An icon to use for this feed instead of the default."
+msgstr "Una icona per aquest fil en comptes d'emprar la que duu per defecte."
+
+#: pages/add-feed.inc.php:81
+#: pages/edit-feed.inc.php:80
+msgid "Group events from the same day together."
+msgstr "Agrupar els esdeveniments del mateix dia."
+
+#: pages/add-feed.inc.php:88
+#: pages/edit-feed.inc.php:88
+msgid "Excerpts"
+msgstr "Extractes"
+
+#: pages/add-feed.inc.php:91
+#: pages/edit-feed.inc.php:91
+msgid "Do not show any excerpts."
+msgstr "No mostrar cap extracte."
+
+#: pages/add-feed.inc.php:92
+#: pages/edit-feed.inc.php:92
+msgid "Show partial excerpt for events."
+msgstr "Mostrar extractes parcials pels esdeveniments."
+
+#: pages/add-feed.inc.php:93
+#: pages/edit-feed.inc.php:93
+msgid "Show full description for events."
+msgstr "Mostrar tota la descripció dels esdeveniments."
+
+#: pages/add-feed.inc.php:95
+#: pages/edit-feed.inc.php:95
+msgid "This feed can show a more detailed description of the event."
+msgstr "Aquest fil pot mostrar informació més detallada de l'esdeveniment."
+
+#: pages/add-feed.inc.php:99
+#: pages/edit-feed.inc.php:99
+msgid "Owner:"
+msgstr "Propietari:"
+
+#: pages/add-feed.inc.php:120
+#: pages/edit-feed.inc.php:120
+#, php-format
+msgid "Find more information about %s by visiting <a href=\"%s\">%s</a>."
+msgstr "Trobareu més informació sobre %s visitant <a href=\"%s\">%s</a>."
+
+#: pages/add-feed.inc.php:123
+msgid "Add Feed"
+msgstr "Afegir un fil"
+
+#: pages/errors.inc.php:1
+msgid "Clear Log"
+msgstr "Netejar el registre"
+
+#: pages/errors.inc.php:26
+msgid "Message"
+msgstr "Missatge"
+
+#: pages/errors.inc.php:79
+msgid "There are no errors to show."
+msgstr "No hi ha errors que mostrar."
+
+#: pages/forums.inc.php:1
+msgid "Open in a new window"
+msgstr "Obrir a una finestra nova"
+
+#: pages/forums.inc.php:3
+msgid "You may direct questions, feedback, and problems to us by posting in the forums below."
+msgstr "Podeu fer preguntes i enviar comentaris, problemes, escrivint als fòrums esmentats devall."
+
+#: pages/edit-feed.inc.php:5
+msgid "Edit Feed"
+msgstr "Editar el fil"
+
+#: pages/edit-feed.inc.php:81
+msgid "This will not affect any event's already listed."
+msgstr "No afectarà als demés esdeveniments relacionats."
+
+#: pages/edit-feed.inc.php:123
+msgid "Save Feed"
+msgstr "Desar el fil"
+
+#: pages/edit-feed.inc.php:127
+msgid "Recent Events"
+msgstr "Esdeveniments recents"
+
+#: pages/maintenance.inc.php:5
+msgid "Restore Defaults"
+msgstr "Tornar als valors per defecte"
+
+#: pages/maintenance.inc.php:6
+msgid "If you are having issues with your installation you can easily restore the default settings for Lifestream."
+msgstr "Si teniu problemes amb la vostra instal·lació, és fàcil recuperar la configuració per defecte del Lifestream."
+
+#: pages/maintenance.inc.php:8
+msgid "Restore default settings"
+msgstr "Tornar a la configuració per defecte"
+
+#: pages/maintenance.inc.php:13
+msgid "Cron Tasks"
+msgstr "Tasques del Cron"
+
+#: pages/maintenance.inc.php:14
+msgid "Cron tasks are regularly scheduled events, and are used to update lifestream and make automated posts."
+msgstr "Les tasques del Cron són esdeveniments programats. Serveixen per actualitzar el Lifestream i fer apunts automàtics."
+
+#: pages/maintenance.inc.php:45
+msgid "Reset cron timers"
+msgstr "Inicialitzar la programació del Cron"
+
+#: pages/changelog.inc.php:3
+#, php-format
+msgid "You are using <strong>wp-lifestream %s</strong>."
+msgstr "Esteu usant <strong>wp-lifestream %s</strong>."
+
+#: pages/changelog.inc.php:5
+msgid "This is the current change log, pulled directly from the latest version. It allows you to see past, and future changes."
+msgstr "Aquest és el registre de modificacions, recollida directament de la darrera versió. Podeu veure-hi els canvis futurs i passats."
+
+#: themes/default/main.inc.php:19
+msgid "Today"
+msgstr "Avui"
+
+#: themes/default/main.inc.php:20
+msgid "Yesterday"
+msgstr "Ahir"
+
+#: themes/default/main.inc.php:61
+#: themes/default/sidebar.inc.php:29
+#: themes/boxy/main.inc.php:32
+msgid "There are no events to show at this time."
+msgstr "No hi ha esdeveniments que mostrar en aquest moment."
+
