@@ -1,7 +1,7 @@
 === Lifestream ===
 Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom
 Requires at least: 2.5
-Tested up to: 2.8.0
+Tested up to: 2.8.4
 Stable tag: 0.99.8.6
 
 Streams your activity from over 50 different sources to your blog.
@@ -177,6 +177,7 @@ Currently the plugin is localized in the default language of English, as well as
 * Spanish
 * Swedish
 * Belorussian
+* Catalan
 
 == Credits ==
 
