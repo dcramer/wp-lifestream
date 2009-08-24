@@ -272,15 +272,23 @@ class Lifestream
 		return $data;
 	}
 
+	function get_icon_paths()
+	{
+		$directories = array(
+			LIFESTREAM_PATH . '/icons/'
+		);
+		if ($this->get_option('icon_dir') && $this->get_option('icon_dir') != $directories[0]) {
+			$directories[] = $this->get_option('icon_dir');
+		}
+		return $directories;
+	}
+
 	/**
 	 * Find each icons/name/generic.png file.
 	 */
 	function detect_icons()
 	{
-		$directories = array(
-			LIFESTREAM_PATH . '/icons/',
-			$this->get_option('icon_dir')
-		);
+		$directories = $this->get_icon_paths();
 		foreach ($directories as $base_dir)
 		{
 			if (!is_dir($base_dir)) continue;
@@ -302,6 +310,17 @@ class Lifestream
 		}
 	}
 	
+	function get_extension_paths()
+	{
+		$directories = array(
+			LIFESTREAM_PATH . '/extensions/'
+		);
+		if ($this->get_option('extension_dir') && $this->get_option('extension_dir') != $directories[0]) {
+			$directories[] = $this->get_option('extension_dir');
+		}
+		return $directories;
+	}
+	
 	/**
 	 * Find each extension/name/extension.inc.php file.
 	 */
@@ -309,10 +328,7 @@ class Lifestream
 	{
 		$lifestream =& $this;
 
-		$directories = array(
-			LIFESTREAM_PATH . '/extensions/',
-			$this->get_option('extension_dir')
-		);
+		$directories = $this->get_extension_paths();
 		foreach ($directories as $base_dir)
 		{
 			if (!is_dir($base_dir)) continue;
@@ -336,9 +352,11 @@ class Lifestream
 	function get_theme_paths()
 	{
 		$directories = array(
-			LIFESTREAM_PATH . '/themes/',
-			$this->get_option('theme_dir')
+			LIFESTREAM_PATH . '/themes/'
 		);
+		if ($this->get_option('theme_dir') && $this->get_option('theme_dir') != $directories[0]) {
+			$directories[] = $this->get_option('theme_dir');
+		}
 		return $directories;
 	}
 	
@@ -499,8 +517,8 @@ class Lifestream
 	{
 		if (!$this->_optioncache)
 		{
-			$this->_optioncache = get_option('lifestream_options');
-			if (!$this->_optioncache) $this->_optioncache = $this->_options;
+			$this->_optioncache = (array)get_option('lifestream_options');
+			if (!$this->_optioncache) $this->_optioncache = (array)$this->_options;
 		}
 	}
 	
@@ -542,10 +560,10 @@ class Lifestream
 	function add_option($option, $value)
 	{
 		$this->_populate_option_cache();
-		if (!array_key_exists($option, $this->_optioncache))
+		if (!array_key_exists($option, $this->_optioncache) || empty($this->_optioncache[$option]))
 		{
 			$this->_optioncache[$option] = $value;
-			add_option('lifestream_options', serialize($this->_optioncache));
+			update_option('lifestream_options', serialize($this->_optioncache));
 		}
 	}
 	
@@ -722,7 +740,7 @@ class Lifestream
 			add_submenu_page($basename, $this->__('Lifestream Settings'), $this->__('Settings'), 'manage_options', 'lifestream-settings.php', array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Change Log'), $this->__('Change Log'), 'edit_posts', 'lifestream-changelog.php', array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Errors'), $this->__('Errors (%d)', $errors), 'edit_posts', 'lifestream-errors.php', array(&$this, 'options_page'));
-			add_submenu_page($basename, $this->__('Lifestream Maintenance'), $this->__('Maintenance', $errors), 'manage_options', 'lifestream-maintenance.php', array(&$this, 'options_page'));
+			add_submenu_page($basename, $this->__('Lifestream Maintenance'), $this->__('Maintenance / Debug', $errors), 'manage_options', 'lifestream-maintenance.php', array(&$this, 'options_page'));
 			add_submenu_page($basename, $this->__('Lifestream Support Forums'), $this->__('Support Forums'), 'edit_posts', 'lifestream-forums.php', array(&$this, 'options_page'));
 		}
 	}
@@ -761,6 +779,11 @@ class Lifestream
 				{
 					$this->restore_options();
 					$message = $this->__('Default options have been restored.');
+				}
+				elseif ($_POST['restoredb'])
+				{
+					$this->restore_database();
+					$message = $this->__('Default database has been restored.');
 				}
 			break;
 			case 'lifestream-events.php':
@@ -1345,6 +1368,18 @@ class Lifestream
 		{
 			$this->update_option($key, $value);
 		}
+		$this->update_option('extension_dir', WP_CONTENT_DIR.'/wp-lifestream/extensions/');
+		$this->update_option('theme_dir', WP_CONTENT_DIR.'/wp-lifestream/themes/');
+		$this->update_option('icon_dir', WP_CONTENT_DIR.'/wp-lifestream/icons/');
+	}
+	
+	function restore_database()
+	{
+		$this->safe_query("DROP TABLE `".$wpdb->prefix."lifestream_event`;");
+		$this->safe_query("DROP TABLE `".$wpdb->prefix."lifestream_event_group`;");
+		$this->safe_query("DROP TABLE `".$wpdb->prefix."lifestream_feeds`;");
+		$this->safe_query("DROP TABLE `".$wpdb->prefix."lifestream_error_log`;");
+		$this->install_database();
 	}
 
 	function reschedule_cron()
@@ -1452,8 +1487,6 @@ class Lifestream
 			}
 		}
 		
-		if (version_compare($version, LIFESTREAM_VERSION, '=')) return;
-
 		// default options and their values
 		foreach ($this->_options as $key=>$value)
 		{
@@ -1464,8 +1497,9 @@ class Lifestream
 		$this->add_option('theme_dir', WP_CONTENT_DIR.'/wp-lifestream/themes/');
 		$this->add_option('icon_dir', WP_CONTENT_DIR.'/wp-lifestream/icons/');
 		
-		$this->update_option('_version', LIFESTREAM_VERSION);
+		if (version_compare($version, LIFESTREAM_VERSION, '=')) return;
 
+		$this->update_option('_version', LIFESTREAM_VERSION);
 	}
 
 	/**

@@ -96,21 +96,21 @@ $authors = get_users_of_blog();
 						<tr>
 							<th><label for="id_theme_dir"><?php $lifestream->_e('Theme Directory:'); ?></label></th>
 							<td>
-								<input type="text" class="text" name="lifestream_theme_dir" id="id_theme_dir" value="<?php echo htmlspecialchars($lifestream->get_option('theme_dir')); ?>"/>
+								<input type="text" class="text" size="70" name="lifestream_theme_dir" id="id_theme_dir" value="<?php echo htmlspecialchars($lifestream->get_option('theme_dir')); ?>"/>
 								<div class="helptext"><?php $lifestream->_e('An additional directory where you may place themes.'); ?></div>
 							</td>
 						</tr>
 						<tr>
 							<th><label for="id_extension_dir"><?php $lifestream->_e('Extension Directory:'); ?></label></th>
 							<td>
-								<input type="text" class="text" name="lifestream_extension_dir" id="id_extension_dir" value="<?php echo htmlspecialchars($lifestream->get_option('extension_dir')); ?>"/>
+								<input type="text" class="text" size="70" name="lifestream_extension_dir" id="id_extension_dir" value="<?php echo htmlspecialchars($lifestream->get_option('extension_dir')); ?>"/>
 								<div class="helptext"><?php $lifestream->_e('An additional directory where you may place extensions.'); ?></div>
 							</td>
 						</tr>
 						<tr>
 							<th><label for="id_icon_dir"><?php $lifestream->_e('Icon Directory:'); ?></label></th>
 							<td>
-								<input type="text" class="text" name="lifestream_icon_dir" id="id_icon_dir" value="<?php echo htmlspecialchars($lifestream->get_option('icon_dir')); ?>"/>
+								<input type="text" class="text" size="70" name="lifestream_icon_dir" id="id_icon_dir" value="<?php echo htmlspecialchars($lifestream->get_option('icon_dir')); ?>"/>
 								<div class="helptext"><?php $lifestream->_e('An additional directory where you may place icon packs.'); ?></div>
 							</td>
 						</tr>

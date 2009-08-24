@@ -1,3 +1,9 @@
+0.99.8.8
+
+* Added reset database function.
+* Fixed some issues with options and their defaults.
+* Added Extension directories to maintenance page.
+
 0.99.8.7
 
 * Updated compatibility.
