@@ -1375,6 +1375,8 @@ class Lifestream
 	
 	function restore_database()
 	{
+		global $wpdb;
+		
 		$this->safe_query("DROP TABLE `".$wpdb->prefix."lifestream_event`;");
 		$this->safe_query("DROP TABLE `".$wpdb->prefix."lifestream_event_group`;");
 		$this->safe_query("DROP TABLE `".$wpdb->prefix."lifestream_feeds`;");
