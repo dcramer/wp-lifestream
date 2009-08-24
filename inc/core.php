@@ -333,15 +333,21 @@ class Lifestream
 		}
 	}
 	
-	/**
-	 * Find each themes/name/theme.txt file.
-	 */
-	function detect_themes()
+	function get_theme_paths()
 	{
 		$directories = array(
 			LIFESTREAM_PATH . '/themes/',
 			$this->get_option('theme_dir')
 		);
+		return $directories;
+	}
+	
+	/**
+	 * Find each themes/name/theme.txt file.
+	 */
+	function detect_themes()
+	{
+		$directories = $this->get_theme_paths();
 		foreach ($directories as $base_dir)
 		{
 			if (!is_dir($base_dir)) continue;
