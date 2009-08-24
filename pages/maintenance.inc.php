@@ -1,12 +1,21 @@
+<style type="text/css">
+dl {
+	position: relative;
+}
+dt { font-weight: bold; width: 100px; position: absolute; left: 0; }
+dd { padding-left: 100px; }
+</style>
 <h2><?php $lifestream->_e('Lifestream Maintenance'); ?></h2>
 
 <form method="post" action="">
 	<fieldset>
 		<h3><?php $lifestream->_e('Restore Defaults'); ?></h3>
 		<p><?php $lifestream->_e('If you are having issues with your installation you can easily restore the default settings for Lifestream.'); ?></p>
+		<p><?php $lifestream->_e('If resetting to the defaults does not fix your problems, you may also completely reinstall the plugin\'s database. This will completely clear all of your feeds and events.'); ?></p>
 		<p class="submit">
-			<input type="submit" class="button-primary" name="restore" value="<?php $lifestream->_e('Restore default settings');?>"/>
+			<input type="submit" class="button-primary" name="restore" onclick="return confirm('Are you sure you wish to restore the settings?');" value="<?php $lifestream->_e('Restore default settings');?>"/> <input type="submit" class="button-secondary" name="restoredb" onclick="return confirm('Are you sure you wish to restore the database?');" value="<?php $lifestream->_e('Restore default database');?>"/>
 		</p>
+		
 	</fieldset>
 	
 	<fieldset>
@@ -45,4 +54,30 @@
 			<input type="submit" class="button-primary" name="resetcron" value="<?php $lifestream->_e('Reset cron timers');?>"/>
 		</p>
 	</fieldset>
+	
+	<fieldset>
+		<h3><?php $lifestream->_e('Extension Directories'); ?></h3>
+		<p><?php $lifestream->_e('Lifestream will search in several locations for themes, extensions, and icon packs. Below are the default, and custom directories which you have set.'); ?></p>
+		<dl>
+			<dt>Themes:</dt>
+			<dd><ol>
+				<?php foreach ($lifestream->get_theme_paths() as $dir) { ?>
+					<li><?php echo htmlspecialchars($dir); ?></li>
+				<?php } ?>
+			</ol></dd>
+			<dt>Extensions:</dt>
+			<dd><ol>
+				<?php foreach ($lifestream->get_extension_paths() as $dir) { ?>
+					<li><?php echo htmlspecialchars($dir); ?></li>
+				<?php } ?>
+			</ol></dd>
+			<dt>Icon Packs:</dt>
+			<dd><ol>
+				<?php foreach ($lifestream->get_icon_paths() as $dir) { ?>
+					<li><?php echo htmlspecialchars($dir); ?></li>
+				<?php } ?>
+			</ol></dd>
+		</dl>
+	</fieldset>
+	<br/>
 </form>
