@@ -3,6 +3,7 @@
 * Added reset database function.
 * Fixed some issues with options and their defaults.
 * Added Extension directories to maintenance page.
+* Fixed feed URL for when permalinks are enabled.
 
 0.99.8.7
 
