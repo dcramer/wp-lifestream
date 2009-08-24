@@ -1531,7 +1531,7 @@ class Lifestream
 	/**
 	 * Initializes the database if it's not already present.
 	 */
-	function install_database($version)
+	function install_database($version=0)
 	{
 		global $wpdb, $userdata;
 
