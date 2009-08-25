@@ -35,7 +35,7 @@ dd { padding-left: 100px; }
 				{
 					foreach ($cron_data as $name=>$data)
 					{
-						if (str_startswith($name, 'lifestream'))
+						if (lifestream_str_startswith($name, 'lifestream'))
 						{
 							$data = array_values($data);
 							?>

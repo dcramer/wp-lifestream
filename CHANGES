@@ -1,3 +1,7 @@
+0.99.8.9
+
+* All functions are now namespaced.
+
 0.99.8.8
 
 * Added reset database function.

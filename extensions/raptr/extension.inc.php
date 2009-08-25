@@ -37,11 +37,11 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 		
 		$string = '<a href="'.$this->get_public_url().'">'.$this->options['username'].'</a> ';
 		$description = $this->lifestream->html_entity_decode($row->get_description());
-		if (str_startswith(strtolower($description), strtolower($string)))
+		if (lifestream_str_startswith(strtolower($description), strtolower($string)))
 		{
 			$description = substr($description, strlen($string));
 		}
-		if (str_startswith(strtolower($description), 'unlocked'))
+		if (lifestream_str_startswith(strtolower($description), 'unlocked'))
 		{
 			preg_match_all($this->achievement_regexp, str_replace('</li>', "</li>\n", $description), $matches, PREG_SET_ORDER);
 			foreach ($matches as $match)

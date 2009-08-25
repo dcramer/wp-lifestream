@@ -7,47 +7,32 @@ if (!class_exists('SimplePie'))
 
 global $wpdb, $userdata, $lifestream;
 
-if (!function_exists('array_key_pop'))
+function lifestream_array_key_pop($array, $key)
 {
-	function array_key_pop($array, $key)
-	{
-		$value = $array[$key];
-		unset($array[$key]);
-		return $value;
-	}
+	$value = $array[$key];
+	unset($array[$key]);
+	return $value;
 }
-if (!function_exists('code2utf'))
+// Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
+function lifestream_code2utf($num)
 {
-	// Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
-	function code2utf($num)
-	{
-		if ($num < 128) return chr($num);
-		if ($num < 2048) return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
-		if ($num < 65536) return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-		if ($num < 2097152) return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-		return '';
-	}
+	if ($num < 128) return chr($num);
+	if ($num < 2048) return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
+	if ($num < 65536) return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
+	if ($num < 2097152) return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
+	return '';
 }
-if (!function_exists('str_startswith'))
+function lifestream_str_startswith($string, $chunk)
 {
-	function str_startswith($string, $chunk)
-	{
-		return substr($string, 0, strlen($chunk)) == $chunk;
-	}
+	return substr($string, 0, strlen($chunk)) == $chunk;
 }
-if (!function_exists('str_endswith'))
+function lifestream_str_endswith($string, $chunk)
 {
-	function str_endswith($string, $chunk)
-	{
-		return substr($string, strlen($chunk)*-1) == $chunk;
-	}
+	return substr($string, strlen($chunk)*-1) == $chunk;
 }
-if (!function_exists('get_class_constant'))
+function lifestream_get_class_constant($class, $const)
 {
-	function get_class_constant($class, $const)
-	{
-		return constant(sprintf('%s::%s', $class, $const));
-	}
+	return constant(sprintf('%s::%s', $class, $const));
 }
 
 class Lifestream_Error extends Exception { }
@@ -233,8 +218,8 @@ class Lifestream
 		static $trans_tbl;
 
 		// replace numeric entities
-		$string = preg_replace('~&#x([0-9a-f]+);~ei', 'code2utf(hexdec("\\1"))', $string);
-		$string = preg_replace('~&#([0-9]+);~e', 'code2utf(\\1)', $string);
+		$string = preg_replace('~&#x([0-9a-f]+);~ei', 'lifestream_code2utf(hexdec("\\1"))', $string);
+		$string = preg_replace('~&#([0-9]+);~e', 'lifestream_code2utf(\\1)', $string);
 
 		// replace literal entities
 		if (!isset($trans_tbl))
@@ -265,7 +250,7 @@ class Lifestream
 		$fp = file($file);
 		foreach ($fp as $line)
 		{
-			if (str_startswith('#', $line)) continue;
+			if (lifestream_str_startswith('#', $line)) continue;
 			list($key, $value) = explode(':', $line);
 			$data[strtolower($key)] = trim($value);
 		}
@@ -296,7 +281,7 @@ class Lifestream
 			while ($file = readdir($handler))
 			{
 				// ignore hidden files
-				if (str_startswith($file, '.')) continue;
+				if (lifestream_str_startswith($file, '.')) continue;
 				// if its not a directory we dont care
 				if (!is_dir($base_dir . $file)) continue;
 				$ext_file = $base_dir . $file . '/generic.png';
@@ -336,7 +321,7 @@ class Lifestream
 			while ($file = readdir($handler))
 			{
 				// ignore hidden files
-				if (str_startswith($file, '.')) continue;
+				if (lifestream_str_startswith($file, '.')) continue;
 				// if its not a directory we dont care
 				if (!is_dir($base_dir . $file)) continue;
 				// check for extension.inc.php
@@ -373,7 +358,7 @@ class Lifestream
 			while ($file = readdir($handler))
 			{
 				// ignore hidden files
-				if (str_startswith($file, '.')) continue;
+				if (lifestream_str_startswith($file, '.')) continue;
 				// if its not a directory we dont care
 				if (!is_dir($base_dir . $file)) continue;
 				// check for main.inc.php
@@ -596,7 +581,7 @@ class Lifestream
 
 		load_plugin_textdomain('lifestream', false, 'lifestream/locales');
 
-		if (is_admin() && str_startswith($_GET['page'], 'lifestream'))
+		if (is_admin() && lifestream_str_startswith($_GET['page'], 'lifestream'))
 		{
 			wp_enqueue_script('jquery');
 			wp_enqueue_script('admin-forms');
@@ -1230,7 +1215,7 @@ class Lifestream
 	 */
 	function register_feed($class_name)
 	{
-		$this->feeds[get_class_constant($class_name, 'ID')] = $class_name;
+		$this->feeds[lifestream_get_class_constant($class_name, 'ID')] = $class_name;
 		// this may be the ugliest thing ever written in PHP, thank you developers!
 		$rcl = new ReflectionClass($class_name);
 		$this->paths[$class_name] = dirname($rcl->getFileName());
@@ -2083,13 +2068,13 @@ abstract class Lifestream_Extension
 		foreach ($items as $item_key=>&$item)
 		{
 			// We need to set the default timestamp if no dates are set
-			$date = array_key_pop($item, 'date');			
-			$key = array_key_pop($item, 'key');
+			$date = lifestream_array_key_pop($item, 'date');
+			$key = lifestream_array_key_pop($item, 'key');
 			if (!($date > 0)) $date = $default_timestamp;
 			
 			if ($this->version == 2)
 			{
-				if ($item['guid']) $link_key = md5(array_key_pop($item, 'guid'));
+				if ($item['guid']) $link_key = md5(lifestream_array_key_pop($item, 'guid'));
 				else $link_key = md5($item['link'] . $item['title']);
 			}
 			elseif ($this->version == 1)
@@ -2158,8 +2143,8 @@ abstract class Lifestream_Extension
 		}
 		foreach ($ungrouped as &$item)
 		{
-			$date = array_key_pop($item, 'date');
-			$key = array_key_pop($item, 'key');
+			$date = lifestream_array_key_pop($item, 'date');
+			$key = lifestream_array_key_pop($item, 'key');
 			$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, %s, %d, %s, %d, 1, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), $item['id'], serialize(array($item)), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
 		}
 		$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `timestamp` = UNIX_TIMESTAMP() WHERE `id` = %d", $this->id));

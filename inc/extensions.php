@@ -41,7 +41,7 @@ class Lifestream_PlurkFeed extends Lifestream_Feed
 		$data = parent::yield($row, $url, $key);
 		$string = $this->options['username'] . ' ';
 		$title = $data['title'];
-		if (str_startswith(strtolower($title), strtolower($string)))
+		if (lifestream_str_startswith(strtolower($title), strtolower($string)))
 		{
 			$title = substr($title, strlen($string));
 		}
@@ -175,11 +175,11 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 		$data = parent::yield($row, $url, $key);
 		$string = $this->options['username'] . ': ';
 		$description = $this->lifestream->html_entity_decode($row->get_description());
-		if (str_startswith(strtolower($description), strtolower($string)))
+		if (lifestream_str_startswith(strtolower($description), strtolower($string)))
 		{
 			$description = substr($description, strlen($string));
 		}
-		if ($this->options['hide_replies'] && str_startswith($description, '@'))
+		if ($this->options['hide_replies'] && lifestream_str_startswith($description, '@'))
 		{
 			return false;
 		}
@@ -213,7 +213,7 @@ class Lifestream_JaikuFeed extends Lifestream_TwitterFeed
 
 	function yield($row, $url, $key)
 	{
-		if (!str_startswith($row->get_link(), 'http://'.$this->options['username'].'.jaiku.com/presence/')) return;
+		if (!lifestream_str_startswith($row->get_link(), 'http://'.$this->options['username'].'.jaiku.com/presence/')) return;
 		
 		$data = parent::yield($row, $url, $key);
 		preg_match('|<p>([^<]+)</p>|i', $row->get_description(), $matches);
@@ -578,7 +578,7 @@ class Lifestream_RedditFeed extends Lifestream_DiggFeed
 		$title = $row->get_title();
 		
 		$chunk = sprintf('%s on', $this->options['username']);
-		if (str_startswith($title, $chunk))
+		if (lifestream_str_startswith($title, $chunk))
 			$title = substr($title, strlen($chunk));
 		
 		$data['title'] = $title;
@@ -746,7 +746,7 @@ class Lifestream_IdenticaFeed extends Lifestream_TwitterFeed
 	{
 		$string = $this->options['username'] . ': ';
 		$title = $this->lifestream->html_entity_decode($row->get_title());
-		if (str_startswith($title, $string))
+		if (lifestream_str_startswith($title, $string))
 		{
 			$title = substr($title, strlen($string));
 		}
@@ -832,7 +832,7 @@ class Lifestream_PandoraFeed extends Lifestream_Feed
 	
 	function yield($row, $url, $key)
 	{
-		if (str_endswith($row->get_title(), 'QuickMix')) return false;
+		if (lifestream_str_endswith($row->get_title(), 'QuickMix')) return false;
 		return parent::yield($row, $url, $key);
 	}
 }
@@ -1569,19 +1569,19 @@ class Lifestream_MixxFeed extends Lifestream_Feed
 	{
 		$data = parent::yield($row, $url, $key);
 		$title = $this->lifestream->html_entity_decode($row->get_title());
-		if (str_startswith($title, 'Comment on: '))
+		if (lifestream_str_startswith($title, 'Comment on: '))
 		{
 			if (!$this->options['show_comments']) return;
 			$key = 'comment';
 			$title = substr($title, 12);
 		}
-		elseif (str_startswith($title, 'Submitted: '))
+		elseif (lifestream_str_startswith($title, 'Submitted: '))
 		{
 			if (!$this->options['show_submissions']) return;
 			$key = 'submit';
 			$title = substr($title, 11);
 		}
-		elseif (str_startswith($title, 'Favorite: '))
+		elseif (lifestream_str_startswith($title, 'Favorite: '))
 		{
 			if (!$this->options['show_favorites']) return;
 			$key = 'favorite';
@@ -2457,7 +2457,7 @@ class Lifestream_WikipediaFeed extends Lifestream_PhotoFeed
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
-		if (str_startswith(strtolower($data['title']), 'talk:')) return;
+		if (lifestream_str_startswith(strtolower($data['title']), 'talk:')) return;
 		// we dont need huge descriptions stored in the db, its bloat
 		unset($data['description']);
 		return $data;
