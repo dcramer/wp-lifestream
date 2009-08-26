@@ -3,6 +3,7 @@
 * Fixed an issue with add_option that was resetting all options.
 * Lots of code cleanup to get rid of warnings when WP_DEBUG is defined.
 * Refactored label classes into base verb classes. They should now be extended rather than the base class.
+* Added an option to open links in a new window.
 
 0.99.8.9
 

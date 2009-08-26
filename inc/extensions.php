@@ -66,7 +66,7 @@ class Lifestream_PlurkFeed extends Lifestream_Feed
 	{
 		if ($row->key == 'message')
 		{
-			return $this->parse_urls(htmlspecialchars($item['title'])) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+			return $this->parse_urls(htmlspecialchars($item['title'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
 		}
 		else
 		{
@@ -107,12 +107,12 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	
 	function _get_search_term_link($match)
 	{
-		return $match[1].'<a href="https://search.twitter.com/search?q='.urlencode($match[2]).'">'.htmlspecialchars($match[2]).'</a>';
+		return $this->lifestream->get_anchor_html(htmlspecialchars($match[2]), 'https://search.twitter.com/search?q='.urlencode($match[2]), array('class'=>'searchterm'));
 	}
 
 	function get_user_link($user)
 	{
-		return '<a href="'.$this->get_user_url($user).'" class="user">@'.htmlspecialchars($user).'</a>';
+		return $this->lifestream->get_anchor_html('@'.htmlspecialchars($user), $this->get_user_url($user), array('class'=>'user'));
 	}
 	
 	function get_user_url($user)
@@ -167,7 +167,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	
 	function render_item($row, $item)
 	{
-		return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description'])))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+		return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description'])))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
 	}
 	
 	function yield($row, $url, $key)
@@ -341,7 +341,7 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 	
 	function render_item($row, $item)
 	{
-		return sprintf('<a href="%s">%s - %s</a>', htmlspecialchars($item['link']), htmlspecialchars($item['artist']), htmlspecialchars($item['name']));
+		return $this->lifestream->get_anchor_html(htmlspecialchars($item['artist']).' &ndash; '.htmlspecialchars($item['name']), $item['link']);
 	}
 }
 $lifestream->register_feed('Lifestream_LastFMFeed');
@@ -533,12 +533,15 @@ class Lifestream_YouTubeFeed extends Lifestream_FlickrFeed
 	
 	function render_item($row, $item)
 	{
+		$attrs = array(
+			'class' => 'photo',
+			'title' => htmlspecialchars($item['title'])
+		);
 		if ($this->lifestream->get_option('use_ibox') == '1')
 		{
-			$ibox = ' rel="ibox"';
+			$attrs['rel'] = 'ibox';
 		}
-		else $ibox = '';
-		return sprintf('<a href="%s"'.$ibox.' class="photo" title="%s"><img src="%s" width="50"/></a>', htmlspecialchars($item['link']), $item['title'], $item['thumbnail']);
+		return $this->lifestream->get_anchor_html('<img src="'.$item['thumbnail'].'" width="50"/>', $item['link'], $attrs);
 	}
 }
 $lifestream->register_feed('Lifestream_YouTubeFeed');
@@ -734,7 +737,7 @@ class Lifestream_IdenticaFeed extends Lifestream_TwitterFeed
 
 	function render_item($row, $item)
 	{
-		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
 	}
 
 	function get_url()
@@ -1112,7 +1115,7 @@ class Lifestream_TumblrFeed extends Lifestream_Feed
 		}
 		elseif ($event->key == 'note')
 		{
-			return Lifestream_TwitterFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+			return Lifestream_TwitterFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html($this->options['username'], htmlspecialchars($item['link'])).']';
 		}
 		else
 		{
@@ -1308,7 +1311,7 @@ class Lifestream_BrightkiteFeed extends Lifestream_Feed
 		{
 			return Lifestream_PhotoFeed::render_item($event, $item);
 		}
-		elseif ($event->key == 'checkin') return '<a href="'.htmlspecialchars($item['placelink']).'">'.htmlspecialchars($item['placename']).'</a>';
+		elseif ($event->key == 'checkin') return $this->lifestream->get_anchor_html(htmlspecialchars($item['placename']), $item['placelink']);
 		else
 		{
 			return $this->parse_urls(htmlspecialchars($item['text']));
@@ -2145,7 +2148,7 @@ class Lifestream_BackTypeFeed extends Lifestream_Feed
 	
 	function get_user_link($user)
 	{
-		return '<a href="'.$this->get_user_url($user).'" class="user">'.htmlspecialchars($user).'</a>';
+		return $this->lifestream->get_anchor_html(htmlspecialchars($user), $this->get_user_url($user), array('class'=>'user'));
 	}
 	
 	function get_user_url($user)
@@ -2166,7 +2169,7 @@ class Lifestream_BackTypeFeed extends Lifestream_Feed
 	function render_item($row, $item)
 	{
 		$output = "Posted a comment on ".htmlspecialchars($item['title'])."<br/>";
-		$output .= str_replace("</p>", "<br/><br/>", str_replace("<p>","",$item['description'])) . ' [<a href="'.htmlspecialchars($item['link']).'">#</a>]';
+		$output .= str_replace("</p>", "<br/><br/>", str_replace("<p>","",$item['description'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
 		return $output;
 	}
 	
