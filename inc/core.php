@@ -1448,9 +1448,7 @@ class Lifestream
 	 */
 	function install($allow_database_install=true)
 	{
-		$version = (string)$this->get_option('_version');
-
-		if (!$version) $version = 0;
+		$version = (string)$this->get_option('_version', 0);
 
 		if ($allow_database_install)
 		{
