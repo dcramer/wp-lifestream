@@ -8,12 +8,12 @@ Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
-define(LIFESTREAM_VERSION, '0.99.9.0');
-define(LIFESTREAM_PLUGIN_FILE, plugin_basename(__FILE__));
-define(LIFESTREAM_PATH, dirname(__FILE__));
-define(LIFESTREAM_FEEDS_PER_PAGE, 10);
-define(LIFESTREAM_EVENTS_PER_PAGE, 25);
-define(LIFESTREAM_ERRORS_PER_PAGE, 25);
+define('LIFESTREAM_VERSION', '0.99.9.0');
+define('LIFESTREAM_PLUGIN_FILE', plugin_basename(__FILE__));
+define('LIFESTREAM_PATH', dirname(__FILE__));
+define('LIFESTREAM_FEEDS_PER_PAGE', 10);
+define('LIFESTREAM_EVENTS_PER_PAGE', 25);
+define('LIFESTREAM_ERRORS_PER_PAGE', 25);
 
 if (version_compare(PHP_VERSION, '5.0', '<'))
 {

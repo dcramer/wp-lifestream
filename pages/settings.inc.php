@@ -159,8 +159,8 @@ $authors = get_users_of_blog();
 											<td class="icon"><input type="radio" id="id_lifestream_icons_<?php echo $key; ?>" name="lifestream_icons" value="<?php echo $key; ?>"<?php if ($lifestream->get_option('icons', 'default') == $key) echo ' checked="checked"'; ?>/></td>
 											<td class="icon"><label for="id_lifestream_icons_<?php echo $key; ?>"><img src="<?php echo $lifestream->path . '/icons/' . $key; ?>/generic.png"/></label></td>
 											<td><label for="id_lifestream_icons_<?php echo $key; ?>"><?php echo htmlspecialchars($data['name']); ?>
-												<?php if ($data['author']) { ?>
-													<?php if ($data['url']) { ?>
+												<?php if (!empty($data['author'])) { ?>
+													<?php if (!empty($data['url'])) { ?>
 													 by <a href="<?php echo htmlspecialchars($data['url']); ?>"><?php echo htmlspecialchars($data['author']); ?></a>
 													<?php } else { ?>
 													 by <em><?php echo htmlspecialchars($data['author']); ?></em>

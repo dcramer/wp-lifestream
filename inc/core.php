@@ -57,7 +57,7 @@ class Lifestream_Event
 		$this->owner = $row->owner;
 		$this->owner_id = $row->owner_id;
 		$this->visible = $row->visible;
-		$this->link = ($this->data['link'] ? $this->data['link'] : $row->link);
+		$this->link = (!empty($this->data['link']) ? $this->data['link'] : $row->link);
 		$cls = $this->lifestream->get_feed($row->feed);
 		$this->feed = new $cls($this->lifestream, unserialize($row->options), $row->feed_id);
 	}
@@ -465,6 +465,7 @@ class Lifestream
 		'extension_dir'		=> '',
 		'theme_dir'			=> '',
 		'icon_dir'			=> '',
+		'links_new_windows'	=> '0',
 	);
 	
 	function __construct()
@@ -513,6 +514,7 @@ class Lifestream
 	function get_option($option, $default=null)
 	{
 		$this->_populate_option_cache();
+		if (!isset($this->_optioncache[$option])) return $default;
 		$value = $this->_optioncache[$option];
 		if (!$value)
 			return $default;
@@ -577,11 +579,12 @@ class Lifestream
 		global $wpdb;
 
 		$offset = get_option('gmt_offset') * 3600;
-		define(LIFESTREAM_DATE_OFFSET, $offset);
+		define('LIFESTREAM_DATE_OFFSET', $offset);
 
 		load_plugin_textdomain('lifestream', false, 'lifestream/locales');
-
-		if (is_admin() && lifestream_str_startswith($_GET['page'], 'lifestream'))
+		$page = (isset($_GET['page']) ? $_GET['page'] : null);
+		
+		if (is_admin() && lifestream_str_startswith($page, 'lifestream'))
 		{
 			wp_enqueue_script('jquery');
 			wp_enqueue_script('admin-forms');
@@ -609,6 +612,24 @@ class Lifestream
 		{
 			$result = $wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_error_log` (`feed_id`, `message`, `timestamp`) VALUES (NULL, %s, %d)", $wpdb->escape($message), time()));
 		}
+	}
+	
+	function get_anchor_html($label, $href, $attrs=array())
+	{
+		// TODO: this might need to be optimized as string management is typically slow
+		if ($this->get_option('links_new_windows') && !$attrs['target'])
+		{
+			$attrs['target'] = '_blank';
+		}
+		$attrs['href'] = $href;
+
+		$html = '<a';
+		foreach ($attrs as $key=>$value)
+		{
+			$html .= ' '.$key.'="'.$value.'"';
+		}
+		$html .= '>'.$label.'</a>';
+		return $html;
 	}
 	
 	function get_digest_interval()
@@ -772,7 +793,7 @@ class Lifestream
 				}
 			break;
 			case 'lifestream-events.php':
-				switch (strtolower($_REQUEST['op']))
+				switch ((isset($_REQUEST['op']) ? strtolower($_REQUEST['op']) : null))
 				{
 					case 'delete':
 						if (!($ids = $_REQUEST['id'])) break;
@@ -827,7 +848,7 @@ class Lifestream
 				}
 			break;
 			case 'lifestream-settings.php':
-				if ($_POST['save'])
+				if (!empty($_POST['save']))
 				{
 					foreach (array_keys($this->_options) as $value)
 					{
@@ -839,7 +860,7 @@ class Lifestream
 			break;
 			default:
 				$feedmsgs = array();
-				switch (strtolower($_REQUEST['op']))
+				switch ((isset($_REQUEST['op']) ? strtolower($_REQUEST['op']) : null))
 				{
 					case 'refreshall':
 						$results = $this->update_all($userdata->ID);
@@ -1063,8 +1084,8 @@ class Lifestream
 			switch ($_GET['page'])
 			{
 				case 'lifestream-errors.php':
-					$page = $_GET['paged'] ? $_GET['paged'] : 1;
-					switch ($_REQUEST['op'])
+					$page = (!empty($_GET['paged']) ? $_GET['paged'] : 1);
+					switch ((isset($_REQUEST['op']) ? strtolower($_REQUEST['op']) : null))
 					{
 						case 'clear':
 							$wpdb->query("DELETE FROM `".$wpdb->prefix."lifestream_error_log`");
@@ -1099,7 +1120,7 @@ class Lifestream
 					include(LIFESTREAM_PATH . '/pages/settings.inc.php');
 				break;
 				case 'lifestream-events.php':
-					$page = $_GET['paged'] ? $_GET['paged'] : 1;
+					$page = (!empty($_GET['paged']) ? $_GET['paged'] : 1);
 					$start = ($page-1)*LIFESTREAM_EVENTS_PER_PAGE;
 					$end = $page*LIFESTREAM_EVENTS_PER_PAGE;
 
@@ -1125,7 +1146,7 @@ class Lifestream
 					include(LIFESTREAM_PATH . '/pages/events.inc.php');
 				break;
 				default:
-					switch ($_REQUEST['op'])
+					switch ((isset($_REQUEST['op']) ? strtolower($_REQUEST['op']) : null))
 					{
 						case 'edit':
 							include(LIFESTREAM_PATH . '/pages/edit-feed.inc.php');
@@ -1139,7 +1160,7 @@ class Lifestream
 							include(LIFESTREAM_PATH . '/pages/add-feed.inc.php');
 						break;
 						default:
-							$page = $_GET['paged'] ? $_GET['paged'] : 1;
+							$page = (!empty($_GET['paged']) ? $_GET['paged'] : 1);
 							$start = ($page-1)*LIFESTREAM_FEEDS_PER_PAGE;
 							$end = $page*LIFESTREAM_FEEDS_PER_PAGE;
 							if (!current_user_can('manage_options'))

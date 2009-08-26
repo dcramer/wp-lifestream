@@ -272,7 +272,7 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 	const ID	= 'lastfm';
 	const NAME	= 'Last.fm';
 	const URL	= 'http://www.last.fm/';
-	const LABEL	= 'Lifestream_ListenLabel';
+	const LABEL	= 'Lifestream_ListenSongLabel';
 	
 	function __toString()
 	{
@@ -364,7 +364,7 @@ class Lifestream_BlogFeed extends Lifestream_GenericFeed
 	
 	function _get_domain()
 	{
-		if ($this->options['permalink_url']) $url = $this->options['permalink_url'];
+		if (!empty($this->options['permalink_url'])) $url = $this->options['permalink_url'];
 		else $url = $this->options['url'];
 		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $url, $matches);
 		return $matches[3];
@@ -1135,7 +1135,7 @@ class Lifestream_AmazonFeed extends Lifestream_PhotoFeed
 	const ID	= 'amazon';
 	const NAME	= 'Amazon';
 	const URL	= 'http://www.amazon.com/';
-	const LABEL	= 'Lifestream_WantLabel';
+	const LABEL	= 'Lifestream_WantItemLabel';
 
 	private $image_match_regexp = '/src="(http\:\/\/ecx\.images-amazon\.com\/[^"]+\.jpg)"/i';
 	
@@ -1842,8 +1842,8 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	# <im:image height="170">http://a1.phobos.apple.com/us/r1000/022/Music/c4/ae/6e/mzi.qpurndic.170x170-75.jpg</im:image>
 	function get_label_class($key)
 	{
-		if ($key == 'review') $cls = 'Lifestream_ReviewLabel';
-		elseif ($key == 'purchase') $cls = 'Lifestream_PurchaseLabel';
+		if ($key == 'review') $cls = 'Lifestream_ReviewItemLabel';
+		elseif ($key == 'purchase') $cls = 'Lifestream_PurchaseItemLabel';
 		return $cls;
 	}
 }
