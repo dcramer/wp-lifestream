@@ -97,7 +97,7 @@ class Lifestream_Event
 	
 	function get_label_instance($options=array())
 	{
-		if (!$this->_label_instance)
+		if (!isset($this->_label_instance))
 		{
 			$this->_label_instance = $this->feed->get_label($this, $options);
 		}
@@ -1293,9 +1293,9 @@ class Lifestream
 			}
 		}
 		ob_start();
-		if ($args['feed_ids']) $args['feed_ids'] = explode(',', $args['feed_ids']);
-		if ($args['user_ids']) $args['user_ids'] = explode(',', $args['user_ids']);
-		if ($args['feed_types']) $args['feed_types'] = explode(',', $args['feed_types']);
+		if (!empty($args['feed_ids'])) $args['feed_ids'] = explode(',', $args['feed_ids']);
+		if (!empty($args['user_ids'])) $args['user_ids'] = explode(',', $args['user_ids']);
+		if (!empty($args['feed_types'])) $args['feed_types'] = explode(',', $args['feed_types']);
 		lifestream($args);
 		return ob_get_clean();
 	}
@@ -1649,9 +1649,7 @@ class Lifestream
 	
 	function get_page_from_request()
 	{
-		$page = $_GET[$this->paging_key];
-		if (!$page) $page = 1;
-		return $page;
+		return (!empty($_GET[$this->paging_key]) ? $_GET[$this->paging_key] : 1);
 	}
 	function get_next_page_url($page=null)
 	{
@@ -1702,7 +1700,7 @@ class Lifestream
 		# If any arguments are invalid we bail out
 
 		// Old-style
-		if ($_['number_of_results']) $_['limit'] = $_['number_of_results'];
+		if (!empty($_['number_of_results'])) $_['limit'] = $_['number_of_results'];
 
 		if (!((int)$_['limit'] > 0)) return;
 		if (!((int)$_['offset'] >= 0)) return;
@@ -2234,11 +2232,10 @@ abstract class Lifestream_Extension
 		$label_inst = $event->get_label_instance($options);
 		
 		if ($event->is_grouped && count($event->data) == 1 && $this->get_constant('MUST_GROUP')) $visible = true;
-		else $visible = $options['show_details'];
+		else $visible = !empty($options['show_details']);
 		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
 
-		if ($options['hide_metadata']) $show_metadata = false;
-		else $show_metadata = true;
+		$show_metadata = empty($options['hide_metadata']);
 		
 		$filename = $label_inst->get_template();
 		require($this->lifestream->get_theme_filepath('templates/'.$filename.'.inc.php'));
@@ -2494,11 +2491,12 @@ function lifestream($args=array())
 		$_ = $args;
 	}
 	$page = $lifestream->get_page_from_request();
-	$defaults['offset'] = ($page-1)*($_['limit'] ? $_['limit'] : $defaults['limit']);
+	$defaults['offset'] = ($page-1)*(!empty($_['limit']) ? $_['limit'] : $defaults['limit']);
 
 	$_ = array_merge($defaults, $_);
 	$limit = $_['limit'];
 	$_['limit'] = $_['limit'] + 1;
+	$options =& $_;
 	
 	// TODO: offset
 	//$offset = $lifestream->get_option('lifestream_timezone');
@@ -2509,8 +2507,7 @@ function lifestream($args=array())
 	}
 	$has_prev_page = ($page > 1);
 	$has_paging = ($has_next_page || $has_prev_page);
-	if ($options['hide_metadata']) $show_metadata = false;
-	else $show_metadata = true;
+	$show_metadata = empty($args['hide_metadata']);
 	
 	require($lifestream->get_theme_filepath('main.inc.php'));
 
@@ -2543,8 +2540,7 @@ function lifestream_sidebar_widget($_=array())
 	// TODO: offset
 	//$offset = $lifestream->get_option('lifestream_timezone');
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
-	if ($options['hide_metadata']) $show_metadata = false;
-	else $show_metadata = true;
+	$show_metadata = empty($options['hide_metadata']);
 	
 	require($lifestream->get_theme_filepath('sidebar.inc.php'));
 }
