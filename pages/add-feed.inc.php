@@ -39,8 +39,8 @@ $authors = get_users_of_blog();
 				<?php } else { ?>
 					<th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars($option_meta[0]);?></label></th>
 					<td><input name="<?php echo $option;?>" type="<?php echo (lifestream_str_endswith($option, 'password') ? 'password': 'text'); ?>" size="40" value="<?php echo htmlspecialchars($current_value); ?>">
-					<?php if ($option_meta[4]) { ?>
-					<div class="helptext"><?php echo $option_meta[4]; ?></div>
+					<?php if (!empty($option_meta[4])) { ?>
+						<div class="helptext"><?php echo $option_meta[4]; ?></div>
 					<?php } ?></td>
 				<?php } ?>
 			</tr>

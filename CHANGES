@@ -1,6 +1,8 @@
 0.99.9.0
 
 * Fixed an issue with add_option that was resetting all options.
+* Lots of code cleanup to get rid of warnings when WP_DEBUG is defined.
+* Refactored label classes into base verb classes. They should now be extended rather than the base class.
 
 0.99.8.9
 
