@@ -1,3 +1,7 @@
+0.99.9.0
+
+* Fixed an issue with add_option that was resetting all options.
+
 0.99.8.9
 
 * All functions are now namespaced.

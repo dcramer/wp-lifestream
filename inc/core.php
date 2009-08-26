@@ -545,10 +545,10 @@ class Lifestream
 	function add_option($option, $value)
 	{
 		$this->_populate_option_cache();
-		if (!array_key_exists($option, $this->_optioncache) || empty($this->_optioncache[$option]))
+		if (!array_key_exists($option, $this->_optioncache) || $this->_optioncache[$option] === '')
 		{
 			$this->_optioncache[$option] = $value;
-			update_option('lifestream_options', serialize($this->_optioncache));
+			update_option('lifestream_options', $this->_optioncache);
 		}
 	}
 	
