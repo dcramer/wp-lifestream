@@ -617,7 +617,7 @@ class Lifestream
 	function get_anchor_html($label, $href, $attrs=array())
 	{
 		// TODO: this might need to be optimized as string management is typically slow
-		if ($this->get_option('links_new_windows') && !$attrs['target'])
+		if ($this->get_option('links_new_windows') && empty($attrs['target']))
 		{
 			$attrs['target'] = '_blank';
 		}
@@ -852,7 +852,7 @@ class Lifestream
 				{
 					foreach (array_keys($this->_options) as $value)
 					{
-						$this->update_option($value, stripslashes($_POST['lifestream_'.$value]));
+						$this->update_option($value, (isset($_POST['lifestream_'.$value]) ? stripslashes($_POST['lifestream_'.$value]) : '0'));
 					}
 					// We need to make sure the cron runs now
 					$this->reschedule_cron();

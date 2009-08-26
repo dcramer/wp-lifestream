@@ -76,6 +76,11 @@ $authors = get_users_of_blog();
 							<td><label for="id_hide_details_default"><input type="checkbox" name="lifestream_hide_details_default" id="id_hide_details_default" value="1"<?php if ($lifestream->get_option('hide_details_default')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Hide details of grouped events by default.'); ?></label>
 							</td>
 						</tr>
+						<tr>
+							<th><?php $lifestream->_e('Link Targets:'); ?></th>
+							<td><label for="id_links_new_windows"><input type="checkbox" name="lifestream_links_new_windows" id="id_links_new_windows" value="1"<?php if ($lifestream->get_option('links_new_windows')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Open event links in new windows (this will use target="_blank").'); ?></label>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 				<p class="submit">
