@@ -367,7 +367,7 @@ class Lifestream
 				{
 					$theme = array();
 					$theme = $this->parse_nfo_file($ext_file);
-					$theme['__path'] = $base_dir;
+					$theme['__path'] = $base_dir.$file;
 					if (!array_key_exists('name', $theme)) continue;
 					$this->themes[$file] = $theme;
 				}
@@ -383,10 +383,10 @@ class Lifestream
 	function get_media_url_for_theme($filename, $theme='default')
 	{
 		// base dir is now $theme['__path'] so we must abstract the web dir
-		$path = $this->themes[$theme]['__path'].'media/'.$filename;
+		$path = $this->themes[$theme]['__path'].'/media/'.$filename;
 		if (!is_file($path))
 		{
-			$path = LIFESTREAM_PATH.'themes/default/media/'.$filename;
+			$path = LIFESTREAM_PATH.'/themes/default/media/'.$filename;
 		}
 		$path = str_replace(WP_CONTENT_DIR, '', $path);
 		return WP_CONTENT_URL.$path;
@@ -408,7 +408,7 @@ class Lifestream
 		{
 			throw new Exception('Theme is not valid.');
 		}
-		return $this->themes[$theme]['__path'].$filename;
+		return $this->themes[$theme]['__path'].'/'.$filename;
 	}
 
 	function validate_image($url)
