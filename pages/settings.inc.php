@@ -92,6 +92,7 @@ $authors = get_users_of_blog();
 		<div id="advdiv" class="postbox">
 			<div class="handlediv" title="Click to toggle"><br /></div><h3 class='hndle'><span><?php $lifestream->_e('Advanced'); ?></span></h3>
 			<div class="inside">
+				<p><?php $lifestream->_e('You can specify additional locations outside of the plugin directory for extensions. These MUST be located within <code>%s</code> and should be the full path.', WP_CONTENT_URL)?>
 				<table class="form-table">
 					<colgroup>
 						<col style="width: 150px;"/>

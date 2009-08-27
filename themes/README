@@ -1,3 +1,7 @@
 Please see the default theme for an example on how to create a custom lifestream display.
 
 ALL files which are present in the default theme MUST be present in a theme for it to function properly.
+
+It is also recommended that you place custom themes in the additional directory via your Settings panel. This will stop them from being removed when you update the plugin.
+
+NOTE: The child-level folder name is used as the theme name, so keep it unique. You can't have two "default" themes. The one in the additional directory will override the one in extension directory.

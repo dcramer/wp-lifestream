@@ -1,3 +1,8 @@
+0.99.9.1
+
+* Themes should now be working properly.
+* Updated Steam feed URL.
+
 0.99.9.0
 
 * Fixed an issue with add_option that was resetting all options.
