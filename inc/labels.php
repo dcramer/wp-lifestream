@@ -45,7 +45,7 @@ class Lifestream_Label
 	
 	function get_label_single()
 	{
-		return $this->lifestream->__('Posted %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Posted %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	
 	function get_label_plural()
@@ -55,7 +55,7 @@ class Lifestream_Label
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s posted %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s posted %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 	
 	function get_label_plural_user()
@@ -72,11 +72,11 @@ class Lifestream_ShareLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Shared %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Shared %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s shared %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s shared %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -84,11 +84,11 @@ class Lifestream_PublishLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Published %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Published %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s published %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s published %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -96,11 +96,11 @@ class Lifestream_ListenLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Listened to %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Listened to %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s listened to %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s listened to %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -108,11 +108,11 @@ class Lifestream_WantLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Wants %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Wants %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s wants %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s wants %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -120,11 +120,11 @@ class Lifestream_AteLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Ate %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Ate %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s ate %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s ate %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -132,11 +132,11 @@ class Lifestream_QueueLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Queued %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Queued %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s queued %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s queued %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -144,11 +144,11 @@ class Lifestream_CreateLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Created %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Created %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s created %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s created %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -156,11 +156,11 @@ class Lifestream_ReviewLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Reviewed %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Reviewed %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s reviewed %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s reviewed %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -168,11 +168,11 @@ class Lifestream_LikeLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Liked %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Liked %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s liked %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s liked %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -180,11 +180,11 @@ class Lifestream_WatchLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Watched %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Watched %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s watched %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s watched %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -192,11 +192,11 @@ class Lifestream_UnlockLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Unlocked %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Unlocked %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s unlocked %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s unlocked %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -204,11 +204,11 @@ class Lifestream_PlayLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Played %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Played %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s played %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s played %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -216,11 +216,11 @@ class Lifestream_PurchaseLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Purchased %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Purchased %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s purchased %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s purchased %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -228,11 +228,11 @@ class Lifestream_ReceiveLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Received %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Received %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s received %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s received %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -240,11 +240,11 @@ class Lifestream_ContributeLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Contributed %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Contributed %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s contributed %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s contributed %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -252,11 +252,11 @@ class Lifestream_AttendLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Attended %2$s', $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('Attended %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%1$s attended %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+		return $this->lifestream->__('%1$s attended %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 }
 
@@ -349,19 +349,9 @@ class Lifestream_ReviewItemLabel extends Lifestream_ReviewLabel
 
 class Lifestream_PurchaseItemLabel extends Lifestream_PurchaseLabel
 {
-	function get_label_single()
-	{
-		return $this->lifestream->__('Purchased %2$s', $this->get_feed_label(), $this->get_single_link());
-	}
-	
 	function get_label_plural()
 	{
 		return $this->lifestream->__('Purchased %s items.', $this->_get_show_details_link(), $this->get_feed_label());
-	}
-	
-	function get_label_single_user()
-	{
-		return $this->lifestream->__('%1$s purchased %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 	
 	function get_label_plural_user()
@@ -637,7 +627,7 @@ class Lifestream_EatLabel extends Lifestream_AteLabel
 	
 	function get_label_plural_user()
 	{
-		return $this->lifestream->__('%s ate %s.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
+		return $this->lifestream->__('%s ate %s meals.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
 	}
 }
 
