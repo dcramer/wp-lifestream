@@ -8,6 +8,7 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 	private $achievement_regexp = '#unlocked the (.*) achievement in <a[^>]+href="([^"]+)"[^>]*>([^<]+)</a>#i';
 	private $played_regexp = '#(?:played some|managed to fit in a quick game of|played a game of|acquainted himself with the main menu of|just came up for air from a crazy session of|spent a chunk of time playing)\s<a[^>]+href="([^"]+)"[^>]*>([^<]+)</a>#i';
 	private $played_alt_regexp = '#(?:Another day, another game of|Nothing like a short game of|That was quite a marathon of)\s<a[^>]+href="([^"]+)"[^>]*>([^<]+)</a> (?:that|to calm|for) (.*) (?:played.|\'s frayed nerves.|.)#i';
+	private $status_regexp = '#changed (?:his|her|their) status message to: <div><div><blockquote><span> (.*) </span></blockquote></div></div>#i';
 
 	function __toString()
 	{
@@ -29,6 +30,11 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 	function get_url()
 	{
 		return 'http://raptr.com/'.urlencode($this->options['username']).'/rss';
+	}
+
+	function render_item($row, $item)
+	{
+		return $this->parse_urls(htmlspecialchars($item['title'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
 	}
 	
 	function yield_many($row, $url, $key)
@@ -54,6 +60,15 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 				$events[] = $data;
 			}
 		}
+		elseif (preg_match($this->status_regexp, $description, $match))
+		{
+			$data = parent::yield($row, $url, $key);
+			$data['title'] = $match[1];
+			$data['link'] = $this->get_public_url();
+			$data['key'] = 'status';
+			unset($data['description']);
+			$events[] = $data;
+		}
 		elseif (preg_match($this->played_regexp, $description, $match) || preg_match($this->played_alt_regexp, $description, $match))
 		{
 			$data = parent::yield($row, $url, $key);
@@ -69,6 +84,7 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 	function get_label_class($key)
 	{
 		if ($key == 'achievement') $cls = 'Lifestream_UnlockAchievementLabel';
+		elseif ($key == 'status') $cls = 'Lifestream_MessageLabel';
 		else $cls = 'Lifestream_PlayGameLabel';
 		return $cls;
 	}
