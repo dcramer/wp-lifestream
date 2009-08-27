@@ -1,6 +1,7 @@
 0.99.9.1
 
-* Themes should now be working properly.
+* Icons, Themes, and Extensions placed in the custom directory should now function properly.
+* Icons located in the additional directory should now work properly.
 * Updated Steam feed URL.
 * LOTS of localization updates. Most languages will now be out of date on labels.
 
