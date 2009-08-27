@@ -126,6 +126,8 @@ $authors = get_users_of_blog();
 								<option value="auto"<?php if ($lifestream->get_option('url_handler') == 'auto') echo ' selected="selected"'; ?>><?php $lifestream->_e('(Automatic)'); ?></option>
 								<option value="curl"<?php if ($lifestream->get_option('url_handler') == 'curl') echo ' selected="selected"'; ?>><?php $lifestream->_e('Curl'); ?></option>
 								<option value="fopen"<?php if ($lifestream->get_option('url_handler') == 'fopen') echo ' selected="selected"'; ?>><?php $lifestream->_e('fopen'); ?></option>
+								</select>
+								<div class="helptext"><?php $lifestream->_e('You may manually specify the method which Lifestream requests files form the internet.'); ?></div>
 							</td>
 						</tr>
 					</tbody>
