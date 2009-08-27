@@ -289,6 +289,7 @@ class Lifestream
 				{
 					$data = $this->parse_nfo_file($base_dir . $file . '/icons.txt');
 					if (!$data['name']) $data['name'] = $file;
+					$data['__path'] = $base_dir.$file;
 					$this->icons[$file] = $data;
 				}
 			}
@@ -1949,17 +1950,18 @@ abstract class Lifestream_Extension
 		$root = dirname(__FILE__);
 		if ($path == $root)
 		{
-			$icon_path = '/icons/'. $this->lifestream->get_option('icons', 'default') . '/' . $this->get_constant('ID') . '.png';
-			if (!is_file(LIFESTREAM_PATH . $icon_path))
+			$path = $this->lifestream->icons[$this->lifestream->get_option('icons', 'default')]['__path'];
+			$icon_path = $path.'/'.$this->get_constant('ID').'.png';
+			if (!is_file($icon_path))
 			{
-				$icon_path = '/icons/'. $this->lifestream->get_option('icons', 'default') . '/generic.png';
+				$icon_path = $path.'/generic.png';
 			}
-			return $this->lifestream->path . $icon_path;
+			return WP_CONTENT_URL.str_replace(WP_CONTENT_DIR, '', $icon_path);
 		}
 		else
 		{
 			// use icon.png in the extension directory
-			return $this->lifestream->path . str_replace(LIFESTREAM_PATH, '', $path) . '/' . $this->get_icon_name();
+			return WP_CONTENT_URL.str_replace(WP_CONTENT_DIR, '', $path).'/'.$this->get_icon_name();
 		}
 	}
 
