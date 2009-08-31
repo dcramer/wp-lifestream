@@ -4,6 +4,8 @@
 * Icons located in the additional directory should now work properly.
 * Updated Steam feed URL.
 * LOTS of localization updates. Most languages will now be out of date on labels.
+* Updated Facebook instructions thanks to James Brooks.
+* Updated SimplePie to 1.2
 
 0.99.9.0
 
