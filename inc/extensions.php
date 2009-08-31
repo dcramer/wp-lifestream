@@ -442,7 +442,7 @@ class Lifestream_FacebookFeed extends Lifestream_Feed
 	const ID			= 'facebook';
 	const NAME			= 'Facebook';
 	const URL			= 'http://www.facebook.com/';
-	const DESCRIPTION	= 'To obtain your Facebook feed URL visit the very hard to find <a href="http://www.facebook.com/minifeed.php?filter=11" target="_blank">Your Mini-Feed</a> page. On the right hand side towards the bottom you will the "My Status" RSS feed link.';
+	const DESCRIPTION	= 'To obtain your Facebook feed URL visit the very hard to find <a href="http://www.facebook.com/notifications.php" target="_blank">Notifications</a> page. On the right hand side look in the sidebar for the <strong>Subscribe to Notifications</strong> item, and click the <strong>Your Notifications</strong> link.';
 	const LABEL			= 'Lifestream_MessageLabel';
 	const CAN_GROUP		= false;
 	
