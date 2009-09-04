@@ -2242,11 +2242,9 @@ abstract class Lifestream_Extension
 		$label_inst = $event->get_label_instance($options);
 		
 		if ($event->is_grouped && count($event->data) == 1 && $this->get_constant('MUST_GROUP')) $visible = true;
-		else $visible = !empty($options['show_details']);
+		else $visible = isset($options['show_details']) ? !empty($options['show_details']) : null;
 		if ($visible === null) $visible = !$this->lifestream->get_option('hide_details_default');
 
-		$show_metadata = empty($options['hide_metadata']);
-		
 		$filename = $label_inst->get_template();
 		require($this->lifestream->get_theme_filepath('templates/'.$filename.'.inc.php'));
 	}
