@@ -2517,7 +2517,7 @@ function lifestream($args=array())
 	}
 	$has_prev_page = ($page > 1);
 	$has_paging = ($has_next_page || $has_prev_page);
-	$show_metadata = empty($args['hide_metadata']);
+	$show_metadata = empty($options['hide_metadata']);
 	
 	require($lifestream->get_theme_filepath('main.inc.php'));
 
