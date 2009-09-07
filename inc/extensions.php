@@ -107,7 +107,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	
 	function _get_search_term_link($match)
 	{
-		return $this->lifestream->get_anchor_html(htmlspecialchars($match[2]), 'https://search.twitter.com/search?q='.urlencode($match[2]), array('class'=>'searchterm'));
+		return $match[1].$this->lifestream->get_anchor_html(htmlspecialchars($match[2]), 'https://search.twitter.com/search?q='.urlencode($match[2]), array('class'=>'searchterm'));
 	}
 
 	function get_user_link($user)
