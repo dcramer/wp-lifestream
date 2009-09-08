@@ -1663,11 +1663,17 @@ class Lifestream
 	function get_next_page_url($page=null)
 	{
 		if (!$page) $page = $this->get_page_from_request();
+		if (strpos($_SERVER['QUERY_STRING'], '?') !== false) {
+			return '&'.$this->paging_key.'='.($page+1);
+		}
 		return '?'.$this->paging_key.'='.($page+1);
 	}
 	function get_previous_page_url($page=null)
 	{
 		if (!$page) $page = $this->get_page_from_request();
+		if (strpos($_SERVER['QUERY_STRING'], '?') !== false) {
+			return '&'.$this->paging_key.'='.($page-1);
+		}
 		return '?'.$this->paging_key.'='.($page-1);
 	}
 	
