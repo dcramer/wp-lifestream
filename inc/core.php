@@ -384,7 +384,7 @@ class Lifestream
 	function get_media_url_for_theme($filename, $theme='default')
 	{
 		// base dir is now $theme['__path'] so we must abstract the web dir
-		$path = $this->themes[$theme]['__path'].'/media/'.$filename;
+		$path = trailingslashit($this->themes[$theme]['__path']).'media/'.$filename;
 		if (!is_file($path))
 		{
 			$path = LIFESTREAM_PATH.'/themes/default/media/'.$filename;
@@ -1957,21 +1957,21 @@ abstract class Lifestream_Extension
 		{
 			return $this->options['icon_url'];
 		}
-		$path = $this->lifestream->paths[get_class($this)];
-		$root = dirname(__FILE__);
+		$path = trailingslashit($this->lifestream->paths[get_class($this)]);
+		$root = trailingslashit(dirname(__FILE__));
 		if ($path == $root)
 		{
-			$path = $this->lifestream->icons[$this->lifestream->get_option('icons', 'default')]['__path'];
-			$icon_path = $path.'/'.$this->get_constant('ID').'.png';
+			$path = trailingslashit($this->lifestream->icons[$this->lifestream->get_option('icons', 'default')]['__path']);
+			$icon_path = $path.$this->get_constant('ID').'.png';
 			if (!is_file($icon_path))
 			{
-				$icon_path = $path.'/generic.png';
+				$icon_path = $path.'generic.png';
 			}
 			$path = $icon_path; 
 		}
 		else
 		{
-			$path = '/'.$this->get_icon_name();
+			$path = trailingslashit($path).$this->get_icon_name();
 		}
 		return $this->lifestream->get_absolute_media_url($path);
 	}
