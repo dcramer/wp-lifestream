@@ -389,8 +389,13 @@ class Lifestream
 		{
 			$path = LIFESTREAM_PATH.'/themes/default/media/'.$filename;
 		}
-		$path = str_replace(WP_CONTENT_DIR, '', $path);
-		return WP_CONTENT_URL.$path;
+		return $this->get_absolute_media_url($path);
+	}
+	
+	function get_absolute_media_url($path)
+	{
+		$path = str_replace(trailingslashit(WP_CONTENT_DIR), '', $path);
+		return trailingslashit(WP_CONTENT_URL).$path;
 	}
 
 	function get_theme_filepath($filename)
@@ -1962,13 +1967,13 @@ abstract class Lifestream_Extension
 			{
 				$icon_path = $path.'/generic.png';
 			}
-			return WP_CONTENT_URL.str_replace(WP_CONTENT_DIR, '', $icon_path);
+			$path = $icon_path; 
 		}
 		else
 		{
-			// use icon.png in the extension directory
-			return WP_CONTENT_URL.str_replace(WP_CONTENT_DIR, '', $path).'/'.$this->get_icon_name();
+			$path = '/'.$this->get_icon_name();
 		}
+		return $this->get_absolute_media_url($path);
 	}
 
 	function get_public_url()
