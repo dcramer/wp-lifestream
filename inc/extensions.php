@@ -546,50 +546,6 @@ class Lifestream_YouTubeFeed extends Lifestream_FlickrFeed
 }
 $lifestream->register_feed('Lifestream_YouTubeFeed');
 
-class Lifestream_RedditFeed extends Lifestream_DiggFeed
-{
-	const ID	= 'reddit';
-	const NAME	= 'Reddit';
-	const URL	= 'http://www.reddit.com/';
-	
-	function __toString()
-	{
-		return $this->options['username'];
-	}
-
-	function get_options()
-	{		
-		return array(
-			'username' => array($this->lifestream->__('Username:'), true, '', ''),
-		);
-	}
-	
-	function get_public_url()
-	{
-		return 'http://www.reddit.com/user/'.$this->options['username'].'/';
-	}
-	
-	function get_url()
-	{
-		return 'http://www.reddit.com/user/'.$this->options['username'].'/.rss';
-	}
-
-	function yield($row, $url, $key)
-	{
-		$data = parent::yield($row, $url, $key);
-
-		$title = $row->get_title();
-		
-		$chunk = sprintf('%s on', $this->options['username']);
-		if (lifestream_str_startswith($title, $chunk))
-			$title = substr($title, strlen($chunk));
-		
-		$data['title'] = $title;
-		return $data;
-	}
-}
-$lifestream->register_feed('Lifestream_RedditFeed');
-
 class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 {
 	const ID			= 'googlereader';
@@ -1851,36 +1807,6 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	}
 }
 $lifestream->register_feed('Lifestream_iTunesFeed');
-
-class Lifestream_GitHubFeed extends Lifestream_Feed
-{
-	const ID			= 'github';
-	const NAME			= 'GitHub';
-	const URL			= 'http://www.github.com/';
-	const DESCRIPTION	= 'You can obtain your GitHub feed URL from the <a href="https://github.com/dashboard/yours">Your Dashboard</a> page. You will find the feed link in orange feed icon next to "News Feed".';
-	const LABEL			= 'Lifestream_CommitLabel';
-
-	function parse_message($text)
-	{
-		preg_match('/<\/a>\s*<\/p>\s*<p>(.+)<\/p>/', $text, $match);
-		// It's necessary to convert to entities, since commit messages may contain HTML.
-		return $match[1];
-	}
-
-	function yield($row, $url, $key)
-	{
-		if (strpos($row->get_id(), "CommitEvent") === false) {
-			return null;
-		} else {
-			$data = parent::yield($row, $url, $key);
-			$description = $this->lifestream->html_entity_decode($row->get_description());
-			$message = $this->parse_message($description);
-			$data['title'] = $message;
-			return $data;
-		}
-	}
-}
-$lifestream->register_feed('Lifestream_GitHubFeed');
 
 class Lifestream_ReadernautFeed extends Lifestream_Feed
 {

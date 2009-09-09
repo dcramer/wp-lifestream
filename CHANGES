@@ -2,6 +2,7 @@
 
 * Fixed some issues with icon and css paths.
 * Fixed an issue if you weren't using permalinks where pagination links were invalid.
+* Updated and moved GitHub and Reddit into it's their extension file (Thanks Chromakode!).
 
 0.99.9.1
 
