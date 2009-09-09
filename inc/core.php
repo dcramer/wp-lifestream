@@ -1973,7 +1973,7 @@ abstract class Lifestream_Extension
 		{
 			$path = '/'.$this->get_icon_name();
 		}
-		return $this->get_absolute_media_url($path);
+		return $this->lifestream->get_absolute_media_url($path);
 	}
 
 	function get_public_url()
