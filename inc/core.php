@@ -1791,7 +1791,7 @@ class Lifestream
 			$table = 'lifestream_event_group';
 			$cls = 'Lifestream_EventGroup';
 		}
-		$sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix.$table."` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE (%s) ORDER BY t1.`timestamp` DESC LIMIT %d, %d", implode(') AND (', $where), $_['offset'], $_['limit']);
+		$sql = sprintf("SELECT t1.*, t2.`options` FROM `".$wpdb->prefix.$table."` as `t1` INNER JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` WHERE t1.`visible` = 1 AND (%s) ORDER BY t1.`timestamp` DESC LIMIT %d, %d", implode(') AND (', $where), $_['offset'], $_['limit']);
 
 		$results =& $wpdb->get_results($sql);
 		$events = array();
@@ -2212,7 +2212,7 @@ abstract class Lifestream_Extension
 	
 	function get_id($event, $uniq_id='')
 	{
-		return $event->id.'-'.$uniq_id;
+		return 'ls-'.$event->id.'-'.$uniq_id;
 	}
 	
 	function render_item($row, $item)

@@ -541,7 +541,7 @@ class Lifestream_YouTubeFeed extends Lifestream_FlickrFeed
 		{
 			$attrs['rel'] = 'ibox';
 		}
-		return $this->lifestream->get_anchor_html('<img src="'.$item['thumbnail'].'" width="50"/>', $item['link'], $attrs);
+		return $this->lifestream->get_anchor_html('<img src="'.$item['thumbnail'].'" alt="" width="50"/>', $item['link'], $attrs);
 	}
 }
 $lifestream->register_feed('Lifestream_YouTubeFeed');
@@ -2276,7 +2276,7 @@ class Lifestream_UpcomingFeed extends Lifestream_Feed
 {
 	const ID	= 'upcoming';
 	const NAME	= 'Upcoming';
-	const URL	= 'http://upcomming.yahoo.com/';
+	const URL	= 'http://upcoming.yahoo.com/';
 	const LABEL	= 'Lifestream_AttendEventLabel';
 	const DESCRIPTION = 'You can get your API key <a href="http://upcoming.yahoo.com/services/api/keygen.php">here</a>. Please note, this feed will only show events you mark as attending.';
 
