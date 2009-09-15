@@ -541,7 +541,7 @@ class Lifestream_YouTubeFeed extends Lifestream_FlickrFeed
 		{
 			$attrs['rel'] = 'ibox';
 		}
-		return $this->lifestream->get_anchor_html('<img src="'.$item['thumbnail'].'" width="50"/>', $item['link'], $attrs);
+		return $this->lifestream->get_anchor_html('<img src="'.$item['thumbnail'].'" alt="" width="50"/>', $item['link'], $attrs);
 	}
 }
 $lifestream->register_feed('Lifestream_YouTubeFeed');
