@@ -2212,7 +2212,7 @@ abstract class Lifestream_Extension
 	
 	function get_id($event, $uniq_id='')
 	{
-		return $event->id.'-'.$uniq_id;
+		return 'ls-'.$event->id.'-'.$uniq_id;
 	}
 	
 	function render_item($row, $item)
