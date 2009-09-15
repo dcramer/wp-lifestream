@@ -168,7 +168,7 @@ Currently the plugin is localized in the default language of English, as well as
 * Chinese (Simplified)
 * Japanese
 * Polish
-* Dutch
+* Danish
 * Italian
 * Bulgarian
 * French
