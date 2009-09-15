@@ -3,6 +3,10 @@
 * Fixed some issues with icon and css paths.
 * Fixed an issue if you weren't using permalinks where pagination links were invalid.
 * Updated and moved GitHub and Reddit into it's their extension file (Thanks Chromakode!).
+* Fixed typo with upcoming.yahoo.com.
+* Added missing `alt` attributes on images.
+* All event `id` attributes will now be prefixed with `ls-`.
+* Added eventful.com extension.
 
 0.99.9.1
 
