@@ -12,7 +12,7 @@ function lifestream_path_join()
 	$bits = func_get_args();
 	$sep = (in_array(PHP_OS, array("WIN32", "WINNT")) ? '\\' : '/');
 	foreach ($bits as $key=>$value) {
-		$bits[$key] = rtrim($value, $sep)
+		$bits[$key] = rtrim($value, $sep);
 	}
 	return implode($sep, $bits);
 }
@@ -1974,17 +1974,17 @@ abstract class Lifestream_Extension
 		$root = trailingslashit(dirname(__FILE__));
 		if ($path == $root)
 		{
-			$path = trailingslashit($this->lifestream->icons[$this->lifestream->get_option('icons', 'default')]['__path']);
-			$icon_path = $path.$this->get_constant('ID').'.png';
+			$path = $this->lifestream->icons[$this->lifestream->get_option('icons', 'default')]['__path'];
+			$icon_path = lifestream_path_join($path, $this->get_constant('ID').'.png');
 			if (!is_file($icon_path))
 			{
-				$icon_path = $path.'generic.png';
+				$icon_path = lifestream_path_join($path, 'generic.png');
 			}
 			$path = $icon_path; 
 		}
 		else
 		{
-			$path = trailingslashit($path).$this->get_icon_name();
+			$path = lifestream_path_join($path, $this->get_icon_name());
 		}
 		return $this->lifestream->get_absolute_media_url($path);
 	}
