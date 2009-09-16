@@ -397,7 +397,7 @@ class Lifestream
 	function get_media_url_for_theme($filename, $theme='default')
 	{
 		// base dir is now $theme['__path'] so we must abstract the web dir
-		$path = lifestream_path_join($this->themes[$theme]['__path']), 'media', $filename);
+		$path = lifestream_path_join($this->themes[$theme]['__path'], 'media', $filename);
 		if (!is_file($path))
 		{
 			$path = lifestream_path_join(LIFESTREAM_PATH, 'themes', 'default', 'media', $filename);
