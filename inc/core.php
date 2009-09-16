@@ -7,6 +7,16 @@ if (!class_exists('SimplePie'))
 
 global $wpdb, $userdata, $lifestream;
 
+function lifestream_path_join()
+{
+	$bits = func_get_args();
+	$sep = (in_array(PHP_OS, array("WIN32", "WINNT")) ? '\\' : '/');
+	foreach ($bits as $key=>$value) {
+		$bits[$key] = rtrim($value, $sep)
+	}
+	return implode($sep, $bits);
+}
+
 function lifestream_array_key_pop($array, $key)
 {
 	$value = $array[$key];
@@ -260,7 +270,7 @@ class Lifestream
 	function get_icon_paths()
 	{
 		$directories = array(
-			LIFESTREAM_PATH . '/icons/'
+			lifestream_path_join(LIFESTREAM_PATH, 'icons');
 		);
 		if ($this->get_option('icon_dir') && $this->get_option('icon_dir') != $directories[0]) {
 			$directories[] = $this->get_option('icon_dir');
@@ -283,13 +293,14 @@ class Lifestream
 				// ignore hidden files
 				if (lifestream_str_startswith($file, '.')) continue;
 				// if its not a directory we dont care
-				if (!is_dir($base_dir . $file)) continue;
-				$ext_file = $base_dir . $file . '/generic.png';
+				$path = lifestream_path_join($base_dir, $file);
+				if (!is_dir($path)) continue;
+				$ext_file = lifestream_path_join($path, 'generic.png');
 				if (is_file($ext_file))
 				{
-					$data = $this->parse_nfo_file($base_dir . $file . '/icons.txt');
+					$data = $this->parse_nfo_file(lifestream_path_join($path, 'icons.txt'));
 					if (!$data['name']) $data['name'] = $file;
-					$data['__path'] = $base_dir.$file;
+					$data['__path'] = $path;
 					$this->icons[$file] = $data;
 				}
 			}
@@ -299,7 +310,7 @@ class Lifestream
 	function get_extension_paths()
 	{
 		$directories = array(
-			LIFESTREAM_PATH . '/extensions/'
+			lifestream_path_join(LIFESTREAM_PATH, 'extensions')
 		);
 		if ($this->get_option('extension_dir') && $this->get_option('extension_dir') != $directories[0]) {
 			$directories[] = $this->get_option('extension_dir');
@@ -323,10 +334,11 @@ class Lifestream
 			{
 				// ignore hidden files
 				if (lifestream_str_startswith($file, '.')) continue;
+				$path = lifestream_path_join($base_dir, $file);
 				// if its not a directory we dont care
-				if (!is_dir($base_dir . $file)) continue;
+				if (!is_dir($path)) continue;
 				// check for extension.inc.php
-				$ext_file = $base_dir . $file . '/extension.inc.php';
+				$ext_file = lifestream_path_join($path, 'extension.inc.php');
 				if (is_file($ext_file))
 				{
 					include($ext_file);
@@ -338,7 +350,7 @@ class Lifestream
 	function get_theme_paths()
 	{
 		$directories = array(
-			LIFESTREAM_PATH . '/themes/'
+			lifestream_path_join(LIFESTREAM_PATH, 'themes')
 		);
 		if ($this->get_option('theme_dir') && $this->get_option('theme_dir') != $directories[0]) {
 			$directories[] = $this->get_option('theme_dir');
@@ -361,14 +373,15 @@ class Lifestream
 				// ignore hidden files
 				if (lifestream_str_startswith($file, '.')) continue;
 				// if its not a directory we dont care
-				if (!is_dir($base_dir . $file)) continue;
+				$path = lifestream_path_join($base_dir, $file);
+				if (!is_dir($path)) continue;
 				// check for main.inc.php
-				$ext_file = $base_dir . $file . '/theme.txt';
+				$ext_file = lifestream_path_join($path, 'theme.txt');
 				if (is_file($ext_file))
 				{
 					$theme = array();
 					$theme = $this->parse_nfo_file($ext_file);
-					$theme['__path'] = $base_dir.$file;
+					$theme['__path'] = $path;
 					if (!array_key_exists('name', $theme)) continue;
 					$this->themes[$file] = $theme;
 				}
@@ -384,10 +397,10 @@ class Lifestream
 	function get_media_url_for_theme($filename, $theme='default')
 	{
 		// base dir is now $theme['__path'] so we must abstract the web dir
-		$path = trailingslashit($this->themes[$theme]['__path']).'media/'.$filename;
+		$path = lifestream_path_join($this->themes[$theme]['__path']), 'media', $filename);
 		if (!is_file($path))
 		{
-			$path = LIFESTREAM_PATH.'/themes/default/media/'.$filename;
+			$path = lifestream_path_join(LIFESTREAM_PATH, 'themes', 'default', 'media', $filename);
 		}
 		return $this->get_absolute_media_url($path);
 	}
@@ -395,7 +408,7 @@ class Lifestream
 	function get_absolute_media_url($path)
 	{
 		$path = str_replace(trailingslashit(WP_CONTENT_DIR), '', $path);
-		return trailingslashit(WP_CONTENT_URL).$path;
+		return str_replace('\\', '/', trailingslashit(WP_CONTENT_URL).$path);
 	}
 
 	function get_theme_filepath($filename)
@@ -414,7 +427,7 @@ class Lifestream
 		{
 			throw new Exception('Theme is not valid.');
 		}
-		return $this->themes[$theme]['__path'].'/'.$filename;
+		return lifestream_path_join($this->themes[$theme]['__path'], $filename);
 	}
 
 	function validate_image($url)
