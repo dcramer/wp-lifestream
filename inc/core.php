@@ -270,7 +270,7 @@ class Lifestream
 	function get_icon_paths()
 	{
 		$directories = array(
-			lifestream_path_join(LIFESTREAM_PATH, 'icons');
+			lifestream_path_join(LIFESTREAM_PATH, 'icons')
 		);
 		if ($this->get_option('icon_dir') && $this->get_option('icon_dir') != $directories[0]) {
 			$directories[] = $this->get_option('icon_dir');
