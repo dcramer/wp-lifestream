@@ -277,6 +277,19 @@ class Lifestream
 		}
 		return $directories;
 	}
+	
+	function get_rss_feed_url()
+	{
+		$permalink = get_option('permalink_structure');
+		if (!empty($permalink))
+		{
+			$url = trailingslashit(get_bloginfo('url')) . 'feed/lifestream-feed';
+		}
+		else {
+			$url = trailingslashit(get_bloginfo('url')) . 'wp-rss2.php?feed=lifestream-feed';
+		}
+		return $url;
+	}
 
 	/**
 	 * Find each icons/name/generic.png file.
