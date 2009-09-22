@@ -3,6 +3,8 @@
 * Some more potential fixes for Windows users and icon packs.
 * Added Refined Extended icon pack by Paul Robert LLoyd.
 * Fixed an issue with parsing extension files.
+* Several validation issues for the RSS feed were fixed.
+* Added Lifestream::get_rss_feed_url()
 
 0.99.9.2
 

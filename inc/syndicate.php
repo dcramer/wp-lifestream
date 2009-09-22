@@ -18,9 +18,9 @@ function lifestream_rss_feed()
 	$lines = array('<?xml version="1.0" encoding="UTF-8"?>');
 	$lines[] = '<rss xmlns:lifestream="http://www.davidcramer.net/a-url-which-ill-make-later" version="2.0">';
 	$lines[] = '	<channel>';
-	$lines[] = '		<title>Lifestream for '.htmlspecialchars(get_bloginfo('blogname')).'</title>';
-	$lines[] = '		<description>'.htmlspecialchars(get_bloginfo('description')).'</description>';
-	$lines[] = '		<link>'.htmlspecialchars(get_bloginfo('url')).'</link>';
+	$lines[] = '		<title>Lifestream for '.get_bloginfo('blogname').'</title>';
+	$lines[] = '		<description>'.get_bloginfo('description').'</description>';
+	$lines[] = '		<link>'.get_bloginfo('url').'</link>';
 	$lines[] = '		<atom:link href="'.$lifestream->get_rss_feed_url().'"rel="self" type="application/rss+xml"/>';
 	$lines[] = '		<pubDate>'.$date.'</pubDate>';
 	
