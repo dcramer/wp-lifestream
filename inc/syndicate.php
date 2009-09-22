@@ -21,7 +21,7 @@ function lifestream_rss_feed()
 	$lines[] = '<rss xmlns:lifestream="http://www.davidcramer.net/a-url-which-ill-make-later" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">';
 	$lines[] = '	<channel>';
 	$lines[] = '		<title>Lifestream for '.get_bloginfo('blogname').'</title>';
-	$lines[] = '		<generator>wp-lifestream '.LIFESTREAM_VERSION.'</generator>'
+	$lines[] = '		<generator>wp-lifestream '.LIFESTREAM_VERSION.'</generator>';
 	$lines[] = '		<description>'.get_bloginfo('description').'</description>';
 	$lines[] = '		<link>'.get_bloginfo('url').'</link>';
 	$lines[] = '		<atom:link href="'.$lifestream->get_rss_feed_url().'" rel="self" type="application/rss+xml"/>';
