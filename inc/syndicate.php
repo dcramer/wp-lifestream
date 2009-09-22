@@ -16,7 +16,7 @@ function lifestream_rss_feed()
 	
 	header('Content-Type: application/xml+rss');
 	
-	$date = date('u');
+	$date = date('r');
 	$lines = array('<?xml version="1.0" encoding="UTF-8"?>');
 	$lines[] = '<rss xmlns:lifestream="http://www.davidcramer.net/a-url-which-ill-make-later" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">';
 	$lines[] = '	<channel>';
