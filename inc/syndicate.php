@@ -21,7 +21,7 @@ function lifestream_rss_feed()
 	$lines[] = '		<title>Lifestream for '.get_bloginfo('blogname').'</title>';
 	$lines[] = '		<description>'.get_bloginfo('description').'</description>';
 	$lines[] = '		<link>'.get_bloginfo('url').'</link>';
-	$lines[] = '		<atom:link href="'.$lifestream->get_rss_feed_url().'"rel="self" type="application/rss+xml"/>';
+	$lines[] = '		<atom:link href="'.$lifestream->get_rss_feed_url().'" rel="self" type="application/rss+xml"/>';
 	$lines[] = '		<pubDate>'.$date.'</pubDate>';
 	
 	foreach ($events as $event)
