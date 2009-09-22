@@ -395,6 +395,7 @@ class Lifestream
 		$path = lifestream_path_join($this->icons[$iconpack]['__path'], $filename);
 		if (!is_file($path))
 		{
+			$filename = 'generic.png';
 			$path = lifestream_path_join(LIFESTREAM_PATH, 'icons', 'default', $filename);
 		}
 		return $this->get_absolute_media_url($path);
