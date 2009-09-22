@@ -165,7 +165,7 @@ $authors = get_users_of_blog();
 									<?php foreach ($lifestream->icons as $key=>$data) {?>
 										<tr>
 											<td class="icon"><input type="radio" id="id_lifestream_icons_<?php echo $key; ?>" name="lifestream_icons" value="<?php echo $key; ?>"<?php if ($lifestream->get_option('icons', 'default') == $key) echo ' checked="checked"'; ?>/></td>
-											<td class="icon"><label for="id_lifestream_icons_<?php echo $key; ?>"><img src="<?php echo $lifestream->path . '/icons/' . $key; ?>/generic.png" alt="icon"/></label></td>
+											<td class="icon"><label for="id_lifestream_icons_<?php echo $key; ?>"><img src="<?php echo $lifestream->get_media_url_for_icon('generic.png', $key); ?>" alt="icon"/></label></td>
 											<td><label for="id_lifestream_icons_<?php echo $key; ?>"><?php echo htmlspecialchars($data['name']); ?>
 												<?php if (!empty($data['author'])) { ?>
 													<?php if (!empty($data['url'])) { ?>

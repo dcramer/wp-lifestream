@@ -261,7 +261,7 @@ class Lifestream
 		foreach ($fp as $line)
 		{
 			if (lifestream_str_startswith('#', $line)) continue;
-			list($key, $value) = explode(':', $line);
+			list($key, $value) = explode(':', $line, 2);
 			$data[strtolower($key)] = trim($value);
 		}
 		return $data;
@@ -301,6 +301,7 @@ class Lifestream
 					$data = $this->parse_nfo_file(lifestream_path_join($path, 'icons.txt'));
 					if (!$data['name']) $data['name'] = $file;
 					$data['__path'] = $path;
+					$data['__url'] = 
 					$this->icons[$file] = $data;
 				}
 			}
@@ -387,6 +388,21 @@ class Lifestream
 				}
 			}
 		}
+	}
+	
+	function get_media_url_for_icon($filename='generic.png', $iconpack='default')
+	{
+		$path = lifestream_path_join($this->icons[$iconpack]['__path'], $filename);
+		if (!is_file($path))
+		{
+			$path = lifestream_path_join(LIFESTREAM_PATH, 'icons', 'default', $filename);
+		}
+		return $this->get_absolute_media_url($path);
+	}
+
+	function get_icon_media_url($filename)
+	{
+		return $this->get_media_url_for_icon($filename, $this->get_option('icons', 'default'));
 	}
 	
 	function get_theme_media_url($filename)
@@ -1966,6 +1982,7 @@ abstract class Lifestream_Extension
 	
 	function get_icon_url()
 	{
+		// TODO: clean this up to use the new Lifestream::get_media methods
 		if (!empty($this->options['icon_url']))
 		{
 			return $this->options['icon_url'];

@@ -1,3 +1,9 @@
+0.99.9.3
+
+* Some more potential fixes for Windows users and icon packs.
+* Added Refined Extended icon pack by Paul Robert LLoyd.
+* Fixed an issue with parsing extension files.
+
 0.99.9.2
 
 * Fixed some issues with icon and css paths.
