@@ -199,14 +199,7 @@ $authors = get_users_of_blog();
 			<div class="handlediv" title="Click to toggle"><br /></div><h3 class='hndle'><span><?php $lifestream->_e('Feed'); ?></span></h3>
 			<div class="inside">
 				<?php
-				$permalink = get_option('permalink_structure');
-				if (!empty($permalink))
-				{
-					$url = trailingslashit(get_bloginfo('wpurl')) . 'feed/lifestream-feed';
-				}
-				else {
-					$url = trailingslashit(get_bloginfo('wpurl')) . 'wp-rss2.php?feed=lifestream-feed';
-				}
+				$url = $lifestream->get_rss_feed_url();
 				?>
 				<p><?php $lifestream->_e('You can access your feed URL at <a href="%s">%s</a>.', $url, $url); ?></p>
 				<table class="form-table">
