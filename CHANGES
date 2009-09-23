@@ -5,6 +5,7 @@
 * Fixed an issue with parsing extension files.
 * Several validation issues for the RSS feed were fixed.
 * Added Lifestream::get_rss_feed_url()
+* Added Gowalla extension.
 
 0.99.9.2
 
