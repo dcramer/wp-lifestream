@@ -14,7 +14,7 @@ class Lifestream_EventfulFeed extends Lifestream_Feed
 	function get_options()
 	{		
 		return array(
-			'url' => array($this->lifestream->__('Username:'), true, '', ''),
+			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 		);
 	}
 
