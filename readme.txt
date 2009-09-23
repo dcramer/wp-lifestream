@@ -160,6 +160,7 @@ The plugin includes most of the major social networking feeds available. You may
 * Upcoming.org
 * WordPress Codex
 * Raptr
+* Gowalla
 
 == Localization ==
 

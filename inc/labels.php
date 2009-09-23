@@ -585,8 +585,7 @@ class Lifestream_LocationLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		$post = sprintf('<a href="%s">%s</a>', htmlspecialchars($this->event->data[0]['link']), htmlspecialchars($this->event->get_event_display($this->event->data[0])));
-		return $this->lifestream->__('Checked in at %2$s', $this->get_feed_label(), $post);
+		return $this->lifestream->__('Checked in at %2$s', $this->get_feed_label(), $this->get_single_link());
 	}
 	
 	function get_label_plural()
