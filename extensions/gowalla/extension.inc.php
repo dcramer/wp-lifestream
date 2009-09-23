@@ -1,5 +1,5 @@
 <?php
-class Lifestream_EventfulFeed extends Lifestream_Feed
+class Lifestream_GowallaFeed extends Lifestream_Feed
 {
 	const ID	= 'gowalla';
 	const NAME	= 'Gowalla';
