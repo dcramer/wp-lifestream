@@ -127,12 +127,12 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 
 	function parse_users($text)
 	{
-		return preg_replace_callback('/([^\w]*)@([a-z0-9_-\/]+)\b/i', array($this, '_get_user_link'), $text);
+		return preg_replace_callback('/([^\w]*)@([a-z0-9_\-\/]+)\b/i', array($this, '_get_user_link'), $text);
 	}
 
 	function parse_search_term($text)
 	{
-		return preg_replace_callback('/([^\w]*)(#[a-z0-9_-]+)\b/i', array($this, '_get_search_term_link'), $text);
+		return preg_replace_callback('/([^\w]*)(#[a-z0-9_\-\/]+)\b/i', array($this, '_get_search_term_link'), $text);
 	}
 
 	function get_url($page=1, $count=20)
