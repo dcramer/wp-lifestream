@@ -1763,6 +1763,10 @@ class Lifestream
 		{
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `active` tinyint(1) default 1 NOT NULL AFTER `timestamp`");
 		}
+		if (version_compare($version, '0.99.9.4', '<'))
+		{
+			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 1");
+		}
 	}
 	
 	function get_page_from_request()
@@ -1974,6 +1978,7 @@ abstract class Lifestream_Extension
 		$this->id = $id;
 		if ($row)
 		{
+			$this->active = $row->active;
 			$this->owner = $row->owner;
 			$this->owner_id = $row->owner_id;
 			$this->_owner_id = $row->owner_id;
