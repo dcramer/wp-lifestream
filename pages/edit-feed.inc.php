@@ -140,7 +140,7 @@ $authors = get_users_of_blog();
 				<?php foreach ($events as $result) { ?>
 					<tr valign="top">
 						<td class="num"><?php echo $result->id; ?></td>
-						<td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->get_event_link()); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo htmlspecialchars($result->get_event_display()); ?></a></strong><br/><small><?php echo htmlspecialchars($result->feed->get_public_name()); ?> &ndash; <?php echo htmlspecialchars($result->get_event_link()); ?></small>
+						<td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->get_event_link()); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo htmlspecialchars($result->get_event_display()); ?></a></strong><br/><small><?php echo htmlspecialchars($result->feed->get_public_name()); ?> &#8211; <?php echo htmlspecialchars($result->get_event_link()); ?></small>
 						<td><?php echo date($date_format, $result->date); ?></td>
 						<td><?php echo $result->owner; ?></td>
 					</tr>

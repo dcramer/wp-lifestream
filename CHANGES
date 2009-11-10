@@ -1,3 +1,10 @@
+0.99.9.4
+
+* Added `truncate_interval` option. Defaults to off. Used to truncate event history.
+* Added the ability to start/stop (pause) a feeds updates.
+* URLs should now support linking if they include a dash (-) or a percent sign (%).
+* The Twitter extension will now properly link lists.
+
 0.99.9.3
 
 * Some more potential fixes for Windows users and icon packs.

@@ -13,7 +13,7 @@ if (count($events))
 			<div class="lifestream_text">
 				<div class="lifestream_label"><?php echo $event->get_label($options); ?></div>
 				<?php if ($show_metadata) { ?>
-					<div class="lifestream_meta">&mdash; <abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php echo $lifestream->timesince($event->timestamp); ?></abbr> <span class="lifestream_via">via <?php echo $event->get_feed_label($options) ?></span></div>
+					<div class="lifestream_meta">&#8212; <abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php echo $lifestream->timesince($event->timestamp); ?></abbr> <span class="lifestream_via">via <?php echo $event->get_feed_label($options) ?></span></div>
 				<?php } ?>
 				<?php echo $event->render($options); ?>
 			</div>

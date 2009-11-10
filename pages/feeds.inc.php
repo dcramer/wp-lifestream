@@ -19,6 +19,8 @@ if (count($results))
 		?>
 		<div class="alignleft">
 			<button type="submit" name="op" value="refresh" class="button-primary refresh"><?php $lifestream->_e('Refresh'); ?></button>
+			<button type="submit" name="op" value="pause" class="button-secondary"><?php $lifestream->_e('Pause'); ?></button>
+			<button type="submit" name="op" value="unpause" class="button-secondary"><?php $lifestream->_e('Unpause'); ?></button>
 			<button type="submit" name="op" value="delete" class="button-secondary delete"><?php $lifestream->_e('Delete'); ?></button>
 		</div>
 		<br class="clear" />
@@ -51,7 +53,7 @@ if (count($results))
 					<th scope="row" class="check-column"><input type="checkbox" name="id[]" value="<?php echo $result->id; ?>" /></th>
 					<td class="num"><?php echo $result->id; ?></td>
 					<td class="icon"><img src="<?php echo $result->get_icon_url(); ?>" alt="icon"/></td>
-					<td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo $result->get_public_name(); ?></a></strong><br /><small><?php echo htmlspecialchars($lifestream->truncate($result->get_feed_display(), 100)); ?></small><?php
+					<td><strong><a class="row-title" href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->id; ?>"><?php echo $result->get_public_name(); ?></a></strong><?php if (!$result->active) echo ' (Paused)'; ?><br /><small><?php echo htmlspecialchars($lifestream->truncate($result->get_feed_display(), 100)); ?></small><?php
 					if (isset($feedmsgs[$result->id]) && !empty($feedmsgs[$result->id]))
 					{
 						$msg = $feedmsgs[$result->id];
@@ -72,6 +74,8 @@ if (count($results))
 		?>
 		<div class="alignleft">
 			<button type="submit" name="op" value="refresh" class="button-primary refresh"><?php $lifestream->_e('Refresh'); ?></button>
+			<button type="submit" name="op" value="pause" class="button-secondary"><?php $lifestream->_e('Pause'); ?></button>
+			<button type="submit" name="op" value="unpause" class="button-secondary"><?php $lifestream->_e('Unpause'); ?></button>
 			<button type="submit" name="op" value="delete" class="button-secondary delete"><?php $lifestream->_e('Delete'); ?></button>
 		</div>
 		<br class="clear" />
