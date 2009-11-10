@@ -966,6 +966,7 @@ class Lifestream
 							$ids[] = (int)$id;
 						}
 						if (!empty($ids))
+						{
 							if (current_user_can('manage_options'))
 							{
 								$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 0 WHERE `id` IN ('%s')", implode("','", $ids)));
@@ -986,6 +987,7 @@ class Lifestream
 							$ids[] = (int)$id;
 						}
 						if (!empty($ids))
+						{
 							if (current_user_can('manage_options'))
 							{
 								$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 1 WHERE `id` IN ('%s')", implode("','", $ids)));
