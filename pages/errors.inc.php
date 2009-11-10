@@ -38,7 +38,7 @@ if (count($results))
 						}
 						else
 						{
-							echo '&ndash;';
+							echo '&#8211;';
 						}
 						?>
 					</td>

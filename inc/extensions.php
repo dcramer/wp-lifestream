@@ -127,7 +127,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 
 	function parse_users($text)
 	{
-		return preg_replace_callback('/([^\w]*)@([a-z0-9_-]+)\b/i', array($this, '_get_user_link'), $text);
+		return preg_replace_callback('/([^\w]*)@([a-z0-9_-\/]+)\b/i', array($this, '_get_user_link'), $text);
 	}
 
 	function parse_search_term($text)
@@ -341,7 +341,7 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 	
 	function render_item($row, $item)
 	{
-		return $this->lifestream->get_anchor_html(htmlspecialchars($item['artist']).' &ndash; '.htmlspecialchars($item['name']), $item['link']);
+		return $this->lifestream->get_anchor_html(htmlspecialchars($item['artist']).' &#8211; '.htmlspecialchars($item['name']), $item['link']);
 	}
 }
 $lifestream->register_feed('Lifestream_LastFMFeed');
