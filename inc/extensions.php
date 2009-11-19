@@ -127,12 +127,12 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 
 	function parse_users($text)
 	{
-		return preg_replace_callback('/([^\w]*)@([a-z0-9_-]+)\b/i', array($this, '_get_user_link'), $text);
+		return preg_replace_callback('/([^\w]*)@([a-z0-9_\-\/]+)\b/i', array($this, '_get_user_link'), $text);
 	}
 
 	function parse_search_term($text)
 	{
-		return preg_replace_callback('/([^\w]*)(#[a-z0-9_-]+)\b/i', array($this, '_get_search_term_link'), $text);
+		return preg_replace_callback('/([^\w]*)(#[a-z0-9_\-\/]+)\b/i', array($this, '_get_search_term_link'), $text);
 	}
 
 	function get_url($page=1, $count=20)
@@ -341,7 +341,7 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 	
 	function render_item($row, $item)
 	{
-		return $this->lifestream->get_anchor_html(htmlspecialchars($item['artist']).' &ndash; '.htmlspecialchars($item['name']), $item['link']);
+		return $this->lifestream->get_anchor_html(htmlspecialchars($item['artist']).' &#8211; '.htmlspecialchars($item['name']), $item['link']);
 	}
 }
 $lifestream->register_feed('Lifestream_LastFMFeed');
@@ -551,7 +551,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	const ID			= 'googlereader';
 	const NAME			= 'Google Reader';
 	const URL			= 'http://www.google.com/reader/';
-	const DESCRIPTION	= 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". It should look something like this: http://www.google.com/reader/shared/14285665327310657206';
+	const DESCRIPTION	= 'Your Google Reader feed URL is available by going to "Share items" under "Your stuff". From there follow the link "See your shared items page in a new window.". It should look something like this: http://www.google.com/reader/shared/username_or_132412341234';
 	const LABEL			= 'Lifestream_BookmarkLabel';
 	const NS			= 'http://www.google.com/schemas/reader/atom/';
 	const HAS_EXCERPTS	= true;
@@ -582,7 +582,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	
 	function save_options()
 	{
-		if (preg_match('/\/reader\/shared\/([0-9]+)\/?/i', $this->options['url'], $match))
+		if (preg_match('/\/reader\/shared\/([A-Za-z0-9_\-]+)\/?/i', $this->options['url'], $match))
 		{
 			$this->options['user_id'] = $match[1];
 		}
