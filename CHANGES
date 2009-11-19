@@ -4,6 +4,7 @@
 * Added the ability to start/stop (pause) a feeds updates.
 * URLs should now support linking if they include a dash (-) or a percent sign (%).
 * The Twitter extension will now properly link lists.
+* Google Reader now supports username URLs.
 
 0.99.9.3
 
