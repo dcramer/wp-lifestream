@@ -1777,7 +1777,8 @@ class Lifestream
 	{
 		if (!$page) $page = $this->get_page_from_request();
 		if (strpos($_SERVER['QUERY_STRING'], '?') !== false) {
-			return '&'.$this->paging_key.'='.($page+1);
+			$url = str_replace('&'.$this->paging_key.'='.$page, '', $_SERVER['QUERY_STRING']);
+			return $url.'&'.$this->paging_key.'='.($page+1);
 		}
 		return '?'.$this->paging_key.'='.($page+1);
 	}
@@ -1785,7 +1786,8 @@ class Lifestream
 	{
 		if (!$page) $page = $this->get_page_from_request();
 		if (strpos($_SERVER['QUERY_STRING'], '?') !== false) {
-			return '&'.$this->paging_key.'='.($page-1);
+			$url = str_replace('&'.$this->paging_key.'='.$page, '', $_SERVER['QUERY_STRING']);
+			return $url.'&'.$this->paging_key.'='.($page-1);
 		}
 		return '?'.$this->paging_key.'='.($page-1);
 	}
