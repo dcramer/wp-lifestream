@@ -523,6 +523,7 @@ class Lifestream
 		'theme_dir'			=> '',
 		'icon_dir'			=> '',
 		'links_new_windows'	=> '0',
+		'truncate_interval'	=> '0',
 	);
 	
 	function __construct()
@@ -539,6 +540,7 @@ class Lifestream
 		add_filter('cron_schedules', array(&$this, 'get_cron_schedules'));
 		add_action('lifestream_digest_cron', array(&$this, 'digest_update'));
 		add_action('lifestream_cron', array(&$this, 'update'));
+		add_action('lifestream_cleanup', array(&$this, 'cleanup_history'));
 		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
@@ -711,7 +713,6 @@ class Lifestream
 			'interval' => $interval * 60,
 			'display' => $this->__('On Lifestream update')
 		);
-
 		$cron['lifestream_digest'] = array(
 			'interval' => (int)$this->get_digest_interval(),
 			'display' => $this->__('On Lifestream daily digest update')
@@ -955,6 +956,48 @@ class Lifestream
 									$errors[] = $this->__('There was an error refreshing the selected feed: ID %s', $instance->id);
 								}
 							}
+						}
+					break;
+					case 'pause':
+						if (!$_REQUEST['id']) break;
+						$ids = array();
+						foreach ($_REQUEST['id'] as $id)
+						{
+							$ids[] = (int)$id;
+						}
+						if (!empty($ids))
+						{
+							if (current_user_can('manage_options'))
+							{
+								$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 0 WHERE `id` IN ('%s')", implode("','", $ids)));
+							}
+							else 
+							{
+								$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 1 WHERE `id` IN ('%s') AND `owner_id` = %s", implode("','", $ids), $userdata->ID));
+								
+							}
+							$message = $this->__('The selected feeds have been paused, and events will not be refreshed.');
+						}
+					break;
+					case 'unpause':
+						if (!$_REQUEST['id']) break;
+						$ids = array();
+						foreach ($_REQUEST['id'] as $id)
+						{
+							$ids[] = (int)$id;
+						}
+						if (!empty($ids))
+						{
+							if (current_user_can('manage_options'))
+							{
+								$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 1 WHERE `id` IN ('%s')", implode("','", $ids)));
+							}
+							else 
+							{
+								$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 0 WHERE `id` IN ('%s') AND `owner_id` = %s", implode("','", $ids), $userdata->ID));
+								
+							}
+							$message = $this->__('The selected feeds have been unpaused, and events will now be refreshed.');
 						}
 					break;
 					case 'delete':
@@ -1252,11 +1295,25 @@ class Lifestream
 	}
 	
 	/**
+	 * Cleans up old entries based on the `truncate_interval` setting.
+	 */
+	function cleanup_history()
+	{
+		$int = $this->get_option('truncate_interval');
+		if (!(int)$int) return;
+		// the value is in days
+		$ts = time()-(int)$int*3600*24;
+		$result = $wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `timestamp` < %s", $wpdb->escape($ts)));
+		$result = $wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `timestamp` < %s", $wpdb->escape($ts)));
+		$result = $wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_error_log` WHERE `timestamp` < %s", $wpdb->escape($ts)));
+	}
+	
+	/**
 	 * Attempts to update all feeds
 	 */
-	function update()
+	function update($user_id=null)
 	{
-		$event_arr = $this->update_all();
+		$event_arr = $this->update_all($user_id);
 		$events = 0;
 		foreach ($event_arr as $instance=>$result)
 		{
@@ -1265,12 +1322,13 @@ class Lifestream
 		return $events;
 	}
 	
-	function update_all()
+	function update_all($user_id=null)
 	{
+		// $user_id is not implemented yet
 		global $wpdb;
 		$this->update_option('_last_update', time());
 		$events = array();
-		$results =& $wpdb->get_results("SELECT * FROM `".$wpdb->prefix."lifestream_feeds`");
+		$results =& $wpdb->get_results("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` WHERE `active` = 1");
 		foreach ($results as $result)
 		{
 			$instance = Lifestream_Feed::construct_from_query_result($this, $result);
@@ -1415,6 +1473,9 @@ class Lifestream
 	{
 		switch ($name)
 		{
+			case 'lifestream_cleanup':
+				return 'Cleans up old events and error messages.';
+			break;
 			case 'lifestream_cron':
 				return 'Updates all active feeds.';
 			break;
@@ -1450,7 +1511,10 @@ class Lifestream
 	function reschedule_cron()
 	{
 		wp_clear_scheduled_hook('lifestream_cron');
+		wp_clear_scheduled_hook('lifestream_cleanup');
 		wp_clear_scheduled_hook('lifestream_digest_cron');
+
+		wp_schedule_event(time()+60, 'daily', 'lifestream_cleanup');
 		
 		// First lifestream cron should not happen instantly, incase we need to reschedule
 		wp_schedule_event(time()+60, 'lifestream', 'lifestream_cron');
@@ -1481,6 +1545,7 @@ class Lifestream
 	function deactivate()
 	{
 		wp_clear_scheduled_hook('lifestream_cron');
+		wp_clear_scheduled_hook('lifestream_cleanup');
 		wp_clear_scheduled_hook('lifestream_digest_cron');
 	}
 
@@ -1493,10 +1558,6 @@ class Lifestream
 
 		// Options/database install
 		$this->install();
-		
-		// Clean up cron
-		wp_clear_scheduled_hook('lifestream_cron');
-		wp_clear_scheduled_hook('lifestream_digest_cron');
 		
 		// Cron job for the update
 		$this->reschedule_cron();
@@ -1702,6 +1763,10 @@ class Lifestream
 		{
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `active` tinyint(1) default 1 NOT NULL AFTER `timestamp`");
 		}
+		if (version_compare($version, '0.99.9.4', '<'))
+		{
+			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 1");
+		}
 	}
 	
 	function get_page_from_request()
@@ -1712,7 +1777,8 @@ class Lifestream
 	{
 		if (!$page) $page = $this->get_page_from_request();
 		if (strpos($_SERVER['QUERY_STRING'], '?') !== false) {
-			return '&'.$this->paging_key.'='.($page+1);
+			$url = str_replace('&'.$this->paging_key.'='.$page, '', $_SERVER['QUERY_STRING']);
+			return $url.'&'.$this->paging_key.'='.($page+1);
 		}
 		return '?'.$this->paging_key.'='.($page+1);
 	}
@@ -1720,7 +1786,8 @@ class Lifestream
 	{
 		if (!$page) $page = $this->get_page_from_request();
 		if (strpos($_SERVER['QUERY_STRING'], '?') !== false) {
-			return '&'.$this->paging_key.'='.($page-1);
+			$url = str_replace('&'.$this->paging_key.'='.$page, '', $_SERVER['QUERY_STRING']);
+			return $url.'&'.$this->paging_key.'='.($page-1);
 		}
 		return '?'.$this->paging_key.'='.($page-1);
 	}
@@ -1913,6 +1980,7 @@ abstract class Lifestream_Extension
 		$this->id = $id;
 		if ($row)
 		{
+			$this->active = $row->active;
 			$this->owner = $row->owner;
 			$this->owner_id = $row->owner_id;
 			$this->_owner_id = $row->owner_id;
@@ -2476,9 +2544,9 @@ class Lifestream_Feed extends Lifestream_Extension
 	function parse_urls($text)
 	{
 		# match http(s):// urls
-		$text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w\=/\~_\.]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $text);
+		$text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w\=/\~_\.\%\-]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $text);
 		# match www urls
-		$text = preg_replace('@((?<!http://)www\.([-\w\.]+)+(:\d+)?(/([\w/\=\~_\.]*(\?\S+)?)?)?)@', '<a href="http://$1">$1</a>', $text);
+		$text = preg_replace('@((?<!http://)www\.([-\w\.]+)+(:\d+)?(/([\w/\=\~_\.\%\-]*(\?\S+)?)?)?)@', '<a href="http://$1">$1</a>', $text);
 		# match email@address
 		$text = preg_replace('/\b([A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4})\b/i', '<a href="mailto:$1">$1</a>', $text);
 		return $text;
