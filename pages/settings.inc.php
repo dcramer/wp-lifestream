@@ -135,7 +135,7 @@ $authors = get_users_of_blog();
 							<td><select name="lifestream_truncate_interval" id="id_truncate_interval">
 								<option value="0"<?php if ($lifestream->get_option('truncate_interval') == '0') echo ' selected="selected"'; ?>><?php $lifestream->_e('(Keep Full History)'); ?></option>
 								<?php foreach (array(30, 60, 90, 180, 365) as $amnt) { ?>
-									<option value="<?php echo $amnt; ?>"<?php if ($lifestream->get_option('truncate_interval') == str($amnt)) echo ' selected="selected"'; ?>><?php $lifestream->_e('%s Days', $amnt); ?></option>
+									<option value="<?php echo $amnt; ?>"<?php if ($lifestream->get_option('truncate_interval') == (string)$amnt) echo ' selected="selected"'; ?>><?php $lifestream->_e('%s Days', $amnt); ?></option>
 								<?php } ?>
 								</select>
 								<div class="helptext"><?php $lifestream->_e('You may truncate your event history at a certain point if you\'re concerned about database usage.'); ?></div>
