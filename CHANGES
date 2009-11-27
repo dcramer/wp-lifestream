@@ -1,3 +1,9 @@
+0.99.9.5
+
+* Fixed settings panel.
+* Added initial Kiva extension by ohnate.com.
+* Support for non-permalink paging.
+
 0.99.9.4
 
 * Added `truncate_interval` option. Defaults to off. Used to truncate event history.
