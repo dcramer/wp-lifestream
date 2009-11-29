@@ -161,6 +161,7 @@ The plugin includes most of the major social networking feeds available. You may
 * WordPress Codex
 * Raptr
 * Gowalla
+* Kiva
 
 == Localization ==
 
@@ -182,8 +183,8 @@ Currently the plugin is localized in the default language of English, as well as
 
 == Credits ==
 
-An [iBegin Labs](http://www.ibegin.com/labs/) project.
+An [Enthropia Labs](http://www.enthropia.com/labs/) project.
 
-Created and mainted by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net)).
+Created and maintained by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net)).
 
 Core concept inspired by [RSS Stream](http://rick.jinlabs.com/code/rss-stream).
