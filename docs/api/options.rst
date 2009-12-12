@@ -47,12 +47,6 @@ Extension options are handled differently than our global level options. There a
 
 .. class:: Lifestream_Extension
 
-  .. attribute:: $options
-  
-     Contains a dictionary of key/value pairs describing your extensions current options::
-     
-     	$username = $this->options['username']
-
   .. method:: get_options()
 
      Returns a list of the available options for this extension.

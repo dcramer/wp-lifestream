@@ -9,7 +9,7 @@ class Lifestream_PlurkFeed extends Lifestream_Feed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -21,12 +21,12 @@ class Lifestream_PlurkFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://www.plurk.com/'.$this->options['username'];
+		return 'http://www.plurk.com/'.$this->get_option('username');
 	}
 
 	function get_url()
 	{
-		return 'http://www.plurk.com/'.$this->options['username'].'.xml';
+		return 'http://www.plurk.com/'.$this->get_option('username').'.xml';
 	}
 
 	function get_label_class($key)
@@ -39,7 +39,7 @@ class Lifestream_PlurkFeed extends Lifestream_Feed
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
-		$string = $this->options['username'] . ' ';
+		$string = $this->get_option('username') . ' ';
 		$title = $data['title'];
 		if (lifestream_str_startswith(strtolower($title), strtolower($string)))
 		{
@@ -66,7 +66,7 @@ class Lifestream_PlurkFeed extends Lifestream_Feed
 	{
 		if ($row->key == 'message')
 		{
-			return $this->parse_urls(htmlspecialchars($item['title'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
+			return $this->parse_urls(htmlspecialchars($item['title'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
 		}
 		else
 		{
@@ -88,7 +88,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -122,7 +122,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return $this->get_user_url($this->options['username']);
+		return $this->get_user_url($this->get_option('username'));
 	}
 
 	function parse_users($text)
@@ -137,15 +137,15 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 
 	function get_url($page=1, $count=20)
 	{
-		if ($this->options['password'])
+		if ($this->get_option('password'))
 		{
-			$url_base = 'http://'.$this->options['username'].':'.urlencode($this->options['password']).'@twitter.com';
+			$url_base = 'http://'.$this->get_option('username').':'.urlencode($this->get_option('password')).'@twitter.com';
 		}
 		else
 		{
 			$url_base = 'http://twitter.com';
 		}
-		return $url_base . '/statuses/user_timeline/'.$this->options['username'].'.rss?page='.$page.'&count='.$count;
+		return $url_base . '/statuses/user_timeline/'.$this->get_option('username').'.rss?page='.$page.'&count='.$count;
 	}
 	
 	function save()
@@ -167,19 +167,19 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	
 	function render_item($row, $item)
 	{
-		return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description'])))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
+		return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description'])))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
 	}
 	
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
-		$string = $this->options['username'] . ': ';
+		$string = $this->get_option('username') . ': ';
 		$description = $this->lifestream->html_entity_decode($row->get_description());
 		if (lifestream_str_startswith(strtolower($description), strtolower($string)))
 		{
 			$description = substr($description, strlen($string));
 		}
-		if ($this->options['hide_replies'] && lifestream_str_startswith($description, '@'))
+		if ($this->get_option('hide_replies') && lifestream_str_startswith($description, '@'))
 		{
 			return false;
 		}
@@ -198,7 +198,7 @@ class Lifestream_JaikuFeed extends Lifestream_TwitterFeed
 	
 	function get_url()
 	{
-		return 'http://'.$this->options['username'].'.jaiku.com/feed/rss';
+		return 'http://'.$this->get_option('username').'.jaiku.com/feed/rss';
 	}
 	
 	function get_user_url($user)
@@ -213,7 +213,7 @@ class Lifestream_JaikuFeed extends Lifestream_TwitterFeed
 
 	function yield($row, $url, $key)
 	{
-		if (!lifestream_str_startswith($row->get_link(), 'http://'.$this->options['username'].'.jaiku.com/presence/')) return;
+		if (!lifestream_str_startswith($row->get_link(), 'http://'.$this->get_option('username').'.jaiku.com/presence/')) return;
 		
 		$data = parent::yield($row, $url, $key);
 		preg_match('|<p>([^<]+)</p>|i', $row->get_description(), $matches);
@@ -233,7 +233,7 @@ class Lifestream_DeliciousFeed extends Lifestream_Feed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_options()
@@ -246,14 +246,14 @@ class Lifestream_DeliciousFeed extends Lifestream_Feed
 
 	function get_url()
 	{
-		$url = 'http://del.icio.us/rss/'.$this->options['username'];
-		if (!empty($this->options['filter_tag'])) $url .= '/'.$this->options['filter_tag'];
+		$url = 'http://del.icio.us/rss/'.$this->get_option('username');
+		if (!empty($this->get_option('filter_tag'))) $url .= '/'.$this->get_option('filter_tag');
 		return $url;
 	}
 	
 	function get_public_url()
 	{
-		return 'http://del.icio.us/'.$this->options['username'];
+		return 'http://del.icio.us/'.$this->get_option('username');
 	}
 
 	function yield($row, $url, $key)
@@ -276,7 +276,7 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_event_display(&$event, &$bit)
@@ -294,12 +294,12 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://www.last.fm/user/'.$this->options['username'];
+		return 'http://www.last.fm/user/'.$this->get_option('username');
 	}
 
 	function get_url()
 	{
-		if ($this->options['loved'])
+		if ($this->get_option('loved'))
 		{
 			$feed_name = 'recentlovedtracks';
 		}
@@ -308,7 +308,7 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 			$feed_name = 'recenttracks';
 		}
 		
-		return 'http://ws.audioscrobbler.com/1.0/user/'.$this->options['username'].'/'.$feed_name.'.xml';
+		return 'http://ws.audioscrobbler.com/1.0/user/'.$this->get_option('username').'/'.$feed_name.'.xml';
 	}
 	
 	function yield($track, $url)
@@ -364,24 +364,24 @@ class Lifestream_BlogFeed extends Lifestream_GenericFeed
 	
 	function _get_domain()
 	{
-		if (!empty($this->options['permalink_url'])) $url = $this->options['permalink_url'];
-		else $url = $this->options['url'];
+		if (!empty($this->get_option('permalink_url'))) $url = $this->get_option('permalink_url');
+		else $url = $this->get_option('url');
 		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $url, $matches);
 		return $matches[3];
 	}
 	
 	function get_public_name()
 	{
-		if (!empty($this->options['feed_label']))
+		if (!empty($this->get_option('feed_label')))
 		{
-			return $this->options['feed_label'];
+			return $this->get_option('feed_label');
 		}
 		return $this->_get_domain();
 	}
 	
 	function get_public_url()
 	{
-		if ($this->options['permalink_url']) return $this->options['permalink_url'];
+		if ($this->get_option('permalink_url')) return $this->get_option('permalink_url');
 		
 		return 'http://'.$this->_get_domain();
 	}
@@ -412,12 +412,12 @@ class Lifestream_FlickrFeed extends Lifestream_PhotoFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.flickr.com/photos/'.$this->options['user_id'].'/';
+		return 'http://www.flickr.com/photos/'.$this->get_option('user_id').'/';
 	}
 
 	function get_url()
 	{
-		return 'http://api.flickr.com/services/feeds/photos_public.gne?id='.$this->options['user_id'].'&format=rss_200';
+		return 'http://api.flickr.com/services/feeds/photos_public.gne?id='.$this->get_option('user_id').'&format=rss_200';
 	}
 
 	function yield($row, $url, $key)
@@ -462,7 +462,7 @@ class Lifestream_DiggFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_options()
@@ -474,12 +474,12 @@ class Lifestream_DiggFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://www.digg.com/users/'.$this->options['username'];
+		return 'http://www.digg.com/users/'.$this->get_option('username');
 	}
 	
 	function get_url()
 	{
-		return 'http://www.digg.com/users/'.$this->options['username'].'/history.rss';
+		return 'http://www.digg.com/users/'.$this->get_option('username').'/history.rss';
 	}
 }
 $lifestream->register_feed('Lifestream_DiggFeed');
@@ -493,7 +493,7 @@ class Lifestream_YouTubeFeed extends Lifestream_FlickrFeed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_options()
@@ -506,7 +506,7 @@ class Lifestream_YouTubeFeed extends Lifestream_FlickrFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.youtube.com/user/'.$this->options['username'];
+		return 'http://www.youtube.com/user/'.$this->get_option('username');
 	}
 	
 	function get_label_class($key)
@@ -517,17 +517,17 @@ class Lifestream_YouTubeFeed extends Lifestream_FlickrFeed
 	}
 
 	function get_posted_url() {
-		return 'http://gdata.youtube.com/feeds/api/users/'.$this->options['username'].'/uploads?v=2';
+		return 'http://gdata.youtube.com/feeds/api/users/'.$this->get_option('username').'/uploads?v=2';
 		}
 
 	function get_favorited_url() {
-		return 'http://gdata.youtube.com/feeds/api/users/'.$this->options['username'].'/favorites?v=2';
+		return 'http://gdata.youtube.com/feeds/api/users/'.$this->get_option('username').'/favorites?v=2';
 		}
 
 	function get_url() {
 		$urls = array();
 		$urls[] = array($this->get_posted_url(), 'video');
-		if ($this->options['show_favorites']) $urls[] = array($this->get_favorited_url(), 'favorite');
+		if ($this->get_option('show_favorites')) $urls[] = array($this->get_favorited_url(), 'favorite');
 		return $urls;
 	}
 	
@@ -558,7 +558,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['user_id'] ? $this->options['user_id'] : $this->options['url'];
+		return $this->get_option('user_id') ? $this->get_option('user_id') : $this->get_option('url');
 	}
 	
 	function get_event_description(&$event, &$bit)
@@ -576,15 +576,15 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		if (!$this->options['user_id']) return $this->options['url'];
-		return 'http://www.google.com/reader/public/atom/user%2F'.$this->options['user_id'].'%2Fstate%2Fcom.google%2Fbroadcast';
+		if (!$this->get_option('user_id')) return $this->get_option('url');
+		return 'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id').'%2Fstate%2Fcom.google%2Fbroadcast';
 	}
 	
 	function save_options()
 	{
-		if (preg_match('/\/reader\/shared\/([A-Za-z0-9_\-]+)\/?/i', $this->options['url'], $match))
+		if (preg_match('/\/reader\/shared\/([A-Za-z0-9_\-]+)\/?/i', $this->get_option('url'), $match))
 		{
-			$this->options['user_id'] = $match[1];
+			$this->get_option('user_id') = $match[1];
 		}
 		else
 		{
@@ -649,7 +649,7 @@ class Lifestream_SkitchFeed extends Lifestream_FlickrFeed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -661,12 +661,12 @@ class Lifestream_SkitchFeed extends Lifestream_FlickrFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.skitch.com/'.$this->options['username'].'/';
+		return 'http://www.skitch.com/'.$this->get_option('username').'/';
 	}
 	
 	function get_url()
 	{
-		return 'http://www.skitch.com/feeds/'.$this->options['username'].'/atom.xml';
+		return 'http://www.skitch.com/feeds/'.$this->get_option('username').'/atom.xml';
 	}
 	
 	function yield($row, $url, $key)
@@ -693,17 +693,17 @@ class Lifestream_IdenticaFeed extends Lifestream_TwitterFeed
 
 	function render_item($row, $item)
 	{
-		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
+		return $this->parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
 	}
 
 	function get_url()
 	{
-		return 'http://identi.ca/'.$this->options['username'].'/rss';
+		return 'http://identi.ca/'.$this->get_option('username').'/rss';
 	}
 	
 	function yield($row, $url, $key)
 	{
-		$string = $this->options['username'] . ': ';
+		$string = $this->get_option('username') . ': ';
 		$title = $this->lifestream->html_entity_decode($row->get_title());
 		if (lifestream_str_startswith($title, $string))
 		{
@@ -730,7 +730,7 @@ class Lifestream_PandoraFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_options()
@@ -753,36 +753,36 @@ class Lifestream_PandoraFeed extends Lifestream_Feed
 	
 	function get_stations_url()
 	{
-		return 'http://feeds.pandora.com/feeds/people/'.$this->options['username'].'/stations.xml';
+		return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username').'/stations.xml';
 	}
 	
 	function get_artists_url()
 	{
-			return 'http://feeds.pandora.com/feeds/people/'.$this->options['username'].'/favoriteartists.xml';
+			return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username').'/favoriteartists.xml';
 	}
 	
 	function get_songs_url()
 	{
-		return 'http://feeds.pandora.com/feeds/people/'.$this->options['username'].'/favorites.xml';
+		return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username').'/favorites.xml';
 	}
 
 	function get_public_url()
 	{
-		return 'http://www.pandora.com/people/'.$this->options['username'];
+		return 'http://www.pandora.com/people/'.$this->get_option('username');
 	}
 
 	function get_url()
 	{
 		$urls = array();
-		if ($this->options['show_stations'])
+		if ($this->get_option('show_stations'))
 		{
 			$urls[] = array($this->get_stations_url(), 'station');
 		}
-		if ($this->options['show_bookmarked_artists'])
+		if ($this->get_option('show_bookmarked_artists'))
 		{
 			$urls[] = array($this->get_artists_url(), 'bookmarkartist');
 		}
-		if ($this->options['show_bookmarked_songs'])
+		if ($this->get_option('show_bookmarked_songs'))
 		{
 			$urls[] = array($this->get_songs_url(), 'bookmarksong');
 		}
@@ -821,8 +821,8 @@ $lifestream->register_feed('Lifestream_PandoraFeed');
 //	 function get_url()
 //	 {
 //		 // Support old-style url for feed
-//		 if ($this->options['url']) return $this->options['url'];
-//		 return 'http://www.hulu.com/feed/activity/'.$this->options['username'];
+//		 if ($this->get_option('url')) return $this->get_option('url');
+//		 return 'http://www.hulu.com/feed/activity/'.$this->get_option('username');
 //	 }
 // 
 //	 
@@ -864,12 +864,12 @@ class Lifestream_TwitPicFeed extends Lifestream_PhotoFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.twitpic.com/photos/'.$this->options['username'];
+		return 'http://www.twitpic.com/photos/'.$this->get_option('username');
 	}
 
 	function get_url()
 	{
-		return 'http://www.twitpic.com/photos/'.$this->options['username'].'/feed.rss';
+		return 'http://www.twitpic.com/photos/'.$this->get_option('username').'/feed.rss';
 	}
 
 	function get_thumbnail_url($row, $item)
@@ -891,7 +891,7 @@ class Lifestream_VimeoFeed extends Lifestream_PhotoFeed
 	
 	function __toString()
 	{
-		return $this->options['user_id'];
+		return $this->get_option('user_id');
 	}
 	
 	function get_options()
@@ -912,27 +912,27 @@ class Lifestream_VimeoFeed extends Lifestream_PhotoFeed
 	
 	function get_videos_url()
 	{
-		return 'http://www.vimeo.com/'.$this->options['user_id'].'/videos/rss';
+		return 'http://www.vimeo.com/'.$this->get_option('user_id').'/videos/rss';
 	}
 	
 	function get_likes_url()
 	{
-		return 'http://www.vimeo.com/'.$this->options['user_id'].'/likes/rss';
+		return 'http://www.vimeo.com/'.$this->get_option('user_id').'/likes/rss';
 	}
 
 	function get_public_url()
 	{
-		return 'http://www.vimeo.com/'.$this->options['user_id'];
+		return 'http://www.vimeo.com/'.$this->get_option('user_id');
 	}
 
 	function get_url()
 	{
 		$urls = array();
-		if ($this->options['show_videos'])
+		if ($this->get_option('show_videos'))
 		{
 			$urls[] = array($this->get_videos_url(), 'video');
 		}
-		if ($this->options['show_likes'])
+		if ($this->get_option('show_likes'))
 		{
 			$urls[] = array($this->get_likes_url(), 'like');
 		}
@@ -957,7 +957,7 @@ class Lifestream_StumbleUponFeed extends Lifestream_PhotoFeed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_options()
@@ -978,27 +978,27 @@ class Lifestream_StumbleUponFeed extends Lifestream_PhotoFeed
 	
 	function get_favorites_url()
 	{
-		return 'http://rss.stumbleupon.com/user/'.$this->options['username'].'/favorites';
+		return 'http://rss.stumbleupon.com/user/'.$this->get_option('username').'/favorites';
 	}
 	
 	function get_reviews_url()
 	{
-		return 'http://rss.stumbleupon.com/user/'.$this->options['username'].'/reviews';
+		return 'http://rss.stumbleupon.com/user/'.$this->get_option('username').'/reviews';
 	}
 
 	function get_public_url()
 	{
-		return 'http://'.$this->options['username'].'.stumbleupon.com';
+		return 'http://'.$this->get_option('username').'.stumbleupon.com';
 	}
 
 	function get_url()
 	{
 		$urls = array();
-		if ($this->options['show_reviews'])
+		if ($this->get_option('show_reviews'))
 		{
 			$urls[] = array($this->get_reviews_url(), 'review');
 		}
-		if ($this->options['show_favorites'])
+		if ($this->get_option('show_favorites'))
 		{
 			$urls[] = array($this->get_favorites_url(), 'favorite');
 		}
@@ -1028,12 +1028,12 @@ class Lifestream_TumblrFeed extends Lifestream_Feed
 	# http://twitter.com/statuses/user_timeline/zeeg.xml
 	function get_url()
 	{
-		return 'http://'.$this->options['username'].'.tumblr.com/rss';
+		return 'http://'.$this->get_option('username').'.tumblr.com/rss';
 	}
 	
 	function get_user_url($user)
 	{
-		return 'http://'.$this->options['username'].'.tumblr.com/';
+		return 'http://'.$this->get_option('username').'.tumblr.com/';
 	}
 	
 	function yield($row, $url, $key)
@@ -1071,7 +1071,7 @@ class Lifestream_TumblrFeed extends Lifestream_Feed
 		}
 		elseif ($event->key == 'note')
 		{
-			return Lifestream_TwitterFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html($this->options['username'], htmlspecialchars($item['link'])).']';
+			return Lifestream_TwitterFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html($this->get_option('username'), htmlspecialchars($item['link'])).']';
 		}
 		else
 		{
@@ -1119,7 +1119,7 @@ class Lifestream_MagnoliaFeed extends Lifestream_PhotoFeed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 		
 	function get_options()
@@ -1131,12 +1131,12 @@ class Lifestream_MagnoliaFeed extends Lifestream_PhotoFeed
 
 	function get_url()
 	{
-		return 'http://ma.gnolia.com/rss/full/people/'.$this->options['username'];
+		return 'http://ma.gnolia.com/rss/full/people/'.$this->get_option('username');
 	}
 	
 	function get_public_url()
 	{
-		return 'http://ma.gnolia.com/people/'.$this->options['username'];
+		return 'http://ma.gnolia.com/people/'.$this->get_option('username');
 	}
 	
 	function yield($row, $url, $key)
@@ -1158,12 +1158,12 @@ class Lifestream_ZooomrFeed extends Lifestream_FlickrFeed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_url()
 	{
-		return $this->options['url'];
+		return $this->get_option('url');
 	}
 
 	function get_options()
@@ -1176,7 +1176,7 @@ class Lifestream_ZooomrFeed extends Lifestream_FlickrFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.zooomr.com/photos/'.$this->options['username'].'/';
+		return 'http://www.zooomr.com/photos/'.$this->get_option('username').'/';
 	}
 }
 $lifestream->register_feed('Lifestream_ZooomrFeed');
@@ -1195,7 +1195,7 @@ class Lifestream_BlipFMFeed extends Lifestream_TwitterFeed
 	
 	function get_url()
 	{
-		return 'http://blip.fm/feed/'.$this->options['username'];
+		return 'http://blip.fm/feed/'.$this->get_option('username');
 	}
 	
 	function get_event_display(&$event, &$bit)
@@ -1229,7 +1229,7 @@ class Lifestream_BrightkiteFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_options()
@@ -1241,12 +1241,12 @@ class Lifestream_BrightkiteFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://www.brightkite.com/people/'.$this->options['username'];
+		return 'http://www.brightkite.com/people/'.$this->get_option('username');
 	}
 
 	function get_url()
 	{
-		return 'http://www.brightkite.com/people/'.$this->options['username'].'/objects.rss';
+		return 'http://www.brightkite.com/people/'.$this->get_option('username').'/objects.rss';
 	}
 	
 	function render_group_items($id, $output, $event)
@@ -1316,7 +1316,7 @@ class Lifestream_PicasaFeed extends Lifestream_FlickrFeed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1328,12 +1328,12 @@ class Lifestream_PicasaFeed extends Lifestream_FlickrFeed
 	
 	function get_url()
 	{
-		return 'http://picasaweb.google.com/data/feed/base/user/'.$this->options['username'].'?alt=rss&kind=album&hl=en_US&access=public';
+		return 'http://picasaweb.google.com/data/feed/base/user/'.$this->get_option('username').'?alt=rss&kind=album&hl=en_US&access=public';
 	}
 	
 	function get_public_url()
 	{
-		return 'http://picasaweb.google.com/'.$this->options['username'];
+		return 'http://picasaweb.google.com/'.$this->get_option('username');
 	}
 }
 $lifestream->register_feed('Lifestream_PicasaFeed');
@@ -1348,7 +1348,7 @@ class Lifestream_KongregateFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1360,12 +1360,12 @@ class Lifestream_KongregateFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://www.kongregate.com/accounts/'.$this->options['username'].'/badges.rss';
+		return 'http://www.kongregate.com/accounts/'.$this->get_option('username').'/badges.rss';
 	}
 	
 	function get_public_url()
 	{
-		return 'http://www.kongregate.com/accounts/'.$this->options['username'];
+		return 'http://www.kongregate.com/accounts/'.$this->get_option('username');
 	}
 }
 $lifestream->register_feed('Lifestream_KongregateFeed');
@@ -1379,7 +1379,7 @@ class Lifestream_ViddlerFeed extends Lifestream_YouTubeFeed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_options()
@@ -1391,12 +1391,12 @@ class Lifestream_ViddlerFeed extends Lifestream_YouTubeFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.viddler.com/explore/'.$this->options['username'].'/';
+		return 'http://www.viddler.com/explore/'.$this->get_option('username').'/';
 	}
 	
 	function get_url()
 	{
-		return 'http://www.viddler.com/explore/'.$this->options['username'].'/videos/feed/';
+		return 'http://www.viddler.com/explore/'.$this->get_option('username').'/videos/feed/';
 	}
 }
 $lifestream->register_feed('Lifestream_ViddlerFeed');
@@ -1411,7 +1411,7 @@ class Lifestream_CoCommentsFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1423,12 +1423,12 @@ class Lifestream_CoCommentsFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://www.cocomment.com/myWebRss/'.$this->options['username'].'.rss';
+		return 'http://www.cocomment.com/myWebRss/'.$this->get_option('username').'.rss';
 	}
 	
 	function get_public_url()
 	{
-		return 'http://www.cocomment.com/comments/'.$this->options['username'];
+		return 'http://www.cocomment.com/comments/'.$this->get_option('username');
 	}
 
 }
@@ -1443,7 +1443,7 @@ class Lifestream_FoodFeedFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1455,12 +1455,12 @@ class Lifestream_FoodFeedFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://'.$this->options['username'].'.foodfeed.us/rss';
+		return 'http://'.$this->get_option('username').'.foodfeed.us/rss';
 	}
 	
 	function get_public_url()
 	{
-		return 'http://'.$this->options['username'].'.foodfeed.us/';
+		return 'http://'.$this->get_option('username').'.foodfeed.us/';
 	}
 
 	function render_item($row, $item)
@@ -1480,7 +1480,7 @@ class Lifestream_MyEpisodesFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1501,7 +1501,7 @@ class Lifestream_MixxFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 	
 	function get_options()
@@ -1516,12 +1516,12 @@ class Lifestream_MixxFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://www.mixx.com/users/'.$this->options['username'];
+		return 'http://www.mixx.com/users/'.$this->get_option('username');
 	}
 	
 	function get_url()
 	{
-		return 'http://www.mixx.com/feeds/users/'.$this->options['username'];
+		return 'http://www.mixx.com/feeds/users/'.$this->get_option('username');
 	}
 	
 	function yield($row, $url, $key)
@@ -1530,19 +1530,19 @@ class Lifestream_MixxFeed extends Lifestream_Feed
 		$title = $this->lifestream->html_entity_decode($row->get_title());
 		if (lifestream_str_startswith($title, 'Comment on: '))
 		{
-			if (!$this->options['show_comments']) return;
+			if (!$this->get_option('show_comments')) return;
 			$key = 'comment';
 			$title = substr($title, 12);
 		}
 		elseif (lifestream_str_startswith($title, 'Submitted: '))
 		{
-			if (!$this->options['show_submissions']) return;
+			if (!$this->get_option('show_submissions')) return;
 			$key = 'submit';
 			$title = substr($title, 11);
 		}
 		elseif (lifestream_str_startswith($title, 'Favorite: '))
 		{
-			if (!$this->options['show_favorites']) return;
+			if (!$this->get_option('show_favorites')) return;
 			$key = 'favorite';
 			$title = substr($title, 10);
 		}
@@ -1585,7 +1585,7 @@ class Lifestream_SlideShareFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1597,12 +1597,12 @@ class Lifestream_SlideShareFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://www.slideshare.net/'.$this->options['username'];
+		return 'http://www.slideshare.net/'.$this->get_option('username');
 	}
 	
 	function get_url()
 	{
-		return 'http://www.slideshare.net/rss/user/'.$this->options['username'];
+		return 'http://www.slideshare.net/rss/user/'.$this->get_option('username');
 	}
 }
 $lifestream->register_feed('Lifestream_SlideShareFeed');
@@ -1616,7 +1616,7 @@ class Lifestream_BlipTVFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1628,7 +1628,7 @@ class Lifestream_BlipTVFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://'.$this->options['username'].'.blip.tv/';
+		return 'http://'.$this->get_option('username').'.blip.tv/';
 	}
 	
 	function get_url()
@@ -1648,7 +1648,7 @@ class Lifestream_SteamFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1660,12 +1660,12 @@ class Lifestream_SteamFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://steamcommunity.com/id/'.$this->options['username'];
+		return 'http://steamcommunity.com/id/'.$this->get_option('username');
 	}
 	
 	function get_url()
 	{
-		return 'http://pipes.yahoo.com/pipes/pipe.run?_id=IH0KF8OZ3RGJPl7dBR50VA&_render=rss&steamid='.$this->options['username'];
+		return 'http://pipes.yahoo.com/pipes/pipe.run?_id=IH0KF8OZ3RGJPl7dBR50VA&_render=rss&steamid='.$this->get_option('username');
 	}
 }
 $lifestream->register_feed('Lifestream_SteamFeed');
@@ -1679,7 +1679,7 @@ class Lifestream_XboxLiveFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1691,12 +1691,12 @@ class Lifestream_XboxLiveFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://live.xbox.com/member/'.urlencode($this->options['username']);
+		return 'http://live.xbox.com/member/'.urlencode($this->get_option('username'));
 	}
 	
 	function get_url()
 	{
-		return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.urlencode($this->options['username']);
+		return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.urlencode($this->get_option('username'));
 	}
 	
 	function get_event_display(&$event, &$bit)
@@ -1753,7 +1753,7 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	
 	function __toString()
 	{
-		return $this->options['user_id'];
+		return $this->get_option('user_id');
 	}
 	
 	function get_options()
@@ -1768,9 +1768,9 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	
 	function save_options()
 	{
-		if (preg_match('/\/userid=([0-9]+)\//i', $this->options['url'], $match))
+		if (preg_match('/\/userid=([0-9]+)\//i', $this->get_option('url'), $match))
 		{
-			$this->options['user_id'] = $match[1];
+			$this->get_option('user_id') = $match[1];
 		}
 		else
 		{
@@ -1782,13 +1782,13 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	function get_url()
 	{
 		$urls = array();
-		if ($user_id = $this->options['user_id'])
+		if ($user_id = $this->get_option('user_id'))
 		{
-			if ($this->options['show_purchases'])
+			if ($this->get_option('show_purchases'))
 			{
 				$urls[] = array('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/myrecentpurchases/sf=143441/userid='.$user_id.'/xml?v0=9987', 'purchase');
 			}
-			if ($this->options['show_reviews'])
+			if ($this->get_option('show_reviews'))
 			{
 				$urls[] = array('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/myrecentreviews/sf=143441/toprated=true/userid='.$user_id.'/xml?v0=9987', 'review');
 			}
@@ -1818,7 +1818,7 @@ class Lifestream_ReadernautFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1830,12 +1830,12 @@ class Lifestream_ReadernautFeed extends Lifestream_Feed
 
 	function get_url()
 	{
-		return 'http://readernaut.com/rss/'.$this->options['username'].'/books/';
+		return 'http://readernaut.com/rss/'.$this->get_option('username').'/books/';
 	}
 
 	function get_public_url()
 	{
-		return 'http://readernaut.com/'.$this->options['username'];
+		return 'http://readernaut.com/'.$this->get_option('username');
 	}
 }
 $lifestream->register_feed('Lifestream_ReadernautFeed');
@@ -1849,7 +1849,7 @@ class Lifestream_ScrnShotsFeed extends Lifestream_PhotoFeed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1861,12 +1861,12 @@ class Lifestream_ScrnShotsFeed extends Lifestream_PhotoFeed
 
 	function get_url()
 	{
-		return 'http://scrnshots.com/users/'.$this->options['username'].'/screenshots.rss';
+		return 'http://scrnshots.com/users/'.$this->get_option('username').'/screenshots.rss';
 	}
 
 	function get_public_url()
 	{
-		return 'http://scrnshots.com/users/'.$this->options['username'];
+		return 'http://scrnshots.com/users/'.$this->get_option('username');
 	}
 
 	function yield($row, $url, $key)
@@ -1895,7 +1895,7 @@ class Lifestream_MobypictureFeed extends Lifestream_PhotoFeed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1907,12 +1907,12 @@ class Lifestream_MobypictureFeed extends Lifestream_PhotoFeed
 
 	function get_public_url()
 	{
-		return 'http://www.mobypicture.com/user/'.$this->options['username'];
+		return 'http://www.mobypicture.com/user/'.$this->get_option('username');
 	}
 
 	function get_url()
 	{
-		return 'http://www.mobypicture.com/rss/'.$this->options['username'].'/user.rss';
+		return 'http://www.mobypicture.com/rss/'.$this->get_option('username').'/user.rss';
 	}
 }
 $lifestream->register_feed('Lifestream_MobypictureFeed');
@@ -1925,7 +1925,7 @@ class Lifestream_SmugMugFeed extends Lifestream_PhotoFeed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -1937,12 +1937,12 @@ class Lifestream_SmugMugFeed extends Lifestream_PhotoFeed
 
 	function get_public_url()
 	{
-		return 'http://'.$this->options['username'].'.smugmug.com/';
+		return 'http://'.$this->get_option('username').'.smugmug.com/';
 	}
 
 	function get_url()
 	{
-		return 'http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data='.$this->options['username'].'&format=atom10';
+		return 'http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data='.$this->get_option('username').'&format=atom10';
 	}
 }
 $lifestream->register_feed('Lifestream_SmugMugFeed');
@@ -1956,7 +1956,7 @@ class Lifestream_GoodReadsFeed extends Lifestream_PhotoFeed
 
 	function __toString()
 	{
-		return $this->options['user_id'];
+		return $this->get_option('user_id');
 	}
 
 	function get_options()
@@ -1970,9 +1970,9 @@ class Lifestream_GoodReadsFeed extends Lifestream_PhotoFeed
 	function save_options()
 	{
 		# We need to get their user id from the URL
-		if (preg_match('/\/([0-9]+)(?:-.+)?$/i', $this->options['url'], $match))
+		if (preg_match('/\/([0-9]+)(?:-.+)?$/i', $this->get_option('url'), $match))
 		{
-			$this->options['user_id'] = $match[1];
+			$this->get_option('user_id') = $match[1];
 		}
 		else
 		{
@@ -1984,12 +1984,12 @@ class Lifestream_GoodReadsFeed extends Lifestream_PhotoFeed
 
 	function get_public_url()
 	{
-		return $this->options['url'];
+		return $this->get_option('url');
 	}
 
 	function get_url()
 	{
-		return 'http://www.goodreads.com/review/list_rss/'.$this->options['user_id'];
+		return 'http://www.goodreads.com/review/list_rss/'.$this->get_option('user_id');
 	}
 	
 	function yield($item, $url)
@@ -2032,7 +2032,7 @@ class Lifestream_DeviantArtFeed extends Lifestream_PhotoFeed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -2044,12 +2044,12 @@ class Lifestream_DeviantArtFeed extends Lifestream_PhotoFeed
 
 	function get_public_url()
 	{
-		return 'http://'.urlencode($this->options['username']).'.deviantart.com/';
+		return 'http://'.urlencode($this->get_option('username')).'.deviantart.com/';
 	}
 
 	function get_url()
 	{
-		return 'http://backend.deviantart.com/rss.xml?q=gallery%3A'.urlencode($this->options['username']);
+		return 'http://backend.deviantart.com/rss.xml?q=gallery%3A'.urlencode($this->get_option('username'));
 	}
 }
 $lifestream->register_feed('Lifestream_DeviantArtFeed');
@@ -2084,18 +2084,18 @@ class Lifestream_BackTypeFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return $this->get_user_url($this->options['username']);
+		return $this->get_user_url($this->get_option('username'));
 	}
 
 	function get_url()
 	{
-		return 'http://feeds.backtype.com/'.$this->options['username'];
+		return 'http://feeds.backtype.com/'.$this->get_option('username');
 	}
 	
 	function render_item($row, $item)
 	{
 		$output = "Posted a comment on ".htmlspecialchars($item['title'])."<br/>";
-		$output .= str_replace("</p>", "<br/><br/>", str_replace("<p>","",$item['description'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
+		$output .= str_replace("</p>", "<br/><br/>", str_replace("<p>","",$item['description'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
 		return $output;
 	}
 	
@@ -2103,14 +2103,14 @@ class Lifestream_BackTypeFeed extends Lifestream_Feed
 	{
 		$data = parent::yield($row, $url, $key);
 
-		$filters = explode(",",$this->options['filter']);
+		$filters = explode(",",$this->get_option('filter'));
 		foreach ($filters as $filter) {
 			if (strtolower($filter) == strtolower(strip_tags($row->get_title()))) {
 				return false;
 				exit;
 			}
 		}
-		$description = strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->options['username']).'">Read more comments by '.strtolower($this->options['username']).'</a></p>', '' , $this->lifestream->html_entity_decode($row->get_description())));
+		$description = strip_tags(str_replace('<p><a href="http://www.backtype.com/'.strtolower($this->get_option('username')).'">Read more comments by '.strtolower($this->get_option('username')).'</a></p>', '' , $this->lifestream->html_entity_decode($row->get_description())));
 		
 		$data['description'] = $description;
 		return $data;
@@ -2127,7 +2127,7 @@ class Lifestream_LibraryThingFeed extends Lifestream_PhotoFeed
 
 	function __toString()
 	{
-		return $this->options['member_name'];
+		return $this->get_option('member_name');
 	}
 
 	function get_options()
@@ -2139,12 +2139,12 @@ class Lifestream_LibraryThingFeed extends Lifestream_PhotoFeed
 
 	function get_public_url()
 	{
-		return 'http://www.librarything.com/catalog/'.$this->options['member_name'];
+		return 'http://www.librarything.com/catalog/'.$this->get_option('member_name');
 	}
 
 	function get_url()
 	{
-		return 'http://www.librarything.com/rss/recent/'.$this->options['member_name'];
+		return 'http://www.librarything.com/rss/recent/'.$this->get_option('member_name');
 	}
 
 	private $image_match_regexp = '/img\s+src="([^"]+\.jpg)"/i';
@@ -2212,7 +2212,7 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 
 	function __toString()
 	{
-		return $this->options['user_id'];
+		return $this->get_option('user_id');
 	}
 
 	function get_options()
@@ -2227,23 +2227,23 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 	
 	function get_url() {
 		$urls = array();
-		if ($this->options['show_queue'])
+		if ($this->get_option('show_queue'))
 		{
-			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->options['user_id'], 'queue');
-			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->options['user_id'], 'queue');
+			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->get_option('user_id'), 'queue');
+			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->get_option('user_id'), 'queue');
 		}
-		if ($this->options['show_reviews'])
+		if ($this->get_option('show_reviews'))
 		{
-			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->options['user_id'], 'review');
+			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->get_option('user_id'), 'review');
 		}
 		return $urls;
 	}
 	
 	function save_options()
 	{
-		if (preg_match('/id=([A-Z0-9]+)/i', $this->options['url'], $match))
+		if (preg_match('/id=([A-Z0-9]+)/i', $this->get_option('url'), $match))
 		{
-			$this->options['user_id'] = $match[1];
+			$this->get_option('user_id') = $match[1];
 		}
 		else
 		{
@@ -2282,7 +2282,7 @@ class Lifestream_UpcomingFeed extends Lifestream_Feed
 
 	function __toString()
 	{
-		return $this->options['user_id'];
+		return $this->get_option('user_id');
 	}
 
 	function get_options()
@@ -2296,9 +2296,9 @@ class Lifestream_UpcomingFeed extends Lifestream_Feed
 	
 	function save_options()
 	{
-		if (preg_match('/\/user\/([0-9]+)\//i', $this->options['url'], $match))
+		if (preg_match('/\/user\/([0-9]+)\//i', $this->get_option('url'), $match))
 		{
-			$this->options['user_id'] = $match[1];
+			$this->get_option('user_id') = $match[1];
 		}
 		else
 		{
@@ -2309,12 +2309,12 @@ class Lifestream_UpcomingFeed extends Lifestream_Feed
 
 	function get_public_url()
 	{
-		return 'http://upcoming.yahoo.com/user/'.$this->options['user_id'].'/';
+		return 'http://upcoming.yahoo.com/user/'.$this->get_option('user_id').'/';
 	}
 
 	function get_url()
 	{
-		return 'http://upcoming.yahooapis.com/services/rest/?api_key='.$this->options['api_key'].'&method=user.getWatchlist&user_id='.$this->options['user_id'].'&show=all';
+		return 'http://upcoming.yahooapis.com/services/rest/?api_key='.$this->get_option('api_key').'&method=user.getWatchlist&user_id='.$this->get_option('user_id').'&show=all';
 	}
 	
 	function get_event_display(&$event, &$bit)
@@ -2363,7 +2363,7 @@ class Lifestream_WikipediaFeed extends Lifestream_PhotoFeed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -2375,12 +2375,12 @@ class Lifestream_WikipediaFeed extends Lifestream_PhotoFeed
 
 	function get_public_url()
 	{
-		return 'http://en.wikipedia.org/wiki/User:'.urlencode($this->options['username']);
+		return 'http://en.wikipedia.org/wiki/User:'.urlencode($this->get_option('username'));
 	}
 
 	function get_url()
 	{
-		return 'http://en.wikipedia.org/w/index.php?title=Special:Contributions&feed=rss&target='.urlencode($this->options['username']);
+		return 'http://en.wikipedia.org/w/index.php?title=Special:Contributions&feed=rss&target='.urlencode($this->get_option('username'));
 	}
 
 	function yield($row, $url, $key)

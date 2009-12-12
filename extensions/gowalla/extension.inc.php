@@ -8,7 +8,7 @@ class Lifestream_GowallaFeed extends Lifestream_Feed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -20,12 +20,12 @@ class Lifestream_GowallaFeed extends Lifestream_Feed
 
 	function get_public_url()
 	{
-		return 'http://gowalla.com/users/'.urlencode($this->options['username']);
+		return 'http://gowalla.com/users/'.urlencode($this->get_option('username'));
 	}
 
 	function get_url()
 	{
-		return 'http://gowalla.com/users/'.urlencode($this->options['username']).'/visits.atom';
+		return 'http://gowalla.com/users/'.urlencode($this->get_option('username')).'/visits.atom';
 	}
 }
 $lifestream->register_feed('Lifestream_GowallaFeed');

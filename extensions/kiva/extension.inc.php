@@ -23,7 +23,7 @@ class Lifestream_KivaFeed extends Lifestream_PhotoFeed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -35,12 +35,12 @@ class Lifestream_KivaFeed extends Lifestream_PhotoFeed
 
 	function get_public_url()
 	{
-		return 'http://www.kiva.org/lender/'.urlencode($this->options['username']);
+		return 'http://www.kiva.org/lender/'.urlencode($this->get_option('username'));
 	}
 
 	function get_url()
 	{
-		return 'http://www.kiva.org/rss/lender/'.urlencode($this->options['username']);
+		return 'http://www.kiva.org/rss/lender/'.urlencode($this->get_option('username'));
 	}
 }
 

@@ -8,12 +8,12 @@ class Lifestream_WordPressCodexFeed extends Lifestream_WikipediaFeed
 
 	function get_public_url()
 	{
-		return 'http://codex.wordpress.org/index.php?title=User:'.urlencode($this->options['username']);
+		return 'http://codex.wordpress.org/index.php?title=User:'.urlencode($this->get_option('username'));
 	}
 
 	function get_url()
 	{
-		return 'http://codex.wordpress.org/index.php?title=Special:Contributions&feed=rss&target='.urlencode($this->options['username']);
+		return 'http://codex.wordpress.org/index.php?title=Special:Contributions&feed=rss&target='.urlencode($this->get_option('username'));
 	}
 }
 $lifestream->register_feed('Lifestream_WordPressCodexFeed');
