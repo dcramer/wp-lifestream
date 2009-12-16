@@ -12,7 +12,7 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -24,24 +24,24 @@ class Lifestream_RaptrFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://raptr.com/'.urlencode($this->options['username']);
+		return 'http://raptr.com/'.urlencode($this->get_option('username'));
 	}
 
 	function get_url()
 	{
-		return 'http://raptr.com/'.urlencode($this->options['username']).'/rss';
+		return 'http://raptr.com/'.urlencode($this->get_option('username')).'/rss';
 	}
 
 	function render_item($row, $item)
 	{
-		return $this->parse_urls(htmlspecialchars($item['title'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->options['username']), $item['link']).']';
+		return $this->parse_urls(htmlspecialchars($item['title'])) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
 	}
 	
 	function yield_many($row, $url, $key)
 	{
 		$events = array();
 		
-		$string = '<a href="'.$this->get_public_url().'">'.$this->options['username'].'</a> ';
+		$string = '<a href="'.$this->get_public_url().'">'.$this->get_option('username').'</a> ';
 		$description = $this->lifestream->html_entity_decode($row->get_description());
 		if (lifestream_str_startswith(strtolower($description), strtolower($string)))
 		{

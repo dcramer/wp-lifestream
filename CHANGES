@@ -1,3 +1,9 @@
+0.99.9.6
+
+* Added get_option, add_option, update_option, and delete_option methods to Lifestream_Extension.
+* Added Codaset extension by jonathan.
+* Added `event_ids` argument to Lifestream::get_events(). Note that this behavior depends on the `break_groups` argument.
+
 0.99.9.5
 
 * Fixed settings panel.

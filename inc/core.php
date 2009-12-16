@@ -283,7 +283,7 @@ class Lifestream
 		$permalink = get_option('permalink_structure');
 		if (!empty($permalink))
 		{
-			$url = trailingslashit(get_bloginfo('url')) . 'feed/lifestream-feed';
+			$url = trailingslashit(get_bloginfo('rss2_url')) . 'lifestream-feed';
 		}
 		else {
 			$url = trailingslashit(get_bloginfo('url')) . 'wp-rss2.php?feed=lifestream-feed';
@@ -572,7 +572,6 @@ class Lifestream
 	 */
 	function get_option($option, $default=null)
 	{
-		$this->_populate_option_cache();
 		if (!isset($this->_optioncache[$option])) return $default;
 		$value = $this->_optioncache[$option];
 		if (!$value)
@@ -1802,6 +1801,7 @@ class Lifestream
 
 		$defaults = array(
 			 // number of events
+			'event_ids'			=> array(),
 			'limit'				=> $this->get_option('number_of_items'),
 			// offset of events (e.g. pagination)
 			'offset'			=> 0,
@@ -1832,13 +1832,14 @@ class Lifestream
 		// Old-style
 		if (!empty($_['number_of_results'])) $_['limit'] = $_['number_of_results'];
 
-		if (!((int)$_['limit'] > 0)) return;
-		if (!((int)$_['offset'] >= 0)) return;
+		if (!((int)$_['limit'] > 0)) return false;
+		if (!((int)$_['offset'] >= 0)) return false;
 
 		if (!preg_match('/[\d]+ (month|day|year|hour|second|microsecond|week|quarter)s?/', $_['date_interval'])) $_['date_interval'] = -1;
 		else $_['date_interval'] = rtrim($_['date_interval'], 's');
 
 		$_['feed_ids'] = (array)$_['feed_ids'];
+		$_['event_ids'] = (array)$_['event_ids'];
 		$_['user_ids'] = (array)$_['user_ids'];
 		$_['feed_types'] = (array)$_['feed_types'];
 
@@ -1850,6 +1851,14 @@ class Lifestream
 				$_['feed_ids'][$key] = $wpdb->escape($value);
 			}
 			$where[] = 't1.`feed_id` IN ('.implode(', ', $_['feed_ids']).')';
+		}
+		elseif (count($_['event_ids']))
+		{
+			foreach ($_['event_ids'] as $key=>$value)
+			{
+				$_['event_ids'][$key] = $wpdb->escape($value);
+			}
+			$where[] = 't1.`id` IN ('.implode(', ', $_['event_ids']).')';
 		}
 		elseif (count($_['feed_types']))
 		{
@@ -2009,13 +2018,13 @@ abstract class Lifestream_Extension
 		if (!isset($this->option['excerpts']))
 		{
 			// default legacy value
-			$this->options['excerpt'] = 1;
+			$this->get_option('excerpt') = 1;
 		}
-		if ($this->options['excerpt'] > 0)
+		if ($this->get_option('excerpt') > 0)
 		{
 			$excerpt = $this->get_event_description($event, $bit);
 		}
-		if ($this->options['excerpt'] == 1)
+		if ($this->get_option('excerpt') == 1)
 		{
 			$excerpt = $this->lifestream->truncate($excerpt, $this->lifestream->get_option('truncate_length'));
 		}
@@ -2027,9 +2036,9 @@ abstract class Lifestream_Extension
 		if (!isset($this->option['excerpts']))
 		{
 			// default legacy value
-			$this->options['excerpt'] = 1;
+			$this->get_option('excerpt') = 1;
 		}
-		return ($this->options['excerpt'] > 0 && $this->get_event_description($event, $bit));
+		return ($this->get_option('excerpt') > 0 && $this->get_event_description($event, $bit));
 	}
 	
 	/**
@@ -2065,9 +2074,9 @@ abstract class Lifestream_Extension
 	function get_icon_url()
 	{
 		// TODO: clean this up to use the new Lifestream::get_media methods
-		if (!empty($this->options['icon_url']))
+		if (!empty($this->get_option('icon_url')))
 		{
-			return $this->options['icon_url'];
+			return $this->get_option('icon_url');
 		}
 		$path = trailingslashit($this->lifestream->paths[get_class($this)]);
 		$root = trailingslashit(dirname(__FILE__));
@@ -2106,9 +2115,9 @@ abstract class Lifestream_Extension
 
 	function get_public_name()
 	{
-		if (!empty($this->options['feed_label']))
+		if (!empty($this->get_option('feed_label')))
 		{
-			return $this->options['feed_label'];
+			return $this->get_option('feed_label');
 		}
 		return $this->get_constant('NAME');
 	}
@@ -2133,6 +2142,45 @@ abstract class Lifestream_Extension
 			// key => array(label, required, default value, choices)
 			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
 		);
+	}
+	
+	/**
+	 * Fetches the value of an option. Returns `null` if the option is not set.
+	 */
+	function get_option($option, $default=null)
+	{
+		if (!isset($this->options[$option])) return $default;
+		$value = $this->options[$option];
+		if (!$value)
+			return $default;
+		return $value;
+	}
+	
+	/**
+	 * Removes an option.
+	 */
+	function delete_option($option)
+	{
+		unset($this->options[$option]);
+	}
+	
+	/**
+	 * Updates the value of an option.
+	 */
+	function update_option($option, $value)
+	{
+		$this->options[$option] = $value;
+	}
+	
+	/**
+	 * Sets an option if it doesn't exist.
+	 */
+	function add_option($option, $value)
+	{
+		if (!array_key_exists($option, $this->options) || $this->options[$option] === '')
+		{
+			$this->options[$option] = $value;
+		}
 	}
 	
 	function save()
@@ -2246,7 +2294,7 @@ abstract class Lifestream_Extension
 				$total += 1;
 
 				$label = $this->get_label_class($key);
-				if ($this->options['grouped'] && $this->get_constant('CAN_GROUP') && constant(sprintf('%s::%s', $label, 'CAN_GROUP')))
+				if ($this->get_option('grouped') && $this->get_constant('CAN_GROUP') && constant(sprintf('%s::%s', $label, 'CAN_GROUP')))
 				{
 					if (!array_key_exists($key, $grouped)) $grouped[$key] = array();
 					$grouped[$key][date('m d Y', $date)] = $date;
@@ -2298,6 +2346,7 @@ abstract class Lifestream_Extension
 			$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, %s, %d, %s, %d, 1, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), $item['id'], serialize(array($item)), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
 		}
 		$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `timestamp` = UNIX_TIMESTAMP() WHERE `id` = %d", $this->id));
+		unset($items, $ungrouped);
 		return array(true, $total);
 	}
 	
@@ -2426,20 +2475,20 @@ class Lifestream_Feed extends Lifestream_Extension
 		$feed->force_feed(true); 
 		$success = $feed->init();
 		
-		if ($this->options['auto_icon'] && ($url = $feed->get_favicon()))
+		if ($this->get_option('auto_icon') && ($url = $feed->get_favicon()))
 		{
 			if ($this->lifestream->validate_image($url))
 			{
-				$this->options['icon_url'] = $url;
+				$this->get_option('icon_url') = $url;
 			}
 			else
 			{
-				$this->options['icon_url'] = '';
+				$this->get_option('icon_url') = '';
 			}
 		}
-		// elseif ($this->options['icon_url'])
+		// elseif ($this->get_option('icon_url'))
 		// {
-		//  if (!$this->lifestream->validate_image($this->options['icon_url']))
+		//  if (!$this->lifestream->validate_image($this->get_option('icon_url')))
 		//  {
 		//	  throw new Lifestream_Error($this->lifestream->__('The icon url is not a valid image.'));
 		//  }
@@ -2538,7 +2587,7 @@ class Lifestream_Feed extends Lifestream_Extension
 
 	function get_url()
 	{
-		return $this->options['url'];
+		return $this->get_option('url');
 	}
 	
 	function parse_urls($text)
@@ -2574,7 +2623,7 @@ class Lifestream_GenericFeed extends Lifestream_Feed {
 
 	function get_public_url()
 	{
-		return $this->options['url'];
+		return $this->get_option('url');
 	}
 	
 	function get_label($event, $options)

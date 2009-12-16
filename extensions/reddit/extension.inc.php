@@ -8,7 +8,7 @@ class Lifestream_RedditFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->options['username'];
+		return $this->get_option('username');
 	}
 
 	function get_options()
@@ -32,17 +32,17 @@ class Lifestream_RedditFeed extends Lifestream_Feed
 	
 	function get_submitted_url()
 	{
-		return 'http://www.reddit.com/user/'.$this->options['username'].'/submitted.rss';
+		return 'http://www.reddit.com/user/'.$this->get_option('username').'/submitted.rss';
 	}
 	
 	function get_comments_url()
 	{
-		return 'http://www.reddit.com/user/'.$this->options['username'].'/comments.rss';
+		return 'http://www.reddit.com/user/'.$this->get_option('username').'/comments.rss';
 	}
 	
 	function get_liked_url()
 	{
-		return 'http://www.reddit.com/user/'.$this->options['username'].'/liked.rss';
+		return 'http://www.reddit.com/user/'.$this->get_option('username').'/liked.rss';
 	}
 	
 	function parse_post_author($text)
@@ -53,15 +53,15 @@ class Lifestream_RedditFeed extends Lifestream_Feed
 
 	function get_public_url()
 	{
-		return 'http://www.reddit.com/user/'.$this->options['username'].'/';
+		return 'http://www.reddit.com/user/'.$this->get_option('username').'/';
 	}
 
 	function get_url()
 	{
 		$urls = array();
-		if ($this->options['show_submitted'])	$urls[] = array($this->get_submitted_url(), 'submitted');
-		if ($this->options['show_comments'])	$urls[] = array($this->get_comments_url(), 'comment');
-		if ($this->options['show_liked'])		$urls[] = array($this->get_liked_url(), 'liked');
+		if ($this->get_option('show_submitted'))$urls[] = array($this->get_submitted_url(), 'submitted');
+		if ($this->get_option('show_comments'))	$urls[] = array($this->get_comments_url(), 'comment');
+		if ($this->get_option('show_liked'))		$urls[] = array($this->get_liked_url(), 'liked');
 		return $urls;
 	}
 
@@ -71,7 +71,7 @@ class Lifestream_RedditFeed extends Lifestream_Feed
 
 		$title = $row->get_title();
 		
-		$chunk = sprintf('%s on', $this->options['username']);
+		$chunk = sprintf('%s on', $this->get_option('username'));
 		if (lifestream_str_startswith($title, $chunk))
 		{
 			$title = substr($title, strlen($chunk));
@@ -81,7 +81,7 @@ class Lifestream_RedditFeed extends Lifestream_Feed
 		$data['description'] = $this->lifestream->html_entity_decode($row->get_description());
 		
 		// Submissions are automatically liked, so we'll omit the redundant "liked" entry for posts submitted by the owner
-		if ($key == 'liked' && $this->parse_post_author($data['description']) == $this->options['username'])
+		if ($key == 'liked' && $this->parse_post_author($data['description']) == $this->get_option('username'))
 		{
 			return null;
 		}
