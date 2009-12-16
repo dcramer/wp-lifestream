@@ -1801,6 +1801,7 @@ class Lifestream
 
 		$defaults = array(
 			 // number of events
+			'event_ids'			=> array(),
 			'limit'				=> $this->get_option('number_of_items'),
 			// offset of events (e.g. pagination)
 			'offset'			=> 0,
@@ -1838,6 +1839,7 @@ class Lifestream
 		else $_['date_interval'] = rtrim($_['date_interval'], 's');
 
 		$_['feed_ids'] = (array)$_['feed_ids'];
+		$_['event_ids'] = (array)$_['event_ids'];
 		$_['user_ids'] = (array)$_['user_ids'];
 		$_['feed_types'] = (array)$_['feed_types'];
 
@@ -1849,6 +1851,14 @@ class Lifestream
 				$_['feed_ids'][$key] = $wpdb->escape($value);
 			}
 			$where[] = 't1.`feed_id` IN ('.implode(', ', $_['feed_ids']).')';
+		}
+		elseif (count($_['event_ids']))
+		{
+			foreach ($_['event_ids'] as $key=>$value)
+			{
+				$_['event_ids'][$key] = $wpdb->escape($value);
+			}
+			$where[] = 't1.`id` IN ('.implode(', ', $_['event_ids']).')';
 		}
 		elseif (count($_['feed_types']))
 		{
