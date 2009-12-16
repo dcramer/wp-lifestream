@@ -2684,7 +2684,7 @@ function lifestream_register_feed($class_name)
 }
 
 // built-in feeds
-include(LIFESTREAM_PATH . '/inc/extensions.php');
+//include(LIFESTREAM_PATH . '/inc/extensions.php');
 
 // legacy local_feeds
 // PLEASE READ extensions/README
