@@ -1578,7 +1578,7 @@ class Lifestream
 
 	function credits()
 	{
-		return 'Powered by <a href="http://www.ibegin.com/labs/wp-lifestream/">Lifestream</a> from <a href="http://www.ibegin.com/">iBegin</a>.';
+		return 'Powered by <a href="http://www.enthropia.com/labs/wp-lifestream/">Lifestream</a> from <a href="http://www.ibegin.com/">iBegin</a>.';
 	}
 
 	/**
