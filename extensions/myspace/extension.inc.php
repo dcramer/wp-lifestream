@@ -16,21 +16,13 @@ class Lifestream_MySpaceFeed extends Lifestream_GenericFeed
 		);
 	}
 	
-	function _get_domain()
-	{
-		if ($this->get_option('permalink_url')) $url = $this->get_option('permalink_url');
-		else $url = $this->get_option('url');
-		preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+(?:\.[a-z0-9\-]+)?)/?#i', $url, $matches);
-		return $matches[3];
-	}
-	
 	function get_public_name()
 	{
 		if ($this->get_option('feed_label'))
 		{
 			return $this->get_option('feed_label');
 		}
-		return $this->_get_domain();
+		return 'MySpace Blog';
 	}
 	
 	function get_public_url()
