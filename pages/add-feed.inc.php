@@ -78,7 +78,7 @@ $authors = get_users_of_blog();
 			<tr>
 				<th>&nbsp;</th>
 				<td>
-					<label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if ($_POST['grouped'] == '1') echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Group events from the same day together.'); ?></label>
+					<label><input type="checkbox" name="grouped" id="id_grouped" value="1"<?php if (isset($_POST['grouped']) && $_POST['grouped'] == '1') echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Group events from the same day together.'); ?></label>
 				</td>
 			</tr>
 		<?php } ?>

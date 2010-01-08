@@ -67,7 +67,7 @@ class Lifestream_Event
 		$this->owner = $row->owner;
 		$this->owner_id = $row->owner_id;
 		$this->visible = $row->visible;
-		$this->link = (!empty($this->data['link']) ? $this->data['link'] : $row->link);
+		$this->link = @(!empty($this->data['link']) ? $this->data['link'] : $row->link);
 		$cls = $this->lifestream->get_feed($row->feed);
 		$this->feed = new $cls($this->lifestream, unserialize($row->options), $row->feed_id);
 	}
@@ -1999,7 +1999,8 @@ abstract class Lifestream_Extension
 			$this->owner_id = $row->owner_id;
 			$this->_owner_id = $row->owner_id;
 			$this->version = $row->version;
-			$this->events = $row->events;
+			$this->events = 'n/a';
+			//$this->events = $row->events;
 			$this->feed = $row->feed;
 		}
 		else

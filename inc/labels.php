@@ -364,22 +364,42 @@ class Lifestream_CommitLabel extends Lifestream_Label
 {
 	function get_label_single()
 	{
-		return $this->lifestream->__('Committed code.', $this->get_feed_label());
+		$repo = $this->feed->get_repository_link($this->event, $this->event->data[0]);
+		if ($repo)
+		{
+			return $this->lifestream->__('Committed %2$s to %3$s.', $this->get_feed_label(), $this->get_single_link(), $repo);
+		}
+		return $this->lifestream->__('Committed %2$s.', $this->get_feed_label(), $this->get_single_link());
 	}
 	
 	function get_label_plural()
 	{
-		return $this->lifestream->__('Made %s commits.', $this->_get_show_details_link(), $this->get_feed_label());
+		$repo = $this->feed->get_repository_link($this->event, $this->event->data[0]);
+		if ($repo)
+		{
+			return $this->lifestream->__('Made %s commits to %3$s.', $this->_get_show_details_link(), $this->get_feed_label(), $repo);
+		}
+		return $this->lifestream->__('Made %s commits to %s.', $this->_get_show_details_link(), $this->get_feed_label());
 	}
 	
 	function get_label_single_user()
 	{
-		return $this->lifestream->__('%s committed code.', $this->get_user_label(), $this->get_feed_label());
+		$repo = $this->feed->get_repository_link($this->event, $this->event->data[0]);
+		if ($repo)
+		{
+			return $this->lifestream->__('%1$s committed %3$s to %4$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link(), $repo);
+		}
+		return $this->lifestream->__('%1$s committed %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
 	}
 	
 	function get_label_plural_user()
 	{
-		return $this->lifestream->__('%s made %s commits.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
+		$repo = $this->feed->get_repository_link($this->event, $this->event->data[0]);
+		if ($repo)
+		{
+			return $this->lifestream->__('%s made %s commits to %3$s.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label(), $repo);
+		}
+		return $this->lifestream->__('%s made %s commits to %s.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
 	}
 }
 
