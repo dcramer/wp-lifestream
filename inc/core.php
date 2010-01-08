@@ -1999,8 +1999,7 @@ abstract class Lifestream_Extension
 			$this->owner_id = $row->owner_id;
 			$this->_owner_id = $row->owner_id;
 			$this->version = $row->version;
-			$this->events = 'n/a';
-			//$this->events = $row->events;
+			$this->events = (int)@($row->events);
 			$this->feed = $row->feed;
 		}
 		else
