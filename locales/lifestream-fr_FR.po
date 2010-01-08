@@ -1241,8 +1241,8 @@ msgid "Enable iBox on plugins that support it."
 msgstr "Activer iBox sur les plugins le supportant."
 
 #: pages/settings.inc.php:78
-msgid "Requires the <a href=\"http://www.ibegin.com/labs/ibox/\">iBox</a> plugin."
-msgstr "Nécessite le plug-in <a href=\"http://www.ibegin.com/labs/ibox/\">iBox</a>."
+msgid "Requires the %s plugin."
+msgstr "Nécessite le plug-in %s."
 
 #: pages/settings.inc.php:82
 msgid "Hide Grouped Details:"

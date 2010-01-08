@@ -68,7 +68,7 @@ $authors = get_users_of_blog();
 						<tr>
 							<th><?php $lifestream->_e('Enable iBox:'); ?></th>
 							<td><label for="id_use_ibox"><input type="checkbox" name="lifestream_use_ibox" id="id_use_ibox" value="1"<?php if ($lifestream->get_option('use_ibox')) echo ' checked="checked"'; ?>/> <?php $lifestream->_e('Enable iBox on plugins that support it.'); ?></label>
-								<div class="helptext"><?php $lifestream->_e('Requires the %s plugin.', '<a href="http://www.ibegin.com/labs/ibox/">iBox</a>'); ?></div>
+								<div class="helptext"><?php $lifestream->_e('Requires the %s plugin.', '<a href="http://www.enthropia.com/labs/ibox/">iBox</a>'); ?></div>
 							</td>
 						</tr>
 						<tr>

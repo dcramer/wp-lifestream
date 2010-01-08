@@ -572,10 +572,13 @@ class Lifestream
 	 */
 	function get_option($option, $default=null)
 	{
-		if (!isset($this->_optioncache[$option])) return $default;
-		$value = $this->_optioncache[$option];
-		if (!$value)
-			return $default;
+		if (!isset($this->_optioncache[$option])) $value = $default;
+		else
+		{
+			$value = $this->_optioncache[$option];
+			if (!$value) $value = $default;
+		}
+		if (empty($value)) $value = null;
 		return $value;
 	}
 	
@@ -1553,14 +1556,13 @@ class Lifestream
 	 */
 	function activate()
 	{
-		global $wpdb;
+		global $wpdb, $userdata;
+
+		get_currentuserinfo();
 
 		// Options/database install
 		$this->install();
 		
-		// Cron job for the update
-		$this->reschedule_cron();
-
 		// Add a feed for this blog
 		$results =& $wpdb->get_results("SELECT COUNT(*) as `count` FROM `".$wpdb->prefix."lifestream_feeds`");
 		if (!$results[0]->count)
@@ -1569,16 +1571,18 @@ class Lifestream
 			$options = array('url' => $rss_url);
 
 			$feed = new Lifestream_BlogFeed($this, $options);
-			$feed->owner = 'admin';
-			$feed->owner_id = 1;
+			$feed->owner = $userdata->display_name;
+			$feed->owner_id = $userdata->ID;
 			$feed->save();
-			$feed->refresh(null, true);
 		}
+		
+		// Cron job for the update
+		$this->reschedule_cron();
 	}
 
 	function credits()
 	{
-		return 'Powered by <a href="http://www.ibegin.com/labs/wp-lifestream/">Lifestream</a> from <a href="http://www.ibegin.com/">iBegin</a>.';
+		return 'Powered by <a href="http://www.enthropia.com/labs/wp-lifestream/">Lifestream</a> from <a href="http://www.ibegin.com/">iBegin</a>.';
 	}
 
 	/**
@@ -2018,7 +2022,7 @@ abstract class Lifestream_Extension
 		if (!isset($this->option['excerpts']))
 		{
 			// default legacy value
-			$this->get_option('excerpt') = 1;
+			$this->update_option('excerpt', 1);
 		}
 		if ($this->get_option('excerpt') > 0)
 		{
@@ -2036,7 +2040,7 @@ abstract class Lifestream_Extension
 		if (!isset($this->option['excerpts']))
 		{
 			// default legacy value
-			$this->get_option('excerpt') = 1;
+			$this->update_option('excerpt', 1);
 		}
 		return ($this->get_option('excerpt') > 0 && $this->get_event_description($event, $bit));
 	}
@@ -2074,7 +2078,7 @@ abstract class Lifestream_Extension
 	function get_icon_url()
 	{
 		// TODO: clean this up to use the new Lifestream::get_media methods
-		if (!empty($this->get_option('icon_url')))
+		if (!$this->get_option('icon_url'))
 		{
 			return $this->get_option('icon_url');
 		}
@@ -2115,7 +2119,7 @@ abstract class Lifestream_Extension
 
 	function get_public_name()
 	{
-		if (!empty($this->get_option('feed_label')))
+		if (!$this->get_option('feed_label'))
 		{
 			return $this->get_option('feed_label');
 		}
@@ -2149,10 +2153,15 @@ abstract class Lifestream_Extension
 	 */
 	function get_option($option, $default=null)
 	{
-		if (!isset($this->options[$option])) return $default;
-		$value = $this->options[$option];
-		if (!$value)
-			return $default;
+		if (!isset($this->options[$option]))
+		{
+			$value = $default;
+		}
+		else {
+			$value = $this->options[$option];
+			if (!$value) $value = $default;
+		}
+		if (empty($value)) $value = null;
 		return $value;
 	}
 	
@@ -2479,11 +2488,11 @@ class Lifestream_Feed extends Lifestream_Extension
 		{
 			if ($this->lifestream->validate_image($url))
 			{
-				$this->get_option('icon_url') = $url;
+				$this->update_option('icon_url', $url);
 			}
 			else
 			{
-				$this->get_option('icon_url') = '';
+				$this->update_option('icon_url', '');
 			}
 		}
 		// elseif ($this->get_option('icon_url'))
@@ -2733,7 +2742,7 @@ function lifestream_register_feed($class_name)
 }
 
 // built-in feeds
-include(LIFESTREAM_PATH . '/inc/extensions.php');
+//include(LIFESTREAM_PATH . '/inc/extensions.php');
 
 // legacy local_feeds
 // PLEASE READ extensions/README
