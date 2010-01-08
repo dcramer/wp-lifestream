@@ -19,7 +19,7 @@ class Lifestream_BlogFeed extends Lifestream_GenericFeed
 	{
 		if ($this->get_option('permalink_url')) $url = $this->get_option('permalink_url');
 		else $url = $this->get_option('url');
-		if (!preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $url, $matches));
+		if (!preg_match('#^(http://)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z0-9\-]+)/?#i', $url, $matches))
 			return $url;
 		return $matches[3];
 	}
