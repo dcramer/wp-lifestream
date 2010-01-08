@@ -104,6 +104,9 @@ function lifestream_widget_control($widget_args=1)
 		$current_options = array(
 			'amount' => 10,
 			'title' => 'Lifestream',
+			'break_groups' => false,
+			'feeds' => array(),
+			'hide_metadata' => false,
 		);
 		$number = '%i%';
 	}
