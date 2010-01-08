@@ -8,6 +8,15 @@ Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
 
+if (!function_exists('plugin_basename')) {
+	// so we can easily test for parse errors
+	function plugin_basename($filename){return $filename;}
+	function register_activation_hook() {}
+	function register_deactivation_hook() {}
+	function add_filter() {}
+	function add_action() {}
+}
+
 define('LIFESTREAM_VERSION', '0.99.9.6');
 define('LIFESTREAM_PLUGIN_FILE', plugin_basename(__FILE__));
 define('LIFESTREAM_PATH', dirname(__FILE__));

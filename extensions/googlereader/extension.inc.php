@@ -11,7 +11,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	
 	function __toString()
 	{
-		return $this->get_option('user_id')).? $this->get_option('user_id')).: $this->get_option('url');
+		return $this->get_option('user_id') ? $this->get_option('user_id') : $this->get_option('url');
 	}
 	
 	function get_event_description(&$event, &$bit)
@@ -30,12 +30,12 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	function get_url()
 	{
 		if (!$this->get_option('user_id')) return $this->get_option('url');
-		return 'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id')).'%2Fstate%2Fcom.google%2Fbroadcast';
+		return 'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id').'%2Fstate%2Fcom.google%2Fbroadcast';
 	}
 	
 	function save_options()
 	{
-		if (preg_match('/\/reader\/shared\/([A-Za-z0-9_\-]+)\/?/i', $this->get_option('url')). $match))
+		if (preg_match('/\/reader\/shared\/([A-Za-z0-9_\-]+)\/?/i', $this->get_option('url'), $match))
 		{
 			$this->update_option('user_id', $match[1]);
 		}

@@ -21,7 +21,7 @@ class Lifestream_KongregateFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://www.kongregate.com/accounts/'.$this->get_option('username')).'/badges.rss';
+		return 'http://www.kongregate.com/accounts/'.$this->get_option('username').'/badges.rss';
 	}
 	
 	function get_public_url()

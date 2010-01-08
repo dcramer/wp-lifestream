@@ -28,17 +28,17 @@ class Lifestream_StumbleUponFeed extends Lifestream_PhotoFeed
 	
 	function get_favorites_url()
 	{
-		return 'http://rss.stumbleupon.com/user/'.$this->get_option('username')).'/favorites';
+		return 'http://rss.stumbleupon.com/user/'.$this->get_option('username').'/favorites';
 	}
 	
 	function get_reviews_url()
 	{
-		return 'http://rss.stumbleupon.com/user/'.$this->get_option('username')).'/reviews';
+		return 'http://rss.stumbleupon.com/user/'.$this->get_option('username').'/reviews';
 	}
 
 	function get_public_url()
 	{
-		return 'http://'.$this->get_option('username')).'.stumbleupon.com';
+		return 'http://'.$this->get_option('username').'.stumbleupon.com';
 	}
 
 	function get_url()

@@ -61,13 +61,13 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	{
 		if ($this->get_option('password'))
 		{
-			$url_base = 'http://'.$this->get_option('username')).':'.urlencode($this->get_option('password')).'@twitter.com';
+			$url_base = 'http://'.$this->get_option('username').':'.urlencode($this->get_option('password')).'@twitter.com';
 		}
 		else
 		{
 			$url_base = 'http://twitter.com';
 		}
-		return $url_base . '/statuses/user_timeline/'.$this->get_option('username')).'.rss?page='.$page.'&count='.$count;
+		return $url_base . '/statuses/user_timeline/'.$this->get_option('username').'.rss?page='.$page.'&count='.$count;
 	}
 	
 	function save()
@@ -95,13 +95,13 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
-		$string = $this->get_option('username')).. ': ';
+		$string = $this->get_option('username'). ': ';
 		$description = $this->lifestream->html_entity_decode($row->get_description());
 		if (lifestream_str_startswith(strtolower($description), strtolower($string)))
 		{
 			$description = substr($description, strlen($string));
 		}
-		if ($this->get_option('hide_replies')).&& lifestream_str_startswith($description, '@'))
+		if ($this->get_option('hide_replies') && lifestream_str_startswith($description, '@'))
 		{
 			return false;
 		}

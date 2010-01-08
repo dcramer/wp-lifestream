@@ -20,7 +20,7 @@ class Lifestream_PicasaFeed extends Lifestream_PhotoFeed
 	
 	function get_url()
 	{
-		return 'http://picasaweb.google.com/data/feed/base/user/'.$this->get_option('username')).'?alt=rss&kind=album&hl=en_US&access=public';
+		return 'http://picasaweb.google.com/data/feed/base/user/'.$this->get_option('username').'?alt=rss&kind=album&hl=en_US&access=public';
 	}
 	
 	function get_public_url()

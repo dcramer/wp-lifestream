@@ -31,12 +31,12 @@ class Lifestream_VimeoFeed extends Lifestream_PhotoFeed
 	
 	function get_videos_url()
 	{
-		return 'http://www.vimeo.com/'.$this->get_option('user_id')).'/videos/rss';
+		return 'http://www.vimeo.com/'.$this->get_option('user_id').'/videos/rss';
 	}
 	
 	function get_likes_url()
 	{
-		return 'http://www.vimeo.com/'.$this->get_option('user_id')).'/likes/rss';
+		return 'http://www.vimeo.com/'.$this->get_option('user_id').'/likes/rss';
 	}
 
 	function get_public_url()

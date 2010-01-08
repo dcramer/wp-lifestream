@@ -20,12 +20,12 @@ class Lifestream_FoodFeedFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://'.$this->get_option('username')).'.foodfeed.us/rss';
+		return 'http://'.$this->get_option('username').'.foodfeed.us/rss';
 	}
 	
 	function get_public_url()
 	{
-		return 'http://'.$this->get_option('username')).'.foodfeed.us/';
+		return 'http://'.$this->get_option('username').'.foodfeed.us/';
 	}
 
 	function render_item($row, $item)

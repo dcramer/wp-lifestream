@@ -19,7 +19,7 @@ class Lifestream_TwitPicFeed extends Lifestream_PhotoFeed
 
 	function get_url()
 	{
-		return 'http://www.twitpic.com/photos/'.$this->get_option('username')).'/feed.rss';
+		return 'http://www.twitpic.com/photos/'.$this->get_option('username').'/feed.rss';
 	}
 
 	function get_thumbnail_url($row, $item)

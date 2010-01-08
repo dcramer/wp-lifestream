@@ -21,12 +21,12 @@ class Lifestream_ViddlerFeed extends Lifestream_PhotoFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.viddler.com/explore/'.$this->get_option('username')).'/';
+		return 'http://www.viddler.com/explore/'.$this->get_option('username').'/';
 	}
 	
 	function get_url()
 	{
-		return 'http://www.viddler.com/explore/'.$this->get_option('username')).'/videos/feed/';
+		return 'http://www.viddler.com/explore/'.$this->get_option('username').'/videos/feed/';
 	}
 	
 	function yield($row, $url, $key)

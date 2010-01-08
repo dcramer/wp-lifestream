@@ -26,7 +26,7 @@ class Lifestream_ZooomrFeed extends Lifestream_PhotoFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.zooomr.com/photos/'.$this->get_option('username')).'/';
+		return 'http://www.zooomr.com/photos/'.$this->get_option('username').'/';
 	}
 	
 	function yield($row, $url, $key)

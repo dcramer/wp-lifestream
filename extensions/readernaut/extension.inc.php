@@ -21,7 +21,7 @@ class Lifestream_ReadernautFeed extends Lifestream_Feed
 
 	function get_url()
 	{
-		return 'http://readernaut.com/rss/'.$this->get_option('username')).'/books/';
+		return 'http://readernaut.com/rss/'.$this->get_option('username').'/books/';
 	}
 
 	function get_public_url()

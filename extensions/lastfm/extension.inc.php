@@ -40,7 +40,7 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 			$feed_name = 'recenttracks';
 		}
 		
-		return 'http://ws.audioscrobbler.com/1.0/user/'.$this->get_option('username')).'/'.$feed_name.'.xml';
+		return 'http://ws.audioscrobbler.com/1.0/user/'.$this->get_option('username').'/'.$feed_name.'.xml';
 	}
 	
 	function yield($track, $url)

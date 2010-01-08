@@ -23,7 +23,7 @@ class Lifestream_UpcomingFeed extends Lifestream_Feed
 	
 	function save_options()
 	{
-		if (preg_match('/\/user\/([0-9]+)\//i', $this->get_option('url')). $match))
+		if (preg_match('/\/user\/([0-9]+)\//i', $this->get_option('url'). $match))
 		{
 			$this->update_option('user_id', $match[1]);
 		}
@@ -36,12 +36,12 @@ class Lifestream_UpcomingFeed extends Lifestream_Feed
 
 	function get_public_url()
 	{
-		return 'http://upcoming.yahoo.com/user/'.$this->get_option('user_id')).'/';
+		return 'http://upcoming.yahoo.com/user/'.$this->get_option('user_id').'/';
 	}
 
 	function get_url()
 	{
-		return 'http://upcoming.yahooapis.com/services/rest/?api_key='.$this->get_option('api_key')).'&method=user.getWatchlist&user_id='.$this->get_option('user_id')).'&show=all';
+		return 'http://upcoming.yahooapis.com/services/rest/?api_key='.$this->get_option('api_key').'&method=user.getWatchlist&user_id='.$this->get_option('user_id').'&show=all';
 	}
 	
 	function get_event_display(&$event, &$bit)

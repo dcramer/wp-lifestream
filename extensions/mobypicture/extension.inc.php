@@ -24,7 +24,7 @@ class Lifestream_MobypictureFeed extends Lifestream_PhotoFeed
 
 	function get_url()
 	{
-		return 'http://www.mobypicture.com/rss/'.$this->get_option('username')).'/user.rss';
+		return 'http://www.mobypicture.com/rss/'.$this->get_option('username').'/user.rss';
 	}
 }
 $lifestream->register_feed('Lifestream_MobypictureFeed');

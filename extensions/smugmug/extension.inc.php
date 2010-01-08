@@ -19,12 +19,12 @@ class Lifestream_SmugMugFeed extends Lifestream_PhotoFeed
 
 	function get_public_url()
 	{
-		return 'http://'.$this->get_option('username')).'.smugmug.com/';
+		return 'http://'.$this->get_option('username').'.smugmug.com/';
 	}
 
 	function get_url()
 	{
-		return 'http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data='.$this->get_option('username')).'&format=atom10';
+		return 'http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data='.$this->get_option('username').'&format=atom10';
 	}
 }
 $lifestream->register_feed('Lifestream_SmugMugFeed');

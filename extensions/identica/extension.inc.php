@@ -37,12 +37,12 @@ class Lifestream_IdenticaFeed extends Lifestream_Feed
 
 	function get_url()
 	{
-		return 'http://identi.ca/'.$this->get_option('username')).'/rss';
+		return 'http://identi.ca/'.$this->get_option('username').'/rss';
 	}
 	
 	function yield($row, $url, $key)
 	{
-		$string = $this->get_option('username')).. ': ';
+		$string = $this->get_option('username'). ': ';
 		$title = $this->lifestream->html_entity_decode($row->get_title());
 		if (lifestream_str_startswith($title, $string))
 		{

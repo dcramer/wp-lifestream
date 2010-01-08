@@ -23,7 +23,7 @@ class Lifestream_DeliciousFeed extends Lifestream_Feed
 	function get_url()
 	{
 		$url = 'http://del.icio.us/rss/'.$this->get_option('username');
-		if (!empty($this->get_option('filter_tag'))) $url .= '/'.$this->get_option('filter_tag');
+		if (!$this->get_option('filter_tag')) $url .= '/'.$this->get_option('filter_tag');
 		return $url;
 	}
 	

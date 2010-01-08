@@ -20,12 +20,12 @@ class Lifestream_TumblrFeed extends Lifestream_Feed
 	# http://twitter.com/statuses/user_timeline/zeeg.xml
 	function get_url()
 	{
-		return 'http://'.$this->get_option('username')).'.tumblr.com/rss';
+		return 'http://'.$this->get_option('username').'.tumblr.com/rss';
 	}
 	
 	function get_user_url($user)
 	{
-		return 'http://'.$this->get_option('username')).'.tumblr.com/';
+		return 'http://'.$this->get_option('username').'.tumblr.com/';
 	}
 	
 	function yield($row, $url, $key)
@@ -63,7 +63,7 @@ class Lifestream_TumblrFeed extends Lifestream_Feed
 		}
 		elseif ($event->key == 'note')
 		{
-			return Lifestream_TwitterFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html($this->get_option('username')). htmlspecialchars($item['link'])).']';
+			return Lifestream_TwitterFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html($this->get_option('username'). htmlspecialchars($item['link'])).']';
 		}
 		else
 		{

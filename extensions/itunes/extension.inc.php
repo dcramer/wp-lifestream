@@ -27,7 +27,7 @@ Once Enabled, you will need to click "Get HTML Code" on one of the feeds. On thi
 	
 	function save_options()
 	{
-		if (preg_match('/\/userid=([0-9]+)\//i', $this->get_option('url')). $match))
+		if (preg_match('/\/userid=([0-9]+)\//i', $this->get_option('url'), $match))
 		{
 			$this->update_option('user_id', $match[1]);
 		}

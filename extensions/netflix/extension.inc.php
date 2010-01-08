@@ -25,19 +25,19 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 		$urls = array();
 		if ($this->get_option('show_queue'))
 		{
-			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->get_option('user_id')). 'queue');
-			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->get_option('user_id')). 'queue');
+			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->get_option('user_id').'queue');
+			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->get_option('user_id').'queue');
 		}
 		if ($this->get_option('show_reviews'))
 		{
-			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->get_option('user_id')). 'review');
+			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->get_option('user_id').'review');
 		}
 		return $urls;
 	}
 	
 	function save_options()
 	{
-		if (preg_match('/id=([A-Z0-9]+)/i', $this->get_option('url')). $match))
+		if (preg_match('/id=([A-Z0-9]+)/i', $this->get_option('url'), $match))
 		{
 			$this->update_option('user_id', $match[1]);
 		}

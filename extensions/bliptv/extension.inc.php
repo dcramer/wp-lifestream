@@ -20,7 +20,7 @@ class Lifestream_BlipTVFeed extends Lifestream_Feed
 	
 	function get_public_url()
 	{
-		return 'http://'.$this->get_option('username')).'.blip.tv/';
+		return 'http://'.$this->get_option('username').'.blip.tv/';
 	}
 	
 	function get_url()

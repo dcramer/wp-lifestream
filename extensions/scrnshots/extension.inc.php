@@ -20,7 +20,7 @@ class Lifestream_ScrnShotsFeed extends Lifestream_PhotoFeed
 
 	function get_url()
 	{
-		return 'http://scrnshots.com/users/'.$this->get_option('username')).'/screenshots.rss';
+		return 'http://scrnshots.com/users/'.$this->get_option('username').'/screenshots.rss';
 	}
 
 	function get_public_url()

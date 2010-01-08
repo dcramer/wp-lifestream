@@ -21,7 +21,7 @@ class Lifestream_CoCommentsFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://www.cocomment.com/myWebRss/'.$this->get_option('username')).'.rss';
+		return 'http://www.cocomment.com/myWebRss/'.$this->get_option('username').'.rss';
 	}
 	
 	function get_public_url()

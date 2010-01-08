@@ -15,12 +15,12 @@ class Lifestream_FlickrFeed extends Lifestream_PhotoFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.flickr.com/photos/'.$this->get_option('user_id')).'/';
+		return 'http://www.flickr.com/photos/'.$this->get_option('user_id').'/';
 	}
 
 	function get_url()
 	{
-		return 'http://api.flickr.com/services/feeds/photos_public.gne?id='.$this->get_option('user_id')).'&format=rss_200';
+		return 'http://api.flickr.com/services/feeds/photos_public.gne?id='.$this->get_option('user_id').'&format=rss_200';
 	}
 
 	function yield($row, $url, $key)

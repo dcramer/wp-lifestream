@@ -22,12 +22,12 @@ class Lifestream_SkitchFeed extends Lifestream_PhotoFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.skitch.com/'.$this->get_option('username')).'/';
+		return 'http://www.skitch.com/'.$this->get_option('username').'/';
 	}
 	
 	function get_url()
 	{
-		return 'http://www.skitch.com/feeds/'.$this->get_option('username')).'/atom.xml';
+		return 'http://www.skitch.com/feeds/'.$this->get_option('username').'/atom.xml';
 	}
 	
 	function yield($row, $url, $key)

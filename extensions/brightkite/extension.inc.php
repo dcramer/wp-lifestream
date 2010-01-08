@@ -26,7 +26,7 @@ class Lifestream_BrightkiteFeed extends Lifestream_Feed
 
 	function get_url()
 	{
-		return 'http://www.brightkite.com/people/'.$this->get_option('username')).'/objects.rss';
+		return 'http://www.brightkite.com/people/'.$this->get_option('username').'/objects.rss';
 	}
 	
 	function render_group_items($id, $output, $event)

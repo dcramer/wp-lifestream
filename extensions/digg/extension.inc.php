@@ -25,7 +25,7 @@ class Lifestream_DiggFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://www.digg.com/users/'.$this->get_option('username')).'/history.rss';
+		return 'http://www.digg.com/users/'.$this->get_option('username').'/history.rss';
 	}
 }
 $lifestream->register_feed('Lifestream_DiggFeed');

@@ -17,7 +17,7 @@ class Lifestream_JaikuFeed extends Lifestream_Feed
 
 	function get_url()
 	{
-		return 'http://'.$this->get_option('username')).'.jaiku.com/feed/rss';
+		return 'http://'.$this->get_option('username').'.jaiku.com/feed/rss';
 	}
 	
 	function get_user_url($user)
@@ -43,7 +43,7 @@ class Lifestream_JaikuFeed extends Lifestream_Feed
 	function yield($row, $url, $key)
 	{
 		//I don't know what this is for, would not fetch when running
-		//if (!lifestream_str_startswith($row->get_link(), 'http://'.$this->get_option('username')).'.jaiku.com/presence/')) return;
+		//if (!lifestream_str_startswith($row->get_link(), 'http://'.$this->get_option('username').'.jaiku.com/presence/')) return;
 		
 		$data = parent::yield($row, $url, $key);
 		//preg_match('|<p>([^<]+)</p>|i', $row->get_title(), $matches);

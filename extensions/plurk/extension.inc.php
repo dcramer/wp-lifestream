@@ -26,7 +26,7 @@ class Lifestream_PlurkFeed extends Lifestream_Feed
 
 	function get_url()
 	{
-		return 'http://www.plurk.com/'.$this->get_option('username')).'.xml';
+		return 'http://www.plurk.com/'.$this->get_option('username').'.xml';
 	}
 
 	function get_label_class($key)
@@ -39,7 +39,7 @@ class Lifestream_PlurkFeed extends Lifestream_Feed
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
-		$string = $this->get_option('username')).. ' ';
+		$string = $this->get_option('username'). ' ';
 		$title = $data['title'];
 		if (lifestream_str_startswith(strtolower($title), strtolower($string)))
 		{

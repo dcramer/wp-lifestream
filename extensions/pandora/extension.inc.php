@@ -32,17 +32,17 @@ class Lifestream_PandoraFeed extends Lifestream_Feed
 	
 	function get_stations_url()
 	{
-		return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username')).'/stations.xml';
+		return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username').'/stations.xml';
 	}
 	
 	function get_artists_url()
 	{
-			return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username')).'/favoriteartists.xml';
+			return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username').'/favoriteartists.xml';
 	}
 	
 	function get_songs_url()
 	{
-		return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username')).'/favorites.xml';
+		return 'http://feeds.pandora.com/feeds/people/'.$this->get_option('username').'/favorites.xml';
 	}
 
 	function get_public_url()
