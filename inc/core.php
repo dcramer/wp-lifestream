@@ -437,6 +437,7 @@ class Lifestream
 	
 	function get_absolute_media_url($path)
 	{
+		// XXX: This will fail if you're symlinking the lifestream directory in
 		$path = str_replace(trailingslashit(WP_CONTENT_DIR), '', $path);
 		return str_replace('\\', '/', trailingslashit(WP_CONTENT_URL).$path);
 	}
@@ -1573,7 +1574,7 @@ class Lifestream
 			$feed = new Lifestream_BlogFeed($this, $options);
 			$feed->owner = $userdata->display_name;
 			$feed->owner_id = $userdata->ID;
-			$feed->save();
+			$feed->save(false);
 		}
 		
 		// Cron job for the update
@@ -2078,7 +2079,7 @@ abstract class Lifestream_Extension
 	function get_icon_url()
 	{
 		// TODO: clean this up to use the new Lifestream::get_media methods
-		if (!$this->get_option('icon_url'))
+		if ($this->get_option('icon_url'))
 		{
 			return $this->get_option('icon_url');
 		}
@@ -2119,7 +2120,7 @@ abstract class Lifestream_Extension
 
 	function get_public_name()
 	{
-		if (!$this->get_option('feed_label'))
+		if ($this->get_option('feed_label'))
 		{
 			return $this->get_option('feed_label');
 		}
@@ -2192,11 +2193,11 @@ abstract class Lifestream_Extension
 		}
 	}
 	
-	function save()
+	function save($validate=true)
 	{
 		global $wpdb;
 
-		$this->save_options();
+		$this->save_options($validate);
 		// If it has an ID it means it already exists.
 		if ($this->id)
 		{
@@ -2229,7 +2230,7 @@ abstract class Lifestream_Extension
 	/**
 	 * Called upon saving options to handle additional data management.
 	 */
-	function save_options() { }
+	function save_options($validate=true) { }
 	
 	/**
 	 * Validates the feed. A success has no return value.
@@ -2238,7 +2239,7 @@ abstract class Lifestream_Extension
 	{
 		try
 		{
-			$this->save_options();
+			$this->save_options($validate=true);
 			$this->fetch();
 		}
 		catch (Lifestream_Error $ex)
@@ -2467,7 +2468,7 @@ class Lifestream_InvalidExtension extends Lifestream_Extension
  */
 class Lifestream_Feed extends Lifestream_Extension
 {
-	function save_options()
+	function save_options($validate=true)
 	{
 		$urls = $this->get_url();
 		if (!is_array($urls)) $urls = array($urls);
@@ -2478,12 +2479,14 @@ class Lifestream_Feed extends Lifestream_Extension
 		
 		$feed = new SimplePie();
 		$feed->enable_cache(false);
-		$data = $this->lifestream->file_get_contents($url);
-		$feed->set_raw_data($data);
-		$feed->enable_order_by_date(false);
-		$feed->force_feed(true); 
-		$success = $feed->init();
-		
+		if ($validate)
+		{
+			$data = $this->lifestream->file_get_contents($url);
+			$feed->set_raw_data($data);
+			$feed->enable_order_by_date(false);
+			$feed->force_feed(true); 
+			$success = $feed->init();
+		}
 		if ($this->get_option('auto_icon') && ($url = $feed->get_favicon()))
 		{
 			if ($this->lifestream->validate_image($url))
