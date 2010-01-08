@@ -4,6 +4,8 @@
 * Added Codaset extension by jonathan.
 * Added `event_ids` argument to Lifestream::get_events(). Note that this behavior depends on the `break_groups` argument.
 * Added Foursquare extension by Jonathan Kern.
+* Updated SimplePie to 1.2.
+* Upon activating the plugin the default feed is now owned by the user performing the activation.
 
 0.99.9.5
 
