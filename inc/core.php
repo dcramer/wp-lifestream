@@ -437,6 +437,7 @@ class Lifestream
 	
 	function get_absolute_media_url($path)
 	{
+		// XXX: This will fail if you're symlinking the lifestream directory in
 		$path = str_replace(trailingslashit(WP_CONTENT_DIR), '', $path);
 		return str_replace('\\', '/', trailingslashit(WP_CONTENT_URL).$path);
 	}
@@ -2078,7 +2079,7 @@ abstract class Lifestream_Extension
 	function get_icon_url()
 	{
 		// TODO: clean this up to use the new Lifestream::get_media methods
-		if (!$this->get_option('icon_url'))
+		if ($this->get_option('icon_url'))
 		{
 			return $this->get_option('icon_url');
 		}
@@ -2119,7 +2120,7 @@ abstract class Lifestream_Extension
 
 	function get_public_name()
 	{
-		if (!$this->get_option('feed_label'))
+		if ($this->get_option('feed_label'))
 		{
 			return $this->get_option('feed_label');
 		}
