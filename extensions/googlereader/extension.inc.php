@@ -35,7 +35,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	
 	function save_options()
 	{
-		if (preg_match('/\/reader\/shared\/([A-Za-z0-9_\-]+)\/?/i', $this->get_option('url'), $match))
+		if (preg_match('/\/reader\/shared\/([A-Za-z0-9_\.\-]+)\/?/i', $this->get_option('url'), $match))
 		{
 			$this->update_option('user_id', $match[1]);
 		}
