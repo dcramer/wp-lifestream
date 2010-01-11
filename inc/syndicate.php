@@ -14,7 +14,7 @@ function lifestream_rss_feed()
 	
 	$events = $lifestream->get_events($options);
 	
-	header('Content-Type: application/xml+rss');
+	header('Content-Type: application/xml+rss; charset: UTF-8');
 	
 	$date = date('r');
 	$lines = array('<?xml version="1.0" encoding="UTF-8"?>');
