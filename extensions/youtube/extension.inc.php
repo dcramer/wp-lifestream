@@ -31,15 +31,18 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 		return $cls;
 	}
 
-	function get_posted_url() {
+	function get_posted_url()
+	{
 		return 'http://gdata.youtube.com/feeds/api/users/'.$this->get_option('username').'/uploads?v=2';
-		}
+	}
 
-	function get_favorited_url() {
+	function get_favorited_url()
+	{
 		return 'http://gdata.youtube.com/feeds/api/users/'.$this->get_option('username').'/favorites?v=2';
-		}
+	}
 
-	function get_url() {
+	function get_url()
+	{
 		$urls = array();
 		$urls[] = array($this->get_posted_url(), 'video');
 		if ($this->get_option('show_favorites')) $urls[] = array($this->get_favorited_url(), 'favorite');

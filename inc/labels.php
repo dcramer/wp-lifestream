@@ -780,4 +780,27 @@ class Lifestream_ContributionLabel extends Lifestream_ContributeLabel
 		return $this->lifestream->__('%s contributed to %s pages.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
 	}
 }
+class Lifestream_StreamLabel extends Lifestream_Label
+{
+	const TEMPLATE = 'photo';
+	
+	function get_label_single()
+	{
+		return $this->lifestream->__('Started streaming %2$s.', $this->get_feed_label(), $this->get_single_link());
+	}
+	function get_label_single_user()
+	{
+		return $this->lifestream->__('%1$s started streaming %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+	}
+
+	function get_label_plural()
+	{
+		return $this->lifestream->__('Streamed %s events.', $this->_get_show_details_link(), $this->get_feed_label());
+	}
+	
+	function get_label_plural_user()
+	{
+		return $this->lifestream->__('%s streamed %s events.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
+	}
+}
 ?>
