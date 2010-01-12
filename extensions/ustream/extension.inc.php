@@ -38,7 +38,7 @@ class Lifestream_UstreamFeed extends Lifestream_PhotoFeed
 	{
 		$ts = strtotime($item->lastStreamedAt);
 		return array(
-			'id'		=>  $item->id.':'.$ts,
+			'guid'		=>  $item->id.':'.$ts,
 			'date'		=>  $ts,
 			'link'		=>  $this->lifestream->html_entity_decode($item->url),
 			'title'		=>  $this->lifestream->html_entity_decode($item->title),

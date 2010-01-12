@@ -1040,7 +1040,7 @@ class Lifestream
 
 							$options = $instance->get_options();
 
-							if ($_POST['save'])
+							if (@$_POST['save'])
 							{
 								$values = array();
 								foreach ($options as $option=>$option_meta)
@@ -1082,6 +1082,11 @@ class Lifestream
 									$instance->save();
 									unset($_POST);
 								}
+							}
+							elseif (@$_POST['truncate'])
+							{
+								$instance->truncate();
+								$instance->refresh();
 							}
 						}
 					break;
@@ -2190,6 +2195,16 @@ abstract class Lifestream_Extension
 		if (!array_key_exists($option, $this->options) || $this->options[$option] === '')
 		{
 			$this->options[$option] = $value;
+		}
+	}
+	
+	function truncate()
+	{
+		global $wpdb;
+		if ($this->id)
+		{
+			$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d", $this->owner, $this->owner_id, $this->id));
+			$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d", $this->owner, $this->owner_id, $this->id));
 		}
 	}
 	
