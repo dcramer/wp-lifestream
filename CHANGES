@@ -7,6 +7,7 @@
 * Updated SimplePie to 1.2.
 * Upon activating the plugin the default feed is now owned by the user performing the activation.
 * Added much needed "less suck" to the GitHub extension.
+* Added Ustream extension.
 
 0.99.9.5
 

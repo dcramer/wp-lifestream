@@ -60,7 +60,8 @@ class Lifestream_GoodReadsFeed extends Lifestream_PhotoFeed
 	
 	function fetch()
 	{
-		$response = $this->lifestream->file_get_contents($this->get_url());
+		$url = $this->get_url();
+		$response = $this->lifestream->file_get_contents($url);
 		
 		if ($response)
 		{
@@ -73,6 +74,7 @@ class Lifestream_GoodReadsFeed extends Lifestream_PhotoFeed
 			}
 			return $items;
 		}
-	}}
+	}
+}
 $lifestream->register_feed('Lifestream_GoodReadsFeed');
 ?>

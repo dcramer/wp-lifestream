@@ -43,6 +43,7 @@ class Lifestream_GitHubFeed extends Lifestream_Feed
 			$repo = $this->parse_repo($row->get_title());
 			$data['branch'] = $repo[0];
 			$data['repository'] = $repo[1];
+			$data['id'] = $data['id'].':'.$data['repository'];
 			return $data;
 		}
 	}

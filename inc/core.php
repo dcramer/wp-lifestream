@@ -19,7 +19,7 @@ function lifestream_path_join()
 
 function lifestream_array_key_pop($array, $key)
 {
-	$value = $array[$key];
+	$value = @$array[$key];
 	unset($array[$key]);
 	return $value;
 }
@@ -1118,7 +1118,7 @@ class Lifestream
 							}
 							$values['feed_label'] = $_POST['feed_label'];
 							$values['icon_url'] = $_POST['icon_url'];
-							$values['auto_icon'] = $_POST['auto_icon'];
+							$values['auto_icon'] = @$_POST['auto_icon'];
 							if (current_user_can('manage_options'))
 							{
 								$feed->owner_id = $_POST['owner'];

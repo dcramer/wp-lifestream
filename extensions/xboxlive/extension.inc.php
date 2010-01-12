@@ -45,7 +45,8 @@ class Lifestream_XboxLiveFeed extends Lifestream_Feed
 	
 	function fetch()
 	{
-		$response = $this->lifestream->file_get_contents($this->get_url());
+		$url = $this->get_url();
+		$response = $this->lifestream->file_get_contents($url);
 
 		if ($response)
 		{
