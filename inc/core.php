@@ -573,13 +573,13 @@ class Lifestream
 	 */
 	function get_option($option, $default=null)
 	{
+		$this->_populate_option_cache();
 		if (!isset($this->_optioncache[$option])) $value = $default;
 		else
 		{
 			$value = $this->_optioncache[$option];
-			if (!$value) $value = $default;
 		}
-		if (empty($value)) $value = null;
+		if (empty($value)) $value = $default;
 		return $value;
 	}
 	
@@ -588,7 +588,7 @@ class Lifestream
 	 */
 	function delete_option($option)
 	{
-		$this->_populate_option-cache();
+		$this->_populate_option_cache();
 		unset($this->_optioncache[$option]);
 		update_option('lifestream_options', $this->_optioncache);
 	}
