@@ -90,7 +90,7 @@ function lifestream_widget_control($widget_args=1)
 				
 			$options[$widget_number] = $widget_options;
 		}
-
+		
 		$lifestream->update_option('widget', $options);
 		
 		// So that we don't go through this more than once
@@ -118,7 +118,7 @@ function lifestream_widget_control($widget_args=1)
 			$current_options[$key] = attribute_escape($value);
 		}
 	}
-
+	
 	$results =& $wpdb->get_results("SELECT * FROM `".$wpdb->prefix."lifestream_feeds` ORDER BY `id`");
 	$feeds = array();
 	foreach ($results as &$result)
@@ -177,7 +177,7 @@ function lifestream_widget_control($widget_args=1)
 function lifestream_widget_register()
 {
 	global $lifestream;
-	
+		
 	if (!($options = $lifestream->get_option('widget')))
 		$options = array();
 

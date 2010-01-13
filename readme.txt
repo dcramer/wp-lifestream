@@ -164,6 +164,7 @@ The plugin includes most of the major social networking feeds available. You may
 * Kiva
 * Codaset
 * Foursquare
+* Ustream
 
 == Localization ==
 
