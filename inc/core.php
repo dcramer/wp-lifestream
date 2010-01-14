@@ -2205,8 +2205,8 @@ abstract class Lifestream_Extension
 		global $wpdb;
 		if ($this->id)
 		{
-			$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d", $this->owner, $this->owner_id, $this->id));
-			$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d", $this->owner, $this->owner_id, $this->id));
+			$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d", $this->id));
+			$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d", $this->id));
 		}
 	}
 	
