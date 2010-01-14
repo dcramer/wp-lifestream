@@ -21,7 +21,10 @@ class Lifestream_Label
 	}
 	
 	// backwards compatibility
-	function _get_user_label() { return $this->get_user_label(); }
+	function _get_user_label()
+	{
+		return $this->get_user_label();
+	}
 	
 	function get_single_link()
 	{
@@ -35,6 +38,10 @@ class Lifestream_Label
 	
 	function get_user_label()
 	{
+		if ($this->lifestream->is_buddypress)
+		{
+			return $this->lifestream->get_anchor_html(htmlspecialchars($this->event->owner), htmlspecialchars(bp_core_get_userurl($this->event->owner_id)));
+		}
 		return $this->event->owner;
 	}
 	

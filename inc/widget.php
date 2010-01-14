@@ -27,14 +27,20 @@ function lifestream_widget($args, $widget_args=1)
 
 	echo $before_title . ($options['title'] ? apply_filters('widget_title', $options['title']) : $lifestream->__('Lifestream')) . $after_title;
 
-	lifestream_sidebar_widget(array(
+	$args = array(
 		'limit'=>$options['amount'],
 		'feed_ids'=>$options['feeds'],
 		'hide_metadata'=>$options['hide_metadata'],
 		'break_groups'=>$options['break_groups'] ? true : false,
 		'event_total_max'=>-1,
 		'date_interval'=>-1,
-	));
+	);
+
+	if ($lifestream->is_buddypress && is_home())
+	{
+		$args['show_owners'] = 1;
+	}
+	lifestream_sidebar_widget($args);
 	// Do stuff for this widget, drawing data from $options[$number]
 
 	echo $after_widget;
