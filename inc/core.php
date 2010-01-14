@@ -119,7 +119,7 @@ class Lifestream_Event
 		$label_inst = $this->get_label_instance($options);
 		if (count($this->data) > 1)
 		{
-			if ($this->lifestream->get_option('show_owners'))
+			if (@$options['show_owners'] || $this->lifestream->get_option('show_owners'))
 			{
 				$label = $label_inst->get_label_plural_user();
 			}
@@ -130,7 +130,7 @@ class Lifestream_Event
 		}
 		else
 		{
-			if ($this->lifestream->get_option('show_owners'))
+			if (@$options['show_owners'] || $this->lifestream->get_option('show_owners'))
 			{
 				$label = $label_inst->get_label_single_user();
 			}
@@ -652,6 +652,8 @@ class Lifestream
 			wp_enqueue_script('admin-forms');
 		}
 		add_feed('lifestream-feed', 'lifestream_rss_feed');
+
+		$this->is_buddypress = (function_exists('bp_is_blog_page') ? true : false);
 
 		// If this is an update we need to force reactivation
 		if (LIFESTREAM_VERSION != $this->get_option('_version'))
