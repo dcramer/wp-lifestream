@@ -1588,7 +1588,7 @@ class Lifestream
 
 	function credits()
 	{
-		return 'Powered by <a href="http://www.enthropia.com/labs/wp-lifestream/">Lifestream</a> from <a href="http://www.ibegin.com/">iBegin</a>.';
+		return 'Powered by <a href="http://www.enthropia.com/labs/wp-lifestream/">Lifestream</a>.';
 	}
 
 	/**
@@ -2718,7 +2718,7 @@ function lifestream($args=array())
 	
 	require($lifestream->get_theme_filepath('main.inc.php'));
 
-	echo '<!-- Powered by iBegin Lifestream (version: '.LIFESTREAM_VERSION.'; theme: '.$lifestream->get_option('theme', 'default').'; iconset: '.$lifestream->get_option('icons', 'default').') -->';
+	echo '<!-- Powered by Lifestream (version: '.LIFESTREAM_VERSION.'; theme: '.$lifestream->get_option('theme', 'default').'; iconset: '.$lifestream->get_option('icons', 'default').') -->';
 
 	if ($lifestream->get_option('show_credits') == '1')
 	{
