@@ -1411,7 +1411,7 @@ class Lifestream
 		$args = array();
 		if (count($matches) > 1)
 		{
-			preg_match_all("|(?:([a-z_]+)=[\"']?([a-z0-9_-\s]+)[\"']?)\s*|i", $matches[1], $options);
+			preg_match_all("|(?:([a-z_]+)=[\"']?([a-z0-9_-\s,]+)[\"']?)\s*|i", $matches[1], $options);
 			for ($i=0; $i<count($options[1]); $i++)
 			{
 				if ($options[$i]) $args[$options[1][$i]] = $options[2][$i];
