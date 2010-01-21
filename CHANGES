@@ -1,3 +1,9 @@
+0.99.9.7
+
+* Added WoW Armory extension by gizzmo.
+* Events can now be grouped by any value, not just the event key (but still are date-based).
+* Installation should now work on installs that do not use MyISAM.
+
 0.99.9.6
 
 * Added get_option, add_option, update_option, and delete_option methods to Lifestream_Extension.
