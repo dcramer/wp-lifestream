@@ -165,6 +165,9 @@ The plugin includes most of the major social networking feeds available. You may
 * Codaset
 * Foursquare
 * Ustream
+* World of Warcraft Armory
+
+Want to add your own? See extensions/README for more information.
 
 == Localization ==
 

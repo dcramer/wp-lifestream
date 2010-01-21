@@ -1,3 +1,7 @@
+0.99.9.7
+
+* Added WoW Armory extension by gizzmo.
+
 0.99.9.6
 
 * Added get_option, add_option, update_option, and delete_option methods to Lifestream_Extension.
