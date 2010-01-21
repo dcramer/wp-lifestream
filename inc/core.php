@@ -1118,7 +1118,7 @@ class Lifestream
 							}
 							elseif ($feed->get_constant('CAN_GROUP'))
 							{
-								$values['grouped'] = $_POST['grouped'];
+								$values['grouped'] = @$_POST['grouped'];
 							}
 							if ($feed->get_constant('HAS_EXCERPTS'))
 							{
@@ -1784,7 +1784,7 @@ class Lifestream
 		if (version_compare($version, '0.99.9.7', '<'))
 		{
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `group_key` char(32) NOT NULL AFTER `key`, DROP KEY `feed_id`, ADD UNIQUE `feed_id` (`feed_id`, `group_key`, `owner_id`, `link`)");
-			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `group_key` char(32) NOT NULL AFTER `key`, DROP KEY `feed_id`, ADD UNIQUE `feed_id` (`feed_id`, `group_key`, `owner_id`, `timestamp`)");
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `group_key` char(32) NOT NULL AFTER `key`, DROP KEY `feed_id`, ADD INDEX `feed_id` (`feed_id`, `group_key`, `owner_id`, `timestamp`)");
 			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_event` SET `group_key` = md5(`key`)");
 			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `group_key` = md5(`key`)");
 		}
