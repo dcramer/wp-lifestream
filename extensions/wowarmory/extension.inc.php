@@ -1,4 +1,5 @@
 <?php
+// TODO: we want to clean this up and use some regexp parsing to sort ouf achievements, etc.
 class LifeStream_WoWArmoryFeed extends LifeStream_Feed
 {
 	const ID			= 'wowarmory';
@@ -31,10 +32,16 @@ class LifeStream_WoWArmoryFeed extends LifeStream_Feed
 		return 'http://www.wowarmory.com/character-feed.atom?r='.urlencode($this->get_option('realm')).'&cn='.urlencode($this->get_option('character'));
 	}
 	
+	function yield($row, $url, $key)
+	{
+		$data = parent::yield($row, $url, $key);
+		$data['title'] = strtolower( substr($data['title'],0,1) ) . substr($data['title'],1);
+		return $data;
+	}
+	
 	function render_item($row, $item)
 	{
-		$item['title'] = strtolower( substr($item['title'],0,1) ) . substr($item['title'],1);
-	
+		// TODO: this should be part of a label
 		return $this->lifestream->get_anchor_html(
 			ucfirst(htmlspecialchars($this->get_option('character'))),
 			'http://www.wowarmory.com/character-sheet.xml?r='.$this->get_option('realm').'&cn='.$this->get_option('character')

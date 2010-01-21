@@ -321,7 +321,7 @@ class Lifestream_MessageLabel extends Lifestream_Label
 
 	function get_label_single()
 	{
-		return $this->feed->render_item($event, $this->event->data[0]);
+		return $this->feed->render_item($this->event, $this->event->data[0]);
 	}
 	
 	function get_label_plural()
@@ -331,7 +331,7 @@ class Lifestream_MessageLabel extends Lifestream_Label
 	
 	function get_label_single_user()
 	{
-		$post = $this->feed->render_item($event, $this->event->data[0]);
+		$post = $this->feed->render_item($this->event, $this->event->data[0]);
 		return $this->lifestream->__('%s %s.', $this->get_user_label(), $post);
 	}
 	
