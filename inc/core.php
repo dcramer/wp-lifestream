@@ -543,6 +543,9 @@ class Lifestream
 		add_action('lifestream_digest_cron', array(&$this, 'digest_update'));
 		add_action('lifestream_cron', array(&$this, 'update'));
 		add_action('lifestream_cleanup', array(&$this, 'cleanup_history'));
+		add_action('template_redirect', array($this, 'template_redirect'));
+		
+		register_post_type('lsevent', array('public' => false));
 		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
@@ -653,7 +656,6 @@ class Lifestream
 			wp_enqueue_script('admin-forms');
 		}
 		add_feed('lifestream-feed', 'lifestream_rss_feed');
-
 		$this->is_buddypress = (function_exists('bp_is_blog_page') ? true : false);
 
 		// If this is an update we need to force reactivation
@@ -663,6 +665,48 @@ class Lifestream
 			$this->deactivate();
 			$this->activate();
 		}
+	}
+	
+	function is_lifestream_event()
+	{
+		return (is_single() && get_post_type() == 'lsevent');
+	}
+
+	function is_lifestream_home()
+	{
+		global $wp_query;
+
+		return (@$_GET['cp'] == 'lifestream');
+	}
+
+	function template_redirect()
+	{
+		global $ls_template;
+		
+		$lifestream = $this;
+		
+		if ($this->is_lifestream_event())
+		{
+			include($this->get_template('event.php'));
+			exit;
+		}
+		else if ($this->is_lifestream_home())
+		{
+			$ls_template->setup_events();
+			
+			include($this->get_template('home.php'));
+			exit;
+		}
+	}
+	
+	function get_template($template)
+	{
+		if (file_exists(TEMPLATEPATH.'/lifestream/'.$template))
+		{
+			return TEMPLATEPATH.'lifestream/'.$template;
+			return;
+		}
+		return LIFESTREAM_PATH . '/templates/'.$template;
 	}
 	
 	function log_error($message, $feed_id=null)
@@ -2695,14 +2739,14 @@ function lifestream($args=array())
 		'limit' => $lifestream->get_option('number_of_items'),
 	);
 
-	if (!is_array($_[0]))
+	if (@$_[0] && !is_array($_[0]))
 	{
 		// old style
 		$_ = array(
-			'limit'			=> $_[0],
-			'feed_ids'		=> $_[1],
-			'date_interval'	=> $_[2],
-			'user_ids'		=> $_[4],
+			'limit'			=> @$_[0],
+			'feed_ids'		=> @$_[1],
+			'date_interval'	=> @$_[2],
+			'user_ids'		=> @$_[4],
 		);
 		foreach ($_ as $key=>$value)
 		{
@@ -2793,5 +2837,6 @@ ksort($lifestream->feeds);
 // Require more of the codebase
 require_once(LIFESTREAM_PATH . '/inc/widget.php');
 require_once(LIFESTREAM_PATH . '/inc/syndicate.php');
+require_once(LIFESTREAM_PATH . '/inc/template.php');
 
 ?>
