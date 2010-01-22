@@ -1,7 +1,7 @@
 === Lifestream ===
 Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom
-Requires at least: 2.5
-Tested up to: 2.8.4
+Requires at least: 2.9
+Tested up to: 2.9
 Stable tag: 0.99.9.6
 
 Streams your activity from over 50 different sources to your blog.
