@@ -3,7 +3,7 @@
 Plugin Name: Lifestream
 Plugin URI: http://www.enthropia.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.9.6
+Version: 0.99.9.7-PRE
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
@@ -17,7 +17,7 @@ if (!function_exists('plugin_basename')) {
 	function add_action() {}
 }
 
-define('LIFESTREAM_VERSION', '0.99.9.6');
+define('LIFESTREAM_VERSION', '0.99.9.7');
 define('LIFESTREAM_PLUGIN_FILE', plugin_basename(__FILE__));
 define('LIFESTREAM_PATH', dirname(__FILE__));
 define('LIFESTREAM_URL', plugins_url($path = '/'.LIFESTREAM_PATH));

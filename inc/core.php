@@ -17,10 +17,11 @@ function lifestream_path_join()
 	return implode($sep, $bits);
 }
 
-function lifestream_array_key_pop($array, $key)
+function lifestream_array_key_pop($array, $key, $default=null)
 {
 	$value = @$array[$key];
 	unset($array[$key]);
+	if (!$value) $value = $default;
 	return $value;
 }
 // Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
@@ -542,6 +543,9 @@ class Lifestream
 		add_action('lifestream_digest_cron', array(&$this, 'digest_update'));
 		add_action('lifestream_cron', array(&$this, 'update'));
 		add_action('lifestream_cleanup', array(&$this, 'cleanup_history'));
+		add_action('template_redirect', array($this, 'template_redirect'));
+		
+		register_post_type('lsevent', array('public' => false));
 		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
@@ -652,7 +656,6 @@ class Lifestream
 			wp_enqueue_script('admin-forms');
 		}
 		add_feed('lifestream-feed', 'lifestream_rss_feed');
-
 		$this->is_buddypress = (function_exists('bp_is_blog_page') ? true : false);
 
 		// If this is an update we need to force reactivation
@@ -662,6 +665,48 @@ class Lifestream
 			$this->deactivate();
 			$this->activate();
 		}
+	}
+	
+	function is_lifestream_event()
+	{
+		return (is_single() && get_post_type() == 'lsevent');
+	}
+
+	function is_lifestream_home()
+	{
+		global $wp_query;
+
+		return (@$_GET['cp'] == 'lifestream');
+	}
+
+	function template_redirect()
+	{
+		global $ls_template;
+		
+		$lifestream = $this;
+		
+		if ($this->is_lifestream_event())
+		{
+			include($this->get_template('event.php'));
+			exit;
+		}
+		else if ($this->is_lifestream_home())
+		{
+			$ls_template->setup_events();
+			
+			include($this->get_template('home.php'));
+			exit;
+		}
+	}
+	
+	function get_template($template)
+	{
+		if (file_exists(TEMPLATEPATH.'/lifestream/'.$template))
+		{
+			return TEMPLATEPATH.'lifestream/'.$template;
+			return;
+		}
+		return LIFESTREAM_PATH . '/templates/'.$template;
 	}
 	
 	function log_error($message, $feed_id=null)
@@ -1070,7 +1115,7 @@ class Lifestream
 								}
 								$values['feed_label'] = $_POST['feed_label'];
 								$values['icon_url'] = $_POST['icon_url'];
-								$values['auto_icon'] = $_POST['auto_icon'];
+								$values['auto_icon'] = @$_POST['auto_icon'];
 								if ($_POST['owner'] != $instance->owner_id && current_user_can('manage_options'))
 								{
 									$usero = new WP_User($_POST['owner']);
@@ -1117,7 +1162,7 @@ class Lifestream
 							}
 							elseif ($feed->get_constant('CAN_GROUP'))
 							{
-								$values['grouped'] = $_POST['grouped'];
+								$values['grouped'] = @$_POST['grouped'];
 							}
 							if ($feed->get_constant('HAS_EXCERPTS'))
 							{
@@ -1411,7 +1456,7 @@ class Lifestream
 		$args = array();
 		if (count($matches) > 1)
 		{
-			preg_match_all("|(?:([a-z_]+)=[\"']?([a-z0-9_-\s]+)[\"']?)\s*|i", $matches[1], $options);
+			preg_match_all("|(?:([a-z_]+)=[\"']?([a-z0-9_-\s,]+)[\"']?)\s*|i", $matches[1], $options);
 			for ($i=0; $i<count($options[1]); $i++)
 			{
 				if ($options[$i]) $args[$options[1][$i]] = $options[2][$i];
@@ -1680,12 +1725,13 @@ class Lifestream
 		  `timestamp` int(11) NOT NULL,
 		  `version` int(11) default 0 NOT NULL,
 		  `key` char(16) NOT NULL,
+		  `group_key` char(32) NOT NULL,
 		  `owner` varchar(128) NOT NULL,
 		  `owner_id` int(11) NOT NULL,
 		  PRIMARY KEY  (`id`),
 		  INDEX `feed` (`feed`),
-		  UNIQUE `feed_id` (`feed_id`, `key`, `owner_id`, `link`)
-		) ENGINE=MyISAM;");
+		  UNIQUE `feed_id` (`feed_id`, `group_key`, `owner_id`, `link`)
+		);");
 
 		$this->safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event_group` (
 		  `id` int(11) NOT NULL auto_increment,
@@ -1699,12 +1745,13 @@ class Lifestream
 		  `timestamp` int(11) NOT NULL,
 		  `version` int(11) default 0 NOT NULL,
 		  `key` char(16) NOT NULL,
+		  `group_key` char(32) NOT NULL,
 		  `owner` varchar(128) NOT NULL,
 		  `owner_id` int(11) NOT NULL,
 		  PRIMARY KEY  (`id`),
 		  INDEX `feed` (`feed`),
-		  INDEX `feed_id` (`feed_id`, `key`, `owner_id`, `timestamp`)
-		) ENGINE=MyISAM;");
+		  INDEX `feed_id` (`feed_id`, `group_key`, `owner_id`, `timestamp`)
+		);");
 
 		$this->safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_feeds` (
 		  `id` int(11) NOT NULL auto_increment,
@@ -1717,7 +1764,7 @@ class Lifestream
 		  `version` int(11) default 0 NOT NULL,
 		  INDEX `owner_id` (`owner_id`),
 		  PRIMARY KEY  (`id`)
-		) ENGINE=MyISAM;");
+		);");
 
 		$this->safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_error_log` (
 		  `id` int(11) NOT NULL auto_increment,
@@ -1729,7 +1776,7 @@ class Lifestream
 		  INDEX `feed_id` (`feed_id`, `has_viewed`),
 		  INDEX `has_viewed` (`has_viewed`),
 		  PRIMARY KEY  (`id`)
-		) ENGINE=MyISAM;");
+		);");
 
 		if (!$version) return;
 
@@ -1777,6 +1824,13 @@ class Lifestream
 		if (version_compare($version, '0.99.9.4', '<'))
 		{
 			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `active` = 1");
+		}
+		if (version_compare($version, '0.99.9.7', '<'))
+		{
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `group_key` char(32) NOT NULL AFTER `key`, DROP KEY `feed_id`, ADD UNIQUE `feed_id` (`feed_id`, `group_key`, `owner_id`, `link`)");
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `group_key` char(32) NOT NULL AFTER `key`, DROP KEY `feed_id`, ADD INDEX `feed_id` (`feed_id`, `group_key`, `owner_id`, `timestamp`)");
+			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_event` SET `group_key` = md5(`key`)");
+			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `group_key` = md5(`key`)");
 		}
 	}
 	
@@ -2295,6 +2349,8 @@ abstract class Lifestream_Extension
 			// We need to set the default timestamp if no dates are set
 			$date = lifestream_array_key_pop($item, 'date');
 			$key = lifestream_array_key_pop($item, 'key');
+			$group_key = md5(lifestream_array_key_pop($item, 'group_key', $key));
+
 			if (!($date > 0)) $date = $default_timestamp;
 			
 			if ($this->version == 2)
@@ -2311,20 +2367,20 @@ abstract class Lifestream_Extension
 				$link_key = $item['link'];
 			}
 			
-			$affected = $wpdb->query($wpdb->prepare("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `feed`, `link`, `data`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES (%d, %s, %s, %s, %d, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), $link_key, serialize($item), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
+			$affected = $wpdb->query($wpdb->prepare("INSERT IGNORE INTO `".$wpdb->prefix."lifestream_event` (`feed_id`, `feed`, `link`, `data`, `timestamp`, `version`, `key`, `group_key`, `owner`, `owner_id`) VALUES (%d, %s, %s, %s, %d, %d, %s, %s, %s, %d)", $this->id, $this->get_constant('ID'), $link_key, serialize($item), $date, $this->get_constant('VERSION'), $key, $group_key, $this->owner, $this->owner_id));
 			if ($affected)
 			{
 				$item['id'] = $wpdb->insert_id;
 				$item['date'] = $date;
 				$item['key'] = $key;
-
+				$item['group_key'] = $group_key;
 				$total += 1;
 
 				$label = $this->get_label_class($key);
 				if ($this->get_option('grouped') && $this->get_constant('CAN_GROUP') && constant(sprintf('%s::%s', $label, 'CAN_GROUP')))
 				{
-					if (!array_key_exists($key, $grouped)) $grouped[$key] = array();
-					$grouped[$key][date('m d Y', $date)] = $date;
+					if (!array_key_exists($group_key, $grouped)) $grouped[$group_key] = array();
+					$grouped[$group_key][date('m d Y', $date)] = $date;
 				}
 				else
 				{
@@ -2337,14 +2393,14 @@ abstract class Lifestream_Extension
 			}
 		}
 		// Grouping them by key
-		foreach ($grouped as $key=>$dates)
+		foreach ($grouped as $group_key=>$dates)
 		{
 			// Grouping them by date
 			foreach ($dates as $date_key=>$date)
 			{
 				// Get all of the current events for this date
 				// (including the one we affected just now)
-				$results =& $wpdb->get_results($wpdb->prepare("SELECT `data`, `link` FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = %s", $this->id, $date, $key));
+				$results =& $wpdb->get_results($wpdb->prepare("SELECT `data`, `link` FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d AND `visible` = 1 AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `group_key` = %s", $this->id, $date, $group_key));
 				$events = array();
 				foreach ($results as &$result)
 				{
@@ -2354,7 +2410,7 @@ abstract class Lifestream_Extension
 				}
 
 				// First let's see if the group already exists in the database
-				$group =& $wpdb->get_results($wpdb->prepare("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `key` = %s LIMIT 0, 1", $this->id, $date, $key));
+				$group =& $wpdb->get_results($wpdb->prepare("SELECT `id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d AND DATE(FROM_UNIXTIME(`timestamp`)) = DATE(FROM_UNIXTIME(%d)) AND `group_key` = %s LIMIT 0, 1", $this->id, $date, $group_key));
 				if (count($group) == 1)
 				{
 					$group =& $group[0];
@@ -2362,7 +2418,7 @@ abstract class Lifestream_Extension
 				}
 				else
 				{
-					$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, %s, %s, %d, %d, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), serialize($events), count($events), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
+					$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `group_key`, `owner`, `owner_id`) VALUES(%d, %s, %s, %d, %d, %d, %s, %s, %s, %d)", $this->id, $this->get_constant('ID'), serialize($events), count($events), $date, $this->get_constant('VERSION'), $key, $group_key, $this->owner, $this->owner_id));
 				}
 			}
 		}
@@ -2370,7 +2426,9 @@ abstract class Lifestream_Extension
 		{
 			$date = lifestream_array_key_pop($item, 'date');
 			$key = lifestream_array_key_pop($item, 'key');
-			$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `owner`, `owner_id`) VALUES(%d, %s, %d, %s, %d, 1, %d, %s, %s, %d)", $this->id, $this->get_constant('ID'), $item['id'], serialize(array($item)), $date, $this->get_constant('VERSION'), $key, $this->owner, $this->owner_id));
+			$group_key = lifestream_array_key_pop($item, 'group_key');
+
+			$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `group_key`, `owner`, `owner_id`) VALUES(%d, %s, %d, %s, %d, 1, %d, %s, %s, %s, %d)", $this->id, $this->get_constant('ID'), $item['id'], serialize(array($item)), $date, $this->get_constant('VERSION'), $key, $group_key, $this->owner, $this->owner_id));
 		}
 		$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `timestamp` = UNIX_TIMESTAMP() WHERE `id` = %d", $this->id));
 		unset($items, $ungrouped);
@@ -2681,14 +2739,14 @@ function lifestream($args=array())
 		'limit' => $lifestream->get_option('number_of_items'),
 	);
 
-	if (!is_array($_[0]))
+	if (@$_[0] && !is_array($_[0]))
 	{
 		// old style
 		$_ = array(
-			'limit'			=> $_[0],
-			'feed_ids'		=> $_[1],
-			'date_interval'	=> $_[2],
-			'user_ids'		=> $_[4],
+			'limit'			=> @$_[0],
+			'feed_ids'		=> @$_[1],
+			'date_interval'	=> @$_[2],
+			'user_ids'		=> @$_[4],
 		);
 		foreach ($_ as $key=>$value)
 		{
@@ -2779,5 +2837,6 @@ ksort($lifestream->feeds);
 // Require more of the codebase
 require_once(LIFESTREAM_PATH . '/inc/widget.php');
 require_once(LIFESTREAM_PATH . '/inc/syndicate.php');
+require_once(LIFESTREAM_PATH . '/inc/template.php');
 
 ?>

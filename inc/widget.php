@@ -29,9 +29,9 @@ function lifestream_widget($args, $widget_args=1)
 
 	$args = array(
 		'limit'=>$options['amount'],
-		'feed_ids'=>$options['feeds'],
-		'hide_metadata'=>$options['hide_metadata'],
-		'break_groups'=>$options['break_groups'] ? true : false,
+		'feed_ids'=>@$options['feeds'],
+		'hide_metadata'=>@$options['hide_metadata'],
+		'break_groups'=>@$options['break_groups'] ? true : false,
 		'event_total_max'=>-1,
 		'date_interval'=>-1,
 	);
@@ -157,13 +157,13 @@ function lifestream_widget_control($widget_args=1)
 	</p>
 	<p>
 		<label>
-			<input type="checkbox" name="lifestream[<?php echo $number; ?>][break_groups]" value="1"<?php if ($current_options['break_groups']) echo ' checked = "checked"'; ?>/>
+			<input type="checkbox" name="lifestream[<?php echo $number; ?>][break_groups]" value="1"<?php if (@$current_options['break_groups']) echo ' checked = "checked"'; ?>/>
 			<?php $lifestream->_e('Break up grouped events.'); ?>
 		</label><br />
 	</p>
 	<p>
 		<label>
-			<input type="checkbox" name="lifestream[<?php echo $number; ?>][hide_metadata]" value="1"<?php if ($current_options['hide_metadata']) echo ' checked = "checked"'; ?>/>
+			<input type="checkbox" name="lifestream[<?php echo $number; ?>][hide_metadata]" value="1"<?php if (@$current_options['hide_metadata']) echo ' checked = "checked"'; ?>/>
 			<?php $lifestream->_e('Hide meta data, such as the time.'); ?>
 		</label><br />
 	</p>
@@ -171,7 +171,7 @@ function lifestream_widget_control($widget_args=1)
 		<?php $lifestream->_e('Feeds to show (optional):'); ?> <small>(<a href="javascript:void(0);" onclick="lifestreamClearSelection(this.parentNode.parentNode.getElementsByTagName('select')[0]);"><?php $lifestream->_e('Clear Selection'); ?></a>)</small><br />
 		<select multiple="multiple" style="width: 92%; height: 80px;" name="lifestream[<?php echo $number; ?>][feeds][]">
 			<?php foreach ($feeds as &$feed) { ?>
-				<option value="<?php echo $feed->id; ?>"<?php if (in_array((string)$feed->id, (array)$current_options['feeds'])) echo ' selected="selected"'; ?>><?php echo $feed->get_public_name(); ?> (<?php echo $feed->get_feed_display(); ?>)</option>
+				<option value="<?php echo $feed->id; ?>"<?php if (in_array((string)$feed->id, @(array)$current_options['feeds'])) echo ' selected="selected"'; ?>><?php echo $feed->get_public_name(); ?> (<?php echo $feed->get_feed_display(); ?>)</option>
 			<?php } ?>
 		</select>
 	</p>
