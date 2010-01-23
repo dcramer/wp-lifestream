@@ -1,13 +1,14 @@
 <?php
 class Lifestream_JaikuFeed extends Lifestream_Feed
 {
-	const ID			= 'jaiku';
-	const NAME		  = 'Jaiku';
-	const URL		   = 'http://www.jaiku.com/';
+	const ID          = 'jaiku';
+	const NAME        = 'Jaiku';
+	const URL         = 'http://www.jaiku.com/';
 	const NS_JAIKU	  = 'http://jaiku.com/ns';
-	const LABEL		= 'Lifestream_MessageLabel';
-	const CAN_GROUP	= false;
+	const LABEL       = 'Lifestream_MessageLabel';
 	const DESCRIPTION = 'Hiding or showing comments only affects new comments and not the ones already in your lifestream.';
+        const AUTHOR      = 'Unknown, Jonas Nockert';
+	const CAN_GROUP   = false;
 
 	function get_options()
 	{		
