@@ -3,6 +3,10 @@
 * Added WoW Armory extension by gizzmo.
 * Events can now be grouped by any value, not just the event key (but still are date-based).
 * Installation should now work on installs that do not use MyISAM.
+* As of now, Lifestream requires WordPress 2.9 or higher.
+* Added initial workings for templates (and true themes).
+* More improvements to the GitHub theme.
+* Events now have permalinks, which are fully integrated into WordPress (including comments!).
 
 0.99.9.6
 

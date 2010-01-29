@@ -67,6 +67,7 @@ class Lifestream_Event
 		$this->key = $row->key;
 		$this->owner = $row->owner;
 		$this->owner_id = $row->owner_id;
+		$this->post_id = $row->post_id;
 		$this->visible = $row->visible;
 		$this->link = @(!empty($this->data['link']) ? $this->data['link'] : $row->link);
 		$cls = $this->lifestream->get_feed($row->feed);
@@ -438,8 +439,8 @@ class Lifestream
 	
 	function get_absolute_media_url($path)
 	{
-		// XXX: This will fail if you're symlinking the lifestream directory in
 		$path = str_replace(trailingslashit(WP_CONTENT_DIR), '', $path);
+		$path = str_replace(realpath(trailingslashit(LIFESTREAM_PATH)), 'plugins/lifestream', $path);
 		return str_replace('\\', '/', trailingslashit(WP_CONTENT_URL).$path);
 	}
 
@@ -543,6 +544,9 @@ class Lifestream
 		add_action('lifestream_digest_cron', array(&$this, 'digest_update'));
 		add_action('lifestream_cron', array(&$this, 'update'));
 		add_action('lifestream_cleanup', array(&$this, 'cleanup_history'));
+		add_action('template_redirect', array($this, 'template_redirect'));
+		
+		register_post_type('lsevent', array('public' => false));
 		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
@@ -653,7 +657,6 @@ class Lifestream
 			wp_enqueue_script('admin-forms');
 		}
 		add_feed('lifestream-feed', 'lifestream_rss_feed');
-
 		$this->is_buddypress = (function_exists('bp_is_blog_page') ? true : false);
 
 		// If this is an update we need to force reactivation
@@ -663,6 +666,59 @@ class Lifestream
 			$this->deactivate();
 			$this->activate();
 		}
+	}
+	
+	function is_lifestream_event()
+	{
+		global $posts, $post, $wp_query;
+		
+		if (!$posts)
+		{
+			$posts = array(get_post($_GET['p'], OBJECT));
+			$post = $posts[0];
+			$wp_query->queried_object = $posts[0];
+			$wp_query->queried_object_id = $posts[0]->ID;
+		}
+		return (is_single() && get_post_type() == 'lsevent');
+	}
+
+	function is_lifestream_home()
+	{
+		global $wp_query;
+
+		return (@$_GET['cp'] == 'lifestream');
+	}
+
+	function template_redirect()
+	{
+		global $ls_template;
+		
+		$lifestream = $this;
+		
+		if ($this->is_lifestream_event())
+		{
+			$ls_template->get_events();
+			
+			include($this->get_template('event.php'));
+			exit;
+		}
+		else if ($this->is_lifestream_home())
+		{
+			$ls_template->get_events();
+			
+			include($this->get_template('home.php'));
+			exit;
+		}
+	}
+	
+	function get_template($template)
+	{
+		if (file_exists(TEMPLATEPATH.'/lifestream/'.$template))
+		{
+			return TEMPLATEPATH.'lifestream/'.$template;
+			return;
+		}
+		return LIFESTREAM_PATH . '/templates/'.$template;
 	}
 	
 	function log_error($message, $feed_id=null)
@@ -840,20 +896,30 @@ class Lifestream
 		switch ($_GET['page'])
 		{
 			case 'lifestream-maintenance.php':
-				if ($_POST['resetcron'])
+				if (@$_POST['resetcron'])
 				{
 					$this->reschedule_cron();
 					$message = $this->__('Cron timers have been reset.');
 				}
-				elseif ($_POST['restore'])
+				elseif (@$_POST['restore'])
 				{
 					$this->restore_options();
 					$message = $this->__('Default options have been restored.');
 				}
-				elseif ($_POST['restoredb'])
+				elseif (@$_POST['restoredb'])
 				{
 					$this->restore_database();
 					$message = $this->__('Default database has been restored.');
+				}
+				elseif (@$_POST['fixposts'])
+				{
+					$new_posts = $this->upgrade_posts_to_events();
+					$message = $this->__('There were %d new posts which had to be created.', $new_posts);
+				}
+				elseif (@$_POST['cleanupposts'])
+				{
+					$affected = $this->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'lsevent' AND `ID` NOT IN (SELECT `post_id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `post_id` != 0)"));
+					$message = $this->__('There were %d unused posts which have been removed.', $affected);
 				}
 			break;
 			case 'lifestream-events.php':
@@ -898,11 +964,13 @@ class Lifestream
 									}
 									else
 									{
+										$this->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'lsevent' AND `ID` = %d", $group->post_id));
 										$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `id` = %d", $group->id));
 									}
 								}
 								else
 								{
+									$this->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'lsevent' AND `ID` = %d", $result->post_id));
 									$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `event_id` = %d", $result->id));
 								}
 							}
@@ -1315,6 +1383,7 @@ class Lifestream
 		// the value is in days
 		$ts = time()-(int)$int*3600*24;
 		$result = $wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `timestamp` < %s", $wpdb->escape($ts)));
+		$this->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'lsevent' AND `ID` IN (SELECT `post_id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `timestamp` < %s)", $wpdb->escape($ts)));
 		$result = $wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `timestamp` < %s", $wpdb->escape($ts)));
 		$result = $wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_error_log` WHERE `timestamp` < %s", $wpdb->escape($ts)));
 	}
@@ -1672,8 +1741,9 @@ class Lifestream
 		get_currentuserinfo();
 
 		$this->safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event` (
-		  `id` int(11) NOT NULL auto_increment,
-		  `feed_id` int(11) NOT NULL,
+		  `id` int(10) unsigned NOT NULL auto_increment,
+		  `feed_id` int(10) unsigned NOT NULL,
+		  `post_id` int(10) unsigned default 0 NOT NULL,
 		  `feed` varchar(32) NOT NULL,
 		  `link` varchar(200) NOT NULL,
 		  `data` blob NOT NULL,
@@ -1683,19 +1753,20 @@ class Lifestream
 		  `key` char(16) NOT NULL,
 		  `group_key` char(32) NOT NULL,
 		  `owner` varchar(128) NOT NULL,
-		  `owner_id` int(11) NOT NULL,
+		  `owner_id` int(10) unsigned NOT NULL,
 		  PRIMARY KEY  (`id`),
 		  INDEX `feed` (`feed`),
 		  UNIQUE `feed_id` (`feed_id`, `group_key`, `owner_id`, `link`)
 		);");
 
 		$this->safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_event_group` (
-		  `id` int(11) NOT NULL auto_increment,
-		  `feed_id` int(11) NOT NULL,
-		  `event_id` int(11) NULL,
+		  `id` int(10) unsigned NOT NULL auto_increment,
+		  `feed_id` int(10) unsigned NOT NULL,
+		  `event_id` int(10) unsigned NOT NULL,
+		  `post_id` int(10) unsigned default 0 NOT NULL,
 		  `feed` varchar(32) NOT NULL,
 		  `data` blob NOT NULL,
-		  `total` int(11) default 1 NOT NULL,
+		  `total` int(10) unsigned default 1 NOT NULL,
 		  `updated` tinyint(1) default 0 NOT NULL,
 		  `visible` tinyint(1) default 1 NOT NULL,
 		  `timestamp` int(11) NOT NULL,
@@ -1703,30 +1774,30 @@ class Lifestream
 		  `key` char(16) NOT NULL,
 		  `group_key` char(32) NOT NULL,
 		  `owner` varchar(128) NOT NULL,
-		  `owner_id` int(11) NOT NULL,
+		  `owner_id` int(10) unsigned NOT NULL,
 		  PRIMARY KEY  (`id`),
 		  INDEX `feed` (`feed`),
 		  INDEX `feed_id` (`feed_id`, `group_key`, `owner_id`, `timestamp`)
 		);");
 
 		$this->safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_feeds` (
-		  `id` int(11) NOT NULL auto_increment,
+		  `id` int(10) unsigned NOT NULL auto_increment,
 		  `feed` varchar(32) NOT NULL,
 		  `options` text default NULL,
 		  `timestamp` int(11) NOT NULL,
 		  `active` tinyint(1) default 1 NOT NULL,
 		  `owner` varchar(128) NOT NULL,
-		  `owner_id` int(11) NOT NULL,
+		  `owner_id` int(10) unsigned NOT NULL,
 		  `version` int(11) default 0 NOT NULL,
 		  INDEX `owner_id` (`owner_id`),
 		  PRIMARY KEY  (`id`)
 		);");
 
 		$this->safe_query("CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lifestream_error_log` (
-		  `id` int(11) NOT NULL auto_increment,
+		  `id` int(10) unsigned NOT NULL auto_increment,
 		  `message` varchar(255) NOT NULL,
 		  `trace` text NULL,
-		  `feed_id` int(11) NULL,
+		  `feed_id` int(10) unsigned NULL,
 		  `timestamp` int(11) NOT NULL,
 		  `has_viewed` tinyint(1) default 0 NOT NULL,
 		  INDEX `feed_id` (`feed_id`, `has_viewed`),
@@ -1749,9 +1820,9 @@ class Lifestream
 		}
 		if (version_compare($version, '0.6', '<'))
 		{
-			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
-			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
-			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `owner` VARCHAR(128) NOT NULL AFTER `timestamp`, ADD `owner_id` INT(11) NOT NULL AFTER `owner`;");
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` int(10) unsigned NOT NULL AFTER `owner`;");
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `owner` VARCHAR(128) NOT NULL AFTER `key`, ADD `owner_id` int(10) unsigned NOT NULL AFTER `owner`;");
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD `owner` VARCHAR(128) NOT NULL AFTER `timestamp`, ADD `owner_id` int(10) unsigned NOT NULL AFTER `owner`;");
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` DROP INDEX `feed_id`, ADD UNIQUE `feed_id` (`feed_id` , `key` , `owner_id` , `link` );");
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` DROP INDEX `feed_id`, ADD INDEX `feed_id` (`feed_id` , `key` , `timestamp` , `owner_id`);");
 			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_feeds` ADD INDEX `owner_id` (`owner_id`);");
@@ -1788,6 +1859,71 @@ class Lifestream
 			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_event` SET `group_key` = md5(`key`)");
 			$wpdb->query("UPDATE `".$wpdb->prefix."lifestream_event_group` SET `group_key` = md5(`key`)");
 		}
+		if (version_compare($version, '0.99.9.7.1', '<'))
+		{
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event` ADD `post_id` int(10) unsigned default 0 NOT NULL AFTER `feed_id`");
+			$wpdb->query("ALTER IGNORE TABLE `".$wpdb->prefix."lifestream_event_group` ADD `post_id` int(10) unsigned default 0 NOT NULL AFTER `feed_id`");
+			$this->upgrade_posts_to_events();
+		}
+	}
+	
+	/**
+	 * Imports all events as custom posts in WordPress 2.9.
+	 */
+	function upgrade_posts_to_events()
+	{
+		$new_events = 0;
+		$offset = 0;
+		$events = $this->get_events(array(
+			'offset' => $offset,
+			'post_ids' => array(0),
+		));
+		while ($events)
+		{
+			foreach ($events as &$event)
+			{
+				$this->create_post_for_event($event);
+				$new_events += 1;
+			}
+			$offset += 50;
+			$events = $this->get_events(array(
+				'offset' => $offset,
+			));
+		}
+		return $new_events;
+	}
+	
+	function create_post_for_event($event)
+	{
+		global $wpdb;
+		
+		// TODO: find a better title
+		$post = array(
+			'post_title' => 'Lifestream Event',
+			'post_content' => '',
+			'post_status' => 'publish',
+			'post_author' => $event->owner_id,
+			'post_type' => 'lsevent',
+			// should we insert the feed types into the tags?
+			// 'tags_input' => ''
+			'post_date' => date('Y-m-d H:i:s', $event->timestamp),
+		);
+		$post_id = wp_insert_post($post);
+		$event->post_id = $post_id;
+		$event_list = array();
+		if ($event->is_grouped)
+		{
+			$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_event_group` set `post_id` = %d WHERE `id` = %d", $event->post_id, $event->id));
+			foreach ($event->data as $event)
+			{
+				// TODO: append to $event_list
+			}
+		}
+		else
+		{
+			$event_list[] = $event;
+		}
+		// TODO: process event list and update post ids
 	}
 	
 	function get_page_from_request()
@@ -1824,6 +1960,7 @@ class Lifestream
 		$defaults = array(
 			 // number of events
 			'event_ids'			=> array(),
+			'post_ids'			=> array(),
 			'limit'				=> $this->get_option('number_of_items'),
 			// offset of events (e.g. pagination)
 			'offset'			=> 0,
@@ -1862,6 +1999,7 @@ class Lifestream
 
 		$_['feed_ids'] = (array)$_['feed_ids'];
 		$_['event_ids'] = (array)$_['event_ids'];
+		$_['post_ids'] = (array)$_['post_ids'];
 		$_['user_ids'] = (array)$_['user_ids'];
 		$_['feed_types'] = (array)$_['feed_types'];
 
@@ -1874,14 +2012,6 @@ class Lifestream
 			}
 			$where[] = 't1.`feed_id` IN ('.implode(', ', $_['feed_ids']).')';
 		}
-		elseif (count($_['event_ids']))
-		{
-			foreach ($_['event_ids'] as $key=>$value)
-			{
-				$_['event_ids'][$key] = $wpdb->escape($value);
-			}
-			$where[] = 't1.`id` IN ('.implode(', ', $_['event_ids']).')';
-		}
 		elseif (count($_['feed_types']))
 		{
 			foreach ($_['feed_types'] as $key=>$value)
@@ -1889,6 +2019,22 @@ class Lifestream
 				$_['feed_types'][$key] = $wpdb->escape($value);
 			}
 			$where[] = 't1.`feed` IN ("'.implode('", "', $_['feed_types']).'")';
+		}
+		if (count($_['event_ids']))
+		{
+			foreach ($_['event_ids'] as $key=>$value)
+			{
+				$_['event_ids'][$key] = $wpdb->escape($value);
+			}
+			$where[] = 't1.`id` IN ('.implode(', ', $_['event_ids']).')';
+		}
+		elseif (count($_['post_ids']))
+		{
+			foreach ($_['post_ids'] as $key=>$value)
+			{
+				$_['post_ids'][$key] = $wpdb->escape($value);
+			}
+			$where[] = 't1.`post_id` IN ('.implode(', ', $_['post_ids']).')';
 		}
 		if (count($_['user_ids']))
 		{
@@ -2132,7 +2278,7 @@ abstract class Lifestream_Extension
 	function get_thumbnail_url($row, $item)
 	{
 		// Array checks are for backwards compatbility
-		return is_array($item['thumbnail']) ? $item['thumbnail']['url'] : $item['thumbnail'];
+		return is_array(@$item['thumbnail']) ? $item['thumbnail']['url'] : @$item['thumbnail'];
 	}
 
 	function get_public_name()
@@ -2216,6 +2362,7 @@ abstract class Lifestream_Extension
 		if ($this->id)
 		{
 			$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d", $this->id));
+			$this->lifestream->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'lsevent' AND `ID` IN (SELECT `post_id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d)", $this->id));
 			$wpdb->query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d", $this->id));
 		}
 	}
@@ -2249,6 +2396,7 @@ abstract class Lifestream_Extension
 
 		$this->lifestream->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_feeds` WHERE `id` = %d", $this->id));
 		$this->lifestream->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event` WHERE `feed_id` = %d", $this->id));
+		$this->lifestream->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'lsevent' AND `ID` IN (SELECT `post_id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d)", $this->id));
 		$this->lifestream->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_event_group` WHERE `feed_id` = %d", $this->id));
 		$this->lifestream->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."lifestream_error_log` WHERE `feed_id` = %d", $this->id));
 		$this->id = null;
@@ -2374,7 +2522,7 @@ abstract class Lifestream_Extension
 				}
 				else
 				{
-					$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `group_key`, `owner`, `owner_id`) VALUES(%d, %s, %s, %d, %d, %d, %s, %s, %s, %d)", $this->id, $this->get_constant('ID'), serialize($events), count($events), $date, $this->get_constant('VERSION'), $key, $group_key, $this->owner, $this->owner_id));
+					$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `data`, `total`, `timestamp`, `version`, `key`, `group_key`, `owner`, `owner_id`, `post_id`) VALUES(%d, %s, %s, %d, %d, %d, %s, %s, %s, %d, 0)", $this->id, $this->get_constant('ID'), serialize($events), count($events), $date, $this->get_constant('VERSION'), $key, $group_key, $this->owner, $this->owner_id));
 				}
 			}
 		}
@@ -2384,10 +2532,12 @@ abstract class Lifestream_Extension
 			$key = lifestream_array_key_pop($item, 'key');
 			$group_key = lifestream_array_key_pop($item, 'group_key');
 
-			$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `group_key`, `owner`, `owner_id`) VALUES(%d, %s, %d, %s, %d, 1, %d, %s, %s, %s, %d)", $this->id, $this->get_constant('ID'), $item['id'], serialize(array($item)), $date, $this->get_constant('VERSION'), $key, $group_key, $this->owner, $this->owner_id));
+			$wpdb->query($wpdb->prepare("INSERT INTO `".$wpdb->prefix."lifestream_event_group` (`feed_id`, `feed`, `event_id`, `data`, `timestamp`, `total`, `version`, `key`, `group_key`, `owner`, `owner_id`, `post_id`) VALUES(%d, %s, %d, %s, %d, 1, %d, %s, %s, %s, %d, 0)", $this->id, $this->get_constant('ID'), $item['id'], serialize(array($item)), $date, $this->get_constant('VERSION'), $key, $group_key, $this->owner, $this->owner_id));
 		}
 		$wpdb->query($wpdb->prepare("UPDATE `".$wpdb->prefix."lifestream_feeds` SET `timestamp` = UNIX_TIMESTAMP() WHERE `id` = %d", $this->id));
 		unset($items, $ungrouped);
+		
+		$this->lifestream->upgrade_posts_to_events();
 		return array(true, $total);
 	}
 	
@@ -2695,14 +2845,14 @@ function lifestream($args=array())
 		'limit' => $lifestream->get_option('number_of_items'),
 	);
 
-	if (!is_array($_[0]))
+	if (@$_[0] && !is_array($_[0]))
 	{
 		// old style
 		$_ = array(
-			'limit'			=> $_[0],
-			'feed_ids'		=> $_[1],
-			'date_interval'	=> $_[2],
-			'user_ids'		=> $_[4],
+			'limit'			=> @$_[0],
+			'feed_ids'		=> @$_[1],
+			'date_interval'	=> @$_[2],
+			'user_ids'		=> @$_[4],
 		);
 		foreach ($_ as $key=>$value)
 		{
@@ -2793,5 +2943,6 @@ ksort($lifestream->feeds);
 // Require more of the codebase
 require_once(LIFESTREAM_PATH . '/inc/widget.php');
 require_once(LIFESTREAM_PATH . '/inc/syndicate.php');
+require_once(LIFESTREAM_PATH . '/inc/template.php');
 
 ?>
