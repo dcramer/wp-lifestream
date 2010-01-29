@@ -15,8 +15,16 @@ dd { padding-left: 100px; }
 		<p class="submit">
 			<input type="submit" class="button-primary" name="restore" onclick="return confirm('Are you sure you wish to restore the settings?');" value="<?php $lifestream->_e('Restore default settings');?>"/> <input type="submit" class="button-secondary" name="restoredb" onclick="return confirm('Are you sure you wish to restore the database?');" value="<?php $lifestream->_e('Restore default database');?>"/>
 		</p>
-		
 	</fieldset>
+	
+	<fieldset>
+		<h3><?php $lifestream->_e('Other Tasks'); ?></h3>
+		<p><?php $lifestream->_e('If you had notice events missing, or issues with permalinks, you want may to try creating any missing post events.'); ?></p>
+		<p><?php $lifestream->_e('You may also use the cleanup posts option if you wish to remove any posts which may still exist and are unused.'); ?></p>
+		<p class="submit">
+			<input type="submit" class="button-primary" name="fixposts" value="<?php $lifestream->_e('Fix missing posts');?>"/> <input type="submit" class="button-secondary" name="cleanupposts" value="<?php $lifestream->_e('Cleanup unused posts');?>"/>
+			
+		</p>
 	
 	<fieldset>
 		<h3><?php $lifestream->_e('Cron Tasks'); ?></h3>

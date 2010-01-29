@@ -1,8 +1,10 @@
-<h2><?php $lifestream->_e('Lifestream Errors'); ?> <small>(<a href="?page=lifestream-errors.php&amp;op=clear"><?php $lifestream->_e('Clear Log'); ?></a>)</small></h2><?php
-
+<h2><?php $lifestream->_e('Lifestream Errors'); ?> <small>(<a href="?page=lifestream-errors.php&amp;op=clear"><?php $lifestream->_e('Clear Log'); ?></a>)</small></h2>
+<?php
 if (count($results))
 {
 	?>
+	<p><?php $lifestream->_e('The errors below may have been a one-time problem with a feed. If problems persist we suggest to try readding the feed and/or submitting a bug report.'); ?></p>
+	
 	<div class="tablenav">
 		<?php
 		$page_links = paginate_links( array(

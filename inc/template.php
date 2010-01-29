@@ -8,6 +8,7 @@ class LifestreamTemplate
 	var $has_prev_page = false;
 	var $show_metadata = true;
 	var $events = array();
+	var $posts = array();
 	
 	function __construct($lifestream)
 	{
@@ -16,12 +17,46 @@ class LifestreamTemplate
 		$this->limit = $lifestream->get_option('number_of_items');
 	}
 	
-	function setup_events()
+	function set_event($event)
 	{
-		$this->page = $this->lifestream->get_page_from_request();
-		$this->offset = ($this->page-1) * $this->limit;
+		$this->events = array($event);
+	}
+	
+	function get_events()
+	{
+		global $posts, $wp_query;
 		
-		$events = call_user_func(array(&$this->lifestream, 'get_events'), $this->get_options());
+		if (is_single())
+		{
+			$this->page = 1;
+			$this->offset = 0;
+			
+			$options = $this->get_options();
+			$options['post_ids'] = $posts[0]->ID;
+			$events = call_user_func(array(&$this->lifestream, 'get_events'), $options);
+		}
+		else
+		{
+			$this->page = $this->lifestream->get_page_from_request();
+			$this->offset = ($this->page-1) * $this->limit;
+			$events = call_user_func(array(&$this->lifestream, 'get_events'), $this->get_options());
+			$post_ids = array();
+			foreach ($events as &$event)
+			{
+				$post_ids[] = $event->post_id;
+			}
+
+			$posts = get_posts(array(
+				'include' => implode(',', $post_ids),
+				'numberposts' => count($post_ids),
+				'post_type' => 'lsevent',
+			));
+		}
+
+		// foreach ($posts as &$post)
+		// {
+		// 	$this->posts[$post->ID] = $post;
+		// }
 
 		$this->events = $events;
 		$this->rewind_events();
@@ -72,10 +107,13 @@ class LifestreamTemplate
 	
 	function the_event()
 	{
-		global $event;
+		global $event, $post;
 		$this->in_the_loop = true;
 
 		$event = $this->next_event();
+		$post = get_post($event->post_id);
+		// setup_postdata($post);
+		//$post =& $this->posts[$event->post_id];
 	}
 	
 	function next_event()

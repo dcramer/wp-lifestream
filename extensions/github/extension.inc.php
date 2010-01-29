@@ -9,12 +9,12 @@ class Lifestream_GitHubFeed extends Lifestream_Feed
 
 	function parse_message($text)
 	{
-		preg_match('/blockquote title=\"(.+)\"/', $text, $match);
+		preg_match('/<blockquote title=\"([^\"]+?)(?:\sgit-svn-id\:\s[^\"]+)?\">/i', $text, $match);
 		return $match[1];
 	}
 	function parse_repo($text)
 	{
-		preg_match('/pushed to (.+) at (.+\/.+)/', $text, $match);
+		preg_match('/pushed to (.+) at (.+\/.+)/i', $text, $match);
 		return array($match[1], $match[2]);
 	}
 	
@@ -39,6 +39,10 @@ class Lifestream_GitHubFeed extends Lifestream_Feed
 			$data = parent::yield($row, $url, $key);
 			$description = $this->lifestream->html_entity_decode($row->get_description());
 			$message = $this->parse_message($description);
+			if (!$message)
+			{
+				var_dump(htmlspecialchars($description));
+			}
 			$data['title'] = $message;
 			$repo = $this->parse_repo($row->get_title());
 			$data['branch'] = $repo[0];
