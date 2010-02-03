@@ -527,6 +527,7 @@ class Lifestream
 		'icon_dir'			=> '',
 		'links_new_windows'	=> '0',
 		'truncate_interval'	=> '0',
+		'page_id'			=> '',
 	);
 	
 	function __construct()
@@ -684,9 +685,9 @@ class Lifestream
 
 	function is_lifestream_home()
 	{
-		global $wp_query;
-
-		return (@$_GET['cp'] == 'lifestream');
+		global $wp_query, $post;
+		
+		return (is_page() && $post->ID == $this->get_option('page_id'));
 	}
 
 	function template_redirect()
@@ -1668,6 +1669,8 @@ class Lifestream
 	 */
 	function install($allow_database_install=true)
 	{
+		global $wpdb, $userdata;
+
 		$version = (string)$this->get_option('_version', 0);
 
 		if ($allow_database_install)
@@ -1701,6 +1704,38 @@ class Lifestream
 		$this->add_option('extension_dir', WP_CONTENT_DIR.'/wp-lifestream/extensions/');
 		$this->add_option('theme_dir', WP_CONTENT_DIR.'/wp-lifestream/themes/');
 		$this->add_option('icon_dir', WP_CONTENT_DIR.'/wp-lifestream/icons/');
+		
+		if (!$this->get_option('page_id'))
+		{
+			get_currentuserinfo();
+			
+			// First let's see if they have a legacy page:
+			
+			$results = $wpdb->get_results($wpdb->prepare("SELECT `ID` FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'page' AND `post_content` LIKE '%%[lifestream]%%' AND `post_author` = %d AND `post_status` != 'trash' LIMIT 2", $userdata->ID));
+			if (count($results) == 2)
+			{
+				// Now we're in trouble
+			}
+			elseif (count($results) == 1)
+			{
+				$this->update_option('page_id', $results[0]->ID);
+			}
+			else
+			{
+
+				$post = array(
+					'post_title' => 'Lifestream',
+					'post_content' => 'This is just a placeholder for your Lifestream. You may modify the title, categories, and anything else, but the page\'s content has no effect on your Lifestream.',
+					'post_status' => 'publish',
+					'post_author' => $userdata->ID,
+					'post_type' => 'page',
+					// should we insert the feed types into the tags?
+					// 'tags_input' => ''
+				);
+				$post_id = wp_insert_post($post);
+				$this->update_option('page_id', $post_id);
+			}
+		}
 		
 		if (version_compare($version, LIFESTREAM_VERSION, '=')) return;
 

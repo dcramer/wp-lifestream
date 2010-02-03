@@ -4,7 +4,15 @@
 	<!-- Powered by Lifestream (version: <?php echo LIFESTREAM_VERSION; ?>) -->
 
 	<h2><?php $lifestream->_e('Lifestream'); ?></h2>
-
+	<?php
+	/* TODO this should be the page text
+	<div class="entry"> 
+		<p>This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.</p> 
+	</div>
+	*/
+	?>
+	
+	
 	<div class="navigation">
 		<div class="alignleft"><?php ls_prev_page('&laquo; %link') ?></div>
 		<div class="alignright"><?php ls_next_page('%link &raquo;') ?></div>
