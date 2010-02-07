@@ -716,8 +716,7 @@ class Lifestream
 	{
 		if (file_exists(TEMPLATEPATH.'/lifestream/'.$template))
 		{
-			return TEMPLATEPATH.'lifestream/'.$template;
-			return;
+			return TEMPLATEPATH.'/lifestream/'.$template;
 		}
 		return LIFESTREAM_PATH . '/templates/'.$template;
 	}
