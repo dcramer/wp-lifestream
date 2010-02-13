@@ -1721,7 +1721,6 @@ class Lifestream
 			}
 			else
 			{
-
 				$post = array(
 					'post_title' => 'Lifestream',
 					'post_content' => 'This is just a placeholder for your Lifestream. You may modify the title, categories, and anything else, but the page\'s content has no effect on your Lifestream.',
