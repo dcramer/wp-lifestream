@@ -1131,15 +1131,15 @@ class Lifestream
 								}
 								elseif ($instance->get_constant('CAN_GROUP'))
 								{
-									$values['grouped'] = $_POST['grouped'];
+									$values['grouped'] = @$_POST['grouped'];
 								}
 								if ($instance->get_constant('HAS_EXCERPTS'))
 								{
 									$values['excerpt'] = $_POST['excerpt'];
 								}
 								$values['feed_label'] = $_POST['feed_label'];
-								$values['icon_url'] = $_POST['icon_url'];
-								$values['auto_icon'] = @$_POST['auto_icon'];
+								$values['icon_url'] = $_POST['icon_type'] == 3 ? $_POST['icon_url'] : '';
+								$values['auto_icon'] = $_POST['icon_type'] == 2;
 								if ($_POST['owner'] != $instance->owner_id && current_user_can('manage_options'))
 								{
 									$usero = new WP_User($_POST['owner']);
@@ -1193,8 +1193,8 @@ class Lifestream
 								$values['excerpt'] = $_POST['excerpt'];
 							}
 							$values['feed_label'] = $_POST['feed_label'];
-							$values['icon_url'] = $_POST['icon_url'];
-							$values['auto_icon'] = @$_POST['auto_icon'];
+							$values['icon_url'] = $_POST['icon_type'] == 3 ? $_POST['icon_url'] : '';
+							$values['auto_icon'] = $_POST['icon_type'] == 2;
 							if (current_user_can('manage_options'))
 							{
 								$feed->owner_id = $_POST['owner'];
@@ -2701,7 +2701,7 @@ class Lifestream_Feed extends Lifestream_Extension
 			$feed->force_feed(true); 
 			$success = $feed->init();
 		}
-		if ($this->get_option('auto_icon') && ($url = $feed->get_favicon()))
+		if ($this->get_option('auto_icon') == 2 && ($url = $feed->get_favicon()))
 		{
 			if ($this->lifestream->validate_image($url))
 			{
