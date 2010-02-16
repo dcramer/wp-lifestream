@@ -35,7 +35,7 @@ $form_name = 'feed_options_'.htmlspecialchars($feed->get_constant('ID'));
 									<th>&nbsp;</th>
 									<td><label<?php if ($option_meta[1]) echo ' class="required"'; ?>><input type="checkbox" value="1"<?php if ($current_value == 1) echo ' checked="checked"'; ?> name="<?php echo $option;?>" /> <?php echo htmlspecialchars($option_meta[0]);?></label>
 									<?php if (@$option_meta[4]) { ?>
-									<div class="helptext"><?php echo $option_meta[4]; ?></div>
+										<div class="helptext"><?php echo $option_meta[4]; ?></div>
 									<?php } ?></td>
 								<?php } else { ?>
 									<th><label<?php if ($option_meta[1]) echo ' class="required"'; ?> for="id_<?php echo $option;?>"><?php echo htmlspecialchars($option_meta[0]);?></label></th>
