@@ -714,7 +714,6 @@ class Lifestream
 		if ($this->is_lifestream_event())
 		{
 			$ls_template->get_events();
-			
 			include($this->get_template('event.php'));
 			exit;
 		}

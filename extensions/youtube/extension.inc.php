@@ -66,9 +66,9 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 		return $data;
 	}
 	
-	function render_item($row, $item, $options)
+	function render_item($row, $item)
 	{
-		if (count($row->data) > 1 || !$item['player_url'] || !$options['is_single'])
+		if (count($row->data) > 1 || !$item['player_url'] || !ls_is_event())
 		{
 			$attrs = array(
 				'class' => 'photo',
