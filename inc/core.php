@@ -690,6 +690,7 @@ class Lifestream
 			}
 			$wp_query->post = $posts[0];
 			$post = $wp_query->post;
+			$wp_query->is_404 = false;
 			$wp_query->queried_object = $posts[0];
 			$wp_query->queried_object_id = $posts[0]->ID;
 			$wp_query->is_single = true;
