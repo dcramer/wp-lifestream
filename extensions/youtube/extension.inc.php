@@ -53,6 +53,8 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 	{
 		$data = parent::yield($row, $url, $key);
 		$data['image'] = str_replace('_m', '', $data['image']);
+		// XXX: Why is SimplePie encoding the URL?
+		$data['link'] = urldecode($data['link']);
 		return $data;
 	}
 	

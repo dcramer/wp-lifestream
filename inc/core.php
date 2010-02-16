@@ -440,7 +440,7 @@ class Lifestream
 	function get_absolute_media_url($path)
 	{
 		$path = str_replace(trailingslashit(WP_CONTENT_DIR), '', $path);
-		$path = str_replace(realpath(trailingslashit(LIFESTREAM_PATH)), 'plugins/lifestream', $path);
+		$path = str_replace(trailingslashit(realpath(LIFESTREAM_PATH)), 'plugins/lifestream/', $path);
 		return str_replace('\\', '/', trailingslashit(WP_CONTENT_URL).$path);
 	}
 
@@ -1966,9 +1966,9 @@ class Lifestream
 	function get_next_page_url($page=null)
 	{
 		if (!$page) $page = $this->get_page_from_request();
-		if (strpos($_SERVER['QUERY_STRING'], '?') !== false) {
+		if (!empty($_SERVER['QUERY_STRING'])) {
 			$url = str_replace('&'.$this->paging_key.'='.$page, '', $_SERVER['QUERY_STRING']);
-			return $url.'&'.$this->paging_key.'='.($page+1);
+			return '?'.$url.'&'.$this->paging_key.'='.($page+1);
 		}
 		return '?'.$this->paging_key.'='.($page+1);
 	}
