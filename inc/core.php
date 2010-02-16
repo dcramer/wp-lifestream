@@ -682,6 +682,7 @@ class Lifestream
 		{
 			$posts = array(get_post($wp_query->query_vars['p'], OBJECT));
 			$post = $posts[0];
+			$wp_query->post = $post;
 			$wp_query->queried_object = $posts[0];
 			$wp_query->queried_object_id = $posts[0]->ID;
 		}
