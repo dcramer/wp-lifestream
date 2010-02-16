@@ -935,6 +935,11 @@ class Lifestream
 					$affected = $this->safe_query($wpdb->prepare("DELETE FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'lsevent' AND `ID` NOT IN (SELECT `post_id` FROM `".$wpdb->prefix."lifestream_event_group` WHERE `post_id` != 0)"));
 					$message = $this->__('There were %d unused posts which have been removed.', $affected);
 				}
+				elseif (@$_POST['recreatepage'])
+				{
+					$this->create_page_template();
+					$message = $this->__('A new page was created for Lifestream, with the ID of %s.', $this->get_option('page_id'));
+				}
 			break;
 			case 'lifestream-events.php':
 				switch ((isset($_REQUEST['op']) ? strtolower($_REQUEST['op']) : null))
@@ -1731,23 +1736,39 @@ class Lifestream
 			}
 			elseif (!$results)
 			{
-				$post = array(
-					'post_title' => 'Lifestream',
-					'post_content' => 'This is just a placeholder for your Lifestream. You may modify the title, categories, and anything else, but the page\'s content has no effect on your Lifestream.',
-					'post_status' => 'publish',
-					'post_author' => $userdata->ID,
-					'post_type' => 'page',
-					// should we insert the feed types into the tags?
-					// 'tags_input' => ''
-				);
-				$post_id = wp_insert_post($post);
-				$this->update_option('page_id', $post_id);
+				$this->create_page_template();
 			}
 		}
 		
 		if (version_compare($version, LIFESTREAM_VERSION, '=')) return;
 
 		$this->update_option('_version', LIFESTREAM_VERSION);
+	}
+	
+	function create_page_template()
+	{
+		global $userdata;
+		
+		get_currentuserinfo();
+		
+		$post = array(
+			'post_title' => 'Lifestream',
+			'post_content' => 'This is just a placeholder for your Lifestream. You may modify the title, categories, and anything else, but the page\'s content has no effect on your Lifestream.',
+			'post_status' => 'publish',
+			'post_author' => $userdata->ID,
+			'post_type' => 'page',
+			// should we insert the feed types into the tags?
+			// 'tags_input' => ''
+		);
+		$post_id = wp_insert_post($post);
+		$this->update_option('page_id', $post_id);
+		return $post_id;
+	}
+	
+	function get_page()
+	{
+		$page = get_post($this->get_option('page_id'));
+		return $page;
 	}
 
 	/**
