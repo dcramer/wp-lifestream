@@ -2,7 +2,7 @@
 
 if (!class_exists('SimplePie'))
 {
-	require_once(LIFESTREAM_PATH . '/lib/simplepie.inc.php');
+	require_once(ABSPATH . WPINC . '/class-simplepie.php');
 }
 
 global $wpdb, $userdata, $lifestream;
