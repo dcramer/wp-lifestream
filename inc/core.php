@@ -2806,7 +2806,13 @@ class Lifestream_Feed extends Lifestream_Extension
 			{
 				$data['image'] = $image;
 			}
-			if (!$data['key']) $data['key'] = 'photo';
+			
+			if (($player = $enclosure->get_player()))
+			{
+				$data['player_url'] = $player;
+			}
+			
+			if (!$data['key']) $data['key'] = ($data['player_url'] ? 'video' : 'photo');
 		}
 		return $data;
 	}
