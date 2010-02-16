@@ -22,11 +22,16 @@ class LifestreamTemplate
 		$this->events = array($event);
 	}
 	
+	function is_single()
+	{
+		return is_single();
+	}
+	
 	function get_events()
 	{
 		global $posts, $wp_query;
 		
-		if (is_single())
+		if (ls_is_single())
 		{
 			$this->page = 1;
 			$this->offset = 0;
@@ -227,6 +232,13 @@ function ls_have_activity()
 	global $ls_template;
 	
 	return $ls_template->have_activity();
+}
+
+function ls_is_single()
+{
+	global $ls_template;
+	
+	return $ls_template->is_single();
 }
 
 function ls_the_event()

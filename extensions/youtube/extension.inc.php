@@ -1,10 +1,16 @@
 <?php
+if (!defined('SIMPLEPIE_NAMESPACE_YOUTUBE'))
+{
+	define('SIMPLEPIE_NAMESPACE_YOUTUBE', 'http://search.yahoo.com/mrss/');
+}
+
 class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 {
 	const ID			= 'youtube';
 	const NAME			= 'YouTube';
 	const URL			= 'http://www.youtube.com/';
 	const DESCRIPTION	= '';
+	const TEMPLATE		= 'video';
 	
 	function __toString()
 	{
@@ -52,23 +58,42 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
-		$data['image'] = str_replace('_m', '', $data['image']);
-		// XXX: Why is SimplePie encoding the URL?
+		
 		$data['link'] = urldecode($data['link']);
+		
+		$data['image'] = str_replace('_m', '', $data['image']);
+
+		$enclosure = $row->get_enclosure();
+		$data['player_url'] = $enclosure->get_link();
+		
 		return $data;
 	}
 	
 	function render_item($row, $item)
 	{
-		$attrs = array(
-			'class' => 'photo',
-			'title' => htmlspecialchars($item['title'])
-		);
-		if ($this->lifestream->get_option('use_ibox') == '1')
+		if (count($row->data) > 1 || !$item['player_url'] || !ls_is_single())
 		{
-			$attrs['rel'] = 'ibox';
+			$attrs = array(
+				'class' => 'photo',
+				'title' => htmlspecialchars($item['title'])
+			);
+			if ($this->lifestream->get_option('use_ibox') == '1')
+			{
+				$attrs['rel'] = 'ibox';
+			}
+			return $this->lifestream->get_anchor_html('<img src="'.$item['thumbnail'].'" alt="" width="50"/>', $item['link'], $attrs);
 		}
-		return $this->lifestream->get_anchor_html('<img src="'.$item['thumbnail'].'" alt="" width="50"/>', $item['link'], $attrs);
+		else
+		{
+			return '<object width="425" height="344">
+			<param name="movie" value="'.$item['player_url'].'"</param>
+			<embed src="'.$item['player_url'].'"
+			  type="application/x-shockwave-flash"
+			  allowfullscreen="true"
+			  width="425" height="344">
+			</embed>
+			</object>';
+		}
 	}
 }
 $lifestream->register_feed('Lifestream_YouTubeFeed');
