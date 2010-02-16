@@ -26,12 +26,12 @@ class LifestreamTemplate
 	{
 		return is_single();
 	}
-	
+
 	function get_events()
 	{
 		global $posts, $wp_query;
 		
-		if (ls_is_single())
+		if ($this->is_single())
 		{
 			$this->page = 1;
 			$this->offset = 0;
@@ -81,7 +81,8 @@ class LifestreamTemplate
 		return array(
 			'offset'=>$this->offset,
 			'limit'=>$this->limit+1,
-			'id'=>$this->id
+			'id'=>$this->id,
+			'is_single' => $this->is_single(),
 		);
 	}
 		
