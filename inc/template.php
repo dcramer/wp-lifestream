@@ -35,7 +35,7 @@ class LifestreamTemplate
 	
 	function is_event()
 	{
-		return $this->in_event;
+		return $this->is_single() && $this->in_event;
 	}
 
 	function get_events()
