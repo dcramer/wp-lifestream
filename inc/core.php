@@ -1724,7 +1724,7 @@ class Lifestream
 			
 			// First let's see if they have a legacy page:
 			
-			$results = $wpdb->get_results($wpdb->prepare("SELECT `ID` FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'page' AND `post_content` LIKE '%%[lifestream]%%' AND `post_author` = %d AND `post_status` != 'trash' LIMIT 2", $userdata->ID));
+			$results = $wpdb->get_results($wpdb->prepare("SELECT `ID` FROM `".$wpdb->prefix."posts` WHERE `post_type` = 'page' AND (`post_content` LIKE '%%[lifestream]%%' OR `post_title` LIKE 'Lifestream') AND `post_author` = %d AND `post_status` != 'trash' LIMIT 2", $userdata->ID));
 			if (count($results) == 1)
 			{
 				$this->update_option('page_id', $results[0]->ID);
