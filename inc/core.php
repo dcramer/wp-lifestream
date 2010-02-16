@@ -676,14 +676,23 @@ class Lifestream
 	
 	function is_lifestream_event()
 	{
-		global $posts, $post, $wp_query;
+		global $wpdb, $posts, $post, $wp_query;
 		
 		if (!$posts)
 		{
-			$posts = array(get_post($wp_query->query_vars['p'], OBJECT));
-			$post = $posts[0];
+			if ($wp_query->query_vars['p']) {
+				$posts = array(get_post($wp_query->query_vars['p'], OBJECT));
+			}
+			elseif ($wp_query->query_vars['name']) {
+				$posts = $wpdb->get_results($wpdb->prepare("SELECT `ID` FROM `".$wpdb->prefix."posts` WHERE `post_name` = %s AND `post_type` = 'lsevent' LIMIT 1", $wp_query->query_vars['name']));
+				if (!$posts) return false;
+				$posts = array(get_post($posts[0]->ID, OBJECT));
+			}
+			$wp_query->post = $posts[0];
+			$post = $wp_query->post;
 			$wp_query->queried_object = $posts[0];
 			$wp_query->queried_object_id = $posts[0]->ID;
+			$wp_query->is_single = true;
 		}
 		return (is_single() && get_post_type() == 'lsevent');
 	}
