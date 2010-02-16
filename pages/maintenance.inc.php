@@ -21,9 +21,10 @@ dd { padding-left: 100px; }
 		<h3><?php $lifestream->_e('Other Tasks'); ?></h3>
 		<p><?php $lifestream->_e('If you had notice events missing, or issues with permalinks, you want may to try creating any missing post events.'); ?></p>
 		<p><?php $lifestream->_e('You may also use the cleanup posts option if you wish to remove any posts which may still exist and are unused.'); ?></p>
+		<?php $page = $lifestream->get_page(); ?>
+		<p><?php $lifestream->_e('Lifestream is currently set to appear on <strong>%s</strong> (ID: %s). If this page does not exist, or is incorrect, you may recreate it using the option below.', $page->post_title, $page->ID); ?></p>
 		<p class="submit">
-			<input type="submit" class="button-primary" name="fixposts" value="<?php $lifestream->_e('Fix missing posts');?>"/> <input type="submit" class="button-secondary" name="cleanupposts" value="<?php $lifestream->_e('Cleanup unused posts');?>"/>
-			
+			<input type="submit" class="button-primary" name="fixposts" value="<?php $lifestream->_e('Fix missing posts');?>"/> <input type="submit" class="button-secondary" name="cleanupposts" value="<?php $lifestream->_e('Cleanup unused posts');?>"/> <input type="submit" class="button-secondary" name="recreatepage" value="<?php $lifestream->_e('Recreate page template');?>"/>
 		</p>
 	
 	<fieldset>
