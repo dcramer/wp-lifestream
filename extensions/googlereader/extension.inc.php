@@ -52,6 +52,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 		$data = parent::yield($row, $url, $key);
 		$annotation =& $row->get_item_tags(self::NS, 'annotation');
 		$data['comment'] = $this->lifestream->html_entity_decode($annotation[0]['child']['http://www.w3.org/2005/Atom']['content'][0]['data']);
+		$data['date'] = $row->data['attribs']['http://www.google.com/schemas/reader/atom/']['crawl-timestamp-msec']/1000;
 		return $data;
 	}
 }
