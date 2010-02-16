@@ -9,12 +9,18 @@ class LifestreamTemplate
 	var $show_metadata = true;
 	var $events = array();
 	var $posts = array();
+	var $in_event = false;
 	
 	function __construct($lifestream)
 	{
 		$this->lifestream = $lifestream;
 		$this->id = $lifestream->generate_unique_id();
 		$this->limit = $lifestream->get_option('number_of_items');
+	}
+	
+	function set_in_event($true_or_false=true)
+	{
+		$this->in_event = $true_or_false;
 	}
 	
 	function set_event($event)
@@ -24,14 +30,14 @@ class LifestreamTemplate
 	
 	function is_single()
 	{
-		return is_single();
+		return is_single() && $this->in_event;
 	}
-	
+
 	function get_events()
 	{
 		global $posts, $wp_query;
 		
-		if ($this->is_single())
+		if (is_single())
 		{
 			$this->page = 1;
 			$this->offset = 0;
@@ -99,6 +105,7 @@ class LifestreamTemplate
 	{
 		if ($this->current_event + 1 < $this->event_count)
 		{
+			$this->set_in_event(true);
 			return true;
 		}
 		elseif ($this->current_event + 1 == $this->event_count && $this->event_count > 0)
@@ -106,7 +113,7 @@ class LifestreamTemplate
 			// Do some cleaning up after the loop
 			$this->rewind_events();
 		}
-
+		$this->set_in_event(false);
 		$this->in_the_loop = false;
 		return false;
 	}
