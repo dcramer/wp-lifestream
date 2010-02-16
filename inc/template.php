@@ -30,7 +30,12 @@ class LifestreamTemplate
 	
 	function is_single()
 	{
-		return is_single() && $this->in_event;
+		return is_single();
+	}
+	
+	function is_event()
+	{
+		return $this->in_event;
 	}
 
 	function get_events()
@@ -240,6 +245,13 @@ function ls_have_activity()
 	global $ls_template;
 	
 	return $ls_template->have_activity();
+}
+
+function ls_is_event()
+{
+	global $ls_template;
+	
+	return $ls_template->is_event();
 }
 
 function ls_is_single()
