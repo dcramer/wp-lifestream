@@ -63,9 +63,6 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 
 		$enclosure = $row->get_enclosure();
 		$data['player_url'] = $enclosure->get_link();
-		var_dump(SIMPLEPIE_VERSION);
-		var_dump($data['link']);
-		die;
 		return $data;
 	}
 	
