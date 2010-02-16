@@ -547,7 +547,12 @@ class Lifestream
 		add_action('lifestream_cleanup', array(&$this, 'cleanup_history'));
 		add_action('template_redirect', array($this, 'template_redirect'));
 		
-		register_post_type('lsevent', array('public' => false));
+		register_post_type('lsevent', array(
+			'label' => $this->__('Lifestream Event'),
+			'_show' => true,
+			'public' => false,
+			'capability_type' => 'post'
+		));
 		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
@@ -675,7 +680,7 @@ class Lifestream
 		
 		if (!$posts)
 		{
-			$posts = array(get_post($_GET['p'], OBJECT));
+			$posts = array(get_post($wp_query->query_vars['p'], OBJECT));
 			$post = $posts[0];
 			$wp_query->queried_object = $posts[0];
 			$wp_query->queried_object_id = $posts[0]->ID;
