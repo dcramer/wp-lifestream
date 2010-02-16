@@ -4,7 +4,7 @@
 * Added Pinboard.in extension.
 * Improved icon options on add/edit feed pages.
 * YouTube will now embed itself in Lifestream permalinks.
-* Fixed YouTube URLs (SimplePie issue).
+* Switching to WordPress's bundled version of SimplePie.
 * Added video theme template.
 
 0.99.9.7

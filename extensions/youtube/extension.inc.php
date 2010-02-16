@@ -59,13 +59,13 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 	{
 		$data = parent::yield($row, $url, $key);
 		
-		$data['link'] = urldecode($data['link']);
-		
 		$data['image'] = str_replace('_m', '', $data['image']);
 
 		$enclosure = $row->get_enclosure();
 		$data['player_url'] = $enclosure->get_link();
-		
+		var_dump(SIMPLEPIE_VERSION);
+		var_dump($data['link']);
+		die;
 		return $data;
 	}
 	
