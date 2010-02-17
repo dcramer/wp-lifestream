@@ -7,6 +7,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	const LABEL		= 'Lifestream_MessageLabel';
 	const CAN_GROUP	= false;
 	const DESCRIPTION = 'Specifying your password will allow Lifestream to pull in protected updates from your profile. Your password is stored in plaintext in the database, so only do this is you have no other option.';
+	const AUTHOR = 'David Cramer, Kyle McNally';
 	
 	function __toString()
 	{
@@ -18,6 +19,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 		return array(
 			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 			'password' => array($this->lifestream->__('Password:'), false, '', ''),
+			'show_username' => array($this->lifestream->__('Show Username'), false, true, false),
 			'hide_replies' => array($this->lifestream->__('Hide Replies'), false, true, false),
 		);
 	}
@@ -89,7 +91,8 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	
 	function render_item($row, $item)
 	{
-		return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description'])))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
+		if($this->get_option('show_username')) return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description'])))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
+		else return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description']))));
 	}
 	
 	function yield($row, $url, $key)
