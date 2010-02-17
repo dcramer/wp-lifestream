@@ -8,6 +8,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	const LABEL			= 'Lifestream_BookmarkLabel';
 	const NS			= 'http://www.google.com/schemas/reader/atom/';
 	const HAS_EXCERPTS	= true;
+	const AUTHOR		= 'David Cramer, Kyle McNally';
 	
 	function __toString()
 	{
@@ -24,13 +25,24 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 		return array(
 			'url' => array($this->lifestream->__('Website URL:'), true, '', ''),
 			'user_id' => array($this->lifestream->__('User ID:'), null, '', ''),
+			'broadcast' => array($this->lifestream->__('Include Shared'), false, true, false),
+			'starred' => array($this->lifestream->__('Include Starred'), false, true, false)
 		);
 	}
 	
 	function get_url()
 	{
 		if (!$this->get_option('user_id')) return $this->get_option('url');
-		return 'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id').'%2Fstate%2Fcom.google%2Fbroadcast';
+		if ( $this->get_option('broadcast') && $this->get_option('starred') )
+			return array(
+				'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id').'%2Fstate%2Fcom.google%2Fbroadcast',
+				'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id').'%2Fstate%2Fcom.google%2Fstarred'
+			);
+		elseif ( $this->get_option('starred') )
+			return 'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id').'%2Fstate%2Fcom.google%2Fstarred';
+		else
+			return 'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id').'%2Fstate%2Fcom.google%2Fbroadcast';
+		
 	}
 	
 	function save_options()
