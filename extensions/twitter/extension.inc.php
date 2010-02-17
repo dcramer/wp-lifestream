@@ -19,7 +19,7 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 		return array(
 			'username' => array($this->lifestream->__('Username:'), true, '', ''),
 			'password' => array($this->lifestream->__('Password:'), false, '', ''),
-			'show_username' => array($this->lifestream->__('Show Username'), false, true, false),
+			'hide_username' => array($this->lifestream->__('Hide Username'), false, true, false),
 			'hide_replies' => array($this->lifestream->__('Hide Replies'), false, true, false),
 		);
 	}
@@ -91,8 +91,9 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 	
 	function render_item($row, $item)
 	{
-		if($this->get_option('show_username')) return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description'])))) . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
-		else return $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description']))));
+		$url = $this->parse_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['description']))));
+		if($this->get_option('hide_username')) return $url;
+		else return $url . ' ['.$this->lifestream->get_anchor_html(htmlspecialchars($this->get_option('username')), $item['link']).']';
 	}
 	
 	function yield($row, $url, $key)
