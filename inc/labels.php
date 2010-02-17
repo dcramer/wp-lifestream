@@ -135,6 +135,18 @@ class Lifestream_AteLabel extends Lifestream_Label
 	}
 }
 
+class Lifestream_DrankLabel extends Lifestream_Label
+{
+	function get_label_single()
+	{
+		return $this->lifestream->__('Drank %2$s.', $this->get_feed_label(), $this->get_single_link());
+	}
+	function get_label_single_user()
+	{
+		return $this->lifestream->__('%1$s drank %3$s.', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+	}
+}
+
 class Lifestream_QueueLabel extends Lifestream_Label
 {
 	function get_label_single()
