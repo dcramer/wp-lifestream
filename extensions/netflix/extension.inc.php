@@ -4,7 +4,8 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 	const ID			= 'netflix';
 	const NAME			= 'Netflix';
 	const URL			= 'http://www.netflix.com/';
-	const DESCRIPTION	= 'You can find your feed URL by logging into your Netflix account and clicking on RSS at the very bottom of the page.';
+	const DESCRIPTION	= 'You can find your feed URL by logging into your Netflix account and clicking on RSS at the very bottom of the page. Due to the way Netflix handles their RSS feeds, the dates will not be picked up when you add the feed, however, any movies added after that will be picked up.';
+	const AUTHOR		= 'David Cramer, Kyle McNally';
 
 	function __toString()
 	{
@@ -16,21 +17,28 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 		return array(
 			'url' => array($this->lifestream->__('Feed URL:'), true, '', ''),
 			'user_id' => array($this->lifestream->__('User ID:'), null, '', ''),
-			'show_queue' => array($this->lifestream->__('Include queued videos in this feed.'), true, true, false),
-			'show_reviews' => array($this->lifestream->__('Include reviewed videos in this feed.'), true, true, false),
+			'show_queue' => array($this->lifestream->__('Include queued videos in this feed.'), false, true, false),
+			'show_reviews' => array($this->lifestream->__('Include reviewed videos in this feed.'), false, true, false),
+			'show_athome' => array($this->lifestream->__('Include movies received at home in this feed.'), false, true, false),
 		);
 	}
 	
 	function get_url() {
 		$urls = array();
 		if ($this->get_option('show_queue'))
-		{
-			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->get_option('user_id').'queue');
-			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->get_option('user_id').'queue');
+		{	
+			//Disk Queue
+			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->get_option('user_id'));
+			//Watch Instantly Queue
+			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->get_option('user_id'));
 		}
 		if ($this->get_option('show_reviews'))
 		{
-			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->get_option('user_id').'review');
+			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->get_option('user_id'));
+		}
+		if ($this->get_option('show_athome'))
+		{
+			$urls[] = array('http://rss.netflix.com/AtHomeRSS?id='.$this->get_option('user_id'));
 		}
 		return $urls;
 	}
@@ -52,6 +60,7 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 	{
 		if ($key == 'review') $cls = 'Lifestream_ReviewVideoLabel';
 		elseif ($key == 'queue') $cls = 'Lifestream_QueueVideoLabel';
+		else $cls = 'Lifestream_ReceiveLabel';
 		return $cls;
 	}
 	
