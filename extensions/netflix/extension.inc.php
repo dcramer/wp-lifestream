@@ -28,17 +28,17 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 		if ($this->get_option('show_queue'))
 		{	
 			//Disk Queue
-			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->get_option('user_id'));
+			$urls[] = array('http://rss.netflix.com/QueueRSS?id='.$this->get_option('user_id'),'queue');
 			//Watch Instantly Queue
-			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->get_option('user_id'));
+			$urls[] = array('http://rss.netflix.com/QueueEDRSS?id='.$this->get_option('user_id'),'queue');
 		}
 		if ($this->get_option('show_reviews'))
 		{
-			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->get_option('user_id'));
+			$urls[] = array('http://rss.netflix.com/ReviewsRSS?id='.$this->get_option('user_id'),'review');
 		}
 		if ($this->get_option('show_athome'))
 		{
-			$urls[] = array('http://rss.netflix.com/AtHomeRSS?id='.$this->get_option('user_id'));
+			$urls[] = array('http://rss.netflix.com/AtHomeRSS?id='.$this->get_option('user_id'),'athome');
 		}
 		return $urls;
 	}
@@ -58,9 +58,10 @@ class Lifestream_NetflixFeed extends Lifestream_Feed
 	
 	function get_label_class($key)
 	{
+		
 		if ($key == 'review') $cls = 'Lifestream_ReviewVideoLabel';
 		elseif ($key == 'queue') $cls = 'Lifestream_QueueVideoLabel';
-		else $cls = 'Lifestream_ReceiveLabel';
+		elseif ($key == 'athome') $cls = 'Lifestream_ReceiveLabel';
 		return $cls;
 	}
 	
