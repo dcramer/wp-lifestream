@@ -4,7 +4,7 @@ class Lifestream_eBayFeed extends Lifestream_Feed
 	const ID			= 'ebay';
 	const NAME			= 'eBay';
 	const URL			= 'http://www.ebay.com/';
-	const DESCRIPTION	= 'Shows what items you put up for sale. (Will try to be extended in the future to bidding as well)';
+	const DESCRIPTION	= 'Shows what items you put up for sale.';
 	const AUTHOR		= 'Kyle McNally';
 	
 	function get_options()
