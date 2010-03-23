@@ -25,10 +25,16 @@ class Lifestream_IdenticaFeed extends Lifestream_Feed
 		return $this->lifestream->get_anchor_html('@'.htmlspecialchars($user), $this->get_user_url($user), array('class'=>'user'));
 	}
 	
+	function _get_user_link($match)
+	{
+		return $match[1].$this->get_user_link($match[2]);
+	}
+	
 	function parse_users($text)
 	{
-		return preg_replace_callback('/([^\w]*)@([a-z0-9_\-\/]+)\b/i', array($this, 'get_user_link'), $text);
+		return preg_replace_callback('/([^\w]*)@([a-z0-9_\-\/]+)\b/i', array($this, '_get_user_link'), $text);
 	}
+
 
 	function render_item($row, $item)
 	{
