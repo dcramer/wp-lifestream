@@ -547,17 +547,6 @@ class Lifestream
 		add_action('lifestream_cleanup', array(&$this, 'cleanup_history'));
 		add_action('template_redirect', array($this, 'template_redirect'));
 		
-		register_post_type('lsevent', array(
-			'label' => $this->__('Lifestream Events'),
-			'singular_label' => $this->__('Lifestream Event'),
-			'show_ui' => false,
-			'public' => true,
-			'capability_type' => 'post',
-			'rewrite' => array('slug', 'lifestream'),
-			'query_var' => false,
-			'supports' => array('title', 'comments')
-		));
-		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
 	}
@@ -668,6 +657,18 @@ class Lifestream
 		}
 		add_feed('lifestream-feed', 'lifestream_rss_feed');
 		$this->is_buddypress = (function_exists('bp_is_blog_page') ? true : false);
+
+		register_post_type('lsevent', array(
+			'label' => $this->__('Lifestream Events'),
+			'singular_label' => $this->__('Lifestream Event'),
+			'show_ui' => false,
+			'public' => true,
+			'hierarchical' => false,
+			'capability_type' => 'post',
+			'rewrite' => array('slug', 'lifestream'),
+			'query_var' => false,
+			'supports' => array('title', 'comments')
+		));
 
 		// If this is an update we need to force reactivation
 		if (LIFESTREAM_VERSION != $this->get_option('_version'))
