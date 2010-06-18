@@ -1,0 +1,3 @@
+* Create local icon cache (for when using favicons)
+* Change 1.0 requirements to WordPress 3.0 and update custom post type usage.
+* Fix comments.
