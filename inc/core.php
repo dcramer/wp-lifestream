@@ -440,7 +440,7 @@ class Lifestream
 	function get_absolute_media_url($path)
 	{
 		$path = str_replace(trailingslashit(WP_CONTENT_DIR), '', $path);
-		$path = str_replace(trailingslashit(realpath(LIFESTREAM_PATH)), 'plugins/lifestream/', $path);
+		$path = str_replace(trailingslashit(realpath(LIFESTREAM_PATH)), 'plugins/'.LIFESTREAM_PLUGIN_DIR.'/', $path);
 		return str_replace('\\', '/', trailingslashit(WP_CONTENT_URL).$path);
 	}
 
