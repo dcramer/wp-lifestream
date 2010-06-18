@@ -10,7 +10,7 @@
 					<?php while (ls_have_activity()) : ls_the_event(); global $event; ?>
 						<tr class="<?php ls_event_class(); ?>">
 							<td class="lifestream_icon">
-								<a href="<?php ls_event_link(); ?>"><img src="<?php ls_event_icon(); ?>" alt="" /></a>
+								<img src="<?php ls_event_icon(); ?>" alt="" />
 							</td>
 							<td class="lifestream_text">
 								<div class="lifestream_label"><?php ls_event_label(); ?></div>

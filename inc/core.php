@@ -548,10 +548,14 @@ class Lifestream
 		add_action('template_redirect', array($this, 'template_redirect'));
 		
 		register_post_type('lsevent', array(
-			'label' => $this->__('Lifestream Event'),
-			'_show' => true,
-			'public' => false,
-			'capability_type' => 'post'
+			'label' => $this->__('Lifestream Events'),
+			'singular_label' => $this->__('Lifestream Event'),
+			'show_ui' => false,
+			'public' => true,
+			'capability_type' => 'post',
+			'rewrite' => array('slug', 'lifestream'),
+			'query_var' => false,
+			'supports' => array('title', 'comments')
 		));
 		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
