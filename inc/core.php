@@ -1753,7 +1753,7 @@ class Lifestream
 		
 		$post = array(
 			'post_title' => 'Lifestream',
-			'post_content' => 'This is just a placeholder for your Lifestream. You may modify the title, categories, and anything else, but the page\'s content has no effect on your Lifestream.',
+			'post_content' => 'A stream of my online social activity.',
 			'post_status' => 'publish',
 			'post_author' => $userdata->ID,
 			'post_type' => 'page',
