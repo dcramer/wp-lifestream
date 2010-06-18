@@ -1260,7 +1260,7 @@ class Lifestream
 		<style type="text/css">
 		.feedlist { margin: 0; padding: 0; }
 		.feedlist li { list-style: none; display: inline; }
-		.feedlist li a { float: left; display: block; padding: 2px; margin: 1px; width: 23%; text-decoration: none; }
+		.feedlist li a { float: left; display: block; padding: 2px 2px 2px 20px; min-height: 16px; background-repeat: no-repeat; background-position: left center; margin: 1px; width: 150px; text-decoration: none; }
 		.feedlist li a:hover { background-color: #e9e9e9; }
 		.success { color: #397D33; background-color: #D1FBCA; }
 		.error { border-color: #E25F53; color: #E25F53; }
