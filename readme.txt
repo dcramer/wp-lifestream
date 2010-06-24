@@ -10,7 +10,8 @@ Streams your activity from over 50 different sources to your blog.
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
-Homepage and Support: http://www.enthropia.com/labs/wp-lifestream/
+Homepage: http://www.enthropia.com/labs/wp-lifestream/
+Support: http://forums.lifestrm.com/index.php
 Follow us on Twitter: http://www.twitter.com/wplifestream
 
 Requirements:
