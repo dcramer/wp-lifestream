@@ -1,3 +1,10 @@
+0.99.9.8
+
+* WordPress 3.0 is now REQUIRED.
+* Fixed Steam extension.
+* Changed default theme to use semantic lists.
+* Full integration with custom posts types and permalinks.
+
 0.99.9.7.1
 
 * Added Vector icon set from n.design.

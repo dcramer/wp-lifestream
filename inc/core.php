@@ -440,7 +440,7 @@ class Lifestream
 	function get_absolute_media_url($path)
 	{
 		$path = str_replace(trailingslashit(WP_CONTENT_DIR), '', $path);
-		$path = str_replace(trailingslashit(realpath(LIFESTREAM_PATH)), 'plugins/lifestream/', $path);
+		$path = str_replace(trailingslashit(realpath(LIFESTREAM_PATH)), 'plugins/'.LIFESTREAM_PLUGIN_DIR.'/', $path);
 		return str_replace('\\', '/', trailingslashit(WP_CONTENT_URL).$path);
 	}
 
@@ -546,13 +546,6 @@ class Lifestream
 		add_action('lifestream_cron', array(&$this, 'update'));
 		add_action('lifestream_cleanup', array(&$this, 'cleanup_history'));
 		add_action('template_redirect', array($this, 'template_redirect'));
-		
-		register_post_type('lsevent', array(
-			'label' => $this->__('Lifestream Event'),
-			'_show' => true,
-			'public' => false,
-			'capability_type' => 'post'
-		));
 		
 		register_activation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'activate'));
 		register_deactivation_hook(LIFESTREAM_PLUGIN_FILE, array(&$this, 'deactivate'));
@@ -664,6 +657,18 @@ class Lifestream
 		}
 		add_feed('lifestream-feed', 'lifestream_rss_feed');
 		$this->is_buddypress = (function_exists('bp_is_blog_page') ? true : false);
+
+		register_post_type('lsevent', array(
+			'label' => $this->__('Lifestream Events'),
+			'singular_label' => $this->__('Lifestream Event'),
+			'show_ui' => false,
+			'public' => true,
+			'hierarchical' => false,
+			'capability_type' => 'post',
+			'rewrite' => array('slug', 'lifestream'),
+			'query_var' => false,
+			'supports' => array('title', 'comments')
+		));
 
 		// If this is an update we need to force reactivation
 		if (LIFESTREAM_VERSION != $this->get_option('_version'))
@@ -1260,7 +1265,7 @@ class Lifestream
 		<style type="text/css">
 		.feedlist { margin: 0; padding: 0; }
 		.feedlist li { list-style: none; display: inline; }
-		.feedlist li a { float: left; display: block; padding: 2px; margin: 1px; width: 23%; text-decoration: none; }
+		.feedlist li a { float: left; display: block; padding: 2px 2px 2px 20px; min-height: 16px; background-repeat: no-repeat; background-position: left center; margin: 1px; width: 150px; text-decoration: none; }
 		.feedlist li a:hover { background-color: #e9e9e9; }
 		.success { color: #397D33; background-color: #D1FBCA; }
 		.error { border-color: #E25F53; color: #E25F53; }
@@ -1753,7 +1758,7 @@ class Lifestream
 		
 		$post = array(
 			'post_title' => 'Lifestream',
-			'post_content' => 'This is just a placeholder for your Lifestream. You may modify the title, categories, and anything else, but the page\'s content has no effect on your Lifestream.',
+			'post_content' => 'A stream of my online social activity.',
 			'post_status' => 'publish',
 			'post_author' => $userdata->ID,
 			'post_type' => 'page',

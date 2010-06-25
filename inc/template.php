@@ -165,6 +165,13 @@ class LifestreamTemplate
 		echo htmlspecialchars($event->get_url());
 	}
 	
+	function event_permalink($event=null)
+	{
+		if (!$event) $event = $this->event;
+		
+		echo htmlspecialchars(the_permalink());
+	}
+	
 	function event_icon($event=null)
 	{
 		if (!$event) $event = $this->event;
@@ -284,6 +291,12 @@ function ls_event_link()
 	global $ls_template;
 	
 	return $ls_template->event_link();
+}
+function ls_event_permalink()
+{
+	global $ls_template;
+	
+	return $ls_template->event_permalink();
 }
 function ls_event_icon()
 {

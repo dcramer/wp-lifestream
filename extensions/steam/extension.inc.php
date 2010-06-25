@@ -26,7 +26,7 @@ class Lifestream_SteamFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://pipes.yahoo.com/pipes/pipe.run?_id=IH0KF8OZ3RGJPl7dBR50VA&_render=rss&steamid='.$this->get_option('username');
+		return 'http://pipes.yahoo.com/pipes/pipe.run?_id=0bc042425b3f744977252cd205b57e66&_render=rss&steamid='.$this->get_option('username');
 	}
 }
 $lifestream->register_feed('Lifestream_SteamFeed');

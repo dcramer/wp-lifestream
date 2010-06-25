@@ -1,7 +1,7 @@
 === Lifestream ===
 Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom
-Requires at least: 2.9
-Tested up to: 2.9
+Requires at least: 3.0
+Tested up to: 3.0
 Stable tag: 0.99.9.6
 
 Streams your activity from over 50 different sources to your blog.
@@ -10,7 +10,8 @@ Streams your activity from over 50 different sources to your blog.
 
 Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
 
-Homepage and Support: http://www.enthropia.com/labs/wp-lifestream/
+Homepage: http://www.enthropia.com/labs/wp-lifestream/
+Support: http://forums.lifestrm.com/index.php
 Follow us on Twitter: http://www.twitter.com/wplifestream
 
 Requirements:

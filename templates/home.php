@@ -26,13 +26,13 @@
 					<?php while (ls_have_activity()) : ls_the_event(); global $event; ?>
 						<tr class="<?php ls_event_class(); ?>">
 							<td class="lifestream_icon">
-								<a href="<?php ls_event_link(); ?>"><img src="<?php ls_event_icon(); ?>" alt="" /></a>
+								<a href="<?php ls_event_permalink(); ?>"><img src="<?php ls_event_icon(); ?>" alt="" /></a>
 							</td>
 							<td class="lifestream_text">
 								<div class="lifestream_label"><?php ls_event_label(); ?></div>
 						
 								<div class="lifestream_meta">
-									&#8212; <abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php ls_event_date(); ?></abbr> <span class="lifestream_via">via <?php ls_event_feed_label() ?> | <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></span>
+									&#8212; <a href="<?php ls_event_permalink(); ?>"><abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php ls_event_date(); ?></abbr></a> <span class="lifestream_via">via <?php ls_event_feed_label() ?> | <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></span>
 								</div>
 
 								<?php ls_event_content(); ?>
