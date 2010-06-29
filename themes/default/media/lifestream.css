@@ -49,3 +49,11 @@ html > body .lifestream_text li,
 
 .lifestream_events { margin-top: 2px; }
 .lifestream_credits { margin-bottom: 50px;}
+
+/* wp 3.0 new theme */
+#content tr td.lifestream_icon {
+    padding: 3px 3px 3px 9px;
+}
+#content tr td.lifestream_text {
+    padding: 6px;
+}
