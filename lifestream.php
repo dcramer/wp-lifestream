@@ -3,7 +3,7 @@
 Plugin Name: Lifestream
 Plugin URI: http://www.enthropia.com/labs/wp-lifestream/
 Description: Displays your activity from various social networks. (Requires PHP 5 and MySQL 5)
-Version: 0.99.9.8-PRE
+Version: 0.99.9.8-BETA
 Author: David Cramer <dcramer@gmail.com>
 Author URI: http://www.davidcramer.net
 */
