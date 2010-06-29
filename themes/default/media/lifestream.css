@@ -57,3 +57,4 @@ html > body .lifestream_text li,
 #content tr td.lifestream_text {
     padding: 6px;
 }
+#main .widget-area ul ul.lifestream { list-style: none; margin-left: 0; }
