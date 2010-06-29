@@ -1167,7 +1167,7 @@ class Lifestream
 								$values['feed_label'] = $_POST['feed_label'];
 								$values['icon_url'] = $_POST['icon_type'] == 3 ? $_POST['icon_url'] : '';
 								$values['auto_icon'] = $_POST['icon_type'] == 2;
-								if ($_POST['owner'] != $instance->owner_id && current_user_can('manage_options'))
+								if ($_POST['owner'] != $instance->owner_id && current_user_can('manage_options') && $_POST['owner'])
 								{
 									$usero = new WP_User($_POST['owner']);
 									$owner = $usero->data;
@@ -1222,7 +1222,7 @@ class Lifestream
 							$values['feed_label'] = $_POST['feed_label'];
 							$values['icon_url'] = $_POST['icon_type'] == 3 ? $_POST['icon_url'] : '';
 							$values['auto_icon'] = $_POST['icon_type'] == 2;
-							if (current_user_can('manage_options'))
+							if (current_user_can('manage_options') && $_POST['owner'])
 							{
 								$feed->owner_id = $_POST['owner'];
 								$usero = new WP_User($feed->owner_id);

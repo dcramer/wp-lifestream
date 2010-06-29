@@ -98,3 +98,13 @@ if (count($results))
 	?>
 </ul>
 <br style="clear:both;"/><br/>
+<h2><?php $lifestream->_e('Add a Generic Feed');?></h2>
+<p><?php $lifestream->_e('If you\'re not finding the extension that you\'re looking for, you may add a generic RSS or Atom feed instead.');?></p>
+<form action="?page=lifestream.php&amp;op=add&amp;feed=generic" method="post">
+	<input type="hidden" name="feed_type" value="generic"/>
+	<div class="inside">
+		<label class="required" for="id_url">Feed URL:</label>
+		<input name="url" type="text" size="80" value=""> <input type="submit" name="save" class="button-primary" value="<?php $lifestream->_e('Add Feed');?>" />
+	</div>
+</form>
+<br style="clear:both;"/><br/>
