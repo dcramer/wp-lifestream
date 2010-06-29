@@ -663,10 +663,13 @@ class Lifestream
 			'singular_label' => $this->__('Lifestream Event'),
 			'show_ui' => false,
 			'public' => true,
+			'exclude_from_search' => true,
 			'hierarchical' => false,
 			'capability_type' => 'post',
 			'rewrite' => array('slug', 'lifestream'),
 			'query_var' => false,
+			'can_export' => false,
+			'show_in_nav_menus' => false,
 			'supports' => array('title', 'comments')
 		));
 
