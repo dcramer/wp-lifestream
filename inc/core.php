@@ -1742,7 +1742,7 @@ class Lifestream
 			{
 				$this->update_option('page_id', $results[0]->ID);
 			}
-			elseif (!$results)
+			elseif (!count($results))
 			{
 				$this->create_page_template();
 			}
