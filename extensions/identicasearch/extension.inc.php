@@ -58,7 +58,7 @@ class Lifestream_IdenticaSearchFeed extends Lifestream_Feed
 
 	function clear_search_term($text)
 	{
-		return preg_replace('/([^\w]*)(#[a-z0-9_\-\/]+)\b/i', '$1', $text);
+		return preg_replace('/([^\w]*)(#'.$this->options['hashtag'].')\b/i', '$1', $text);
 	}
 
     function clear_name($text)
@@ -72,7 +72,7 @@ class Lifestream_IdenticaSearchFeed extends Lifestream_Feed
         $str = $this->lifestream->get_anchor_html('@'.$item['author'], $item['link']).'<br />';
         if ($this->options['hide_hashtag'])
         {
-            return $str.$this->clear_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title']))));
+            return $str.$this->parse_search_term($this->clear_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title'])))));
         }
         else
         {
