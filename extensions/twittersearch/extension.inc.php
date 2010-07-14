@@ -72,7 +72,7 @@ class Lifestream_TwitterSearchFeed extends Lifestream_Feed
         $str = $this->lifestream->get_anchor_html('@'.$item['author'], $item['link']).'<br />';
         if ($this->options['hide_hashtag'])
         {
-            return $str.$this-parse_search_term($this->clear_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title'])))));
+            return $str.$this->parse_search_term($this->clear_search_term($this->parse_users($this->parse_urls(htmlspecialchars($item['title'])))));
         }
         else
         {
