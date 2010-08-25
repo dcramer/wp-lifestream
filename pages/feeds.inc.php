@@ -60,7 +60,7 @@ if (count($results))
 						if (is_int($msg)) echo '<div class="success">'.$msg.' new event(s).</div>';
 					}
 					?></td>
-					<td class="date"><?php echo date('F j, Y', $result->date).'<br/>'.date('g:ia', $result->date); ?></td>
+					<td class="date"><?php echo $lifestream->date_format('F j, Y', $result->date).'<br/>'.$lifestream->date_format('g:ia', $result->date); ?></td>
 					<td class="num"><?php echo $result->events; ?></td>
 					<td><?php echo $result->owner; ?></td>
 				</tr>

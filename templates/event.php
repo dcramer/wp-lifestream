@@ -16,7 +16,7 @@
 								<div class="lifestream_label"><?php ls_event_label(); ?></div>
 
 								<div class="lifestream_meta">
-									&#8212; <abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php ls_event_date(); ?></abbr> <span class="lifestream_via">via <?php ls_event_feed_label() ?></span>
+									&#8212; <abbr title="<?php echo $lifestream->date_format("c", $event->timestamp); ?>" class="lifestream_hour"><?php ls_event_date(); ?></abbr> <span class="lifestream_via">via <?php ls_event_feed_label() ?></span>
 								</div>
 
 								<?php ls_event_content(); ?>

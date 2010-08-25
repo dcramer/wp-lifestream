@@ -42,7 +42,7 @@ if (count($results))
 					<td class="num"><a href="?page=lifestream.php&amp;op=edit&amp;id=<?php echo $result->feed->id; ?>"><?php echo $result->feed->id; ?></a></td>
 					<td class="icon"><img src="<?php echo $result->feed->get_icon_url(); ?>" alt="icon"/></td>
 					<td><strong><a class="row-title" href="<?php echo htmlspecialchars($result->get_event_link()); ?>"<?php if (!$result->visible) echo ' style="text-decoration: line-through;"'; ?>><?php echo htmlspecialchars($result->get_event_display()); ?></a></strong><br/><small><?php echo htmlspecialchars($result->feed->get_public_name()); ?> &#8211; <?php echo htmlspecialchars($result->get_event_link()); ?></small></td>
-					<td><?php echo date($date_format, $result->date); ?></td>
+					<td><?php echo $lifestream->date_format($date_format, $result->date); ?></td>
 					<td><?php echo $result->owner; ?></td>
 				</tr>
 			<?php } ?>

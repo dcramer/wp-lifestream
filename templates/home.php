@@ -32,7 +32,7 @@
 								<div class="lifestream_label"><?php ls_event_label(); ?></div>
 						
 								<div class="lifestream_meta">
-									&#8212; <a href="<?php ls_event_permalink(); ?>"><abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php ls_event_date(); ?></abbr></a><?php if ($event->feed->get_constant('ID') != 'generic' || $event->feed->options['feed_label']) { ?> <span class="lifestream_via">via <?php ls_event_feed_label() ?><?php } ?> | <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></span>
+									&#8212; <a href="<?php ls_event_permalink(); ?>"><abbr title="<?php echo $lifestream->date_format("c", $event->get_date()); ?>" class="lifestream_hour"><?php ls_event_date(); ?></abbr></a><?php if ($event->feed->get_constant('ID') != 'generic' || $event->feed->options['feed_label']) { ?> <span class="lifestream_via">via <?php ls_event_feed_label() ?><?php } ?> | <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></span>
 								</div>
 
 								<?php ls_event_content(); ?>

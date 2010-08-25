@@ -96,7 +96,7 @@ class Lifestream_Event
 	
 	function get_date()
 	{
-		return $this->date + LIFESTREAM_DATE_OFFSET;
+		return $this->date;
 	}
 	
 	/**
@@ -644,9 +644,6 @@ class Lifestream
 	function init()
 	{
 		global $wpdb;
-
-		$offset = get_option('gmt_offset') * 3600;
-		define('LIFESTREAM_DATE_OFFSET', $offset);
 
 		load_plugin_textdomain('lifestream', false, 'lifestream/locales');
 		$page = (isset($_GET['page']) ? $_GET['page'] : null);
@@ -1540,7 +1537,7 @@ class Lifestream
 		}
 		else
 		{
-			return date($this->get_option('day_format'), $timestamp);
+			return $this->date_format($this->get_option('day_format'), $timestamp);
 		}
 	}
 	
@@ -2163,6 +2160,18 @@ class Lifestream
 			}
 		}
 		return $events;
+	}
+
+	/**
+	 * Given a UTC-based timestamp, return a formatted date based on the
+	 * WP timezone setting.
+	 */
+	function date_format($format, $timestamp=null) {
+		if (!$timestamp) $timestamp = time();
+		$timezone = get_option('timezone_string');
+		$date = new DateTime('@'.$timestamp, new DateTimeZone('UTC'));
+		$date->setTimezone(new DateTimeZone($timezone));
+		return $date->format($format);
 	}
 }
 
@@ -2950,8 +2959,6 @@ function lifestream($args=array())
 	$_['limit'] = $_['limit'] + 1;
 	$options =& $_;
 	
-	// TODO: offset
-	//$offset = $lifestream->get_option('lifestream_timezone');
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
 	$has_next_page = (count($events) > $limit);
 	if ($has_next_page) {
@@ -2989,8 +2996,6 @@ function lifestream_sidebar_widget($_=array())
 	
 	$options =& $_;
 	
-	// TODO: offset
-	//$offset = $lifestream->get_option('lifestream_timezone');
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
 	$show_metadata = empty($options['hide_metadata']);
 	
