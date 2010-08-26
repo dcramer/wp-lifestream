@@ -58,7 +58,6 @@ class Lifestream_Event
 	function __construct(&$lifestream, $row)
 	{
 		$this->lifestream = $lifestream;
-		$this->date = $row->timestamp;
 		$this->data = array(unserialize($row->data));
 		$this->id = $row->id;
 		$this->timestamp = $row->timestamp;
@@ -92,11 +91,6 @@ class Lifestream_Event
 	function get_timesince()
 	{
 		return $this->lifestream->timesince($this->timestamp);
-	}
-	
-	function get_date()
-	{
-		return $this->date;
 	}
 	
 	/**
@@ -2566,7 +2560,7 @@ abstract class Lifestream_Extension
 				if ($this->get_option('grouped') && $this->get_constant('CAN_GROUP') && constant(sprintf('%s::%s', $label, 'CAN_GROUP')))
 				{
 					if (!array_key_exists($group_key, $grouped)) $grouped[$group_key] = array();
-					$grouped[$group_key][date('m d Y', $date)] = $date;
+					$grouped[$group_key][$this->lifestream->date_format('m d Y', $date)] = $date;
 				}
 				else
 				{

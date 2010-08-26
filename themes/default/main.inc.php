@@ -17,10 +17,10 @@ if (count($events))
     echo $newline .  '<ol id="lifestream">';
     foreach ($events as $event)
     {
-        $timestamp = $event->get_date();
+        $timestamp = $event->timestamp;
         if ($today == $lifestream->date_format('m d Y', $timestamp)) $this_day = $lifestream->__('Today');
         else if ($yesterday == $lifestream->date_format('m d Y', $timestamp)) $this_day = $lifestream->__('Yesterday');
-        else $this_day = $lifestream->__(ucfirst(htmlentities(date($lifestream->get_option('day_format'), $timestamp))));
+        else $this_day = $lifestream->__(ucfirst(htmlentities($lifestream->date_format($lifestream->get_option('day_format'), $timestamp))));
         if ($day != $this_day)
         {
             if ($counter) echo $newline .  '</ol>';      
