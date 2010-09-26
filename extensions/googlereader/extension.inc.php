@@ -8,7 +8,7 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 	const LABEL			= 'Lifestream_BookmarkLabel';
 	const NS			= 'http://www.google.com/schemas/reader/atom/';
 	const HAS_EXCERPTS	= true;
-	const AUTHOR		= 'David Cramer, Kyle McNally';
+	const AUTHOR		= 'David Cramer, Kyle McNally, Alan Isherwood';
 	
 	function __toString()
 	{
@@ -43,6 +43,11 @@ class Lifestream_GoogleReaderFeed extends Lifestream_Feed
 		else
 			return 'http://www.google.com/reader/public/atom/user%2F'.$this->get_option('user_id').'%2Fstate%2Fcom.google%2Fbroadcast';
 		
+	}
+
+	function get_public_url()
+	{
+		return 'http://www.google.com/reader/shared/'.$this->get_option('user_id');
 	}
 	
 	function save_options()
