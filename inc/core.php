@@ -1970,7 +1970,7 @@ class Lifestream
 			'post_type' => 'lsevent',
 			// should we insert the feed types into the tags?
 			// 'tags_input' => ''
-			'post_date' => date('Y-m-d H:i:s', $event->timestamp),
+			'post_date' => $this->date_format('Y-m-d H:i:s', $event->timestamp),
 		);
 		$post_id = wp_insert_post($post);
 		$event->post_id = $post_id;
@@ -2164,7 +2164,7 @@ class Lifestream
 		if (!$timestamp) $timestamp = time();
 		$timezone = get_option('timezone_string');
 		$date = new DateTime('@'.$timestamp, new DateTimeZone('UTC'));
-		$date->setTimezone(new DateTimeZone($timezone));
+		if ($timezone) $date->setTimezone(new DateTimeZone($timezone));  // Use local timezone if set in wp-lifestream options
 		return $date->format($format);
 	}
 }
