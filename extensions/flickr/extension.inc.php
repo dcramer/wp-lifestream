@@ -26,6 +26,7 @@ class Lifestream_FlickrFeed extends Lifestream_PhotoFeed
 	function yield($row, $url, $key)
 	{
 		$data = parent::yield($row, $url, $key);
+		$data['thumbnail'] = str_replace('_m', '_t', $data['image']); 		
 		$data['image'] = str_replace('_m', '', $data['image']);
 		return $data;
 	}
