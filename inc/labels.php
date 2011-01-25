@@ -822,4 +822,26 @@ class Lifestream_StreamLabel extends Lifestream_Label
 		return $this->lifestream->__('%s streamed %s events.', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
 	}
 }
+class Lifestream_ApplicationLabel extends Lifestream_Label
+{
+	function get_label_single()
+	{
+		return $this->lifestream->__('Recently used %2$s', $this->get_feed_label(), $this->get_single_link());
+	}
+
+	function get_label_plural()
+	{
+		return $this->lifestream->__('Recently used %s applications', $this->_get_show_details_link(), $this->get_feed_label());
+	}
+
+	function get_label_single_user()
+	{
+		return $this->lifestream->__('%1$s recently used %3$s', $this->get_user_label(), $this->get_feed_label(), $this->get_single_link());
+	}
+
+	function get_label_plural_user()
+	{
+		return $this->lifestream->__('%s recently used %s applications', $this->get_user_label(), $this->_get_show_details_link(), $this->get_feed_label());
+	}
+}
 ?>

@@ -1,10 +1,11 @@
 <?php
 class Lifestream_LastFMFeed extends Lifestream_Feed
 {
-	const ID	= 'lastfm';
-	const NAME	= 'Last.fm';
-	const URL	= 'http://www.last.fm/';
-	const LABEL	= 'Lifestream_ListenSongLabel';
+	const ID		= 'lastfm';
+	const NAME		= 'Last.fm';
+	const URL		= 'http://www.last.fm/';
+	const LABEL		= 'Lifestream_ListenSongLabel';
+	const AUTHOR	= 'Anonymous, Alan Isherwood';
 	
 	function __toString()
 	{
@@ -41,6 +42,13 @@ class Lifestream_LastFMFeed extends Lifestream_Feed
 		}
 		
 		return 'http://ws.audioscrobbler.com/1.0/user/'.$this->get_option('username').'/'.$feed_name.'.xml';
+	}
+	
+	function get_label_class($key)
+	{
+		if ($this->get_option('loved')) $cls = 'Lifestream_LikeLabel';
+		else $cls = 'Lifestream_ListenSongLabel';
+		return $cls;
 	}
 	
 	function yield($track, $url)
