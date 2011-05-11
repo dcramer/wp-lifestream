@@ -27,7 +27,7 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 	
 	function get_public_url()
 	{
-		return 'http://www.youtube.com/user/'.$this->get_option('username');
+		return 'http://gdata.youtube.com/feeds/base/users/'.$this->get_option('username').'/favorites';
 	}
 	
 	function get_label_class($key)
@@ -39,7 +39,7 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 
 	function get_posted_url()
 	{
-		return 'http://gdata.youtube.com/feeds/api/users/'.$this->get_option('username').'/uploads?v=2';
+		return 'http://gdata.youtube.com/feeds/base/users/'.$this->get_option('username').'/uploads';
 	}
 
 	function get_favorited_url()
@@ -60,9 +60,9 @@ class Lifestream_YouTubeFeed extends Lifestream_PhotoFeed
 		$data = parent::yield($row, $url, $key);
 		
 		$data['image'] = str_replace('_m', '', $data['image']);
-
-		$enclosure = $row->get_enclosure();
-		$data['player_url'] = $enclosure->get_link();
+		
+		/*$enclosure = $row->get_enclosure();
+		$data['player_url'] = $enclosure->get_link();*/
 		return $data;
 	}
 	
