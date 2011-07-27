@@ -1,23 +1,29 @@
 === Lifestream ===
-Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom
-Requires at least: 3.0
-Tested up to: 3.0
+Contributors: zeeg, llygoden
+Tags: lifestream, rss, social, miniblogging, twitter, flickr, friendfeed, delicious, last.fm, facebook, digg, atom, instapaper, Google Plus, youtube
+Requires at least: 2.8
+Tested up to: 3.1.3
 Stable tag: trunk
 
 Streams your activity from over 50 different sources to your blog.
 
 == Description ==
 
-Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites.
+Lifestream displays your social feeds and photos much like you would see it on many of the social networking sites. 
+This version is taken from the Github Source after changes have been made 
 
 Homepage: http://www.enthropia.com/labs/wp-lifestream/
-Support: http://forums.lifestrm.com/index.php
+
+Source: https://github.com/dcramer/wp-lifestream
+
+Support: https://github.com/dcramer/wp-lifestream/issues
+
 Follow us on Twitter: http://www.twitter.com/wplifestream
 
 Requirements:
 
 * PHP 5.x
-* WordPress 2.5+
+* WordPress 2.8+
 * MySQL 5.x
 
 
@@ -91,7 +97,7 @@ And
 == Requirements ==
 
 * PHP 5
-* WordPress 2.5 or newer
+* WordPress 2.8 or newer
 
 == Features ==
 
@@ -106,7 +112,7 @@ And
 
 == Built-in Feeds ==
 
-The plugin includes most of the major social networking feeds available. You may add your own, as well as send me ideas for new feeds at dcramer@gmail.com. If you wish to add custom extensions, please see extensions/README.
+The plugin includes most of the major social networking feeds available. You may add your own, as well as send me ideas for new feeds at the GitHub Forum. If you wish to add custom extensions, please see extensions/README.
 
 * Facebook
 * Digg
@@ -114,6 +120,8 @@ The plugin includes most of the major social networking feeds available. You may
 * Twitter
 * Reddit
 * De.licio.us
+* GetGlue
+* Instapaper
 * Jaiku
 * Last.fm (Revamped plugin in 0.38)
 * Flickr (Improved display in 0.39)
@@ -121,6 +129,7 @@ The plugin includes most of the major social networking feeds available. You may
 * Pownce
 * YouTube
 * Google Reader
+* Google Plus
 * Yelp
 * MySpace Blog
 * Skitch
@@ -188,10 +197,24 @@ Currently the plugin is localized in the default language of English, as well as
 * Belorussian
 * Catalan
 
+== Changelog ==
+
+= 0.99.9.8-BETA =
+* The last release by David Cramer
+
+= 1.0 =
+* This updated version containing a whole load of fixes and more plugins. This is the version available on GitHub as at 27/07/2011
+
+== Screenshots ==
+
+1. Unavailable
+
 == Credits ==
 
 An [Enthropia Labs](http://www.enthropia.com/labs/) project.
 
-Created and maintained by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net)).
+Created by David Cramer ([mail](mailto:dcramer@gmail.com), [website](http://www.davidcramer.net)).
+
+Maintained by Robert McGhee ([mail](mailto:robert@robertmcghee.co.uk), [website](http://wwww.robertmcghee.co.uk)).
 
 Core concept inspired by [RSS Stream](http://rick.jinlabs.com/code/rss-stream).
