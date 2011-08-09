@@ -357,7 +357,7 @@ class Lifestream
 				$ext_file = lifestream_path_join($path, 'extension.inc.php');
 				if (is_file($ext_file))
 				{
-					include($ext_file);
+					include_once($ext_file);
 				}
 			}
 		}
@@ -723,14 +723,14 @@ class Lifestream
 		if ($this->is_lifestream_event())
 		{
 			$ls_template->get_events();
-			include($this->get_template('event.php'));
+			include_once($this->get_template('event.php'));
 			exit;
 		}
 		else if ($this->is_lifestream_home())
 		{
 			$ls_template->get_events();
 			
-			include($this->get_template('home.php'));
+			include_once($this->get_template('home.php'));
 			exit;
 		}
 	}
@@ -852,7 +852,7 @@ class Lifestream
 		if (count($events))
 		{
 			ob_start();
-			if (!include($this->get_theme_filepath('digest.inc.php'))) return;
+			if (!include_once($this->get_theme_filepath('digest.inc.php'))) return;
 			$content = sprintf($this->get_option('digest_body'), ob_get_clean(), date($this->get_option('day_format'), $now), count($events));
 
 			$data = array(
@@ -1307,16 +1307,16 @@ class Lifestream
 					$number_of_pages = ceil($results[0]->count/LIFESTREAM_EVENTS_PER_PAGE);
 					$results =& $wpdb->get_results($wpdb->prepare("SELECT t1.*, t2.`feed`, t2.`options` FROM `".$wpdb->prefix."lifestream_error_log` as t1 LEFT JOIN `".$wpdb->prefix."lifestream_feeds` as t2 ON t1.`feed_id` = t2.`id` ORDER BY t1.`timestamp` DESC LIMIT %d, %d", $start, $end));
 
-					include(LIFESTREAM_PATH . '/pages/errors.inc.php');
+					include_once(LIFESTREAM_PATH . '/pages/errors.inc.php');
 				break;
 				case 'lifestream-maintenance.php':
-					include(LIFESTREAM_PATH . '/pages/maintenance.inc.php');
+					include_once(LIFESTREAM_PATH . '/pages/maintenance.inc.php');
 				break;
 				case 'lifestream-changelog.php':
-					include(LIFESTREAM_PATH . '/pages/changelog.inc.php');
+					include_once(LIFESTREAM_PATH . '/pages/changelog.inc.php');
 				break;
 				case 'lifestream-forums.php':
-					include(LIFESTREAM_PATH . '/pages/forums.inc.php');
+					include_once(LIFESTREAM_PATH . '/pages/forums.inc.php');
 				break;
 				case 'lifestream-settings.php':
 					$lifestream_digest_intervals = array(
@@ -1324,7 +1324,7 @@ class Lifestream
 						'daily'		=> $this->__('Daily'),
 						'hourly'	=> $this->__('Hourly'),
 					);
-					include(LIFESTREAM_PATH . '/pages/settings.inc.php');
+					include_once(LIFESTREAM_PATH . '/pages/settings.inc.php');
 				break;
 				case 'lifestream-events.php':
 					$page = (!empty($_GET['paged']) ? $_GET['paged'] : 1);
@@ -1350,13 +1350,13 @@ class Lifestream
 					}
 					unset($rows);
 					
-					include(LIFESTREAM_PATH . '/pages/events.inc.php');
+					include_once(LIFESTREAM_PATH . '/pages/events.inc.php');
 				break;
 				default:
 					switch ((isset($_REQUEST['op']) ? strtolower($_REQUEST['op']) : null))
 					{
 						case 'edit':
-							include(LIFESTREAM_PATH . '/pages/edit-feed.inc.php');
+							include_once(LIFESTREAM_PATH . '/pages/edit-feed.inc.php');
 						break;
 						case 'add':
 							$identifier = $_GET['feed'];
@@ -1364,7 +1364,7 @@ class Lifestream
 							if (!$class_name) break;
 							$feed = new $class_name($this);
 							$options = $feed->get_options();
-							include(LIFESTREAM_PATH . '/pages/add-feed.inc.php');
+							include_once(LIFESTREAM_PATH . '/pages/add-feed.inc.php');
 						break;
 						default:
 							$page = (!empty($_GET['paged']) ? $_GET['paged'] : 1);
@@ -1389,7 +1389,7 @@ class Lifestream
 							}
 							if ($results !== false)
 							{
-								include(LIFESTREAM_PATH . '/pages/feeds.inc.php');
+								include_once(LIFESTREAM_PATH . '/pages/feeds.inc.php');
 							}
 						break;
 					}
@@ -3005,11 +3005,11 @@ function lifestream_register_feed($class_name)
 }
 
 // built-in feeds
-//include(LIFESTREAM_PATH . '/inc/extensions.php');
+//include_once(LIFESTREAM_PATH . '/inc/extensions.php');
 
 // legacy local_feeds
 // PLEASE READ extensions/README
-@include(LIFESTREAM_PATH . '/local_feeds.inc.php');
+@include_once(LIFESTREAM_PATH . '/local_feeds.inc.php');
 
 // detect external extensions in extensions/
 $lifestream->detect_extensions();
