@@ -67,9 +67,9 @@ class Lifestream_TwitterFeed extends Lifestream_Feed
 		}
 		else
 		{
-			$url_base = 'http://twitter.com';
+			$url_base = 'http://api.twitter.com';
 		}
-		return $url_base . '/statuses/user_timeline/'.$this->get_option('username').'.rss?page='.$page.'&count='.$count.'&source=twitterandroid';
+		return $url_base . '/1/statuses/user_timeline.rss?screen_name='.$this->get_option('username').'&page='.$page.'&count='.$count.'&source=twitterandroid';
 	}
 	
 	function save()
