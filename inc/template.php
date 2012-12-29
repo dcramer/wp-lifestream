@@ -202,7 +202,7 @@ class LifestreamTemplate
 	{
 		if (!$event) $event = $this->event;
 
-		echo date($this->lifestream->get_option('hour_format'), $event->timestamp);
+		echo $this->lifestream->date_format($this->lifestream->get_option('hour_format'), $event->timestamp);
 	}
 	
 	function get_link()

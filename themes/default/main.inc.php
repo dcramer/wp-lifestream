@@ -4,8 +4,8 @@ $counter = 0;
 $newline = "\n\t\t\t\t\t\t";
 if (count($events))
 {
-    $today = date('m d Y');
-    $yesterday = date('m d Y', time()-86400);
+    $today = $lifestream->date_format('m d Y');
+    $yesterday = $lifestream->date_format('m d Y', time()-86400);
     
     if ($has_paging)
     {
@@ -17,14 +17,14 @@ if (count($events))
     echo $newline .  '<ol id="lifestream">';
     foreach ($events as $event)
     {
-        $timestamp = $event->get_date();
-        if ($today == date('m d Y', $timestamp)) $this_day = $lifestream->__('Today');
-        else if ($yesterday == date('m d Y', $timestamp)) $this_day = $lifestream->__('Yesterday');
-        else $this_day = $lifestream->__(ucfirst(htmlentities(date($lifestream->get_option('day_format'), $timestamp))));
+        $timestamp = $event->timestamp;
+        if ($today == $lifestream->date_format('m d Y', $timestamp)) $this_day = $lifestream->__('Today');
+        else if ($yesterday == $lifestream->date_format('m d Y', $timestamp)) $this_day = $lifestream->__('Yesterday');
+        else $this_day = $lifestream->__(ucfirst(htmlentities($lifestream->date_format($lifestream->get_option('day_format'), $timestamp))));
         if ($day != $this_day)
         {
             if ($counter) echo $newline .  '</ol>';      
-            echo $newline . "\t" . '<li class="' . date('j F Y', $timestamp) . '">';
+            echo $newline . "\t" . '<li class="' . $lifestream->date_format('j F Y', $timestamp) . '">';
             echo $newline . "\t" . '<h2>' . $this_day . '</h2>';
             echo $newline . "\t" . '<ol>';
             $day = $this_day;
@@ -36,7 +36,7 @@ if (count($events))
         echo '<p class="lifestream-meta">';
         echo '<img class="lifestream-icon" src="' . $event->feed->get_icon_url() . '" /> ';
         echo '<span class="lifestream-hour">';
-        echo ($today == date('m d Y', $timestamp)) ? $lifestream->timesince($event->timestamp) : date($lifestream->get_option('hour_format'), $event->timestamp);
+        echo ($today == $lifestream->date_format('m d Y', $timestamp)) ? $lifestream->timesince($event->timestamp) : $lifestream->date_format($lifestream->get_option('hour_format'), $event->timestamp);
         echo '</span> ';
         echo '<span class="lifestream-via">via ' . $event->get_feed_label($options) . '</span>';
         echo '</p>'; // .lifestream-meta
