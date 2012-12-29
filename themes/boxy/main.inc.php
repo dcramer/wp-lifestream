@@ -2,8 +2,8 @@
 $day = '';
 if (count($events))
 {
-	$today = date('m d Y');
-	$yesterday = date('m d Y', time()-86400);
+	$today = $lifestream->date_format('m d Y');
+	$yesterday = $lifestream->date_format('m d Y', time()-86400);
 	?>
 	<ol class="lifestream">
 	<?php
@@ -16,7 +16,7 @@ if (count($events))
 			</span>
 			<span class="lifestream_label"><?php echo $event->get_label($options); ?></span>
 			<?php if ($show_metadata) { ?>
-				<span class="lifestream_meta"><abbr title="<?php echo date("c", $event->timestamp); ?>" class="lifestream_hour"><?php echo $lifestream->timesince($event->timestamp); ?></abbr><span class="lifestream_via">via <?php echo $event->get_feed_label($options) ?></span></span>
+				<span class="lifestream_meta"><abbr title="<?php echo $lifestream->date_format("c", $event->timestamp); ?>" class="lifestream_hour"><?php echo $lifestream->timesince($event->timestamp); ?></abbr><span class="lifestream_via">via <?php echo $event->get_feed_label($options) ?></span></span>
 			<?php } ?>
 		</li>
 		<?php

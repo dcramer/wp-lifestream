@@ -58,7 +58,6 @@ class Lifestream_Event
 	function __construct(&$lifestream, $row)
 	{
 		$this->lifestream = $lifestream;
-		$this->date = $row->timestamp;
 		$this->data = array(unserialize($row->data));
 		$this->id = $row->id;
 		$this->timestamp = $row->timestamp;
@@ -92,11 +91,6 @@ class Lifestream_Event
 	function get_timesince()
 	{
 		return $this->lifestream->timesince($this->timestamp);
-	}
-	
-	function get_date()
-	{
-		return $this->date + LIFESTREAM_DATE_OFFSET;
 	}
 	
 	/**
@@ -644,9 +638,6 @@ class Lifestream
 	function init()
 	{
 		global $wpdb;
-
-		$offset = get_option('gmt_offset') * 3600;
-		define('LIFESTREAM_DATE_OFFSET', $offset);
 
 		load_plugin_textdomain('lifestream', false, 'lifestream/locales');
 		$page = (isset($_GET['page']) ? $_GET['page'] : null);
@@ -1540,7 +1531,7 @@ class Lifestream
 		}
 		else
 		{
-			return date($this->get_option('day_format'), $timestamp);
+			return $this->date_format($this->get_option('day_format'), $timestamp);
 		}
 	}
 	
@@ -1979,7 +1970,7 @@ class Lifestream
 			'post_type' => 'lsevent',
 			// should we insert the feed types into the tags?
 			// 'tags_input' => ''
-			'post_date' => date('Y-m-d H:i:s', $event->timestamp),
+			'post_date' => $this->date_format('Y-m-d H:i:s', $event->timestamp),
 		);
 		$post_id = wp_insert_post($post);
 		$event->post_id = $post_id;
@@ -2163,6 +2154,18 @@ class Lifestream
 			}
 		}
 		return $events;
+	}
+
+	/**
+	 * Given a UTC-based timestamp, return a formatted date based on the
+	 * WP timezone setting.
+	 */
+	function date_format($format, $timestamp=null) {
+		if (!$timestamp) $timestamp = time();
+		$timezone = get_option('timezone_string');
+		$date = new DateTime('@'.$timestamp, new DateTimeZone('UTC'));
+		if ($timezone) $date->setTimezone(new DateTimeZone($timezone));  // Use local timezone if set in wp-lifestream options
+		return $date->format($format);
 	}
 }
 
@@ -2557,7 +2560,7 @@ abstract class Lifestream_Extension
 				if ($this->get_option('grouped') && $this->get_constant('CAN_GROUP') && constant(sprintf('%s::%s', $label, 'CAN_GROUP')))
 				{
 					if (!array_key_exists($group_key, $grouped)) $grouped[$group_key] = array();
-					$grouped[$group_key][date('m d Y', $date)] = $date;
+					$grouped[$group_key][$this->lifestream->date_format('m d Y', $date)] = $date;
 				}
 				else
 				{
@@ -2950,8 +2953,6 @@ function lifestream($args=array())
 	$_['limit'] = $_['limit'] + 1;
 	$options =& $_;
 	
-	// TODO: offset
-	//$offset = $lifestream->get_option('lifestream_timezone');
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
 	$has_next_page = (count($events) > $limit);
 	if ($has_next_page) {
@@ -2989,8 +2990,6 @@ function lifestream_sidebar_widget($_=array())
 	
 	$options =& $_;
 	
-	// TODO: offset
-	//$offset = $lifestream->get_option('lifestream_timezone');
 	$events = call_user_func(array(&$lifestream, 'get_events'), $_);
 	$show_metadata = empty($options['hide_metadata']);
 	

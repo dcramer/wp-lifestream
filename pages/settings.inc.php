@@ -20,14 +20,14 @@ $authors = get_users_of_blog();
 						<tr>
 							<th><label for="id_day_format"><?php $lifestream->_e('Day Format:'); ?></label></th>
 							<td>
-								<input type="text" class="text" name="lifestream_day_format" id="id_day_format" value="<?php echo htmlspecialchars($lifestream->get_option('day_format')); ?>"/> (e.g. <?php echo date($lifestream->get_option('day_format')); ?>)
+								<input type="text" class="text" name="lifestream_day_format" id="id_day_format" value="<?php echo htmlspecialchars($lifestream->get_option('day_format')); ?>"/> (e.g. <?php echo $lifestream->date_format($lifestream->get_option('day_format')); ?>)
 								<div class="helptext"><?php $lifestream->_e('For more information, please see PHP\'s <a href="http://www.php.net/date/">date()</a> method.'); ?></div>
 							</td>
 						</tr>
 						<tr>
 							<th><label for="id_hour_format"><?php $lifestream->_e('Hour Format:'); ?></label></th>
 							<td>
-								<input type="text" class="text" name="lifestream_hour_format" id="id_hour_format" value="<?php echo htmlspecialchars($lifestream->get_option('hour_format')); ?>"/> (e.g. <?php echo date($lifestream->get_option('hour_format')); ?>)
+								<input type="text" class="text" name="lifestream_hour_format" id="id_hour_format" value="<?php echo htmlspecialchars($lifestream->get_option('hour_format')); ?>"/> (e.g. <?php echo $lifestream->date_format($lifestream->get_option('hour_format')); ?>)
 								<div class="helptext"><?php $lifestream->_e('For more information, please see PHP\'s <a href="http://www.php.net/date/">date()</a> method.'); ?></div>
 							</td>
 						</tr>

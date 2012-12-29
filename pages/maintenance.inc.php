@@ -50,7 +50,7 @@ dd { padding-left: 100px; }
 							?>
 							<tr>
 								<td><strong><?php echo htmlspecialchars($name); ?></strong><br /><small><?php echo htmlspecialchars($lifestream->get_cron_task_description($name)); ?></small></td>
-								<td><?php echo date('r', $ts + LIFESTREAM_DATE_OFFSET); ?><br /><small>Every <?php echo $lifestream->duration($data[0]['interval']); ?></td>
+								<td><?php echo $lifestream->date_format('r', $ts); ?><br /><small>Every <?php echo $lifestream->duration($data[0]['interval']); ?></td>
 							</tr>
 							<?php
 						}

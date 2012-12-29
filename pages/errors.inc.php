@@ -66,7 +66,7 @@ if (count($results))
 						}
 						?>
 					</td>
-					<td><?php echo date($date_format, $result->timestamp); ?></td>
+					<td><?php echo $lifestream->date_format($date_format, $result->timestamp); ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>
