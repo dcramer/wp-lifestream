@@ -25,7 +25,7 @@ class Lifestream_XboxLiveFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return 'http://duncanmackenzie.net/services/GetXboxInfo.aspx?GamerTag='.urlencode($this->get_option('username'));
+		return 'https://xboxapi.com/xml/profile/'.urlencode($this->get_option('username'));
 	}
 	
 	function get_event_display(&$event, &$bit)
@@ -36,10 +36,9 @@ class Lifestream_XboxLiveFeed extends Lifestream_Feed
 	function yield($row)
 	{
 		return array(
-			'guid'	  =>  $this->lifestream->html_entity_decode($row->DetailsURL),
-			'date'	  =>  strtotime($row->LastPlayed),
-			'link'	  =>  $this->lifestream->html_entity_decode($row->DetailsURL),
-			'title'	  =>  $this->lifestream->html_entity_decode($row->Game->Name),
+			'guid'	  =>  $this->lifestream->html_entity_decode($row->ID),
+			'link'	  =>  $this->lifestream->html_entity_decode($row->MarketplaceURL),
+			'title'	  =>  $this->lifestream->html_entity_decode($row->Name),
 		);
 	}
 	
@@ -55,7 +54,7 @@ class Lifestream_XboxLiveFeed extends Lifestream_Feed
 			if ($xml[0] == 'Service Unavailable') return;
 			
 			$items = array();
-			foreach ($xml->RecentGames->XboxUserGameInfo as $row)
+			foreach ($xml->Data->RecentGames as $row)
 			{
 				$items[] = $this->yield($row);
 			}
