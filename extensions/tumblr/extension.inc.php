@@ -17,7 +17,6 @@ class Lifestream_TumblrFeed extends Lifestream_Feed
 	}
 	
 	# TODO: initialization import
-	# http://twitter.com/statuses/user_timeline/zeeg.xml
 	function get_url()
 	{
 		return 'http://'.$this->get_option('username').'.tumblr.com/rss';
@@ -63,7 +62,7 @@ class Lifestream_TumblrFeed extends Lifestream_Feed
 		}
 		elseif ($event->key == 'note')
 		{
-			return Lifestream_TwitterFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html($this->get_option('username'). htmlspecialchars($item['link'])).']';
+			return Lifestream_TumblrFeed::parse_users($this->parse_urls(htmlspecialchars($item['title']))) . ' ['.$this->lifestream->get_anchor_html($this->get_option('username'). htmlspecialchars($item['link'])).']';
 		}
 		else
 		{
@@ -74,7 +73,7 @@ class Lifestream_TumblrFeed extends Lifestream_Feed
 	function get_label_class($key)
 	{
 		if ($key == 'image') $cls = Lifestream_PhotoFeed::LABEL;
-		elseif ($key == 'note') $cls = Lifestream_TwitterFeed::LABEL;
+		elseif ($key == 'note') $cls = Lifestream_TumblrFeed::LABEL;
 		else $cls = Lifestream_BlogFeed::LABEL;
 		return $cls;
 	}
