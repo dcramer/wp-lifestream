@@ -22,7 +22,7 @@ class Lifestream_GooglePlusFeed extends Lifestream_Feed
 	
 	function get_url()
 	{
-		return "http://plusfeed.appspot.com/". $this->get_option('id');
+		return "http://highdn-plusfeed.appspot.com/". $this->get_option('id');
 	}
 
 	function get_public_url()
