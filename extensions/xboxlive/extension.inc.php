@@ -54,7 +54,7 @@ class Lifestream_XboxLiveFeed extends Lifestream_Feed
 			if ($xml[0] == 'Service Unavailable') return;
 			
 			$items = array();
-			foreach ($xml->Data->RecentGames as $row)
+			foreach ($xml->RecentGames as $row)
 			{
 				$items[] = $this->yield($row);
 			}
